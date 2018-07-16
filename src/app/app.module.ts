@@ -13,24 +13,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { AppComponent } from './app.component';
 
 // Import containers and views
-import { DefaultLayoutComponent } from './containers';
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+// import { P404Component } from './views/error/404.component';
+// import { P500Component } from './views/error/500.component';
 
-const APP_CONTAINERS = [
-  DefaultLayoutComponent
-];
-
-// Import CoreUI Components
-import {
-  AppAsideModule,
-  AppBreadcrumbModule,
-  AppHeaderModule,
-  AppFooterModule,
-  AppSidebarModule,
-} from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
@@ -43,24 +28,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { AlertModule } from 'ngx-bootstrap/alert';
 
-// Import services
-import {UserService} from './_services/user.service';
-import {AuthenticationService} from './_services/authentication.service';
-import {JwtInterceptor} from './_helpers/jwt.interceptor';
-
-// Import Redux Store
-import {StoreModule} from './store/store.module';
+import {CoreModule} from './core/core.module';
+import {StoreModule} from './shared/store/store.module';
+import {StoreService} from './shared/_services/store.service';
+import {GlobalEventsManagerService} from './shared/_services/global-event-manager.service';
 
 @NgModule({
   imports: [
     BrowserModule,
+    CoreModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    AppAsideModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppHeaderModule,
-    AppSidebarModule,
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
@@ -71,16 +49,11 @@ import {StoreModule} from './store/store.module';
   ],
   declarations: [
     AppComponent,
-    ...APP_CONTAINERS,
-    P404Component,
-    P500Component,
-    LoginComponent,
-    RegisterComponent
+    // P404Component,
+    // P500Component,
   ],
   providers: [
-    AuthenticationService,
-    UserService ,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    StoreService, GlobalEventsManagerService
   ],
   bootstrap: [ AppComponent ]
 })

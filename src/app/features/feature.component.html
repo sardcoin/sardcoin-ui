@@ -1,0 +1,15 @@
+<app-core-header></app-core-header>
+
+<div class="row" id="body-row">
+  <app-core-sidebar><!-- >-->
+  </app-core-sidebar>
+
+  <div class="col px-0" id="main-content">
+    <app-core-breadcrumb></app-core-breadcrumb>
+    <div class="container-fluid" style="padding-left:35px; padding-top:10px">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-core-footer></app-core-footer>
+  </div>
+</div>
