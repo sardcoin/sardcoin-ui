@@ -5,6 +5,7 @@ import {CoreModule} from '../../core/core.module';
 import {FeatureReservedAreaComponent} from './reserved-area.component';
 import {FeatureReservedAreaRoutingModule} from './reserved-area.routing';
 import {FeatureReservedAreaCouponListModule} from "./coupon-list/coupon-list.module";
+import {FeatureReservedAreaCouponCreateModule} from "./coupon-create/coupon-create.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {FeatureReservedAreaCouponListModule} from "./coupon-list/coupon-list.mod
     CoreModule,
     AppFooterModule,
     FeatureReservedAreaRoutingModule,
-    FeatureReservedAreaCouponListModule
+    FeatureReservedAreaCouponListModule,
+    FeatureReservedAreaCouponCreateModule
   ],
   providers: [
 
