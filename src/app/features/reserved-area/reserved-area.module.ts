@@ -9,7 +9,7 @@ import {FeatureReservedAreaCouponCreateModule} from "./coupon-create/coupon-crea
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaComponent
+    FeatureReservedAreaComponent,
   ],
   imports: [
     SharedModule,
@@ -17,7 +17,7 @@ import {FeatureReservedAreaCouponCreateModule} from "./coupon-create/coupon-crea
     AppFooterModule,
     FeatureReservedAreaRoutingModule,
     FeatureReservedAreaCouponListModule,
-    FeatureReservedAreaCouponCreateModule
+    FeatureReservedAreaCouponCreateModule,
   ],
   providers: [
 

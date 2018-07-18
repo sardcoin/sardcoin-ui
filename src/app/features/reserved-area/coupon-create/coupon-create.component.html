@@ -1,1 +1,24 @@
-<h1>Coupon Creation</h1>
+<h1>{{coupon.title}}</h1>
+
+<form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
+
+      <input type="text" formControlName="title" class="form-control" placeholder="Title"/>
+      <textarea type="text" formControlName="description" class="form-control" placeholder="Description"></textarea>
+
+      <input type="number" formControlName="price" class="form-control" placeholder="Price"/>
+
+      <input type="date" formControlName="valid_from" class="form-control" placeholder="Validity from.."/>
+
+      <input type="date" formControlName="valid_until" class="form-control" placeholder="Validity until.."/>
+
+      <input type="number" formControlName="state" class="form-control" placeholder="State"/>
+      <input type="text" formControlName="constraints" class="form-control" placeholder="Constraints"/>
+      <input type="number" formControlName="owner" class="form-control" placeholder="Owner"/>
+
+
+      <input type="number" formControlName="consumer" class="form-control" placeholder="Consumer"/>
+
+
+    <button  class="btn btn-block btn-success">Create Coupon</button>
+
+</form>

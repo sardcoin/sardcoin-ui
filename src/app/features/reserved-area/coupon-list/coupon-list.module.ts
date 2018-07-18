@@ -1,14 +1,17 @@
-import {NgModule} from "@angular/core";
-import {FeatureReservedAreaCouponListComponent} from "./coupon-list.component";
+import {NgModule} from '@angular/core';
+import {FeatureReservedAreaCouponListComponent} from './coupon-list.component';
+import {CouponItemComponent} from '../coupon-item/coupon-item.component';
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaCouponListComponent
+    FeatureReservedAreaCouponListComponent,
+    CouponItemComponent
   ],
   imports: [
   ],
   exports: [
-    FeatureReservedAreaCouponListComponent
+    FeatureReservedAreaCouponListComponent,
+    CouponItemComponent
   ],
   providers: [
   ]
