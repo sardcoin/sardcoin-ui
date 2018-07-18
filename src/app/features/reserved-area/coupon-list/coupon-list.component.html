@@ -1,2 +1,37 @@
-<h1>Coupon List</h1>
+<h1 xmlns:visibility="http://www.w3.org/1999/xhtml" xmlns:visibility="http://www.w3.org/1999/xhtml"
+    xmlns:visibility="http://www.w3.org/1999/xhtml" xmlns:visibility="http://www.w3.org/1999/xhtml">Coupon List</h1>
 
+<body>
+<div class="reglist">
+  <table class="table table-striped">
+
+    <tr>
+      <th width="5%">id</th>
+      <th width="50%">Title</th>
+      <th width="5%">Timestamp</th>
+      <th width="5%">Price</th>
+      <th width="5%">Valid From</th>
+      <th width="5%">Valid Until</th>
+      <th width="5%">State</th>
+      <th width="5%">Constraints</th>
+      <th width="5%">Consumer</th>
+      <th width="5%" minlength="5%">
+        <button style="visibility: hidden"  type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+      </th>
+      <th width="5%" minlength="5%">
+        <button style="visibility: hidden" type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+      </th>
+    </tr>
+  </table>
+</div>
+
+<app-coupon-item></app-coupon-item>
+
+
+
+
+
+
+
+
+</body>
