@@ -1,24 +1,43 @@
-<h1>{{coupon.title}}</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 mt-1">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+          <h1 class="text-center">Create</h1>
+          <p class="text-muted text-center">Create Coupon</p>
 
-<form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
+          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
 
-      <input type="text" formControlName="title" class="form-control" placeholder="Title"/>
-      <textarea type="text" formControlName="description" class="form-control" placeholder="Description"></textarea>
+            <input type="text" formControlName="title" class="form-control" placeholder="Title"/>
+            <textarea type="text" formControlName="description" class="form-control" placeholder="Description"></textarea>
 
-      <input type="number" formControlName="price" class="form-control" placeholder="Price"/>
+            <input type="number" formControlName="price" class="form-control" placeholder="Price"/>
 
-      <input type="date" formControlName="valid_from" class="form-control" placeholder="Validity from.."/>
+            <input type="date" formControlName="valid_from" class="form-control" placeholder="Validity from.."/>
 
-      <input type="date" formControlName="valid_until" class="form-control" placeholder="Validity until.."/>
+            <input type="date" formControlName="valid_until" class="form-control" placeholder="Validity until.."/>
 
-      <input type="number" formControlName="state" class="form-control" placeholder="State"/>
-      <input type="text" formControlName="constraints" class="form-control" placeholder="Constraints"/>
-      <input type="number" formControlName="owner" class="form-control" placeholder="Owner"/>
-
-
-      <input type="number" formControlName="consumer" class="form-control" placeholder="Consumer"/>
+            <input type="number" formControlName="state" class="form-control" placeholder="State"/>
+            <input type="text" formControlName="constraints" class="form-control" placeholder="Constraints"/>
+            <input type="number" formControlName="owner" class="form-control" placeholder="Owner"/>
 
 
-    <button  class="btn btn-block btn-success">Create Coupon</button>
+            <input type="number" formControlName="consumer" class="form-control" placeholder="Consumer"/>
 
-</form>
+
+            <button  class="btn btn-block btn-success">Create Coupon</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>
+
