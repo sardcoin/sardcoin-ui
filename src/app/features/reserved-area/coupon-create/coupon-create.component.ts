@@ -4,7 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
-  templateUrl: './coupon-create.component.html'
+  templateUrl: './coupon-create.component.html',
+  styleUrls: ['./coupon-create.component.scss']
 })
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit {
