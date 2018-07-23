@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {FeatureReservedAreaCouponListComponent} from './coupon-list.component';
 import {CouponItemComponent} from '../coupon-item/coupon-item.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -8,6 +10,7 @@ import {CouponItemComponent} from '../coupon-item/coupon-item.component';
     CouponItemComponent
   ],
   imports: [
+    CommonModule
   ],
   exports: [
     FeatureReservedAreaCouponListComponent,

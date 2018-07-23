@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Coupon} from '../../../shared/_models/Coupon';
+import {CouponService} from '../../../shared/_services/coupon.service';
 
 @Component({
   selector: 'app-coupon-item',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CouponItemComponent implements OnInit {
 
-  constructor() { }
+  couponArray: Coupon[] = [];
+  couponService: CouponService;
+
+  constructor(couponService: CouponService) { this.couponService = couponService; }
 
   ngOnInit() {
+   this.couponArray = this.couponService.getAllCoupons();
+   console.log(this.couponArray);
   }
 
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/common';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -45,7 +45,8 @@ import {GlobalEventsManagerService} from './shared/_services/global-event-manage
     ChartsModule,
     HttpClientModule,
     AlertModule.forRoot(),
-    StoreModule
+    StoreModule,
+
   ],
   declarations: [
     AppComponent,
