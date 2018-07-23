@@ -1,12 +1,15 @@
-import {NgModule} from "@angular/core";
-import {FeatureReservedAreaCouponCreateComponent} from "./coupon-create.component";
+import {NgModule} from '@angular/core';
+import {FeatureReservedAreaCouponCreateComponent} from './coupon-create.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {BrowserModule} from '@angular/platform-browser';
 @NgModule({
   declarations: [
-    FeatureReservedAreaCouponCreateComponent
+    FeatureReservedAreaCouponCreateComponent,
   ],
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
   ],
   exports: [
     FeatureReservedAreaCouponCreateComponent

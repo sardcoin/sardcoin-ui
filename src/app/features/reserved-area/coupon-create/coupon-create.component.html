@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2 mt-1">
@@ -8,32 +9,86 @@
 
           <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
             <label class="text-muted text-center container">Title:</label>
-            <input type="text" formControlName="title" class="form-control" />
+            <input type="text" formControlName="title" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+            <div *ngIf="submitted && f.title.errors" class="invalid-feedback" >
+              <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>
+            </div>
             <label class="text-muted text-center container">Description:</label>
-            <textarea type="text" formControlName="description" class="form-control" ></textarea>
+            <textarea type="text" formControlName="description" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback" >
+              <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
+            </div>
             <label class="text-muted text-center container">Price:</label>
-            <input type="number" formControlName="price" class="form-control" />
-            <label class="text-muted text-center container">Validity from:</label>
-            <input type="date" onfocus="(this.type='date')" formControlName="valid_from" class="form-control" />
-            <label class="text-muted text-center container">Validity until:</label>
-            <input type="date" onfocus="(this.type='date')" formControlName="valid_until" class="form-control" />
+            <input type="number" formControlName="price" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
+            <div *ngIf="submitted && f.price.errors" class="invalid-feedback" >
+              <div *ngIf="f.price.errors">Value required</div>
+            </div>
+            <label class="text-muted text-center container">Validity from (Data and Time):</label>
+            <div class="wrapperDate">
+              <div class="divDateTime">
+                <div class="form-inline">
+                  <input  min="{{toDay}}" onkeydown="return false" type="date"  formControlName="valid_from" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+                  <input  type="time" min="9:00" formControlName="valid_from_time" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }">
+                </div>
+              </div>
+            </div>
+            <div *ngIf="submitted && f.valid_from.errors && f.valid_from_time.errors" class="invalid-feedback" >
+              <div *ngIf="f.valid_from.errors && f.valid_from_time.errors">Date or time is incorrect</div>
+            </div>
+
+            <label class="text-muted text-center container">Validity until (Data and Time):</label>
+            <div class="wrapperDate">
+              <div class="divDateTime">
+                <div class="form-inline">
+                  <input type="date" min="{{tomorrow}}" onkeydown="return false" formControlName="valid_until" class="form-control"
+                         [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
+                  <input  type="time" formControlName="valid_until_time" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.valid_until_time.errors }">
+                </div>
+              </div>
+            </div>
+            <div *ngIf="submitted && f.valid_until.errors && f.valid_until_time.errors" class="invalid-feedback" >
+              <div *ngIf="f.valid_until.errors && f.valid_until_time.errors">Date or time is incorrect</div>
+            </div>
             <label class="text-muted text-center container">State:</label>
-            <input type="number" formControlName="state" class="form-control" />
+            <input type="number" formControlName="state" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.state.errors }"/>
+            <div *ngIf="submitted && f.state.errors" class="invalid-feedback" >
+              <div *ngIf="f.state.errors">Value required</div>
+            </div>
             <label class="text-muted text-center container">Constraints:</label>
-            <input type="text" formControlName="constraints" class="form-control" />
+            <input type="text" formControlName="constraints" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
+            <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback" >
+              <div *ngIf="f.constraints.errors">Value required</div>
+            </div>
             <label class="text-muted text-center container">Owner:</label>
-            <input type="number" formControlName="owner" class="form-control" />
+            <input type="number" formControlName="owner" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.description.errors }"/>
+            <div *ngIf="submitted && f.owner.errors" class="invalid-feedback" >
+              <div *ngIf="f.owner.errors">Value required</div>
+            </div>
             <label class="text-muted text-center container">Consumer:</label>
-            <input type="number" formControlName="consumer" class="form-control" />
-            <p>
-            <button  class="btn btn-block btn-success">Create Coupon</button>
-            </p>
+            <input type="number" formControlName="consumer" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.consumer.errors }"/>
+            <div *ngIf="submitted && f.consumer.errors" class="invalid-feedback" >
+              <div *ngIf="f.consumer.errors">Value required</div>
+            </div>
+            <div class="form group">
+              <p>
+                <button  class="btn btn-block btn-success">Create Coupon</button>
+              </p>
+            </div>
           </form>
 
         </div>
 
       </div>
-
 
 
 

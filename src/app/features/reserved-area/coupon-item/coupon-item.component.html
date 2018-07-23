@@ -1,16 +1,39 @@
-<div class="reglist">
-  <table class="table table-striped">
+<div  *ngFor="let couponItem of couponArray" class="reglist">
+  <table  class="table table-striped">
 
     <tr>
-      <th width="5%">id</th>
-      <th width="50%">la bella e la bestia è una storiaccia</th>
-      <th width="5%">Timestamp</th>
-      <th width="5%">Price</th>
-      <th width="5%">Valid From</th>
-      <th width="5%">Valid Until</th>
-      <th width="5%">State</th>
-      <th width="5%">Constraints</th>
-      <th width="5%">Consumer</th>
+      <td width="5%">{{couponItem.title}}</td>
+      <td width="50%">{{couponItem.description}}</td>
+      <td width="5%">{{couponItem.timestamp}}</td>
+      <td width="5%">{{couponItem.price}}</td>
+      <td width="5%">{{couponItem.valid_from}}</td>
+      <td width="5%">{{couponItem.valid_until}}</td>
+      <td width="5%">{{couponItem.state}}</td>
+      <td width="5%">{{couponItem.constraints}}</td>
+      <td width="5%">{{couponItem.owner}}</td>
+      <td width="5%">
+        <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+      </td>
+      <td width="5%">
+        <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div  class="reglist">
+  <table  class="table table-striped">
+
+    <tr>
+      <td width="5%">1</td>
+      <td width="50%">la bella e la bestia è una storiaccia</td>
+      <td width="5%">22-4-2018</td>
+      <td width="5%">33</td>
+      <td width="5%">22-4-2018 </td>
+      <td width="5%">22-4-2018</td>
+      <td width="5%">22-4-2018</td>
+      <td width="5%">100000000</td>
+      <td width="5%">200000000</td>
       <td width="5%">
         <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
       </td>

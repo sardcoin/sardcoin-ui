@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Component, NgModule, Pipe} from '@angular/core';
 import {FeatureComponent} from './feature.component';
 import {FeatureRoutingModule} from './feature.routing';
 import {SharedModule} from '../shared/shared.module';
@@ -7,18 +7,24 @@ import {IsAuthenticatedGuard} from '../shared/_guards/is-authenticated.guard';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {P404Component} from '../errors/404.component';
 import {P500Component} from '../errors/500.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {Directive} from '@angular/compiler/src/core';
+import {CommonModule} from '@angular/common';
+
 
 @NgModule({
   declarations: [
     FeatureComponent,
     P404Component,
-    P500Component
+    P500Component,
   ],
   imports: [
     FeatureRoutingModule,
     SharedModule,
     CoreModule,
     PerfectScrollbarModule,
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [
     IsAuthenticatedGuard
