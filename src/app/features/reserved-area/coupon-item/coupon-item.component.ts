@@ -19,4 +19,9 @@ export class CouponItemComponent implements OnInit {
    console.log(this.couponArray);
   }
 
+  onEdit() {
+
+  }
+  onDelete() {}
+
 }

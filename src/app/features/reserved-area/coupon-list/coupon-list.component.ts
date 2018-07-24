@@ -23,4 +23,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit {
 
     this.couponArray = this.couponService.getAllCoupons();
   }
+
+
 }

@@ -8,10 +8,12 @@ import {FeatureReservedAreaCouponListModule} from './coupon-list/coupon-list.mod
 import {FeatureReservedAreaCouponCreateModule} from './coupon-create/coupon-create.module';
 import {CouponService} from '../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
+import { EditCouponComponent } from './edit-coupon/edit-coupon.component';
 
 @NgModule({
   declarations: [
     FeatureReservedAreaComponent,
+    EditCouponComponent,
   ],
   imports: [
     SharedModule,
