@@ -29,10 +29,7 @@ export class AuthenticationService {
       .pipe(map(response => {
 
         if (response['user'] && response['token']) {
-
           this.loginActions.loginUserSuccess(response['user'], response['token']);
-
-
           return response;
         } else {
           this.loginActions.loginUserError();

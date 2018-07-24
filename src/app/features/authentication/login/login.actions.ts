@@ -30,7 +30,6 @@ export class LoginActions {
     this.ngRedux.dispatch({ type: LOGIN_USER_SUCCESS, user: user, token: token });
 
     this.storeLocal.setToken(token);
-    this.storeLocal.setUsername(user.username);
   }
 
   loginUserError() {
@@ -41,7 +40,6 @@ export class LoginActions {
     this.ngRedux.dispatch({ type: LOGOUT_USER });
 
     this.storeLocal.removeToken();
-    this.storeLocal.removeUsername();
 
     this.eventManager.isUserLoggedIn.next(false);
 

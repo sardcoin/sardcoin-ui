@@ -4,33 +4,34 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class StoreService {
 
-  constructor(protected localStorage: LocalStorage) {}
+  constructor() {
+  }
 
   setToken(token: string) {
-    this.localStorage.setItem('jwt', token).subscribe(() => {});
+    localStorage.setItem('jwt', token);
   }
 
   getToken() {
-    return this.localStorage.getItem('jwt');
+    return localStorage.getItem('jwt');
   }
 
   removeToken() {
-    this.localStorage.removeItem('jwt').subscribe(() => {}, () => {});
+    localStorage.removeItem('jwt');
   }
 
-  setUsername(username: string) {
-    this.localStorage.setItem('username', username).subscribe(() => {});
+  setId(id) {
+    localStorage.setItem('id', id);
   }
 
-  getUsername() {
-    return this.localStorage.getItem('username');
+  getId() {
+    return localStorage.getItem('id');
   }
 
-  removeUsername() {
-    this.localStorage.removeItem('username').subscribe(() => {}, () => {});
+  removeId() {
+    localStorage.removeItem('id');
   }
 
   clear() {
-    this.localStorage.clear().subscribe(() => {}, () => {});
+    localStorage.clear();
   }
 }
