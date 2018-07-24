@@ -1,5 +1,4 @@
 export class Coupon {
-  id: number;
   title: string;
   description: string;
   timestamp: string;
@@ -12,7 +11,6 @@ export class Coupon {
   consumer: number;
 
   constructor(
-              id?: number,
               title?: string,
               description?: string,
               timestamp?: string,
@@ -23,7 +21,6 @@ export class Coupon {
               constraints?: string,
               owner?: number,
               consumer?: number) {
-    this.id = id;
     this.title = title;
     this.description = description;
     this.timestamp = timestamp;
