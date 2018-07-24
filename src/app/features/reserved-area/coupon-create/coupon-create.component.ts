@@ -20,7 +20,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
   couponArray: Coupon[] = [];
   error = {'error_valid_from': 0 , 'error_valid_until': 1, 'error_from_until': 2 };
   constructor(public formBuilder: FormBuilder, public couponService: CouponService) {
-    this.coupon = new Coupon(1, 'ciao', '',
+    this.coupon = new Coupon('ciao', '',
       '', 1, '', '', 1, '', 1, 1);
     console.log('ciao');
   }
@@ -71,13 +71,16 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
 
     alert('SUCCESS!! :-)');
 
-      this.couponService.addCoupon(this.couponForm.value.id, this.couponForm.value.title,
+      this.couponService.addCoupon( this.couponForm.value.title,
       this.couponForm.value.description,
       this.couponForm.value.timestamp, this.couponForm.value.price, this.couponForm.value.valid_from +
       +'T' + this.couponForm.value.valid_from_time,
       this.couponForm.value.valid_until + 'T' + this.couponForm.value.valid_until_time,
       this.couponForm.value.state, this.couponForm.value.constraints,
       this.couponForm.value.owner, this.couponForm.value.consumer);
+
+      this.couponService.register();
+
       console.log( this.couponService.getAllCoupons() );
 
     console.log( this.couponForm.value.valid_from);

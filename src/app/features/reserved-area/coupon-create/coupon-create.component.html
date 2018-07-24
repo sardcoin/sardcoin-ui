@@ -37,8 +37,8 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="submitted && f.valid_from.errors && f.valid_from_time.errors" class="invalid-feedback" >
-              <div *ngIf="f.valid_from.errors && f.valid_from_time.errors">Date or time is incorrect</div>
+            <div *ngIf="submitted && f.valid_from.errors || f.valid_from_time.errors" class="invalid-feedback" >
+              <div *ngIf="f.valid_from.errors || f.valid_from_time.errors">Date or time is incorrect</div>
             </div>
 
             <label class="text-muted text-center container">Validity until (Data and Time):</label>
