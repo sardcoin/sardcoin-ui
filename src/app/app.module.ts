@@ -32,6 +32,7 @@ import {CoreModule} from './core/core.module';
 import {StoreModule} from './shared/store/store.module';
 import {StoreService} from './shared/_services/store.service';
 import {GlobalEventsManagerService} from './shared/_services/global-event-manager.service';
+import {JwtInterceptor} from "./shared/jwt.interceptor";
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import {GlobalEventsManagerService} from './shared/_services/global-event-manage
     // P500Component,
   ],
   providers: [
-    StoreService, GlobalEventsManagerService
+    StoreService, GlobalEventsManagerService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [ AppComponent ]
 })
