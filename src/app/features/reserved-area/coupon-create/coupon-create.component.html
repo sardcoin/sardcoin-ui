@@ -9,7 +9,7 @@
 
           <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
             <label class="text-muted text-center container">Title:</label>
-            <input type="text" formControlName="title" class="form-control"
+            <input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"
                    [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
             <div *ngIf="submitted && f.title.errors" class="invalid-feedback" >
               <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>

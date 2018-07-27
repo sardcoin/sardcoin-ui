@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CouponService} from '../../../shared/_services/coupon.service';
+import {Coupon} from '../../../shared/_models/Coupon';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditCouponComponent implements OnInit {
 
-  constructor() { }
+  couponPass: Coupon = null;
+  constructor(private  couponService: CouponService) { }
 
   ngOnInit() {
+    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
+
   }
 
 }

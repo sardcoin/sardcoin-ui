@@ -1,18 +1,18 @@
 <h1 class="text-center">Coupon List</h1>
 
 <body>
-<div class="reglist">
   <table class="table table-striped">
     <tr>
-      <td width="50%">Title</td>
-      <td width="5%">Timestamp</td>
-      <td width="5%">Price</td>
-      <td width="5%">Valid From</td>
-      <td width="5%">Valid Until</td>
-      <td width="5%">State</td>
-      <td width="5%">Constraints</td>
-      <td width="5%">Consumer</td>
-      <td width="5%" minlength="5%">
+      <td >Title</td>
+      <td >Timestamp</td>
+      <td >Price</td>
+      <td >Valid From</td>
+      <td >Valid Until</td>
+      <td >State</td>
+      <td >Constraints</td>
+      <td >Owner</td>
+      <td >Consumer</td>
+      <td  >
         <button style="visibility: hidden"  type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
       </td>
       <td width="5%" minlength="5%">
@@ -20,12 +20,11 @@
       </td>
     </tr>
   </table>
+<div *ngFor="let coupon of couponArray">
+
+<app-coupon-item [coupon]="coupon"></app-coupon-item>
+
 </div>
-
-<app-coupon-item></app-coupon-item>
-
-
-
 
 
 

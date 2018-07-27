@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {FeatureReservedAreaCouponListComponent} from './coupon-list/coupon-list.component';
 import {FeatureReservedAreaCouponCreateComponent} from './coupon-create/coupon-create.component';
 import {CouponItemComponent} from './coupon-item/coupon-item.component';
+import {EditCouponComponent} from './edit-coupon/edit-coupon.component';
 
 /** App Components **/
 
@@ -23,6 +24,10 @@ import {CouponItemComponent} from './coupon-item/coupon-item.component';
       {
         path: 'create',
         component: FeatureReservedAreaCouponCreateComponent
+      },
+      {
+        path: 'edit',
+        component: EditCouponComponent
       }
     ])
   ],

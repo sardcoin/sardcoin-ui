@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {Coupon} from '../../../shared/_models/Coupon';
 import {CouponItemComponent} from '../coupon-item/coupon-item.component';
+import {map, tap} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -11,7 +12,7 @@ import {CouponItemComponent} from '../coupon-item/coupon-item.component';
 
 export class FeatureReservedAreaCouponListComponent implements OnInit {
 
-  couponArray: Coupon[] = [];
+  couponArray: ArrayBuffer;
   couponService: CouponService;
 
   constructor(couponService: CouponService) {
@@ -21,7 +22,17 @@ export class FeatureReservedAreaCouponListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.couponArray = this.couponService.getAllCoupons();
+    this.couponService.getAllCoupons().subscribe(
+
+        data => {console.log('getAllByUser ' +  data); this.couponArray = data; },
+        error => console.log( error)
+
+    );
+
+    this.couponService.getAllCoupons()
+      .subscribe(data =>
+        console.log(data[0].title));
+
   }
 
 

@@ -16,6 +16,7 @@ import {Timeouts} from 'selenium-webdriver';
 export class FeatureReservedAreaCouponCreateComponent implements OnInit {
   couponForm: FormGroup;
   coupon: Coupon;
+  couponPass: Coupon = null;
   hoursPassed = false;
   toDayDate: Date;
   dateFrom: Date;
@@ -33,6 +34,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     this.toDayDate = new Date();
     this.tomorrowDate = new Date();
     this.toDay = new Date().toLocaleDateString('fr-CA');
@@ -98,6 +100,13 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
     this.hoursPassed = true;
     alert('ora passata!');
     return;
+    }
+
+    if (this.dateUntil.getTime().valueOf() < this.dateFrom.getTime().valueOf()) {
+
+      console.log('valid_from > valid_until');
+      alert('Il giorno di scadenza è prima del giorno di attivazione!');
+      return;
     }
 
       this.couponService.addCoupon( this.couponForm.value.title,
