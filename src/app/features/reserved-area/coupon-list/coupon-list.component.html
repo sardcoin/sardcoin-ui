@@ -1,33 +1,37 @@
 <h1 class="text-center">Coupon List</h1>
 
-<body>
-  <table class="table table-striped">
+
+<table class="table">
+  <thead>
     <tr>
-      <td >Title</td>
-      <td >Timestamp</td>
-      <td >Price</td>
-      <td >Valid From</td>
-      <td >Valid Until</td>
-      <td >State</td>
-      <td >Constraints</td>
-      <td >Owner</td>
-      <td >Consumer</td>
-      <td  >
-        <button style="visibility: hidden"  type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
-      </td>
-      <td width="5%" minlength="5%">
-        <button style="visibility: hidden" type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
-      </td>
+      <th scope="col">Title</th>
+      <th scope="col">Timestamp</th>
+      <th scope="col">Price</th>
+      <th scope="col">Valid From</th>
+      <th scope="col">Valid Until</th>
+      <th scope="col">State</th>
+      <th scope="col">Constraints</th>
     </tr>
-  </table>
-<div *ngFor="let coupon of couponArray">
+  </thead>
 
-<app-coupon-item [coupon]="coupon"></app-coupon-item>
+<tbody *ngFor="let coupon of couponArray">
+<tr>
+  <td scope="col">{{coupon.title}}</td>
+  <td scope="col">{{coupon.timestamp}}</td>
+  <td scope="col">{{coupon.price}}</td>
+  <td scope="col">{{coupon.valid_from}}</td>
+  <td *ngIf="coupon.valid_until === '1970-01-01'" scope="col">Undefined</td>
 
-</div>
+  <td *ngIf="!(coupon.valid_until === '1970-01-01')" scope="col">{{coupon.valid_until}}</td>
+  <td scope="col" >{{coupon.state}}</td>
+  <td scope="col">{{coupon.constraints}}</td>
+  <td scope="col">
+    <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
+  </td >
+  <td scope="col">
+    <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+  </td>
+</tr>
 
-
-
-
-
-</body>
+</tbody>
+</table>

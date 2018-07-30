@@ -1,22 +1,19 @@
-  <table  class="table table-striped">
+
 
     <tr>
-      <td >{{coupon.title}}</td>
-      <td >{{coupon.timestamp}}</td>
-      <td >{{coupon.price}}</td>
-      <td >{{coupon.valid_from}}</td>
-      <td >{{coupon.valid_until}}</td>
-      <td >{{coupon.state}}</td>
-      <td >{{coupon.constraints}}</td>
-      <td >{{coupon.owner}}</td>
-      <td >{{coupon.consumer}}</td>
-      <td >
-        <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
-      </td>
-      <td >
-        <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+      <td scope="col">{{coupon.title}}</td>
+      <td scope="col">{{coupon.timestamp}}</td>
+      <td scope="col">{{coupon.price}}</td>
+      <td scope="col">{{coupon.valid_from}}</td>
+      <td scope="col">{{coupon.valid_until}}</td>
+      <td scope="col" >{{coupon.state}}</td>
+      <td scope="col">{{coupon.constraints}}</td>
+      <td scope="col">
+        <button type="button" class="btn btn-info" (click)="onEdit()">Edit</button>
+      </td >
+      <td scope="col">
+        <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
       </td>
     </tr>
-  </table>
 
 

@@ -5,6 +5,7 @@ import {LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/com
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {JwtInterceptor} from "./shared/jwt.interceptor";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -54,7 +55,8 @@ import {GlobalEventsManagerService} from './shared/_services/global-event-manage
     // P500Component,
   ],
   providers: [
-    StoreService, GlobalEventsManagerService
+    StoreService, GlobalEventsManagerService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [ AppComponent ]
 })
