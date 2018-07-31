@@ -3,6 +3,7 @@ import {FeatureReservedAreaCouponCreateComponent} from './coupon-create.componen
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
+import {StoreService} from "../../../shared/_services/store.service";
 @NgModule({
   declarations: [
     FeatureReservedAreaCouponCreateComponent,
@@ -15,6 +16,7 @@ import {BrowserModule} from '@angular/platform-browser';
     FeatureReservedAreaCouponCreateComponent
   ],
   providers: [
+    StoreService
   ]
 })
 export class FeatureReservedAreaCouponCreateModule {}

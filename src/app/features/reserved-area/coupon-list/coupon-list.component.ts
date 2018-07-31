@@ -22,15 +22,14 @@ export class FeatureReservedAreaCouponListComponent implements OnInit {
     this.couponService = couponService;
   }
 
-
   ngOnInit(): void {
-
     this.couponService.currentMessage.subscribe(coupon => this.couponSource = coupon);
     this.couponService.getAllCoupons().subscribe(
-
-        data => {console.log('getAllByUser ' +  data); this.couponArray = data; },
-        error => console.log( error)
-
+      data => {
+        console.log('getAllByUser ' + data);
+        this.couponArray = data;
+      },
+      error => console.log(error)
     );
 
     this.couponService.getAllCoupons()
@@ -42,10 +41,10 @@ export class FeatureReservedAreaCouponListComponent implements OnInit {
   onEdit(coupon: Coupon) {
     this.couponService.editCoupon(coupon);
     console.log('coupon.valid_from: ' + coupon.valid_from);
-
-
   }
-  onDelete() {}
+
+  onDelete() {
+  }
 
 
 }

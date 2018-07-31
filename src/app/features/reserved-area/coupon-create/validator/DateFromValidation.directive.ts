@@ -1,12 +1,12 @@
 import {AbstractControl} from '@angular/forms';
 export class DateFromValidation {
 
+  // TODO Controllare se dateUntil esiste prima di prelevarlo
+
   static CheckDateDay(AC: AbstractControl) {
     const dateFrom = Date.parse(AC.get('valid_from').value.valueOf()); // to get value in input tag
     const dateTimeDay = new Date().getTime().valueOf(); // to get value in input tag
     const dateUntil = Date.parse(AC.get('valid_until').value.valueOf());
-    console.log('valid_from: ' + dateFrom)
-    console.log('dateDay: ' + dateTimeDay)
 
     if (dateFrom < dateTimeDay) {
       AC.get('valid_from').setErrors( {MatchDate: true} );
@@ -19,10 +19,5 @@ export class DateFromValidation {
       return null;
     }
 
-    // if (dateUntil < dateFrom) {
-    //   AC.get('valid_until').setErrors( {MatchDateFromUntil: true} );
-    // } else {
-    //   return null;
-    // }
   }
 }

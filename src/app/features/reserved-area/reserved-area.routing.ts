@@ -13,7 +13,6 @@ import {EditCouponComponent} from './edit-coupon/edit-coupon.component';
     RouterModule.forChild([
       {
         path: '',
-        // component: FeatureReservedAreaComponent
         redirectTo: 'list',
         pathMatch: 'full'
       },

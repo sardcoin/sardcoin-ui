@@ -3,35 +3,34 @@
 
 <table class="table">
   <thead>
-    <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Timestamp</th>
-      <th scope="col">Price</th>
-      <th scope="col">Valid From</th>
-      <th scope="col">Valid Until</th>
-      <th scope="col">State</th>
-      <th scope="col">Constraints</th>
-    </tr>
+  <tr>
+    <th scope="col">Title</th>
+    <th scope="col">Timestamp</th>
+    <th scope="col">Price</th>
+    <th scope="col">Valid From</th>
+    <th scope="col">Valid Until</th>
+    <th scope="col">State</th>
+    <th scope="col">Constraints</th>
+  </tr>
   </thead>
 
-<tbody *ngFor="let coupon of couponArray">
-<tr>
-  <td scope="col">{{coupon.title}}</td>
-  <td scope="col">{{coupon.timestamp}}</td>
-  <td scope="col">{{coupon.price}}</td>
-  <td scope="col">{{coupon.valid_from}}</td>
-  <td *ngIf="coupon.valid_until === '1970-01-01'" scope="col">Undefined</td>
+  <tbody *ngFor="let coupon of couponArray">
+  <tr>
+    <td scope="col">{{coupon.title}}</td>
+    <td scope="col">{{coupon.timestamp}}</td>
+    <td scope="col">{{coupon.price}}</td>
+    <td scope="col">{{coupon.valid_from}}</td>
+    <td *ngIf="coupon.valid_until === '1970-01-01'" scope="col">Undefined</td>
+    <td *ngIf="!(coupon.valid_until === '1970-01-01')" scope="col">{{coupon.valid_until}}</td>
+    <td scope="col">{{coupon.state}}</td>
+    <td scope="col">{{coupon.constraints}}</td>
+    <td scope="col">
+      <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
+    </td>
+    <td scope="col">
+      <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </td>
+  </tr>
 
-  <td *ngIf="!(coupon.valid_until === '1970-01-01')" scope="col">{{coupon.valid_until}}</td>
-  <td scope="col" >{{coupon.state}}</td>
-  <td scope="col">{{coupon.constraints}}</td>
-  <td scope="col">
-    <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
-  </td >
-  <td scope="col">
-    <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
-  </td>
-</tr>
-
-</tbody>
+  </tbody>
 </table>
