@@ -21,10 +21,17 @@ export class EditCouponComponent implements OnInit {
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  constructor(private router: Router, public formBuilder: FormBuilder, public couponService: CouponService) { }
+  constructor(private router: Router, public formBuilder: FormBuilder, public couponService: CouponService) {
+    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
+
+    if (this.couponPass === null) {
+
+      this.router.navigate(['/']);
+      return;
+    }
+  }
 
   ngOnInit() {
-    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
     this.myDate = new Date(this.couponPass.valid_from );
     const from = this.myDate.toISOString().substring(0, 23);

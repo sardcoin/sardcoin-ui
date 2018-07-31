@@ -40,7 +40,7 @@ export class CouponService {
   editCoupon(cp: Coupon) {
     this.couponSource.next(cp);
     this.router.navigate(['/reserved-area/edit']);
-    return this.http.get('http://localhost:3000/coupons/list');
+    return this.http.get('http://localhost:3000');
   }
 
 
