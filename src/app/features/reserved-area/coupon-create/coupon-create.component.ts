@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Coupon} from '../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../shared/_services/coupon.service';
@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
 import {DateFromValidation} from './validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {StoreService} from "../../../shared/_services/store.service";
+import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
+import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -14,7 +16,7 @@ import {StoreService} from "../../../shared/_services/store.service";
   styleUrls: ['./coupon-create.component.scss']
 })
 
-export class FeatureReservedAreaCouponCreateComponent implements OnInit {
+export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
   coupon: Coupon;
   couponPass: Coupon = null;
@@ -26,8 +28,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
     private router: Router,
     public formBuilder: FormBuilder,
     public storeService: StoreService,
-    public couponService: CouponService) {
-  }
+    public couponService: CouponService,
+    private breadcrumbActions: BreadcrumbActions
+  ) { }
 
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
@@ -46,6 +49,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
       validator: Validators.compose([DateFromValidation.CheckDateDay])
     });
 
+    this.addBreadcrumb()
+
+  }
+
+  ngOnDestroy() {
+    this.removeBreadcrumb();
   }
 
   get f() {
@@ -89,6 +98,20 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  addBreadcrumb() {
+    const bread = [] as Breadcrumb[];
+
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Create Coupon', '/reserved-area/create/'));
+
+    this.breadcrumbActions.updateBreadcrumb(bread);
+  }
+
+  removeBreadcrumb() {
+    this.breadcrumbActions.deleteBreadcrumb();
   }
 }
 

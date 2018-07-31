@@ -1,9 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/common';
-
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import {JwtInterceptor} from "./shared/jwt.interceptor";
 
@@ -33,7 +30,6 @@ import {CoreModule} from './core/core.module';
 import {StoreModule} from './shared/store/store.module';
 import {StoreService} from './shared/_services/store.service';
 import {GlobalEventsManagerService} from './shared/_services/global-event-manager.service';
-import {JwtInterceptor} from "./shared/jwt.interceptor";
 
 @NgModule({
   imports: [

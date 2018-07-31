@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {Coupon} from '../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -6,13 +6,15 @@ import {Router} from '@angular/router';
 import {DateFromValidation} from '../coupon-create/validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {first} from 'rxjs/internal/operators';
+import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
+import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
 
 @Component({
   selector: 'app-edit-coupon',
-  templateUrl: './edit-coupon.component.html',
-  styleUrls: ['./edit-coupon.component.scss']
+  templateUrl: './coupon-edit.component.html',
+  styleUrls: ['./coupon-edit.component.scss']
 })
-export class EditCouponComponent implements OnInit {
+export class CouponEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
   myDate: Date;
@@ -21,7 +23,13 @@ export class EditCouponComponent implements OnInit {
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  constructor(private router: Router, public formBuilder: FormBuilder, public couponService: CouponService) {
+
+  constructor(
+    private router: Router,
+    public formBuilder: FormBuilder,
+    public couponService: CouponService,
+    private breadcrumbActions: BreadcrumbActions
+  ) {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
     if (this.couponPass === null) {
@@ -33,9 +41,9 @@ export class EditCouponComponent implements OnInit {
 
   ngOnInit() {
 
-    this.myDate = new Date(this.couponPass.valid_from );
+    this.myDate = new Date(this.couponPass.valid_from);
     const from = this.myDate.toISOString().substring(0, 23);
-    this.myDate = new Date(this.couponPass.valid_until );
+    this.myDate = new Date(this.couponPass.valid_until);
     let until = this.myDate.toISOString().substring(0, 23);
     if (until === '1970-01-01T00:00:00.000') {
       until = '';
@@ -53,23 +61,28 @@ export class EditCouponComponent implements OnInit {
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay])
     });
+
+    this.addBreadcrumb();
   }
-  get f() { return this.couponForm.controls; }
+
+  get f() {
+    return this.couponForm.controls;
+  }
 
   saveChange() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
-    this.dateUntil = new Date( this.couponForm.value.valid_until);
+    this.dateUntil = new Date(this.couponForm.value.valid_until);
 
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
-      }
+    }
     this.submitted = true;
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
       return;
 
     }
-    this.coupon = new Coupon( this.couponForm.value.title,
+    this.coupon = new Coupon(this.couponForm.value.title,
       this.couponForm.value.description,
       this.couponForm.value.timestamp, this.couponForm.value.price, this.dateFrom.getTime().valueOf(),
       this.dateUntil.getTime().valueOf(),
@@ -86,6 +99,24 @@ export class EditCouponComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  addBreadcrumb() {
+    const bread = [] as Breadcrumb[];
+
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Edit Coupon', '/reserved-area/edit/'));
+
+    this.breadcrumbActions.updateBreadcrumb(bread);
+  }
+
+  removeBreadcrumb() {
+    this.breadcrumbActions.deleteBreadcrumb();
+  }
+
+  ngOnDestroy() {
+    this.removeBreadcrumb();
   }
 
 }

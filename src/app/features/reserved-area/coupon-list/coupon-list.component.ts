@@ -1,11 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
 import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
-import {Component, Input, OnInit} from '@angular/core';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {Coupon} from '../../../shared/_models/Coupon';
-import {CouponItemComponent} from '../coupon-item/coupon-item.component';
-import {map, tap} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,14 +10,14 @@ import {Router} from '@angular/router';
   templateUrl: './coupon-list.component.html'
 })
 
-export class FeatureReservedAreaCouponListComponent implements OnInit {
+export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   couponArray: any;
   couponService: CouponService;
   couponSource: Coupon;
   @Input() couponPass: Coupon;
 
-  constructor(couponService: CouponService, private router: Router) {
+  constructor(couponService: CouponService, private router: Router, private breadcrumbActions: BreadcrumbActions) {
     this.couponService = couponService;
   }
 
@@ -38,18 +35,12 @@ export class FeatureReservedAreaCouponListComponent implements OnInit {
       .subscribe(data =>
         console.log(data[0].title));
 
+    this.addBreadcrumb();
   }
 
   onEdit(coupon: Coupon) {
     this.couponService.editCoupon(coupon);
     console.log('coupon.valid_from: ' + coupon.valid_from);
-  }
-export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy{
-
-  constructor(private breadcrumbActions: BreadcrumbActions) { }
-
-  ngOnInit(): void {
-    this.addBreadcrumb();
   }
 
   addBreadcrumb() {
@@ -69,8 +60,5 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   ngOnDestroy() {
     this.removeBreadcrumb();
   }
-  onDelete() {
-  }
-
 
 }
