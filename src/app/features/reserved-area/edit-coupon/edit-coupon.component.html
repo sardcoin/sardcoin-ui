@@ -1,61 +1,60 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2 mt-1">
       <div class="card mx-4">
         <div class="card-body p-4">
-          <h1 class="text-center">Create</h1>
-          <h4 class="text-muted text-center">Create Coupon</h4>
+          <h1 class="text-center">Edit</h1>
+          <h4 class="text-muted text-center">Edit Coupon</h4>
 
-          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
+          <form [formGroup]="couponForm" (ngSubmit)="saveChange()">
             <div class="form-group row">
               <label  class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-10">
-                  <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"-->
+              <div class="col-sm-10">
+                <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"-->
 
-                  <input  type="text" formControlName="title" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
-                      <div *ngIf="submitted && f.title.errors" class="invalid-feedback" >
-                        <div *ngIf="f.title.errors">Title is required, Minimum 5 characters, Maximum 40 character</div>
-                      </div>
+                <input  type="text" formControlName="title" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback" >
+                  <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
-            <label  class="col-sm-2 col-form-label">Description:</label>
+              <label  class="col-sm-2 col-form-label">Description:</label>
               <div class="col-sm-10">
                 <textarea type="text" formControlName="description" class="form-control"
-                      [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback" >
-                        <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
-                    </div>
+                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback" >
+                  <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price:</label>
               <div class="col-sm-10">
                 <input type="number" formControlName="price" class="form-control"
-                   [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
-                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback" >
-                      <div *ngIf="f.price.errors">Value required</div>
-                  </div>
+                       [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
+                <div *ngIf="submitted && f.price.errors" class="invalid-feedback" >
+                  <div *ngIf="f.price.errors">Value required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Validity from:</label>
               <div class="col-sm-10">
-                  <input  min="{{toDay}}"  type="datetime-local"  formControlName="valid_from" class="form-control"
-                          [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
-                  <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback" >
-                      <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
-                  </div>
+                <input  value=''  type="datetime-local"  formControlName="valid_from" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+                <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback" >
+                  <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
+                </div>
               </div>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Validity until:</label>
               <div class="col-sm-10">
-                  <input type="datetime-local"  formControlName="valid_until" class="form-control"
-                         [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
+                <input type="datetime-local"  formControlName="valid_until" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
                 <div *ngIf="submitted && f.valid_until.errors" class="invalid-feedback" >
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
                 </div>
@@ -65,7 +64,7 @@
               <label class="col-sm-2 col-form-label">Constraints:</label>
               <div class="col-sm-10">
                 <input type="text" formControlName="constraints" class="form-control"
-                   [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
+                       [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback" >
                   <div *ngIf="f.constraints.errors">Value required</div>
                 </div>
@@ -79,7 +78,7 @@
             </div>
             <div class="form group">
               <p>
-                <button  class="btn btn-block btn-success">Create Coupon</button>
+                <button  class="btn btn-block btn-success">Save change</button>
               </p>
             </div>
 
@@ -95,4 +94,3 @@
 
   </div>
 </div>
-

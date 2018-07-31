@@ -1,7 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {FeatureReservedAreaCouponListComponent} from "./coupon-list/coupon-list.component";
-import {FeatureReservedAreaCouponCreateComponent} from "./coupon-create/coupon-create.component";
+import {FeatureReservedAreaCouponListComponent} from './coupon-list/coupon-list.component';
+import {FeatureReservedAreaCouponCreateComponent} from './coupon-create/coupon-create.component';
+import {CouponItemComponent} from './coupon-item/coupon-item.component';
+import {EditCouponComponent} from './edit-coupon/edit-coupon.component';
 
 /** App Components **/
 
@@ -11,7 +13,6 @@ import {FeatureReservedAreaCouponCreateComponent} from "./coupon-create/coupon-c
     RouterModule.forChild([
       {
         path: '',
-        // component: FeatureReservedAreaComponent
         redirectTo: 'list',
         pathMatch: 'full'
       },
@@ -22,6 +23,10 @@ import {FeatureReservedAreaCouponCreateComponent} from "./coupon-create/coupon-c
       {
         path: 'create',
         component: FeatureReservedAreaCouponCreateComponent
+      },
+      {
+        path: 'edit',
+        component: EditCouponComponent
       }
     ])
   ],

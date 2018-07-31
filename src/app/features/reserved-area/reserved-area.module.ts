@@ -4,12 +4,16 @@ import {SharedModule} from '../../shared/shared.module';
 import {CoreModule} from '../../core/core.module';
 import {FeatureReservedAreaComponent} from './reserved-area.component';
 import {FeatureReservedAreaRoutingModule} from './reserved-area.routing';
-import {FeatureReservedAreaCouponListModule} from "./coupon-list/coupon-list.module";
-import {FeatureReservedAreaCouponCreateModule} from "./coupon-create/coupon-create.module";
+import {FeatureReservedAreaCouponListModule} from './coupon-list/coupon-list.module';
+import {FeatureReservedAreaCouponCreateModule} from './coupon-create/coupon-create.module';
+import {CouponService} from '../../shared/_services/coupon.service';
+import {CommonModule} from '@angular/common';
+import { EditCouponComponent } from './edit-coupon/edit-coupon.component';
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaComponent
+    FeatureReservedAreaComponent,
+    EditCouponComponent,
   ],
   imports: [
     SharedModule,
@@ -17,10 +21,11 @@ import {FeatureReservedAreaCouponCreateModule} from "./coupon-create/coupon-crea
     AppFooterModule,
     FeatureReservedAreaRoutingModule,
     FeatureReservedAreaCouponListModule,
-    FeatureReservedAreaCouponCreateModule
+    FeatureReservedAreaCouponCreateModule,
+    CommonModule,
   ],
   providers: [
-
+    CouponService,
   ],
   exports: [
     FeatureReservedAreaComponent
