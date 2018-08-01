@@ -35,15 +35,19 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
+    const ownerId = parseInt(this.storeService.getId());
+
+    console.log(ownerId);
+
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: [],
       price: ['', Validators.compose([Validators.required])],
       valid_from: ['', Validators.compose([Validators.required])],
-      valid_until: [''],
+      valid_until: [],
       state: ['0'],
       constraints: [],
-      owner: [this.storeService.getId()],
+      owner: [ownerId],
       consumer: []
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay])
