@@ -4,6 +4,7 @@ import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {Coupon} from '../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -17,7 +18,9 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   couponSource: Coupon;
   @Input() couponPass: Coupon;
 
-  constructor(couponService: CouponService, private router: Router, private breadcrumbActions: BreadcrumbActions) {
+  constructor(couponService: CouponService, private router: Router,
+              private breadcrumbActions: BreadcrumbActions,
+              ) {
     this.couponService = couponService;
   }
 
@@ -31,16 +34,19 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       error => console.log(error)
     );
 
-    this.couponService.getAllCoupons()
-      .subscribe(data =>
-        console.log(data[0].title));
-
     this.addBreadcrumb();
   }
 
-  onEdit(coupon: Coupon) {
-    this.couponService.editCoupon(coupon);
-    console.log('coupon.valid_from: ' + coupon.valid_from);
+  onEdit(coupon: any) {
+    this.couponService.setCoupon(coupon);
+    console.log('coupon.id: ' + coupon.id );
+  }
+
+  onDelete(coupon_id: number) {
+    console.log('coupon_id: ', coupon_id)
+    this.couponService.deleteCoupon(coupon_id);
+
+
   }
 
   addBreadcrumb() {

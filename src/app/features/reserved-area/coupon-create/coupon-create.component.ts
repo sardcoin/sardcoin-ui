@@ -36,7 +36,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
     const ownerId = parseInt(this.storeService.getId());
-
+    console.log('get.id: ' + this.storeService.getId())
     console.log(ownerId);
 
     this.couponForm = this.formBuilder.group({
@@ -53,7 +53,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       validator: Validators.compose([DateFromValidation.CheckDateDay])
     });
 
-    this.addBreadcrumb()
+    this.addBreadcrumb();
 
   }
 

@@ -23,6 +23,7 @@ import { CouponEditComponent } from './coupon-edit/coupon-edit.component';
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
     CommonModule,
+
   ],
   providers: [
     CouponService,

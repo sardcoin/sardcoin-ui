@@ -8,6 +8,7 @@ import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {first} from 'rxjs/internal/operators';
 import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
 import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
+import {StoreService} from '../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -18,8 +19,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
   myDate: Date;
-  coupon: Coupon;
-  couponPass: Coupon = null;
+  coupon: {};
+  couponPass: any = null;
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
@@ -28,8 +29,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private router: Router,
     public formBuilder: FormBuilder,
     public couponService: CouponService,
-    private breadcrumbActions: BreadcrumbActions
-  ) {
+    private breadcrumbActions: BreadcrumbActions,
+    private storeService: StoreService,
+
+) {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
     if (this.couponPass === null) {
@@ -41,6 +44,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    const ownerId = parseInt(this.storeService.getId());
+
     this.myDate = new Date(this.couponPass.valid_from);
     const from = this.myDate.toISOString().substring(0, 23);
     this.myDate = new Date(this.couponPass.valid_until);
@@ -48,6 +53,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     if (until === '1970-01-01T00:00:00.000') {
       until = '';
     }
+
+    console.log("couponPass: " + this.couponPass)
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
       description: [this.couponPass.description],
@@ -56,8 +63,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       valid_until: [until],
       state: ['1'],
       constraints: [this.couponPass.constraints],
-      owner: ['2', Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
-      consumer: ['2', Validators.compose([Validators.required])] //
+      owner: [ownerId], // da settare l'owner che è quello che genera il coupon
+      consumer: [] //
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay])
     });
@@ -82,23 +89,19 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    this.coupon = new Coupon(this.couponForm.value.title,
-      this.couponForm.value.description,
-      this.couponForm.value.timestamp, this.couponForm.value.price, this.dateFrom.getTime().valueOf(),
-      this.dateUntil.getTime().valueOf(),
-      this.couponForm.value.state, this.couponForm.value.constraints,
-      this.couponForm.value.owner, this.couponForm.value.consumer);
+    this.coupon = {'id': this.couponPass.valueOf().id,
+      'title': this.couponForm.value.title,
+      'description': this.couponForm.value.description,
+      'timestamp' : this.couponForm.value.timestamp,
+      'price' : this.couponForm.value.price,
+      'valid_from' :  this.dateFrom.getTime().valueOf(),
+      'valid_until' : this.dateUntil.getTime().valueOf(),
+      'state' : this.couponForm.value.state,
+      'constraints' : this.couponForm.value.constraints,
+      'owner' : this.couponForm.value.owner,
+      'consumer': this.couponForm.value.consumer}
 
-    this.couponService.editCoupon(this.coupon).pipe(first())
-      .subscribe(
-        data => {
-          // this.setSignedUp(this.registrationForm.value.username);
-          this.router.navigate(['/reserved-area/list']);
-        }, error => {
-          // this.loading = false;
-          console.log(error);
-        }
-      );
+    this.couponService.editCoupon(this.coupon);
   }
 
   addBreadcrumb() {
