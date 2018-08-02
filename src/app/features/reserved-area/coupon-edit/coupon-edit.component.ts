@@ -91,13 +91,13 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     }
     this.coupon = {'id': this.couponPass.valueOf().id,
       'title': this.couponForm.value.title,
-      'description': this.couponForm.value.description,
+      'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
       'timestamp' : this.couponForm.value.timestamp,
       'price' : this.couponForm.value.price,
       'valid_from' :  this.dateFrom.getTime().valueOf(),
       'valid_until' : this.dateUntil.getTime().valueOf(),
       'state' : this.couponForm.value.state,
-      'constraints' : this.couponForm.value.constraints,
+      'constraints' : this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
       'owner' : this.couponForm.value.owner,
       'consumer': this.couponForm.value.consumer}
 
