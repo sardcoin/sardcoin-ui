@@ -27,23 +27,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   dateUntil: Date;
   submitted = false;
   URL = 'http://localhost:3000/coupons/addImage';
+  imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
     authToken: 'Bearer ' + this.storeService.getToken(),
   });
-
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
-
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
-  }
-
 
   constructor(
     private router: Router,
@@ -63,7 +52,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: [],
-      image: [Validators.required],
+      image: [this.imagePath, Validators.compose([Validators.required, Validators.minLength(1)])], // Min Lenght helps to check if the image path is not null
       price: ['', Validators.compose([Validators.required])],
       valid_from: ['', Validators.compose([Validators.required])],
       valid_until: [],
@@ -103,12 +92,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
+      console.log(this.couponForm);
       return;
 
     }
     this.coupon = new Coupon(
       this.couponForm.value.title,
       this.couponForm.value.description,
+      this.couponForm.value.image,
       this.couponForm.value.timestamp,
       this.couponForm.value.price,
       this.dateFrom.getTime().valueOf(),
@@ -145,6 +136,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     let data = JSON.parse(response); //success server response
+    this.imagePath = data.path;
     console.log(data);
   }
 

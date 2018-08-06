@@ -33,13 +33,9 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Image</label>
               <div class="col-sm-9">
-                <!--<input type="file" formControlName="image" class="form-control" (change)="onFileChanged($event)"-->
-                <!--[ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>-->
-                <!---->
 
-                <!--<angular-file-uploader [config]="afuConfig"></angular-file-uploader>-->
-
-                <input type="file" class="col-sm-6 p-0" ng2FileSelect [uploader]="uploader"/>
+                <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+                       [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
 
                 <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">
                   <button type="button" class="btn btn-success btn-xs ml-1"
@@ -65,65 +61,9 @@
                   </div>
                 </div>
 
-<!--                <div class="col-sm-12" style="top: 10px">
-
-                  <table class="table">
-                    <thead>
-                    <tr>
-                      <th width="50%">Name</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                      &lt;!&ndash;<th>Status</th>&ndash;&gt;
-                      &lt;!&ndash;<th>Actions</th>&ndash;&gt;
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let item of uploader.queue">
-                      <td><strong>{{ item?.file?.name }}</strong></td>
-                      <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                      <td *ngIf="uploader.isHTML5">
-                        <div class="progress" style="margin-bottom: 0;">
-                          <div class="progress-bar" role="progressbar"
-                               [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <span *ngIf="item.isSuccess"><i class="fas fa-check-circle"></i></span>
-                        <span *ngIf="item.isCancel"><i class="fas fa-ban"></i></span>
-                        <span *ngIf="item.isError"><i class="fas fa-trash-alt"></i></span>
-                      </td>
-                      <td nowrap>
-                        <button type="button" class="btn btn-success btn-xs"
-                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                          <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>
-                        <button type="button" class="btn btn-warning btn-xs"
-                                (click)="item.cancel()" [disabled]="!item.isUploading">
-                          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs"
-                                (click)="item.remove()">
-                          <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-
-                  <div>
-                    <div>
-                      Progress:
-                      <div class="progress" style="">
-                        <div class="progress-bar" role="progressbar"
-                             [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>-->
-
                 <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
-                  <div *ngIf="f.image.errors">Image is required</div>
+                  <!--<div *ngIf="f.image.errors">Image is required</div>-->
+                  <div>Image is required</div>
                 </div>
               </div>
             </div>
@@ -174,6 +114,9 @@
             </div>
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until must be greater than Data From
+            </div>
+            <div class="alert alert-danger col-md-12"> <!-- ngIf="submitted && f.image.errors?.ImageRequired"> -->
+              <!-- TODO Creare image required come validator: non funziona l'altro-->
             </div>
             <div class="form group">
               <p>
