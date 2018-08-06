@@ -39,7 +39,7 @@ body {
   margin-right: 0;
 }
 
-#sidebar-container {
+app-core-sidebar {
   min-height: calc(100vh - 56px);
   background-color: #2f353a;
   padding: 0;
@@ -141,3 +141,19 @@ app-core-breadcrumb nav {
 app-feature-authentication-login .container {
   //margin-top: calc(25% - 28px - 25px );
 }
+
+
+.btn.btn-info.btn-sm.resetBtn {
+  margin-bottom: 0.5rem!important;
+}
+
+angular-file-uploader div.container {
+  padding: 0;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+

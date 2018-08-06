@@ -1,6 +1,7 @@
 export class Coupon {
   title: string;
   description: string;
+  image: string;
   timestamp: string;
   price: number;
   valid_from: string;
@@ -13,6 +14,7 @@ export class Coupon {
   constructor(
               title?: string,
               description?: string,
+              image?: string,
               timestamp?: string,
               price?: number,
               valid_from?: any,
@@ -23,6 +25,7 @@ export class Coupon {
               consumer?: number) {
     this.title = title;
     this.description = description;
+    this.image = image;
     this.timestamp = timestamp;
     this.price = price;
     this.valid_from = valid_from;
