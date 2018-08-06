@@ -24,7 +24,7 @@
         <td scope="col">{{coupon.price}}</td>
         <td scope="col">{{coupon.valid_from.substring(0,10)}} Time: {{coupon.valid_from.substring(11,16)}} </td>
         <td *ngIf="coupon.valid_until === '1970-01-01T00:00:00.000Z'" scope="col">Forever</td>
-        <td *ngIf="coupon.valid_until !== '1970-01-01T00:00:00.000Z'" scope="col">{{coupon.valid_until.substring(0,10)}} Time: {{coupon.valid_until.substring(11,16)}}</td>
+        <td *ngIf="coupon.valid_until !== '1970-01-01T00:00:00.000Z' && coupon.valid_until !== null" scope="col">{{coupon.valid_until.substring(0,10)}} Time: {{coupon.valid_until.substring(11,16)}}</td>
         <td scope="col">{{coupon.state}}</td>
         <td scope="col">{{coupon.constraints}}</td>
         <td scope="col">

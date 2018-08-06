@@ -26,7 +26,13 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponSource = coupon);
-    this.couponArray = this.couponService.getAllCoupons();
+    this.couponService.getAllCoupons().subscribe(
+      data => {
+        console.log('getAllByUser ' + data);
+        this.couponArray = data;
+      },
+      error => console.log(error)
+    );
 
     this.addBreadcrumb();
   }
