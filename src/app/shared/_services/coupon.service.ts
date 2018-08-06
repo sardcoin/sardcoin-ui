@@ -36,7 +36,6 @@ export class CouponService {
     return this.http.request('delete', 'http://localhost:3000/coupons/delete', {body: {id: cp}}).subscribe(
       (data) => {
           console.log('data: ' + data);
-          this.getAllCoupons();
           this.router.navigate(['/reserved-area/list']);
 
       }, error => {

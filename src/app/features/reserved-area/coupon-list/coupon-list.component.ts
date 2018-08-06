@@ -45,6 +45,13 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   onDelete(coupon_id: number) {
     console.log('coupon_id: ', coupon_id)
     this.couponService.deleteCoupon(coupon_id);
+    this.couponService.getAllCoupons().subscribe(
+      data => {
+        console.log('getAllByUser ' + data);
+        this.couponArray = data;
+      },
+      error => console.log(error)
+    );
 
 
   }
