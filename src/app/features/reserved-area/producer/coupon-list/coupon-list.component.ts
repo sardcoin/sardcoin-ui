@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
-import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
-import {CouponService} from '../../../shared/_services/coupon.service';
-import {Coupon} from '../../../shared/_models/Coupon';
+import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
+import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
+import {CouponService} from '../../../../shared/_services/coupon.service';
+import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 
 @Component({
