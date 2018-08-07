@@ -1,15 +1,15 @@
 import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
-import {Coupon} from '../../../shared/_models/Coupon';
+import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CouponService} from '../../../shared/_services/coupon.service';
+import {CouponService} from '../../../../shared/_services/coupon.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
 import {DateFromValidation} from './validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
-import {StoreService} from '../../../shared/_services/store.service';
-import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
-import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
+import {StoreService} from "../../../../shared/_services/store.service";
+import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
+import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
+import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -64,7 +64,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       validator: Validators.compose([DateFromValidation.CheckDateDay])
     });
 
-    this.addBreadcrumb();
+    this.addBreadcrumb()
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
@@ -81,8 +81,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   saveCoupon() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
-    console.log('this.couponForm.value.valid_from ' , this.couponForm.value.valid_from)
-    console.log('this.dateFrom' , this.dateFrom)
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
     if (!isValidDate(this.dateUntil)) {
@@ -104,7 +102,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.image,
       this.couponForm.value.timestamp,
       this.couponForm.value.price,
-      this.dateFrom.getTime() + 3600000,
+      this.dateFrom.getTime().valueOf(),
       this.dateUntil.getTime().valueOf(),
       this.couponForm.value.state,
       this.couponForm.value.constraints,
@@ -112,7 +110,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.consumer
     );
 
-    console.log('this.dateFrom.getTime', this.coupon.valid_from)
     this.couponService.register(this.coupon).pipe(first())
       .subscribe(
         data => {
@@ -138,7 +135,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    const data = JSON.parse(response); // success server response
+    let data = JSON.parse(response); //success server response
     this.imagePath = data.path;
     console.log(data);
   }

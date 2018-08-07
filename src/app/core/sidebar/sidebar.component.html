@@ -14,18 +14,32 @@
         <span class="fas fa-plus ml-auto"></span>
       </div>
     </a>
-    <!-- Submenu content -->
+
+    <!!-- Submenu content -->
+
     <div id="submenu1" class="collapse sidebar-submenu">
-      <a [routerLink]="['/reserved-area/list']" class="list-group-item list-group-item-action text-white">
-        <span class="menu-collapsed">Coupon List</span>
-      </a>
-      <a [routerLink]="['/reserved-area/create']" class="list-group-item list-group-item-action text-white">
-        <span class="menu-collapsed">Create Coupon</span>
-      </a>
+
+      <div *ngIf="this.userType == '1' || this.userType == '0'">
+        <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Coupon List</span>
+        </a>
+        <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Create Coupon</span>
+        </a>
+      </div>
+
+      <div *ngIf="this.userType == '2' || this.userType == '0'">
+        <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Coupon Showcase</span>
+        </a>
+      </div>
+
       <a class="list-group-item list-group-item-action text-secondary">
         <span class="menu-collapsed">Other to Add</span>
       </a>
+
     </div>
+
     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
        class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-start align-items-center">

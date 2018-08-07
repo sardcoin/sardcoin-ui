@@ -24,7 +24,7 @@ import {P404Component} from '../errors/404.component';
             canActivate: [
               IsAuthenticatedGuard
             ],
-            loadChildren: './reserved-area/reserved-area.module#FeatureDashboardModule',
+            loadChildren: './reserved-area/reserved-area.module#FeatureReservedAreaModule',
             data: {
               title: 'Dashboard',
               requiresLogin: true

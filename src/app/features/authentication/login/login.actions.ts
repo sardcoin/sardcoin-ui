@@ -31,6 +31,7 @@ export class LoginActions {
 
     this.storeLocal.setToken(token);
     this.storeLocal.setId(user.id);
+    this.storeLocal.setType(user.user_type);
   }
 
   loginUserError() {
@@ -42,6 +43,7 @@ export class LoginActions {
 
     this.storeLocal.removeToken();
     this.storeLocal.removeId();
+    this.storeLocal.removeType();
 
     this.eventManager.isUserLoggedIn.next(false);
 
