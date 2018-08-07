@@ -113,10 +113,10 @@
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">Either Valid From or Valid Until contains a data already passed.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until must be greater than Data From
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until must be greater than Data From.
             </div>
-            <div class="alert alert-danger col-md-12"> <!-- ngIf="submitted && f.image.errors?.ImageRequired"> -->
-              <!-- TODO Creare image required come validator: non funziona l'altro -->
+            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
+              Please upload an image before create the coupon.
             </div>
             <div class="form group">
               <p>

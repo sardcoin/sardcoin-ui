@@ -10,6 +10,7 @@ import {StoreService} from "../../../../shared/_services/store.service";
 import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
+import {ImageValidation} from "./validator/ImageValidation.directive.";
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -52,7 +53,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: [],
-      image: [this.imagePath, Validators.compose([Validators.required, Validators.minLength(1)])], // Min Lenght helps to check if the image path is not null
+      image: [this.imagePath, Validators.compose([Validators.required, Validators.minLength(1)])], // Min Length helps to check if the image path is not null
       price: ['', Validators.compose([Validators.required])],
       valid_from: ['', Validators.compose([Validators.required])],
       valid_until: [],
@@ -61,7 +62,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       owner: [ownerId],
       consumer: []
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay])
+      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage])
     });
 
     this.addBreadcrumb()
@@ -99,7 +100,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.coupon = new Coupon(
       this.couponForm.value.title,
       this.couponForm.value.description,
-      this.couponForm.value.image,
+      this.imagePath,
       this.couponForm.value.timestamp,
       this.couponForm.value.price,
       this.dateFrom.getTime().valueOf(),
@@ -113,7 +114,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponService.register(this.coupon).pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['/reserved-area/list']);
+          this.router.navigate(['/reserved-area/producer/list']);
         }, error => {
           console.log(error);
         }
@@ -125,7 +126,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Create Coupon', '/reserved-area/create/'));
+    bread.push(new Breadcrumb('Producer', '/reserved-area/producer/'));
+    bread.push(new Breadcrumb('Create Coupon', '/reserved-area/producer/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
