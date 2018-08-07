@@ -81,7 +81,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   saveCoupon() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
-    console.log('this.couponForm.value.valid_from ' + this.couponForm.value.valid_from)
+    console.log('this.couponForm.value.valid_from ' , this.couponForm.value.valid_from)
+    console.log('this.dateFrom' , this.dateFrom)
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
     if (!isValidDate(this.dateUntil)) {
@@ -103,7 +104,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.image,
       this.couponForm.value.timestamp,
       this.couponForm.value.price,
-      this.dateFrom.getTime().valueOf() + 3600000,
+      this.dateFrom.getTime() + 3600000,
       this.dateUntil.getTime().valueOf(),
       this.couponForm.value.state,
       this.couponForm.value.constraints,
@@ -111,6 +112,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.consumer
     );
 
+    console.log('this.dateFrom.getTime', this.coupon.valid_from)
     this.couponService.register(this.coupon).pipe(first())
       .subscribe(
         data => {

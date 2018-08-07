@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Breadcrumb} from "../../../core/breadcrumb/Breadcrumb";
-import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
+import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {Coupon} from '../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import {forEach} from '@angular/router/src/utils/collection';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -30,9 +32,25 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       data => {
         console.log('getAllByUser ' + data);
         this.couponArray = data;
+
+        // convert data to json
+        const d = JSON.parse(JSON.stringify(data));
+
+        // iteration json data
+        for (const key in d) {
+          if (d.hasOwnProperty(key)) {
+            console.log('timestamp: ' , d[key].timestamp);
+            console.log('valid_from:', d[key].valid_from);
+
+          }
+        }
+
+
+
       },
       error => console.log(error)
     );
+
 
     this.addBreadcrumb();
   }
@@ -43,7 +61,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   onDelete(coupon_id: number) {
-    console.log('coupon_id: ', coupon_id)
+    console.log('coupon_id: ', coupon_id);
     this.couponService.deleteCoupon(coupon_id);
     this.couponService.getAllCoupons().subscribe(
       data => {

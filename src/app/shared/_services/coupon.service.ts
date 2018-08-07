@@ -75,6 +75,8 @@ export class CouponService {
 
 
     console.log('token' + this.localStore.getToken());
+    console.log('this.dateFrom.getTime dal service', coupon.valid_from)
+
     return this.http.post('http://localhost:3000/coupons/create', coupon);
   }
 }

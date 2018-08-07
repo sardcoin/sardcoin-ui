@@ -81,7 +81,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Valid from</label>
               <div class="col-sm-9">
-                <input min="{{toDay}}" type="datetime-local" formControlName="valid_from" class="form-control"
+                <input  type="datetime-local" formControlName="valid_from" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
                   <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>

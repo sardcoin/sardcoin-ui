@@ -1,3 +1,6 @@
+import * as moment from 'moment';
+import _date = moment.unitOfTime._date;
+
 export class Coupon {
   title: string;
   description: string;
