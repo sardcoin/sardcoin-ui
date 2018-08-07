@@ -11,6 +11,7 @@ import {StoreService} from '../../shared/_services/store.service';
 
 export class SidebarComponent{
   isUserLoggedIn = false;
+  userType = null;
 
   constructor(
     private actions: LoginActions,
@@ -21,6 +22,12 @@ export class SidebarComponent{
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
     });
+
+    this.globalEventService.userType.subscribe(value => {
+      this.userType = value;
+    });
+
+    console.log(this.userType);
   }
 
 }

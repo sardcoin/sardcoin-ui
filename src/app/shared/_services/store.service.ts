@@ -31,6 +31,18 @@ export class StoreService {
     localStorage.removeItem('id');
   }
 
+  setType(type) {
+    localStorage.setItem('type', type);
+  }
+
+  getType() {
+    return localStorage.getItem('type');
+  }
+
+  removeType() {
+    localStorage.removeItem('type');
+  }
+
   clear() {
     localStorage.clear();
   }

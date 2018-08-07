@@ -12,13 +12,23 @@ export class IsProducerGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
-    // If the token exists, then the user is logged
+    // If the token exists, then the user is logged in and can carry on
     if (this.localStore.getToken() != null) {
+
       this.eventEmitter.isUserLoggedIn.next(true);
 
-      // TODO Creare guardia basandosi su salvataggio (da fare) di tipo su local Storage
 
-      return true;
+      switch (this.localStore.getType()) {
+        case '0': // admin
+          this.eventEmitter.userType.next('0');
+          return true;
+        case '1': // producer
+          this.eventEmitter.userType.next('1');
+          return true;
+        case '2': // consumer
+          this.router.navigate(['reserved-area/consumer']);
+          return false;
+      }
     }
 
     // If the user is not logged in, he is redirect to the login view

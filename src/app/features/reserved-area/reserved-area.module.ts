@@ -6,6 +6,8 @@ import {FeatureReservedAreaComponent} from './reserved-area.component';
 import {FeatureReservedAreaRoutingModule} from './reserved-area.routing';
 import {CouponService} from '../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
+import {IsProducerGuard} from "../../shared/_guards/is-producer.guard";
+import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import {CommonModule} from '@angular/common';
   ],
   providers: [
     CouponService,
+    IsProducerGuard,
+    IsConsumerGuard
   ],
   exports: [
     FeatureReservedAreaComponent
