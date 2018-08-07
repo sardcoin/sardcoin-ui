@@ -45,17 +45,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
-
     const ownerId = parseInt(this.storeService.getId());
-
-    console.log(ownerId);
 
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
-      description: [],
-      image: [this.imagePath, Validators.compose([Validators.required, Validators.minLength(1)])], // Min Length helps to check if the image path is not null
-      price: ['', Validators.compose([Validators.required])],
-      valid_from: ['', Validators.compose([Validators.required])],
+      description: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
+      image: [this.imagePath],
+      price: ['', Validators.required],
+      valid_from: ['', Validators.required],
       valid_until: [],
       state: ['0'],
       constraints: [],
@@ -65,7 +62,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage])
     });
 
-    this.addBreadcrumb()
+    this.addBreadcrumb();
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
