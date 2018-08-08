@@ -4,6 +4,7 @@ import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions"
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -13,16 +14,17 @@ import {Router} from '@angular/router';
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   couponArray: any;
-  couponService: CouponService;
-  couponSource: Coupon;
   @Input() couponPass: Coupon;
 
-  constructor(couponService: CouponService, private router: Router, private breadcrumbActions: BreadcrumbActions) {
-    this.couponService = couponService;
+  constructor(
+    private couponService: CouponService,
+    private router: Router,
+    private breadcrumbActions: BreadcrumbActions,
+    private _sanitizer: DomSanitizer
+    ) {
   }
 
   ngOnInit(): void {
-    this.couponService.currentMessage.subscribe(coupon => this.couponSource = coupon);
     this.couponService.getAllCoupons().subscribe(
       data => {
         console.log('getAllByUser ' + data);
@@ -30,10 +32,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       },
       error => console.log(error)
     );
-
-    this.couponService.getAllCoupons()
-      .subscribe(data =>
-        console.log(data[0].title));
 
     this.addBreadcrumb();
   }
@@ -66,7 +64,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Your Coupons', '/reserved-area/list/'));
+    bread.push(new Breadcrumb('Producer', '/reserved-area/producer/'));
+    bread.push(new Breadcrumb('My coupons', '/reserved-area/producer/list/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -77,6 +76,19 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   ngOnDestroy() {
     this.removeBreadcrumb();
+  }
+
+  imageUrl(path) {
+    let subs = path.substr(path.lastIndexOf('\\')+1);
+    return this._sanitizer.bypassSecurityTrustUrl('http://127.0.0.1:8887/'+subs);
+  }
+
+  formatPrice(price) {
+    if(price === 0) {
+      return 'Free'
+    }
+
+    return '€ ' + price;
   }
 
 }

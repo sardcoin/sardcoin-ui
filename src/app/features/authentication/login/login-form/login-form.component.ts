@@ -7,6 +7,7 @@ import {IAppState} from '../../../../shared/store/model';
 import {Credentials} from '../login.model';
 import {Observable} from 'rxjs';
 import {first} from 'rxjs/internal/operators';
+import {LoginActions} from "../login.actions";
 
 @Component({
   selector: 'app-feature-authentication-login-form',
@@ -26,6 +27,7 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private loginActions: LoginActions
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,8 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
     });
 
     this.returnUrl = '';
+
+    this.loginActions.logoutUser();
   }
 
   get f() { return this.loginForm.controls; }
