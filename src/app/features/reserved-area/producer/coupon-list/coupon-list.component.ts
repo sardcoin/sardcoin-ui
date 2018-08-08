@@ -79,8 +79,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   imageUrl(path) {
-    let subs = path.substr(path.lastIndexOf('\\')+1);
-    return this._sanitizer.bypassSecurityTrustUrl('http://127.0.0.1:8887/'+subs);
+    // let subs = path.substr(path.lastIndexOf('\\')+1);
+    return this._sanitizer.bypassSecurityTrustUrl('http://127.0.0.1/' + path);
   }
 
   formatPrice(price) {

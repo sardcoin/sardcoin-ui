@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../authentication.service';
-import {NgRedux, select} from '@angular-redux/store';
-import {IAppState} from '../../../../shared/store/model';
 import {Credentials} from '../login.model';
-import {Observable} from 'rxjs';
 import {first} from 'rxjs/internal/operators';
 import {LoginActions} from "../login.actions";
 
