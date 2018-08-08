@@ -38,9 +38,27 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.addBreadcrumb();
   }
 
-  onEdit(coupon: Coupon) {
-    this.couponService.editCoupon(coupon);
-    console.log('coupon.valid_from: ' + coupon.valid_from);
+
+  onEdit(coupon: any) {
+    this.couponService.setCoupon(coupon);
+    console.log('coupon.id: ' + coupon.id );
+  }
+
+  onDelete(coupon_id: number) {
+    console.log('coupon_id: ', coupon_id);
+    this.couponService.deleteCoupon(coupon_id);
+    this.couponService.getAllCoupons().subscribe(
+      data => {
+        console.log('getAllByUser ' + data);
+        this.couponArray = data;
+      },
+      error => console.log(error)
+    );
+
+
+  }
+  onDetails() {
+
   }
 
   addBreadcrumb() {

@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import {CouponService} from '../../../../shared/_services/coupon.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -8,11 +10,12 @@ import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
-  constructor(private breadcrumbActions: BreadcrumbActions) {
+  constructor(private breadcrumbActions: BreadcrumbActions, private couponService: CouponService) {
 
   }
 
   ngOnInit(): void {
+    this.couponService.getAffordables();
     this.addBreadcrumb();
   }
 

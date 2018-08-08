@@ -36,7 +36,7 @@ export class CouponService {
     return this.http.request('delete', 'http://localhost:3000/coupons/delete', {body: {id: cp}}).subscribe(
       (data) => {
           console.log('data: ' + data);
-          this.router.navigate(['/reserved-area/list']);
+          this.router.navigate(['/reserved-area/producer/list']);
 
       }, error => {
           console.log(error);
@@ -49,7 +49,7 @@ export class CouponService {
     this.couponSource.next(cp);
     console.log('cp.id: ' + cp.id );
 
-    this.router.navigate(['/reserved-area/edit']);
+    this.router.navigate(['reserved-area/producer/edit']);
   }
 
   editCoupon(cp: any) {
@@ -75,8 +75,13 @@ export class CouponService {
 
 
     console.log('token' + this.localStore.getToken());
-    console.log('this.dateFrom.getTime dal service', coupon.valid_from)
-
     return this.http.post('http://localhost:3000/coupons/create', coupon);
   }
+
+  getAffordables() {
+    console.log('token consumer ' , this.localStore.getToken());
+
+  }
 }
+
+

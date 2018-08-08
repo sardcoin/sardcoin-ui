@@ -6,8 +6,8 @@ import {Router} from '@angular/router';
 import {DateFromValidation} from '../coupon-create/validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {first} from 'rxjs/internal/operators';
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -18,8 +18,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
   myDate: Date;
-  coupon: Coupon;
-  couponPass: Coupon = null;
+  coupon: {};
+  couponPass: any = null;
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
@@ -82,23 +82,20 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    this.coupon = new Coupon(this.couponForm.value.title,
-      this.couponForm.value.description,
-      this.couponForm.value.timestamp, this.couponForm.value.price, this.dateFrom.getTime().valueOf(),
-      this.dateUntil.getTime().valueOf(),
-      this.couponForm.value.state, this.couponForm.value.constraints,
-      this.couponForm.value.owner, this.couponForm.value.consumer);
+    this.coupon = {'id': this.couponPass.valueOf().id,
+      'title': this.couponForm.value.title,
+      'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
+      'timestamp' : this.couponForm.value.timestamp,
+      'image': 'image',
+      'price' : this.couponForm.value.price,
+      'valid_from' :  this.dateFrom.getTime().valueOf(),
+      'valid_until' : this.dateUntil.getTime().valueOf(),
+      'state' : this.couponForm.value.state,
+      'constraints' : this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
+      'owner' : this.couponForm.value.owner,
+      'consumer': this.couponForm.value.consumer}
 
-    this.couponService.editCoupon(this.coupon).pipe(first())
-      .subscribe(
-        data => {
-          // this.setSignedUp(this.registrationForm.value.username);
-          this.router.navigate(['/reserved-area/list']);
-        }, error => {
-          // this.loading = false;
-          console.log(error);
-        }
-      );
+    this.couponService.editCoupon(this.coupon);
   }
 
   addBreadcrumb() {
