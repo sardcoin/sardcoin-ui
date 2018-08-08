@@ -14,8 +14,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   couponArray: any;
-  couponService: CouponService;
-  couponSource: Coupon;
   @Input() couponPass: Coupon;
 
   constructor(
@@ -27,7 +25,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   ngOnInit(): void {
-    this.couponService.currentMessage.subscribe(coupon => this.couponSource = coupon);
     this.couponService.getAllCoupons().subscribe(
       data => {
         console.log('getAllByUser ' + data);
@@ -35,10 +32,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       },
       error => console.log(error)
     );
-
-    this.couponService.getAllCoupons()
-      .subscribe(data =>
-        console.log(data[0].title));
 
     this.addBreadcrumb();
   }
