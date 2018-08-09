@@ -135,7 +135,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     let data = JSON.parse(response); //success server response
-    this.imagePath = data.path;
+    this.imagePath = data.image;
     console.log(data);
   }
 
