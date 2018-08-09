@@ -92,12 +92,12 @@
 
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Valid until</label>
-              <div class="form-check">
+              <div class="form-check col-sm-2">
               <input type="checkbox" class="form-check-input" id="check1"  data-md-icheck (change)="toggleVisibility($event)">
                 <label class="form-check-label" for="check1">Unlimited</label>
               </div>
-              <div class="col-sm-9">
-                <input [readonly]="marked"  type="datetime-local" formControlName="valid_until" class="form-control"
+              <div class="col-sm-7">
+                <input   [readonly]="marked"  type="datetime-local" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
                 <div *ngIf="submitted && f.valid_until.errors" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
