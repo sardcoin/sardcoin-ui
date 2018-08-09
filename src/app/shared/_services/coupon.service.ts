@@ -12,19 +12,15 @@ export class CouponService {
   coupon: Coupon;
   couponChange: Coupon = null;
   couponArray: Coupon[] = [];
-  httpOptions: any = {};
 
   private couponSource = new BehaviorSubject(this.couponChange);
   currentMessage = this.couponSource.asObservable();
 
-  constructor(private router: Router,private http: HttpClient, private localStore: StoreService) {
-    // this.httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type':  'application/json',
-    //     'Authorization': 'Bearer ' + this.localStore.getToken()
-    //   })
-    // };
-  }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private localStore: StoreService
+  ) {}
 
   getCoupon() {
   }
@@ -43,11 +39,11 @@ export class CouponService {
     return this.http.get('http://localhost:3000');
   }
 
-
   register(coupon: Coupon) {
-
-
-    console.log('token' + this.localStore.getToken());
     return this.http.post('http://localhost:3000/coupons/create', coupon);
+  }
+
+  getAffordables(){
+    return this.http.get<Coupon[]>('http://localhost:3000/coupons/getAffordables');
   }
 }

@@ -14,26 +14,26 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   couponArray: any;
-  @Input() couponPass: Coupon;
 
   constructor(
     private couponService: CouponService,
     private router: Router,
-    private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer
+    private breadcrumbActions: BreadcrumbActions
     ) {
   }
 
   ngOnInit(): void {
+    this.getCoupons();
+    this.addBreadcrumb();
+  }
+
+  getCoupons() {
     this.couponService.getAllCoupons().subscribe(
       data => {
-        console.log('getAllByUser ' + data);
         this.couponArray = data;
       },
       error => console.log(error)
     );
-
-    this.addBreadcrumb();
   }
 
   onEdit(coupon: Coupon) {
@@ -58,19 +58,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   ngOnDestroy() {
     this.removeBreadcrumb();
-  }
-
-  imageUrl(path) {
-    // let subs = path.substr(path.lastIndexOf('\\')+1);
-    return this._sanitizer.bypassSecurityTrustUrl('http://127.0.0.1/' + path);
-  }
-
-  formatPrice(price) {
-    if(price === 0) {
-      return 'Free'
-    }
-
-    return '€ ' + price;
   }
 
 }
