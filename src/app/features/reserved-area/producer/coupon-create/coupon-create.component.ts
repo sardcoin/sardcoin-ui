@@ -6,11 +6,11 @@ import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
 import {DateFromValidation} from './validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
-import {StoreService} from "../../../../shared/_services/store.service";
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
-import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
-import {ImageValidation} from "./validator/ImageValidation.directive.";
+import {StoreService} from '../../../../shared/_services/store.service';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
+import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 
 @Component({
@@ -110,14 +110,19 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.consumer
     );
 
-    this.couponService.register(this.coupon).pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['/reserved-area/producer/list']);
-        }, error => {
-          console.log(error);
-        }
-      );
+    const quantityCoupon = parseInt(this.couponForm.value.quantity);
+    for (let i = 0 ; i < quantityCoupon; i++) {
+      this.couponService.register(this.coupon).pipe(first())
+        .subscribe(
+          data => {
+            if ((i + 1) === quantityCoupon) {
+              this.router.navigate(['/reserved-area/producer/list']);
+              }
+            }, error => {
+            console.log(error);
+          }
+        );
+    }
   }
 
   addBreadcrumb() {
@@ -136,7 +141,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    let data = JSON.parse(response); //success server response
+    const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
     console.log(data);
   }
