@@ -51,8 +51,10 @@
       <p class="card-text">{{coupon.description}}</p>
     </div>
     <div class="card-footer">
-      <button type="button" class="btn btn-success float-right ml-1">Buy</button>
-      <button type="button" class="btn btn-info text-white float-right">Details</button>
+      <button type="button" class="btn btn-primary" (click)="onEdit(coupon)">Edit</button>
+      <button type="button" class="btn btn-danger" (click)="onDelete(coupon.valueOf().id)">Delete</button>
+      <button type="button" class="btn btn-info ">Details</button>
+
     </div>
 
     <div class="coupon-price">{{formatPrice(coupon.price)}}</div>

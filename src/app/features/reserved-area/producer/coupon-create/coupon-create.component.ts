@@ -11,6 +11,7 @@ import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
 import {ImageValidation} from "./validator/ImageValidation.directive.";
+import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -57,9 +58,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       state: ['0'],
       constraints: [],
       owner: [ownerId],
-      consumer: []
+      consumer: [],
+      quantity: [ '', Validators.required]
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage])
+      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon ])
     });
 
     this.addBreadcrumb();
