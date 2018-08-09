@@ -21,8 +21,10 @@ import {QuantityCouponValidation} from './validator/QuantityCouponValidation.dir
 
 @Directive({ selector: '[ng2FileSelect]' })
 
-export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
+export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy{
   couponForm: FormGroup;
+  marked = false;
+  theCheckbox = false;
   coupon: Coupon;
   couponPass: Coupon = null;
   dateFrom: Date;
@@ -70,6 +72,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
 
   }
+
 
   ngOnDestroy() {
     this.removeBreadcrumb();
@@ -150,6 +153,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // let error = JSON.parse(response); //error server response
     console.log(response);
     console.log(this.uploader.queue[0]);
+  }
+
+  toggleVisibility(e) {
+    this.marked = e.target.checked;
   }
 }
 

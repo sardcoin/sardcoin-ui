@@ -5,6 +5,7 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 import {DomSanitizer} from "@angular/platform-browser";
+import {single} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -14,6 +15,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   couponArray: any;
+  couponRequest: any;
   @Input() couponPass: Coupon;
 
   constructor(
@@ -28,7 +30,18 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.getAllCoupons().subscribe(
       data => {
         console.log('getAllByUser ' + data);
-        this.couponArray = data;
+        this.couponRequest = data;
+        // filter duplicate
+        this.couponArray = this.couponRequest.filter((value) => {
+          let  qty = 0;
+            if (this[value.title] === this[value.title]) {
+              qty++;
+            }
+            console.log(qty)
+          return !this[value.title] && (this[value.title] = true)
+          }
+        , Object.create(null));
+
       },
       error => console.log(error)
     );
