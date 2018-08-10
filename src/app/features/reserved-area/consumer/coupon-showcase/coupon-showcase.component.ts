@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {Coupon} from "../../../../shared/_models/Coupon";
@@ -7,7 +7,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
-  templateUrl: './coupon-showcase.component.html'
+  templateUrl: './coupon-showcase.component.html',
+  styleUrls: ['./coupon-showcase.component.scss']
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
@@ -17,8 +18,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loadCoupons();

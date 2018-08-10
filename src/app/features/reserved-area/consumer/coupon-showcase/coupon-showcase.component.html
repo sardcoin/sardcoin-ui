@@ -1,15 +1,17 @@
-<div class="card-deck">
-  <div class="card" *ngFor="let coupon of coupons">
-    <img class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">{{coupon.title}}</h5>
-      <p class="card-text">{{coupon.description}}</p>
-    </div>
-    <div class="card-footer">
-      <button type="button" class="btn btn-success float-right ml-1">Buy</button>
-      <button type="button" class="btn btn-info text-white float-right">Details</button>
-    </div>
+<div class="card-block">
+  <div class="row">
+    <div class="card col-md-4 col-sm-6" *ngFor="let coupon of coupons">
+      <img class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{coupon.title}}</h5>
+        <p class="card-text">{{coupon.description}}</p>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-success float-right ml-1">Buy</button>
+        <button type="button" class="btn btn-info text-white float-right">Details</button>
+      </div>
 
-    <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
+      <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
+    </div>
   </div>
 </div>

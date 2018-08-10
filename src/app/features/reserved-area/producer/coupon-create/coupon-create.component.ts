@@ -81,6 +81,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
+    console.log(this.couponForm.value.valid_from);
+
+    let realDate = this.dateUntil.getMilliseconds() !== 0 ? this.dateUntil.getTime().valueOf() : null;
+
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
 
@@ -101,7 +105,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.timestamp,
       this.couponForm.value.price,
       this.dateFrom.getTime().valueOf(),
-      this.dateUntil.getTime().valueOf(),
+      realDate,
       this.couponForm.value.state,
       this.couponForm.value.constraints,
       this.couponForm.value.owner,
@@ -135,7 +139,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     let data = JSON.parse(response); //success server response
-    this.imagePath = data.path;
+    this.imagePath = data.image;
     console.log(data);
   }
 
