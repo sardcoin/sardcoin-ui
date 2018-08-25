@@ -8,16 +8,17 @@ export class QuantityCouponValidation {
     console.log('quantity', quantityCoupon)
     try {
 
-      if (quantityCoupon <  1) {
+      if (quantityCoupon < 1) {
         AC.get('quantity').setErrors({MatchQuantity: true});
       } else {
 
 
-          return null;
-        }
+        return null;
+      }
 
     } catch (Error) {
       // dateUntil does not exists
 
     }
+  }
 }

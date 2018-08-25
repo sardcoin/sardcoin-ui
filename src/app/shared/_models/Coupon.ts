@@ -13,6 +13,7 @@ export class Coupon {
   constraints: string;
   owner: number;
   consumer: number;
+  quantity: number;
 
   constructor(
               title?: string,
@@ -25,7 +26,8 @@ export class Coupon {
               state?: number,
               constraints?: string,
               owner?: number,
-              consumer?: number) {
+              consumer?: number,
+              quantity?: number) {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -37,6 +39,7 @@ export class Coupon {
     this.constraints = constraints;
     this.owner = owner;
     this.consumer = consumer;
+    this.quantity = quantity;
   }
 
 }

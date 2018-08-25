@@ -9,6 +9,7 @@ import {CommonModule} from '@angular/common';
 import { CouponEditComponent } from './coupon-edit/coupon-edit.component';
 import {ProducerRoutingModule} from "./producer.routing";
 import {FeatureReservedAreaProducerComponent} from "./producer.component";
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,8 @@ import {FeatureReservedAreaProducerComponent} from "./producer.component";
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
     CommonModule,
+    FileUploadModule,
+
   ],
   providers: [
     CouponService,

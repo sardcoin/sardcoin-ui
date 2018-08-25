@@ -110,22 +110,23 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.state,
       this.couponForm.value.constraints,
       this.couponForm.value.owner,
-      this.couponForm.value.consumer
+      this.couponForm.value.consumer,
+      this.couponForm.value.quantity
     );
 
-    const quantityCoupon = parseInt(this.couponForm.value.quantity);
-    for (let i = 0 ; i < quantityCoupon; i++) {
+    //const quantityCoupon = parseInt(this.couponForm.value.quantity);
+    //for (let i = 0 ; i < quantityCoupon; i++) {
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
           data => {
-            if ((i + 1) === quantityCoupon) {
+            //if ((i + 1) === quantityCoupon) {
               this.router.navigate(['/reserved-area/producer/list']);
-              }
+              // }
             }, error => {
             console.log(error);
           }
         );
-    }
+    // }
   }
 
   addBreadcrumb() {
