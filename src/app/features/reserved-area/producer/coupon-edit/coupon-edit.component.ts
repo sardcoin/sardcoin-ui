@@ -158,4 +158,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     console.log(this.uploader.queue[0]);
   }
 
+  toggleVisibility(e) {
+    this.marked = e.target.checked;
+  }
+
 }

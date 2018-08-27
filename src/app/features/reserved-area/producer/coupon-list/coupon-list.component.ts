@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, Input} from '@angular/core';
+import {Component, TemplateRef, OnDestroy, OnInit, Input} from '@angular/core';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -6,13 +6,17 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {single} from 'rxjs/internal/operators';
-
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
   templateUrl: './coupon-list.component.html'
 })
 
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
+
+  modalRef: BsModalRef;
+  message: string;
 
   couponArray: any;
   couponRequest: any;
@@ -22,6 +26,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   @Input() couponPass: Coupon;
 
   constructor(
+    private modalService: BsModalService,
     private couponService: CouponService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
@@ -43,6 +48,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   onDelete(coupon_id: number) {
+    this.message = 'Confirmed!';
+
     console.log('coupon_id: ', coupon_id);
     this.couponService.deleteCoupon(coupon_id);
     // window.location.reload();
@@ -54,6 +61,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       error => console.log(error)
     );
 
+    this.modalRef.hide();
 
   // this.control();
 
@@ -176,6 +184,22 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     // console.log('fuori', this.couponArrayTitleAndQuantity);
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
+
+
 
 
 }

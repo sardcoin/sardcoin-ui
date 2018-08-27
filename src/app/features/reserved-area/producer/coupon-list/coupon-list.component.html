@@ -45,14 +45,23 @@
 <div class="card-deck">
   <div class="card" *ngFor="let coupon of couponArray">
 
-    <img class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
+    <img height="120px" width="42px" class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">{{coupon.title}}</h5>
       <p class="card-text">{{coupon.description}}</p>
     </div>
     <div class="card-footer text-center">
       <button type="button" class="btn btn-primary" (click)="onEdit(coupon)">Edit</button>
-      <button type="button" class="btn btn-danger" (click)="onDelete(coupon.valueOf().id)">Delete</button>
+      <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+      <ng-template #template>
+        <div class="modal-body text-center">
+          <p>Do you want to confirm?</p>
+          <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)" >Yes</button>
+          <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+        </div>
+      </ng-template>
+
+      <!--<button type="button" class="btn btn-danger" (click)="onDelete(coupon.valueOf().id)">Delete</button>-->
       <!--<button type="button" class="btn btn-info ">Details</button>-->
 
     </div>
