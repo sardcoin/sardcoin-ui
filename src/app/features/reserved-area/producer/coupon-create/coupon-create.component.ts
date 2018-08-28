@@ -24,6 +24,8 @@ import {QuantityCouponValidation} from './validator/QuantityCouponValidation.dir
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy{
   couponForm: FormGroup;
   marked = false;
+  price = null;
+  marked2 = false
   theCheckbox = false;
   coupon: Coupon;
   couponPass: Coupon = null;
@@ -54,7 +56,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
       image: [this.imagePath],
-      price: ['', Validators.required],
+      price: [],
       valid_from: ['', Validators.required],
       valid_until: [],
       state: ['0'],
@@ -104,7 +106,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.description,
       this.imagePath,
       this.couponForm.value.timestamp,
-      this.couponForm.value.price,
+      this.couponForm.value.price ? this.couponForm.value.price : 0,
       this.dateFrom.getTime().valueOf(),
       this.dateUntil.getTime().valueOf(),
       this.couponForm.value.state,
@@ -158,6 +160,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibility(e) {
     this.marked = e.target.checked;
+  }
+
+  toggleVisibility2(e) {
+    this.marked2 = e.target.checked;
+    this.price = 0;
   }
 }
 

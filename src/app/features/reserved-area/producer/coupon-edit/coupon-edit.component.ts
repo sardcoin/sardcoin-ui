@@ -26,6 +26,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
   marked = false;
+  marked2 = false;
+  price = null;
+
   theCheckbox = false;
   myDate: Date;
   coupon: {};
@@ -115,7 +118,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
       'timestamp' : this.couponForm.value.timestamp,
       'image': this.imagePath ? this.imagePath : this.couponPass.image,
-      'price' : this.couponForm.value.price,
+      'price' : this.price != null ? this.price : this.couponForm.value.price,
       'valid_from' :  this.dateFrom.getTime().valueOf(),
       'valid_until' : this.dateUntil.getTime().valueOf(),
       'state' : this.couponForm.value.state,
@@ -160,6 +163,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   toggleVisibility(e) {
     this.marked = e.target.checked;
+  }
+
+  toggleVisibility2(e) {
+    this.marked2 = e.target.checked;
+    this.price = 0;
+
   }
 
 }

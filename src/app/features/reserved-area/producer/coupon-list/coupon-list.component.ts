@@ -53,7 +53,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     console.log('coupon_id: ', coupon_id);
     this.couponService.deleteCoupon(coupon_id);
-    // window.location.reload();
     this.couponService.getAllCoupons().subscribe(
       data => {
         console.log('getAllByUser ' + data);
@@ -63,8 +62,10 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     );
 
     this.modalRef.hide();
+    window.location.reload();
 
-  // this.control();
+
+    // this.control();
 
   }
   onDetails() {

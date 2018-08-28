@@ -1,12 +1,4 @@
-s{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 3.6em;
-  display: -webkit-box;
-  -webkit-line-clamp: 10;
-  -webkit-box-orient: vertical;
-
+th{
 
 }
 
