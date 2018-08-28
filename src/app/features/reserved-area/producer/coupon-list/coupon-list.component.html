@@ -43,14 +43,15 @@
 </div>-->
 
 <div class="card-deck">
-  <div class="card" *ngFor="let coupon of couponArray">
 
-    <img height="120px" width="42px" class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
+  <div class="card, col-sm-3" style="height: 50%"  *ngFor="let coupon of couponArray">
+
+    <img style="min-height: 120px"  height="120px"  width="42px" class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">{{coupon.title}}</h5>
-      <p class="card-text">{{coupon.description}}</p>
+      <h5 class="card-title" style="height: 50px">{{coupon.title}}</h5>
+      <p class="card-text" style="height: 100px">{{coupon.description}}</p>
     </div>
-    <div class="card-footer text-center">
+    <div  style="background-color: transparent" class="card-footer text-center">
       <button type="button" class="btn btn-primary" (click)="onEdit(coupon)">Edit</button>
       <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
       <ng-template #template>
@@ -69,7 +70,7 @@
     <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
     <!--<div  class="coupon-quantity">{{(getQuantity(coupon)!= null) ? getQuantity(coupon) : 1}} </div>-->
     <div  class="coupon-quantity">{{coupon.quantity ? coupon.quantity: 1}} {{coupon.quantity ? 'Coupons': 'Coupon'}} </div>
-
-
+  <br>
   </div>
+
 </div>
