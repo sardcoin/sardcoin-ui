@@ -48,8 +48,8 @@
 
     <img style="min-height: 120px"  height="120px"  width="42px" class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title" style="height: 50px">{{coupon.title}}</h5>
-      <p class="card-text" style="height: 100px">{{coupon.description}}</p>
+      <h5 class="card-title" style="height: 70px">{{coupon.title}}</h5>
+      <p id="description"  class="card-text" style="height: 100px">{{coupon.description}}</p>
     </div>
     <div  style="background-color: transparent" class="card-footer text-center">
       <button type="button" class="btn btn-primary" (click)="onEdit(coupon)">Edit</button>

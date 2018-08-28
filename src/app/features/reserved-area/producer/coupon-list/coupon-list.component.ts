@@ -10,7 +10,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
-  templateUrl: './coupon-list.component.html'
+  templateUrl: './coupon-list.component.html',
+  styleUrls: ['./coupon-list.component.css']
 })
 
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
