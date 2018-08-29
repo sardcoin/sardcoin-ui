@@ -58,7 +58,7 @@ export class CouponService {
     return this.http.request('put', 'http://localhost:3000/coupons/update', {body:  cp}).subscribe(
       (data) => {
         console.log('data: ' + data);
-        this.router.navigate(['/reserved-area/list']);
+        this.router.navigate(['/reserved-area/producer/list']);
 
       }, error => {
         console.log(error);
