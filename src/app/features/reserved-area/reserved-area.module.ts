@@ -19,6 +19,7 @@ import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
     AppFooterModule,
     FeatureReservedAreaRoutingModule,
     CommonModule,
+
   ],
   providers: [
     CouponService,

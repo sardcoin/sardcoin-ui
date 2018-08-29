@@ -6,11 +6,12 @@ import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
 import {DateFromValidation} from './validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
-import {StoreService} from "../../../../shared/_services/store.service";
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
-import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
-import {ImageValidation} from "./validator/ImageValidation.directive.";
+import {StoreService} from '../../../../shared/_services/store.service';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
+import {ImageValidation} from './validator/ImageValidation.directive.';
+import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -20,8 +21,12 @@ import {ImageValidation} from "./validator/ImageValidation.directive.";
 
 @Directive({ selector: '[ng2FileSelect]' })
 
-export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
+export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy{
   couponForm: FormGroup;
+  marked = false;
+  price = null;
+  marked2 = false
+  theCheckbox = false;
   coupon: Coupon;
   couponPass: Coupon = null;
   dateFrom: Date;
@@ -51,15 +56,16 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
       image: [this.imagePath],
-      price: ['', Validators.required],
+      price: [],
       valid_from: ['', Validators.required],
       valid_until: [],
       state: ['0'],
       constraints: [],
       owner: [ownerId],
-      consumer: []
+      consumer: [],
+      quantity: [ '', Validators.required]
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage])
+      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon ])
     });
 
     this.addBreadcrumb();
@@ -68,6 +74,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
 
   }
+
 
   ngOnDestroy() {
     this.removeBreadcrumb();
@@ -80,10 +87,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   saveCoupon() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
-
-    console.log(this.couponForm.value.valid_from);
-
-    let realDate = this.dateUntil.getMilliseconds() !== 0 ? this.dateUntil.getTime().valueOf() : null;
 
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
@@ -103,23 +106,29 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.description,
       this.imagePath,
       this.couponForm.value.timestamp,
-      this.couponForm.value.price,
+      this.couponForm.value.price ? this.couponForm.value.price : 0,
       this.dateFrom.getTime().valueOf(),
-      realDate,
+      this.dateUntil.getTime().valueOf(),
       this.couponForm.value.state,
       this.couponForm.value.constraints,
       this.couponForm.value.owner,
-      this.couponForm.value.consumer
+      this.couponForm.value.consumer,
+      this.couponForm.value.quantity
     );
 
-    this.couponService.register(this.coupon).pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['/reserved-area/producer/list']);
-        }, error => {
-          console.log(error);
-        }
-      );
+    //const quantityCoupon = parseInt(this.couponForm.value.quantity);
+    //for (let i = 0 ; i < quantityCoupon; i++) {
+      this.couponService.register(this.coupon).pipe(first())
+        .subscribe(
+          data => {
+            //if ((i + 1) === quantityCoupon) {
+              this.router.navigate(['/reserved-area/producer/list']);
+              // }
+            }, error => {
+            console.log(error);
+          }
+        );
+    // }
   }
 
   addBreadcrumb() {
@@ -138,7 +147,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    let data = JSON.parse(response); //success server response
+    const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
     console.log(data);
   }
@@ -147,6 +156,15 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // let error = JSON.parse(response); //error server response
     console.log(response);
     console.log(this.uploader.queue[0]);
+  }
+
+  toggleVisibility(e) {
+    this.marked = e.target.checked;
+  }
+
+  toggleVisibility2(e) {
+    this.marked2 = e.target.checked;
+    this.price = 0;
   }
 }
 
