@@ -80,6 +80,7 @@ export class CouponService {
 
   getAffordables() {
     console.log('token consumer ' , this.localStore.getToken());
+    return this.http.get('http://localhost:3000/coupons/getAffordables');
 
   }
 }

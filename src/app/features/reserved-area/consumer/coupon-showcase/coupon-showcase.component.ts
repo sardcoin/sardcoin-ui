@@ -4,6 +4,7 @@ import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {Coupon} from "../../../../shared/_models/Coupon";
 import {CouponService} from "../../../../shared/_services/coupon.service";
 import {DomSanitizer} from "@angular/platform-browser";
+// import Any = jasmine.Any;
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -12,7 +13,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
-  coupons: Coupon[];
+  coupons: any;
 
   constructor(
     private couponService: CouponService,

@@ -10,11 +10,13 @@ import { CouponEditComponent } from './coupon-edit/coupon-edit.component';
 import {ProducerRoutingModule} from "./producer.routing";
 import {FeatureReservedAreaProducerComponent} from "./producer.component";
 import {FileUploadModule} from 'ng2-file-upload';
+import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
 
 @NgModule({
   declarations: [
     CouponEditComponent,
-    FeatureReservedAreaProducerComponent
+    FeatureReservedAreaProducerComponent,
+    FeatureReservedAreaProducerCouponReportComponent
   ],
   imports: [
     SharedModule,
