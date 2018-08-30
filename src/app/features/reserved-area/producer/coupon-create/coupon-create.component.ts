@@ -12,6 +12,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -23,14 +24,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   couponForm: FormGroup;
   marked = false;
   price = null;
-  marked2 = false
+  marked2 = false;
   theCheckbox = false;
   coupon: Coupon;
   couponPass: Coupon = null;
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  URL = 'http://localhost:3000/coupons/addImage';
+  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
@@ -44,7 +45,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     public storeService: StoreService,
     public couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
@@ -63,7 +65,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       consumer: [],
       quantity: [ 1, Validators.required]
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon ])
+      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon])
     });
 
     this.addBreadcrumb();
@@ -116,18 +118,18 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.quantity
     );
 
-    //const quantityCoupon = parseInt(this.couponForm.value.quantity);
-    //for (let i = 0 ; i < quantityCoupon; i++) {
-      this.couponService.register(this.coupon).pipe(first())
-        .subscribe(
-          data => {
-            //if ((i + 1) === quantityCoupon) {
-              this.router.navigate(['/reserved-area/producer/list']);
-              // }
-            }, error => {
-            console.log(error);
-          }
-        );
+    // const quantityCoupon = parseInt(this.couponForm.value.quantity);
+    // for (let i = 0 ; i < quantityCoupon; i++) {
+    this.couponService.register(this.coupon).pipe(first())
+      .subscribe(
+        data => {
+          // if ((i + 1) === quantityCoupon) {
+          this.router.navigate(['/reserved-area/producer/list']);
+          // }
+        }, error => {
+          console.log(error);
+        }
+      );
     // }
   }
 
