@@ -13,6 +13,7 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCouponValidation.directive';
 import {ImageValidation} from '../coupon-create/validator/ImageValidation.directive.';
 import {FileUploadModule} from 'ng2-file-upload';
+import {DateEditValidation} from "../coupon-create/validator/DateEditValidation.directive";
 import {environment} from '../../../../../environments/environment';
 
 @Component({
@@ -89,7 +90,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       // consumer: ['2', Validators.compose([Validators.required])] //
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateEditValidation.CheckDateDay,  QuantityCouponValidation.CheckQuantityCoupon])
     });
 
     this.addBreadcrumb();

@@ -65,7 +65,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: [],
       owner: [ownerId],
       consumer: [],
-      quantity: ['', Validators.required]
+      quantity: [ 1, Validators.required]
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon])
     });
@@ -90,6 +90,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
+    console.log(this.dateUntil.getMilliseconds());
+
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
 
@@ -110,7 +112,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.timestamp,
       this.couponForm.value.price ? this.couponForm.value.price : 0,
       this.dateFrom.getTime().valueOf(),
-      this.dateUntil.getTime().valueOf(),
+      (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
       this.couponForm.value.state,
       this.couponForm.value.constraints,
       this.couponForm.value.owner,
