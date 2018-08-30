@@ -19,13 +19,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   modalRef: BsModalRef;
   message: string;
-
   couponArray: any;
-  couponRequest: any;
   couponArrayTitleAndQuantity: any = [];
-  arrayTitleDuplicate = [];
-  numberCoupon = 0;
-  @Input() couponPass: Coupon;
 
   constructor(private modalService: BsModalService,
               private couponService: CouponService,
@@ -54,14 +49,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.deleteCoupon(coupon_id)
       .subscribe(dataDeleted => {
 
-          this.couponService.getAllCoupons().subscribe(
-            data => {
-              console.log('getAllByUser after delete');
-              console.log(data);
-              this.couponArray = data;
-            },
-            error => console.log(error)
-          );
+          this.control();
 
         }, error => {
           console.log(error);
@@ -116,88 +104,27 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     return '€ ' + price.toFixed(2);
   }
 
-  getQuantity(coupon) {
-    // console.log('coupon', coupon);
-    // console.log('in getQuantity', this.couponArrayTitleAndQuantity);
-    //
-    //
-    // console.log('in getQuantityQuantity', Object.values(this.couponArrayTitleAndQuantity)[0]);
-    //
-    // for (let y = 0; y <= Object.keys(this.couponArrayTitleAndQuantity).length; y++) {
-    //
-    //   console.log('titloli:', Object.keys(this.couponArrayTitleAndQuantity)[y]);
-    //   console.log('titloli coupon:', coupon.title.toString());
-    //
-    //   console.log('quantity', Object.keys(this.couponArrayTitleAndQuantity)[y]);
-    //
-    //   if (coupon.title == Object.keys(this.couponArrayTitleAndQuantity)[y]) {
-    //     console.log('title dentro if', this.couponArrayTitleAndQuantity[y]);
-    //     console.log('quantity dentro if', this.couponArrayTitleAndQuantity[y]);
-    //     return Object.values(this.couponArrayTitleAndQuantity)[y];
-    //   } else {
-    //     // return 1;
-    //   }
-    //
-    //   }
-    //
-    // return 1;
-
-    return this.couponArray.quantity;
+  formatState(state) {
+    switch (state){
+      case 0: return 'inactive';
+      default: return 'unknown';
+    }
   }
-
 
   control() {
 
     this.couponService.getAllCoupons().subscribe(
       data => {
         console.log('getAllByUser ' + data);
-        this.couponRequest = data;
-        const arrayTitleAndQuantityDuplicate = [];        // filter duplicate
-        this.numberCoupon = (JSON.parse(JSON.stringify(this.couponRequest)).length);
-        this.couponArray = this.couponRequest.filter((value) => {
-
-            const rs = !this[value.title] && (this[value.title] = true);
-
-            if (!rs) {
-              if (!this.arrayTitleDuplicate.includes(value.title)) {
-                this.arrayTitleDuplicate.push(value.title);
-              }
-            }
-
-
-            return rs;
-          }
-
-          ,);
-        for (let i = 0; i < JSON.parse(JSON.stringify(this.couponRequest)).length; i++) {
-          for (let y = 0; y < this.arrayTitleDuplicate.length; y++) {
-            if (this.couponRequest[i].title === this.arrayTitleDuplicate[y]) {
-              arrayTitleAndQuantityDuplicate.push(this.arrayTitleDuplicate[y]);
-              // this.couponArrayTitleAndQuantity.push(this.arrayTitleDuplicate[y]);
-            }
-          }
-        }
-        const map = arrayTitleAndQuantityDuplicate.reduce(function (prev, cur) {
-
-          // const map = this.couponArrayTitleAndQuantity.reduce(function(prev, cur) {
-          prev[cur] = (prev[cur] || 0) + 1;
-          return prev;
-        }, {});
-        console.log(this.couponArrayTitleAndQuantity);
-        this.couponArrayTitleAndQuantity = map;
-        console.log('title and quantity', this.couponArrayTitleAndQuantity);
-        console.log('duplicate', this.arrayTitleDuplicate);
-
+        this.couponArray = data;
       },
       error => console.log(error)
     );
 
-
-    // console.log('fuori', this.couponArrayTitleAndQuantity);
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
   confirm(): void {

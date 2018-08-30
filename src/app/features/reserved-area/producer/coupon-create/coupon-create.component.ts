@@ -19,8 +19,6 @@ import {QuantityCouponValidation} from './validator/QuantityCouponValidation.dir
   styleUrls: ['./coupon-create.component.scss']
 })
 
-@Directive({ selector: '[ng2FileSelect]' })
-
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy{
   couponForm: FormGroup;
   marked = false;
