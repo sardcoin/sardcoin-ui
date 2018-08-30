@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {Coupon} from "../../../../shared/_models/Coupon";
-import {CouponService} from "../../../../shared/_services/coupon.service";
-import {DomSanitizer} from "@angular/platform-browser";
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {Coupon} from '../../../../shared/_models/Coupon';
+import {CouponService} from '../../../../shared/_services/coupon.service';
+import {DomSanitizer} from '@angular/platform-browser';
 // import Any = jasmine.Any;
 
 @Component({
@@ -48,10 +48,11 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   loadCoupons() {
     this.couponService.getAffordables()
       .subscribe(coupons => {
-        this.coupons = coupons
+        this.coupons = coupons;
+
       }, err => {
         console.log(err);
-      })
+      });
   }
 
   imageUrl(path) {
@@ -60,8 +61,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   formatPrice(price) {
-    if(price === 0) {
-      return 'Free'
+    if (price === 0) {
+      return 'Free';
     }
 
     return '€ ' + price;
