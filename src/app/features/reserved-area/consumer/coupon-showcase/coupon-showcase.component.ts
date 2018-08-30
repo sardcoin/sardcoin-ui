@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {environment} from '../../../../../environments/environment.prod';
+import {environment} from '../../../../../environments/environment';
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {Coupon} from "../../../../shared/_models/Coupon";
