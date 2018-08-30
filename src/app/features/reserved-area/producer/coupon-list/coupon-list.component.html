@@ -18,7 +18,8 @@
         <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
         <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
       </td>
-      <td><img class="img-thumbnail" style="width: 100%;" [src]="imageUrl(coupon.image)" alt="Card image cap">
+      <td>
+        <img class="img-thumbnail" style="width: 100%;" [src]="imageUrl(coupon.image)" alt="Card image cap">
       </td>
       <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
       <td>{{formatPrice(coupon.price)}}</td>
@@ -29,17 +30,7 @@
 
       <td>
         <button type="button" class="btn btn-info" (click)="onEdit(coupon)" style="margin-right: 15px">Edit</button>
-      <!--</td>-->
-      <!--<td>-->
         <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
-        <ng-template #template>
-          <div class="modal-body text-center">
-            <p>Do you want to confirm?</p>
-            <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
-            <button type="button" class="btn btn-primary" (click)="decline()">No</button>
-          </div>
-        </ng-template>
-
       </td>
     </tr>
 
@@ -47,3 +38,30 @@
 
 </table>
 
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+  </div>
+<!--
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Coupon delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">Are you sure to delete this coupon? This operation is not reversable!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+          <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>-->
+</ng-template>

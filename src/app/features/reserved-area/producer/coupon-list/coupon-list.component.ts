@@ -113,7 +113,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       return 'Free';
     }
 
-    return '€ ' + price;
+    return '€ ' + price.toFixed(2);
   }
 
   getQuantity(coupon) {
