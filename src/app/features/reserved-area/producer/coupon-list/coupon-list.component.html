@@ -1,84 +1,49 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th style="width: 40%">Title</th>
+      <th style="width: 10%">Image</th>
+      <th style="width: 10%">Price</th>
+      <th style="width: 10%">State</th>
+      <th style="width: 10%">Quantity</th>
+      <th style="width: 10%">Consumed</th>
+      <th style="width: 10%"></th>
+      <!--<th style="width: 5%"></th>-->
+    </tr>
+  </thead>
 
-    <h1 class="text-center">Coupon List</h1>
-
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th class="col" scope="col" >Title</th>
-        <th  scope="col" >Image</th>
-        <th   scope="col" >Price</th>
-        <th  scope="col" >State</th>
-        <th  scope="col" >Quantity</th>
-        <th  scope="col" >Consumed</th>
-
-
-        <th ></th>
-        <th ></th>
-      </tr>
-      </thead>
-      <br>
-      <tbody *ngFor="let coupon of couponArray">
-      <tr>
-        <td class="col" scope="col">{{coupon.title}}</td>
-        <td scope="col"><img class="img-thumbnail"  style="width: 100%;" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
-        <td  scope="col">{{coupon.price != 0 ? coupon.price : 'free'}}</td>
-        <td scope="col" >{{coupon.state}}</td>
-        <td scope="col" >{{coupon.quantity}}</td>
-        <td scope="col" >consumed</td>
+  <tbody>
+    <tr *ngFor="let coupon of couponArray">
+      <td>
+        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+      </td>
+      <td><img class="img-thumbnail" style="width: 100%;" [src]="imageUrl(coupon.image)" alt="Card image cap">
+      </td>
+      <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
+      <td>{{formatPrice(coupon.price)}}</td>
+      <td>{{coupon.state}}</td>
+      <td>{{coupon.quantity}}</td>
+      <td>consumed</td>
 
 
-        <td>
-
-          <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
-        </td>
-        <td >
-          <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
-          <ng-template #template>
+      <td>
+        <button type="button" class="btn btn-info" (click)="onEdit(coupon)" style="margin-right: 15px">Edit</button>
+      <!--</td>-->
+      <!--<td>-->
+        <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+        <ng-template #template>
           <div class="modal-body text-center">
-          <p>Do you want to confirm?</p>
-          <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)" >Yes</button>
-          <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+            <p>Do you want to confirm?</p>
+            <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+            <button type="button" class="btn btn-primary" (click)="decline()">No</button>
           </div>
-          </ng-template>
+        </ng-template>
 
-        </td>
-        <br>
+      </td>
+    </tr>
 
-      </tr>
+  </tbody>
 
-      </tbody>
-    </table>
+</table>
 
-
-<!--<div class="card-deck">-->
-
-  <!--<div class="card, col-sm-3" style="height: 50%"  *ngFor="let coupon of couponArray">-->
-
-    <!--<img style="min-height: 120px"  height="120px"  width="42px" class="card-img-top" [src]="imageUrl(coupon.image)" alt="Card image cap">-->
-    <!--<div class="card-body">-->
-      <!--<h5 class="card-title" style="height: 70px">{{coupon.title}}</h5>-->
-      <!--<p id="description"  class="card-text" style="height: 100px">{{coupon.description}}</p>-->
-    <!--</div>-->
-    <!--<div  style="background-color: transparent" class="card-footer text-center">-->
-      <!--<button type="button" class="btn btn-primary" (click)="onEdit(coupon)">Edit</button>-->
-      <!--<button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>-->
-      <!--<ng-template #template>-->
-        <!--<div class="modal-body text-center">-->
-          <!--<p>Do you want to confirm?</p>-->
-          <!--<button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)" >Yes</button>-->
-          <!--<button type="button" class="btn btn-primary" (click)="decline()" >No</button>-->
-        <!--</div>-->
-      <!--</ng-template>-->
-
-      <!--&lt;!&ndash;<button type="button" class="btn btn-danger" (click)="onDelete(coupon.valueOf().id)">Delete</button>&ndash;&gt;-->
-      <!--&lt;!&ndash;<button type="button" class="btn btn-info ">Details</button>&ndash;&gt;-->
-
-    <!--</div>-->
-
-    <!--<div class="coupon-price">{{formatPrice(coupon.price)}}</div>-->
-    <!--&lt;!&ndash;<div  class="coupon-quantity">{{(getQuantity(coupon)!= null) ? getQuantity(coupon) : 1}} </div>&ndash;&gt;-->
-    <!--<div  class="coupon-quantity">{{coupon.quantity ? coupon.quantity: 1}} {{coupon.quantity ? 'Coupons': 'Coupon'}} </div>-->
-  <!--<br>-->
-  <!--</div>-->
-
-<!--</div>-->
