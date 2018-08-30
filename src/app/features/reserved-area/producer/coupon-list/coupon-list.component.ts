@@ -6,8 +6,9 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {single} from 'rxjs/internal/operators';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
   templateUrl: './coupon-list.component.html',
@@ -22,17 +23,15 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   couponArray: any;
   couponRequest: any;
   couponArrayTitleAndQuantity: any = [];
-  arrayTitleDuplicate  = [];
+  arrayTitleDuplicate = [];
   numberCoupon = 0;
   @Input() couponPass: Coupon;
 
-  constructor(
-    private modalService: BsModalService,
-    private couponService: CouponService,
-    private router: Router,
-    private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer
-    ) {
+  constructor(private modalService: BsModalService,
+              private couponService: CouponService,
+              private router: Router,
+              private breadcrumbActions: BreadcrumbActions,
+              private _sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -45,29 +44,41 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   onEdit(coupon: any) {
     this.couponService.setCoupon(coupon);
-    console.log('coupon.id: ' + coupon.id );
+    console.log('coupon.id: ' + coupon.id);
   }
 
   onDelete(coupon_id: number) {
     this.message = 'Confirmed!';
 
     console.log('coupon_id: ', coupon_id);
-    this.couponService.deleteCoupon(coupon_id);
-    this.couponService.getAllCoupons().subscribe(
-      data => {
-        console.log('getAllByUser ' + data);
-        this.couponArray = data;
-      },
-      error => console.log(error)
-    );
+    this.couponService.deleteCoupon(coupon_id)
+      .subscribe(dataDeleted => {
+
+          this.couponService.getAllCoupons().subscribe(
+            data => {
+              console.log('getAllByUser after delete');
+              console.log(data);
+              this.couponArray = data;
+            },
+            error => console.log(error)
+          );
+
+        }, error => {
+          console.log(error);
+        }
+      );
+    ;
+
 
     this.modalRef.hide();
-    window.location.reload();
+    // this.control();
+    // window.location.reload();
 
 
     // this.control();
 
   }
+
   onDetails() {
 
   }
@@ -102,7 +113,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       return 'Free';
     }
 
-    return '€ ' + price;
+    return '€ ' + price.toFixed(2);
   }
 
   getQuantity(coupon) {
@@ -132,9 +143,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     // return 1;
 
     return this.couponArray.quantity;
-    }
-
-
+  }
 
 
   control() {
@@ -144,7 +153,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         console.log('getAllByUser ' + data);
         this.couponRequest = data;
         const arrayTitleAndQuantityDuplicate = [];        // filter duplicate
-        this.numberCoupon = (JSON.parse( JSON.stringify(this.couponRequest)).length);
+        this.numberCoupon = (JSON.parse(JSON.stringify(this.couponRequest)).length);
         this.couponArray = this.couponRequest.filter((value) => {
 
             const rs = !this[value.title] && (this[value.title] = true);
@@ -159,8 +168,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
             return rs;
           }
 
-         , ) ;
-        for (let i = 0; i < JSON.parse( JSON.stringify(this.couponRequest)).length; i++) {
+          ,);
+        for (let i = 0; i < JSON.parse(JSON.stringify(this.couponRequest)).length; i++) {
           for (let y = 0; y < this.arrayTitleDuplicate.length; y++) {
             if (this.couponRequest[i].title === this.arrayTitleDuplicate[y]) {
               arrayTitleAndQuantityDuplicate.push(this.arrayTitleDuplicate[y]);
@@ -168,9 +177,9 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
             }
           }
         }
-        const map = arrayTitleAndQuantityDuplicate.reduce(function(prev, cur) {
+        const map = arrayTitleAndQuantityDuplicate.reduce(function (prev, cur) {
 
-            // const map = this.couponArrayTitleAndQuantity.reduce(function(prev, cur) {
+          // const map = this.couponArrayTitleAndQuantity.reduce(function(prev, cur) {
           prev[cur] = (prev[cur] || 0) + 1;
           return prev;
         }, {});
@@ -200,8 +209,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.message = 'Declined!';
     this.modalRef.hide();
   }
-
-
 
 
 }
