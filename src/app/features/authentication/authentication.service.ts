@@ -5,6 +5,7 @@ import {NgRedux} from '@angular-redux/store';
 import {IAppState} from '../../shared/store/model';
 import {LoginActions} from './login/login.actions';
 import {map} from 'rxjs/internal/operators';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
@@ -25,7 +26,7 @@ export class AuthenticationService {
       headers: headers
     };
 
-    return this.http.post<any>('http://localhost:3000/login', {}, httpOptions)
+    return this.http.post<any>('http://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
       .pipe(map(response => {
 
         if (response['user'] && response['token']) {
