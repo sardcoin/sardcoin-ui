@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {environment} from '../../../../../environments/environment';
 import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
 import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
 import {Coupon} from "../../../../shared/_models/Coupon";
@@ -15,13 +14,14 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
   coupons: any;
+  @Input() couponPass: any;
 
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer
-  ) {
-  }
+    private _sanitizer: DomSanitizer,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.loadCoupons();
@@ -50,22 +50,32 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   loadCoupons() {
     this.couponService.getAffordables()
       .subscribe(coupons => {
-        this.coupons = coupons;
+        this.coupons = coupons
       }, err => {
         console.log(err);
-      });
+      })
   }
 
   imageUrl(path) {
     // let subs = path.substr(path.lastIndexOf('\\')+1);
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl('http://localhost:3000/' + path);
   }
 
   formatPrice(price) {
-    if (price === 0) {
-      return 'Free';
+    if(price === 0) {
+      return 'Free'
     }
 
     return '€ ' + price;
+  }
+
+  buy(coupon) {
+
+  }
+
+  details(coupon: any) {
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/details']);
   }
 }

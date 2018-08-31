@@ -57,7 +57,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
           console.log(error);
         }
       );
-    ;
+
 
 
     this.modalRef.hide();

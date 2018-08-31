@@ -6,7 +6,6 @@ import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {first} from 'rxjs/internal/operators';
-import {environment} from '../../../environments/environment';
 
 @Injectable()
 
@@ -20,16 +19,15 @@ export class CouponService {
   currentMessage = this.couponSource.asObservable();
 
   constructor(private router: Router, private http: HttpClient, private localStore: StoreService) {
-    this.rt = this.router;
+    this.rt = this.router ;
   }
 
   getCoupon() {
   }
-
   getAllCoupons() {
-    const result = this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
+    const result = this.http.get('http://localhost:3000/coupons/getAllByUser');
     console.log('getAllByUser da coupon service' + result);
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
+    return this.http.get('http://localhost:3000/coupons/getAllByUser');
 
 
   }
@@ -38,21 +36,18 @@ export class CouponService {
     return this.http.request('delete', 'http://localhost:3000/coupons/delete', {body: {id: cp}});
 
   }
-
-  deleteAllCoupons() {
-  }
-
+  deleteAllCoupons() {}
   setCoupon(cp: any) {
     this.couponSource.next(cp);
-    console.log('cp.id: ' + cp.id);
+    console.log('cp.id: ' + cp.id );
 
     this.router.navigate(['reserved-area/producer/edit']);
   }
 
   editCoupon(cp: any) {
-    console.log('cp.id in editCoupon: ' + cp.id);
+    console.log('cp.id in editCoupon: ' + cp.id );
 
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/update', {body: cp}).subscribe(
+    return this.http.request('put', 'http://localhost:3000/coupons/update', {body:  cp}).subscribe(
       (data) => {
         console.log('data: ' + data);
         this.router.navigate(['/reserved-area/producer/list']);
@@ -60,21 +55,30 @@ export class CouponService {
       }, error => {
         console.log(error);
       }
-    );
+
+  );
 
   }
+
+
 
 
   register(coupon: Coupon) {
 
 
     console.log('token' + this.localStore.getToken());
-    return this.http.post('http://' + environment.host + ':' + environment.port + '/coupons/create', coupon);
+    return this.http.post('http://localhost:3000/coupons/create', coupon);
   }
 
   getAffordables() {
     console.log('token consumer ' , this.localStore.getToken());
     return this.http.get('http://localhost:3000/coupons/getAffordables');
+
+  }
+
+  byCoupon() {
+    console.log('token consumer ' , this.localStore.getToken());
+    return this.http.post('http://localhost:3000/coupons/byCoupon', 2);
 
   }
 }
