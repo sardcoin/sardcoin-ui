@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  host: '18.219.178.90',
+  port: 443
 };

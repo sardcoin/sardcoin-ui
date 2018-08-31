@@ -14,6 +14,7 @@ import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCoupo
 import {ImageValidation} from '../coupon-create/validator/ImageValidation.directive.';
 import {FileUploadModule} from 'ng2-file-upload';
 import {DateEditValidation} from "../coupon-create/validator/DateEditValidation.directive";
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -21,7 +22,7 @@ import {DateEditValidation} from "../coupon-create/validator/DateEditValidation.
   styleUrls: ['./coupon-edit.component.scss']
 })
 
-@Directive({ selector: '[ng2FileSelect]' })
+@Directive({selector: '[ng2FileSelect]'})
 
 export class CouponEditComponent implements OnInit, OnDestroy {
 
@@ -37,8 +38,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  URLstring = 'http://localhost:3000/';
-  URL = 'http://localhost:3000/coupons/addImage';
+  URLstring = 'http://' + environment.host + ':' + environment.port + '/';
+  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
@@ -78,7 +79,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       description: [this.couponPass.description],
       image: [],
       price: [this.couponPass.price, Validators.compose([Validators.required])],
-      valid_from_old : from,
+      valid_from_old: from,
       valid_from: [from, Validators.compose([Validators.required])],
       valid_until: [until],
       state: ['1'],
@@ -115,19 +116,21 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    this.coupon = {'id': this.couponPass.valueOf().id,
+    this.coupon = {
+      'id': this.couponPass.valueOf().id,
       'title': this.couponForm.value.title,
       'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-      'timestamp' : this.couponForm.value.timestamp,
+      'timestamp': this.couponForm.value.timestamp,
       'image': this.imagePath ? this.imagePath : this.couponPass.image,
-      'price' : this.price != null ? this.price : this.couponForm.value.price,
-      'valid_from' :  this.dateFrom.getTime().valueOf(),
-      'valid_until' : this.marked ? 0 : this.dateUntil.getTime().valueOf(),
-      'state' : this.couponForm.value.state,
-      'constraints' : this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-      'owner' : this.couponForm.value.owner,
+      'price': this.price != null ? this.price : this.couponForm.value.price,
+      'valid_from': this.dateFrom.getTime().valueOf(),
+      'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+      'state': this.couponForm.value.state,
+      'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
+      'owner': this.couponForm.value.owner,
       'consumer': this.couponForm.value.consumer,
-      'quantity': this.couponForm.value.quantity};
+      'quantity': this.couponForm.value.quantity
+    };
 
 
     console.log('coupon edit', this.coupon);
@@ -151,6 +154,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.removeBreadcrumb();
   }
+
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;

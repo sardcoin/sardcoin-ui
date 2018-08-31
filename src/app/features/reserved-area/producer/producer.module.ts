@@ -14,7 +14,6 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
 
 @NgModule({
   declarations: [
-    CouponEditComponent,
     FeatureReservedAreaProducerComponent,
     FeatureReservedAreaProducerCouponReportComponent
   ],
@@ -27,7 +26,6 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
     FeatureReservedAreaCouponCreateModule,
     CommonModule,
     FileUploadModule,
-
   ],
   providers: [
     CouponService,

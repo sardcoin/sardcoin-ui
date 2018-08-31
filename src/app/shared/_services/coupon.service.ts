@@ -25,8 +25,8 @@ export class CouponService {
   getCoupon() {
   }
   getAllCoupons() {
-    // const result = this.http.get('http://localhost:3000/coupons/getAllByUser');
-    // console.log('getAllByUser da coupon service' + result);
+    const result = this.http.get('http://localhost:3000/coupons/getAllByUser');
+    console.log('getAllByUser da coupon service' + result);
     return this.http.get('http://localhost:3000/coupons/getAllByUser');
 
 

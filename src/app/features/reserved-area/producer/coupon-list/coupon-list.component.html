@@ -5,8 +5,8 @@
       <th style="width: 10%">Image</th>
       <th style="width: 10%">Price</th>
       <th style="width: 10%">State</th>
-      <th style="width: 10%">Quantity</th>
-      <th style="width: 10%">Consumed</th>
+      <th style="width: 10%">Unities</th>
+      <th style="width: 10%">Sold</th>
       <th style="width: 10%"></th>
       <!--<th style="width: 5%"></th>-->
     </tr>
@@ -23,14 +23,32 @@
       </td>
       <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
       <td>{{formatPrice(coupon.price)}}</td>
-      <td>{{coupon.state}}</td>
+      <td>{{formatState(coupon.state)}}</td>
       <td>{{coupon.quantity}}</td>
-      <td>consumed</td>
+      <td>0</td>
 
 
       <td>
         <button type="button" class="btn btn-info" (click)="onEdit(coupon)" style="margin-right: 15px">Edit</button>
         <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+
+        <ng-template #template>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Coupon delete</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            Are you sure to delete this coupon? This operation is not reversable!
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+            <button type="button" class="btn btn-success" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+          </div>
+        </ng-template>
       </td>
     </tr>
 
@@ -38,30 +56,4 @@
 
 </table>
 
-<ng-template #template>
-  <div class="modal-body text-center">
-    <p>Do you want to confirm?</p>
-    <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
-    <button type="button" class="btn btn-primary" (click)="decline()">No</button>
-  </div>
-<!--
-  <div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Coupon delete</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p class="text-danger">Are you sure to delete this coupon? This operation is not reversable!</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="onDelete(coupon.valueOf().id)">Yes</button>
-          <button type="button" class="btn btn-primary" (click)="decline()">No</button>
-        </div>
-      </div>
-    </div>
-  </div>-->
-</ng-template>
+
