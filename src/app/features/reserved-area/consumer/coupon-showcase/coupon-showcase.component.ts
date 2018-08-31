@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from '@angular/router';
 // import Any = jasmine.Any;
 
 @Component({
@@ -14,11 +15,13 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
   coupons: any;
+  @Input() couponPass: any;
 
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -66,5 +69,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     }
 
     return '€ ' + price;
+  }
+
+  buy(coupon) {
+
+  }
+
+  details(coupon: any) {
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/details']);
   }
 }

@@ -75,6 +75,12 @@ export class CouponService {
     return this.http.get('http://localhost:3000/coupons/getAffordables');
 
   }
+
+  byCoupon() {
+    console.log('token consumer ' , this.localStore.getToken());
+    return this.http.post('http://localhost:3000/coupons/byCoupon', 2);
+
+  }
 }
 
 

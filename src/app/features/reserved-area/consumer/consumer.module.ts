@@ -7,10 +7,12 @@ import {FeatureReservedAreaConsumerComponent} from "./consumer.component";
 import {ConsumerRoutingModule} from "./consumer.routing";
 import {FeatureReservedAreaConsumerShowcaseModule} from "./coupon-showcase/coupon-showcase.module";
 import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
+import { CouponDetailsComponent } from './coupon-details/coupon-details.component';
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaConsumerComponent
+    FeatureReservedAreaConsumerComponent,
+    CouponDetailsComponent
   ],
   imports: [
     SharedModule,
