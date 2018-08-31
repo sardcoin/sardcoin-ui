@@ -3,26 +3,23 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {CoreModule} from '../../../../core/core.module';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
-import {FeatureReservedAreaConsumerShowcaseComponent} from "./coupon-showcase.component";
-import {BsModalService, ModalModule} from "ngx-bootstrap";
+import {FeatureReservedAreaConsumerBoughtComponent} from "./coupon-bought.component";
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaConsumerShowcaseComponent
+    FeatureReservedAreaConsumerBoughtComponent
   ],
   imports: [
     SharedModule,
     CoreModule,
     CommonModule,
-    ModalModule.forRoot()
   ],
   providers: [
     CouponService,
-    BsModalService
   ],
   exports: [
-    FeatureReservedAreaConsumerShowcaseComponent
+    FeatureReservedAreaConsumerBoughtComponent
   ]
 })
 
-export class FeatureReservedAreaConsumerShowcaseModule { }
+export class FeatureReservedAreaConsumerBoughtModule { }

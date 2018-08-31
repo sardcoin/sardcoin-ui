@@ -10,19 +10,13 @@ import {ModalBackdropComponent} from 'ngx-bootstrap';
 @NgModule({
   declarations: [
     FeatureReservedAreaCouponListComponent,
-
-
-
   ],
   imports: [
     SharedModule,
     ModalModule.forRoot()
-
-
   ],
   exports: [
     FeatureReservedAreaCouponListComponent,
-
   ],
   providers: [
     BreadcrumbActions,

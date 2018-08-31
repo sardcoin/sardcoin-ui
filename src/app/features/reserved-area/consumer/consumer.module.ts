@@ -7,6 +7,7 @@ import {FeatureReservedAreaConsumerComponent} from "./consumer.component";
 import {ConsumerRoutingModule} from "./consumer.routing";
 import {FeatureReservedAreaConsumerShowcaseModule} from "./coupon-showcase/coupon-showcase.module";
 import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
+import {FeatureReservedAreaConsumerBoughtModule} from "./coupon-bought/coupon-bought.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
-    FeatureReservedAreaConsumerShowcaseModule
+    FeatureReservedAreaConsumerShowcaseModule,
+    FeatureReservedAreaConsumerBoughtModule
   ],
   providers: [
     CouponService,
