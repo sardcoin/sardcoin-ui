@@ -33,7 +33,7 @@ export class CouponService {
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', 'http://http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
+    return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
 
   }
 
