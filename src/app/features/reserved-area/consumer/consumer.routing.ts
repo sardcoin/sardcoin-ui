@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FeatureReservedAreaConsumerShowcaseComponent} from "./coupon-showcase/coupon-showcase.component";
-import {FeatureReservedAreaProducerCouponReportComponent} from '../producer/report/coupon-report.component';
-import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
+import {FeatureReservedAreaConsumerBoughtComponent} from "./coupon-bought/coupon-bought.component";
 
 /** App Components **/
 
@@ -20,8 +19,8 @@ import {CouponDetailsComponent} from './coupon-details/coupon-details.component'
         component: FeatureReservedAreaConsumerShowcaseComponent
       },
       {
-        path: 'details',
-        component: CouponDetailsComponent
+        path: 'bought',
+        component: FeatureReservedAreaConsumerBoughtComponent
       }
     ])
   ],

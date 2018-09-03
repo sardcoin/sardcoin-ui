@@ -11,6 +11,7 @@ import {ProducerRoutingModule} from "./producer.routing";
 import {FeatureReservedAreaProducerComponent} from "./producer.component";
 import {FileUploadModule} from 'ng2-file-upload';
 import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
+import {FeatureReservedAreaCouponEditModule} from "./coupon-edit/coupon-edit.module";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
     ProducerRoutingModule,
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
+    FeatureReservedAreaCouponEditModule,
     CommonModule,
     FileUploadModule,
   ],

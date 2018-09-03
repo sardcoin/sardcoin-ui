@@ -1,9 +1,12 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {environment} from '../../../../../environments/environment';
+import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
+import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
+import {CouponService} from "../../../../shared/_services/coupon.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
+import {BsModalService} from "ngx-bootstrap/modal";
+import {Router} from "@angular/router";
 
 // import Any = jasmine.Any;
 
@@ -15,14 +18,13 @@ import {Router} from '@angular/router';
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
   coupons: any;
-  @Input() couponPass: any;
+  modalRef: BsModalRef;
 
-  constructor(
-    private couponService: CouponService,
-    private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer,
-    private router: Router,
-  ) {
+  constructor(private couponService: CouponService,
+              private breadcrumbActions: BreadcrumbActions,
+              private _sanitizer: DomSanitizer,
+              private modalService: BsModalService,
+              private router: Router,) {
   }
 
   ngOnInit(): void {
@@ -59,8 +61,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   imageUrl(path) {
-    // let subs = path.substr(path.lastIndexOf('\\')+1);
-    return this._sanitizer.bypassSecurityTrustUrl('http://localhost:3000/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
@@ -71,13 +72,24 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return '€ ' + price;
   }
 
-  buy(coupon) {
+  buyCoupon(coupon_id: number) {
+    this.couponService.buyCoupon(coupon_id)
+      .subscribe(data => {
 
+        this.router.navigate(['/reserved-area/consumer/bought']);
+
+      }, err => {
+        console.log(err);
+      });
+
+    this.decline();
   }
 
-  details(coupon: any) {
-    this.couponService.setCoupon(coupon);
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  }
 
-    this.router.navigate(['/reserved-area/consumer/details']);
+  decline(): void {
+    this.modalRef.hide();
   }
 }
