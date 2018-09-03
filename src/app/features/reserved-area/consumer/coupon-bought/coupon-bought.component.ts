@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Coupon} from '../../../../shared/_models/Coupon';
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 
