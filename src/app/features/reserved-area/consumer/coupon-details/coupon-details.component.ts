@@ -1,3 +1,4 @@
+/*
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
@@ -42,3 +43,4 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
 }
+*/
