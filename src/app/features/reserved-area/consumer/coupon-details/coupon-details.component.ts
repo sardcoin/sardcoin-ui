@@ -12,8 +12,8 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
   templateUrl: './coupon-details.component.html',
   styleUrls: ['./coupon-details.component.scss']
 })
-export class CouponDetailsComponent implements OnInit, OnDestroy {
 
+export class CouponDetailsComponent implements OnInit, OnDestroy {
   URLstring = 'http://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   message: string;

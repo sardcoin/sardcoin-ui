@@ -20,7 +20,7 @@ import {environment} from '../../../../../environments/environment';
   styleUrls: ['./coupon-create.component.scss']
 })
 
-export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy{
+export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
   marked = false;
   price = null;
@@ -51,7 +51,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   ngOnInit(): void {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
-    const ownerId = parseInt(this.storeService.getId());
+    const ownerId = parseInt(this.storeService.getId(), 10);
 
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
@@ -64,7 +64,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: [],
       owner: [ownerId],
       consumer: [],
-      quantity: [ 1, Validators.required]
+      quantity: [1, Validators.required]
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon])
     });
