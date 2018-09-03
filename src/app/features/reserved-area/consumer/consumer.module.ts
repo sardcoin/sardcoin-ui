@@ -11,6 +11,7 @@ import {FeatureReservedAreaConsumerBoughtModule} from './coupon-bought/coupon-bo
 import { CouponDetailsComponent } from './coupon-details/coupon-details.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
+import {CouponDetailsComponentModule} from './coupon-details/coupon-details.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,10 @@ import {ModalModule} from 'ngx-bootstrap';
     FeatureReservedAreaConsumerShowcaseModule,
     ModalModule.forRoot(),
     FeatureReservedAreaConsumerShowcaseModule,
-    FeatureReservedAreaConsumerBoughtModule
+    FeatureReservedAreaConsumerBoughtModule,
+    CouponDetailsComponentModule,
+    ModalModule.forRoot()
+
   ],
   providers: [
     CouponService,
