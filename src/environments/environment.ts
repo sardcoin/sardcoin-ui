@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   host: 'localhost',
-  port: 3308
+  port: 443
 };
