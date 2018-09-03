@@ -3,18 +3,29 @@
     <div class="col-md-10 offset-1">
       <div class="card mx-4">
         <div class="card-body p-4">
-          <h1 class="text-center">Details</h1>
-          <h4 class="text-muted text-center">Create Coupon</h4>
+          <div  id="yourImage">
+            <img src={{URLstring}}>
+          </div>
 
-              <label class="col-sm-2 col-form-label">Title</label>
-              <div class="col-sm-10">
-                <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"-->
+          <label class="col-sm-2 col-form-label">Title</label>
 
-                <label type="text">{{couponPass.title}}</label>
+          <label class="col-sm-10" type="text">{{couponPass.title}}</label>
 
-              </div>
+          <label class="col-sm-2 col-form-label">Description</label>
 
+          <label class="col-sm-10" type="text">{{couponPass.description}}</label>
+          <label class="col-sm-2 col-form-label">Price</label>
 
+          <label class="col-sm-10" type="text">{{formatPrice(couponPass.price)}}</label>
+          <label class="col-sm-2 col-form-label">Valid Until</label>
+
+          <label class="col-sm-10" type="text">{{formatUntil(couponPass.valid_until)}}</label>
+          <label class="col-sm-2 col-form-label">Constraints</label>
+
+          <label class="col-sm-10" type="text">{{couponPass.constraints}}</label>
+
+          <button class="col-sm-6 btn  btn-danger" (click)="retry()"> Retry </button>
+          <button class="col-sm-6 btn  btn-success" (click)="openModal(template)"> Buy </button>
 
 
 
@@ -25,5 +36,22 @@
 
     </div>
 
-  </div>
-</div>
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Buy Coupon</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+    Confirm buy Coupon?
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+      <button type="button" class="btn btn-success" (click)="buy()">Yes</button>
+    </div>
+  </ng-template>
+

@@ -63,7 +63,9 @@ export class CouponService {
   }
 
   getAffordables() {
+    console.log('token consumer ' , this.localStore.getToken());
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
+
   }
 
   buyCoupon(coupon_id: number) {
