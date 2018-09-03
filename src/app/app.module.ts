@@ -54,8 +54,8 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
   ],
   providers: [
     StoreService, GlobalEventsManagerService,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
-    // {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
