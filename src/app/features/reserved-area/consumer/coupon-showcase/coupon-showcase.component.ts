@@ -19,12 +19,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   coupons: any;
   modalRef: BsModalRef;
+  message: string;
 
   constructor(private couponService: CouponService,
               private breadcrumbActions: BreadcrumbActions,
               private _sanitizer: DomSanitizer,
               private modalService: BsModalService,
-              private router: Router,) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -91,5 +92,19 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   decline(): void {
     this.modalRef.hide();
+  }
+
+  details(coupon: any) {
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/details']);
+  }
+
+
+  buy() {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    console.log('coupon buy');
+
   }
 }
