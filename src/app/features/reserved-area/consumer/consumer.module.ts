@@ -8,6 +8,8 @@ import {ConsumerRoutingModule} from "./consumer.routing";
 import {FeatureReservedAreaConsumerShowcaseModule} from "./coupon-showcase/coupon-showcase.module";
 import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
 import { CouponDetailsComponent } from './coupon-details/coupon-details.component';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {ModalModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,13 @@ import { CouponDetailsComponent } from './coupon-details/coupon-details.componen
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
-    FeatureReservedAreaConsumerShowcaseModule
+    FeatureReservedAreaConsumerShowcaseModule,
+    ModalModule.forRoot()
   ],
   providers: [
     CouponService,
-    BreadcrumbActions
+    BreadcrumbActions,
+    BsModalService
   ],
   exports: [
     FeatureReservedAreaConsumerComponent

@@ -6,6 +6,7 @@ import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {first} from 'rxjs/internal/operators';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 
@@ -25,15 +26,15 @@ export class CouponService {
   getCoupon() {
   }
   getAllCoupons() {
-    const result = this.http.get('http://localhost:3000/coupons/getAllByUser');
+    const result = this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
     console.log('getAllByUser da coupon service' + result);
-    return this.http.get('http://localhost:3000/coupons/getAllByUser');
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
 
 
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', 'http://localhost:3000/coupons/delete', {body: {id: cp}});
+    return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
 
   }
   deleteAllCoupons() {}
@@ -47,7 +48,7 @@ export class CouponService {
   editCoupon(cp: any) {
     console.log('cp.id in editCoupon: ' + cp.id );
 
-    return this.http.request('put', 'http://localhost:3000/coupons/update', {body:  cp}).subscribe(
+    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/update', {body:  cp}).subscribe(
       (data) => {
         console.log('data: ' + data);
         this.router.navigate(['/reserved-area/producer/list']);
@@ -67,12 +68,12 @@ export class CouponService {
 
 
     console.log('token' + this.localStore.getToken());
-    return this.http.post('http://localhost:3000/coupons/create', coupon);
+    return this.http.post('http://' + environment.host + ':' + environment.port + '/coupons/create', coupon);
   }
 
   getAffordables() {
     console.log('token consumer ' , this.localStore.getToken());
-    return this.http.get('http://localhost:3000/coupons/getAffordables');
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
 
   }
 

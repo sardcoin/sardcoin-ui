@@ -15,7 +15,9 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
 @NgModule({
   declarations: [
     FeatureReservedAreaProducerComponent,
-    FeatureReservedAreaProducerCouponReportComponent
+    FeatureReservedAreaProducerCouponReportComponent,
+    CouponEditComponent,
+
   ],
   imports: [
     SharedModule,

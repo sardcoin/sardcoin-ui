@@ -36,7 +36,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
-    authToken: 'Bearer ' + this.storeService.getToken(),
+
+    authToken: 'Bearer ' + this.storeService.getToken()
   });
 
   constructor(

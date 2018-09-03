@@ -8,7 +8,6 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {CommonModule} from '@angular/common';
 @NgModule({
   declarations: [
-    CouponEditComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -17,7 +16,6 @@ import {CommonModule} from '@angular/common';
     FileUploadModule,
   ],
   exports: [
-    CouponEditComponent
   ],
   providers: [
     BreadcrumbActions,

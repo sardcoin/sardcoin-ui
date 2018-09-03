@@ -44,6 +44,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
+    isHTML5: true,
+    method: 'POST',
+    itemAlias: 'file',
+    authTokenHeader:  'authorization',
     authToken: 'Bearer ' + this.storeService.getToken(),
   });
 
