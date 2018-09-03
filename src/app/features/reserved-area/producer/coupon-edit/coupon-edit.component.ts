@@ -1,19 +1,14 @@
 import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
 import {CouponService} from '../../../../shared/_services/coupon.service';
-import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {DateFromValidation} from '../coupon-create/validator/DateFromValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
-import {first} from 'rxjs/internal/operators';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCouponValidation.directive';
-import {ImageValidation} from '../coupon-create/validator/ImageValidation.directive.';
-import {FileUploadModule} from 'ng2-file-upload';
-import {DateEditValidation} from "../coupon-create/validator/DateEditValidation.directive";
+import {DateEditValidation} from '../coupon-create/validator/DateEditValidation.directive';
 import {environment} from '../../../../../environments/environment';
 
 @Component({
@@ -21,8 +16,6 @@ import {environment} from '../../../../../environments/environment';
   templateUrl: './coupon-edit.component.html',
   styleUrls: ['./coupon-edit.component.scss']
 })
-
-@Directive({selector: '[ng2FileSelect]'})
 
 export class CouponEditComponent implements OnInit, OnDestroy {
 
@@ -78,14 +71,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     if (until === '1970-01-01T00:00:00.000') {
       until = '';
     }
-    const ownerId = parseInt(this.storeService.getId());
+    const ownerId = parseInt(this.storeService.getId(), 10);
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
       description: [this.couponPass.description],
       image: [],
       price: [this.couponPass.price, Validators.compose([Validators.required])],
-      valid_from_old: from,
+      valid_from_old : from,
       valid_from: [from, Validators.compose([Validators.required])],
       valid_until: [until],
       state: ['1'],

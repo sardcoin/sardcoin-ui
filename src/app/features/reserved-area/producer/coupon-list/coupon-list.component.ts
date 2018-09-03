@@ -2,14 +2,11 @@ import {Component, TemplateRef, OnDestroy, OnInit, Input} from '@angular/core';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {CouponService} from '../../../../shared/_services/coupon.service';
-
-import {Coupon} from '../../../../shared/_models/Coupon';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
-import {single} from 'rxjs/internal/operators';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {environment} from "../../../../../environments/environment";
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -58,15 +55,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         }
       );
 
-
-
     this.modalRef.hide();
-    // this.control();
-    // window.location.reload();
-
-
-    // this.control();
-
   }
 
   onDetails() {
@@ -107,9 +96,11 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   formatState(state) {
-    switch (state){
-      case 0: return 'inactive';
-      default: return 'unknown';
+    switch (state) {
+      case 0:
+        return 'inactive';
+      default:
+        return 'unknown';
     }
   }
 
@@ -117,7 +108,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     this.couponService.getAllCoupons().subscribe(
       data => {
-        console.log('getAllByUser ' + data);
+        console.log(data);
         this.couponArray = data;
       },
       error => console.log(error)

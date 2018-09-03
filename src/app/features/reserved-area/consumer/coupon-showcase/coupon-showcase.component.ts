@@ -1,13 +1,13 @@
-import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {Coupon} from "../../../../shared/_models/Coupon";
-import {CouponService} from "../../../../shared/_services/coupon.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {environment} from '../../../../../environments/environment';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {CouponService} from '../../../../shared/_services/coupon.service';
+import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
+import {Router} from '@angular/router';
+
 // import Any = jasmine.Any;
 
 @Component({
@@ -19,17 +19,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   coupons: any;
   modalRef: BsModalRef;
-  message: string;
-  @Input() couponPass: any;
 
-  constructor(
-    private couponService: CouponService,
-    private breadcrumbActions: BreadcrumbActions,
-    private _sanitizer: DomSanitizer,
-    private router: Router,
-    private modalService: BsModalService,
-
-  ) { }
+  constructor(private couponService: CouponService,
+              private breadcrumbActions: BreadcrumbActions,
+              private _sanitizer: DomSanitizer,
+              private modalService: BsModalService,
+              private router: Router,) {
+  }
 
   ngOnInit(): void {
     this.loadCoupons();
@@ -58,53 +54,42 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   loadCoupons() {
     this.couponService.getAffordables()
       .subscribe(coupons => {
-        this.coupons = coupons
+        this.coupons = coupons;
       }, err => {
         console.log(err);
-      })
+      });
   }
 
   imageUrl(path) {
-    // let subs = path.substr(path.lastIndexOf('\\')+1);
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' +  path);
+    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
-    if(price === 0) {
-      return 'Free'
+    if (price === 0) {
+      return 'Free';
     }
 
     return '€ ' + price;
   }
 
+  buyCoupon(coupon_id: number) {
+    this.couponService.buyCoupon(coupon_id)
+      .subscribe(data => {
 
+        this.router.navigate(['/reserved-area/consumer/bought']);
 
-  details(coupon: any) {
-    this.couponService.setCoupon(coupon);
+      }, err => {
+        console.log(err);
+      });
 
-    this.router.navigate(['/reserved-area/consumer/details']);
-  }
-
-
-  buy() {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-    console.log('coupon buy');
-
+    this.decline();
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
-
-  confirm(): void {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-  }
-
   decline(): void {
-    this.message = 'Declined!';
     this.modalRef.hide();
   }
 }

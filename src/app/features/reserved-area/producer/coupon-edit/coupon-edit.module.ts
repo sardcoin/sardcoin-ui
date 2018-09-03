@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CouponEditComponent} from './coupon-edit.component';
-import {SharedModule} from "../../../../shared/shared.module";
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
+import {SharedModule} from '../../../../shared/shared.module';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileUploadModule} from 'ng2-file-upload';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {CommonModule} from '@angular/common';
+
 @NgModule({
   declarations: [
   ],
@@ -22,4 +23,5 @@ import {CommonModule} from '@angular/common';
     StoreService
   ]
 })
-export class FeatureReservedAreaCouponEditModule {}
+export class FeatureReservedAreaCouponEditModule {
+}
