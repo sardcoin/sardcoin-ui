@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {environment} from "../../../../../environments/environment";
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -108,7 +108,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     this.couponService.getAllCoupons().subscribe(
       data => {
-        console.log('getAllByUser ' + data);
+        console.log(data);
         this.couponArray = data;
       },
       error => console.log(error)

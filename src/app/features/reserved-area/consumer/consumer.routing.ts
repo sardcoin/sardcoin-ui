@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {FeatureReservedAreaConsumerShowcaseComponent} from "./coupon-showcase/coupon-showcase.component";
-import {FeatureReservedAreaConsumerBoughtComponent} from "./coupon-bought/coupon-bought.component";
+import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
+import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 
 /** App Components **/
 

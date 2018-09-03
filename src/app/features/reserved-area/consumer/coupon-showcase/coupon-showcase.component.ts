@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {environment} from '../../../../../environments/environment';
-import {BreadcrumbActions} from "../../../../core/breadcrumb/breadcrumb.actions";
-import {Breadcrumb} from "../../../../core/breadcrumb/Breadcrumb";
-import {CouponService} from "../../../../shared/_services/coupon.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
-import {BsModalService} from "ngx-bootstrap/modal";
-import {Router} from "@angular/router";
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {CouponService} from '../../../../shared/_services/coupon.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {Router} from '@angular/router';
 
 // import Any = jasmine.Any;
 

@@ -3,11 +3,11 @@ import {SharedModule} from '../../../shared/shared.module';
 import {CoreModule} from '../../../core/core.module';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
-import {FeatureReservedAreaConsumerComponent} from "./consumer.component";
-import {ConsumerRoutingModule} from "./consumer.routing";
-import {FeatureReservedAreaConsumerShowcaseModule} from "./coupon-showcase/coupon-showcase.module";
-import {BreadcrumbActions} from "../../../core/breadcrumb/breadcrumb.actions";
-import {FeatureReservedAreaConsumerBoughtModule} from "./coupon-bought/coupon-bought.module";
+import {FeatureReservedAreaConsumerComponent} from './consumer.component';
+import {ConsumerRoutingModule} from './consumer.routing';
+import {FeatureReservedAreaConsumerShowcaseModule} from './coupon-showcase/coupon-showcase.module';
+import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
+import {FeatureReservedAreaConsumerBoughtModule} from './coupon-bought/coupon-bought.module';
 
 @NgModule({
   declarations: [
@@ -30,4 +30,5 @@ import {FeatureReservedAreaConsumerBoughtModule} from "./coupon-bought/coupon-bo
   ]
 })
 
-export class FeatureReservedAreaConsumerModule { }
+export class FeatureReservedAreaConsumerModule {
+}

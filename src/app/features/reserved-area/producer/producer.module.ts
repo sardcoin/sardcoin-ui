@@ -6,12 +6,12 @@ import {FeatureReservedAreaCouponListModule} from './coupon-list/coupon-list.mod
 import {FeatureReservedAreaCouponCreateModule} from './coupon-create/coupon-create.module';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
-import { CouponEditComponent } from './coupon-edit/coupon-edit.component';
-import {ProducerRoutingModule} from "./producer.routing";
-import {FeatureReservedAreaProducerComponent} from "./producer.component";
+import {CouponEditComponent} from './coupon-edit/coupon-edit.component';
+import {ProducerRoutingModule} from './producer.routing';
+import {FeatureReservedAreaProducerComponent} from './producer.component';
 import {FileUploadModule} from 'ng2-file-upload';
-import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
-import {FeatureReservedAreaCouponEditModule} from "./coupon-edit/coupon-edit.module";
+import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-report.component';
+import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.module';
 
 @NgModule({
   declarations: [
@@ -37,4 +37,5 @@ import {FeatureReservedAreaCouponEditModule} from "./coupon-edit/coupon-edit.mod
   ]
 })
 
-export class FeatureReservedAreaProducerModule { }
+export class FeatureReservedAreaProducerModule {
+}

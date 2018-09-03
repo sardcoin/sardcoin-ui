@@ -3,7 +3,7 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {CoreModule} from '../../../../core/core.module';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
-import {FeatureReservedAreaConsumerBoughtComponent} from "./coupon-bought.component";
+import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought.component';
 
 @NgModule({
   declarations: [
@@ -22,4 +22,5 @@ import {FeatureReservedAreaConsumerBoughtComponent} from "./coupon-bought.compon
   ]
 })
 
-export class FeatureReservedAreaConsumerBoughtModule { }
+export class FeatureReservedAreaConsumerBoughtModule {
+}
