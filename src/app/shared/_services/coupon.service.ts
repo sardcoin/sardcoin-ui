@@ -50,7 +50,7 @@ export class CouponService {
 
   setCoupon(cp: any) {
     this.couponSource.next(cp);
-    console.log('cp.id: ' + cp.id);
+    console.log('description  ' + cp.description);
 
     this.router.navigate(['reserved-area/producer/edit']);
   }

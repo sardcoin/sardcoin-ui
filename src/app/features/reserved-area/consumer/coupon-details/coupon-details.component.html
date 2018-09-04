@@ -1,33 +1,31 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-10 offset-1">
-      <div class="card mx-4">
+    <div class="col-md-8 offset-md-2">
+      <div class="card mx-4" style="padding: 5px">
+        <img src="{{URLstring}}" alt="" class="">
         <div class="card-body p-4">
-          <h3 class="">{{couponPass.title}}</h3>
-          <div id="yourImage">
-            <img src={{URLstring}}>
-          </div>
-
+          <h3 class="card-title">{{couponPass.title}}</h3>
+          <!--
+          <div id="yourImage"></div>
           <label class="col-sm-2 col-form-label">Title</label>
-
           <label class="col-sm-10" type="text">{{couponPass.title}}</label>
+          -->
 
-          <label class="col-sm-2 col-form-label">Description</label>
+          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
-          <label class="col-sm-10" type="text">{{couponPass.description}}</label>
-          <label class="col-sm-2 col-form-label">Price</label>
+          <p class="card-text">{{couponPass.description}}</p>
+          <p class="card-text">
+            <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
 
-          <label class="col-sm-10" type="text">{{formatPrice(couponPass.price)}}</label>
-          <label class="col-sm-2 col-form-label">Valid Until</label>
+            <br/>
 
-          <label class="col-sm-10" type="text">{{formatUntil(couponPass.valid_until)}}</label>
-          <label class="col-sm-2 col-form-label">Constraints</label>
+            <span *ngIf="couponPass.constraints">
+              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+            </span>
+          </p>
 
-          <label class="col-sm-10" type="text">{{couponPass.constraints}}</label>
-
-          <button class="col-sm-6 btn  btn-danger" (click)="retry()"> Retry</button>
-          <button class="col-sm-6 btn  btn-success" (click)="openModal(template)"> Buy</button>
-
+          <button class="col-sm-5 btn btn-danger" (click)="retry()">Back</button>
+          <button class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Buy</button>
 
           <ng-template #template>
             <div class="modal-header">

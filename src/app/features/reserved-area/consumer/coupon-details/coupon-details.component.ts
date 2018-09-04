@@ -18,16 +18,16 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   message: string;
   couponPass: any;
+
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private modalService: BsModalService,
-
-
   ) { }
 
   ngOnInit() {
+
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     this.URLstring = this.URLstring + this.couponPass.image;
 
@@ -44,7 +44,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Showcase', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -61,16 +61,19 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   formatUntil(until) {
-    console.log('validUntil:', until);
     if (until === null) {
       return 'Unlimited';
     }
 
     return until;
   }
+
+  formatFrom(dataFrom){
+    return dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+  }
+
   retry() {
     this.router.navigate(['/reserved-area/consumer/showcase']);
-
   }
 
   buy() {
