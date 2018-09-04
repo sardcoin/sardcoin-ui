@@ -25,6 +25,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   marked = false;
   price = null;
   marked2 = false;
+  marked3 = false;
+
   theCheckbox = false;
   coupon: Coupon;
   couponPass: Coupon = null;
@@ -168,6 +170,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   toggleVisibility2(e) {
     this.marked2 = e.target.checked;
     this.price = 0;
+  }
+
+  toggleVisibility3(e) {
+    this.marked3 = e.target.checked;
   }
 }
 

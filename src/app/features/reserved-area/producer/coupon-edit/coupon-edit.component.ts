@@ -22,6 +22,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
   marked = false;
   marked2 = false;
+  marked3 = false;
+
   price = null;
 
   theCheckbox = false;
@@ -172,6 +174,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.marked2 = e.target.checked;
     this.price = 0;
 
+  }
+  toggleVisibility3(e) {
+    this.marked3 = e.target.checked;
+    this.couponForm.value.constraints = '';
   }
 
 }
