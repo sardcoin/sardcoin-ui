@@ -70,7 +70,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       return 'Free';
     }
 
-    return '€ ' + price;
+    return '€ ' + price.toFixed(2);
   }
 
   buyCoupon(coupon_id: number) {
