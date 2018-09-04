@@ -7,7 +7,7 @@
         <p class="card-text">{{coupon.description}}</p>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-info text-white float-right">Details</button>
+        <button type="button" (click)="details(coupon)" class="btn btn-info text-white float-right">Details</button>
       </div>
 
       <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
