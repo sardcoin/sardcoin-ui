@@ -32,6 +32,14 @@ export class CouponService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
   }
 
+  getPurchasedCoupons() {
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
+  }
+
+  getCreatedCoupons(){
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
+  }
+
   deleteCoupon(cp: number) {
     return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
 
