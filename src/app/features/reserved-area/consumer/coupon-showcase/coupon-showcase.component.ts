@@ -43,7 +43,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Showcase', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
