@@ -106,7 +106,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   control() {
 
-    this.couponService.getAllCoupons().subscribe(
+    this.couponService.getCreatedCoupons().subscribe(
       data => {
         console.log(data);
         this.couponArray = data;

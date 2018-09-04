@@ -47,7 +47,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   }
 
   loadCoupons() {
-    this.couponService.getAllCoupons()
+    this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
       }, err => {
