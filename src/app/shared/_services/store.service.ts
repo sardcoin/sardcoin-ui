@@ -1,4 +1,3 @@
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -41,6 +40,18 @@ export class StoreService {
 
   removeType() {
     localStorage.removeItem('type');
+  }
+
+  setUserNames(name: string){
+    localStorage.setItem('usernames', name);
+  }
+
+  getUserNames(){
+    return localStorage.getItem('usernames');
+  }
+
+  removeUserNames(){
+    localStorage.removeItem('usernames');
   }
 
   clear() {

@@ -7,8 +7,8 @@
       <th style="width: 10%">State</th>
       <th style="width: 10%">Unities</th>
       <th style="width: 10%">Sold</th>
-      <th style="width: 10%"></th>
-      <!--<th style="width: 5%"></th>-->
+      <th style="width: 5%"></th>
+      <th style="width: 5%"></th>
     </tr>
   </thead>
 
@@ -29,7 +29,9 @@
 
 
       <td>
-        <button type="button" class="btn btn-info" (click)="onEdit(coupon)" style="margin-right: 15px">Edit</button>
+        <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
+      </td>
+      <td>
         <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
 
         <ng-template #template>

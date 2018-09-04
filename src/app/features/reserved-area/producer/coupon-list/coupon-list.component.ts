@@ -96,12 +96,13 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   formatState(state) {
-    switch (state) {
+/*    switch (state) {
       case 0:
-        return 'inactive';
+        return 'Active';
       default:
         return 'unknown';
-    }
+    }*/
+    return 'Active';
   }
 
   control() {

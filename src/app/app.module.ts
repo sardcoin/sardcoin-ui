@@ -45,7 +45,6 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     HttpClientModule,
     AlertModule.forRoot(),
     StoreModule,
-
   ],
   declarations: [
     AppComponent,
