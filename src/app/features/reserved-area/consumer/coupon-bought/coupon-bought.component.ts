@@ -5,6 +5,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -19,6 +20,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer,
+    private router: Router
   ) {
   }
 
@@ -65,5 +67,11 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     }
 
     return '€ ' + price;
+  }
+
+  details(coupon: any) {
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/details']);
   }
 }
