@@ -4,11 +4,11 @@ import { Router, NavigationEnd } from '@angular/router';
 @Component({
   // tslint:disable-next-line
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet></router-outlet>',
   // templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor( private router: Router) { }
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {
@@ -18,4 +18,5 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
+
 }

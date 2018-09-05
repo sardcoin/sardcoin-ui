@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   host: 'localhost',
-  port: 3308 //set 443 for push
+  port: 443 //set 443 for push or 3308 for local
 };

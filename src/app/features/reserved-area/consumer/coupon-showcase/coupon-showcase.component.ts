@@ -7,6 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 // import Any = jasmine.Any;
 
@@ -25,7 +26,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               private breadcrumbActions: BreadcrumbActions,
               private _sanitizer: DomSanitizer,
               private modalService: BsModalService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       .subscribe(data => {
 
         this.router.navigate(['/reserved-area/consumer/bought']);
+        this.toastBuy();
 
       }, err => {
         console.log(err);
@@ -106,5 +109,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef.hide();
     console.log('coupon buy');
 
+  }
+  toastBuy() {
+    this.toastr.success('Bought coupon', 'Coupon bought successfully');
   }
 }

@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {JwtInterceptor} from './shared/jwt.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -45,6 +47,8 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     HttpClientModule,
     AlertModule.forRoot(),
     StoreModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
   ],
   declarations: [
     AppComponent,

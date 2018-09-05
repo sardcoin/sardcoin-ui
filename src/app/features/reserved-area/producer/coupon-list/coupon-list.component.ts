@@ -7,6 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {environment} from '../../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -25,7 +26,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
               private couponService: CouponService,
               private router: Router,
               private breadcrumbActions: BreadcrumbActions,
-              private _sanitizer: DomSanitizer) {
+              private _sanitizer: DomSanitizer,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -58,6 +60,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       );
 
     this.modalRef.hide();
+    this.toastDelete();
   }
 
   onDetails() {
@@ -132,6 +135,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.message = 'Declined!';
     this.modalRef.hide();
   }
-
+  toastDelete() {
+    this.toastr.success('Delete coupon', 'Coupon deleted successfully');
+  }
 
 }

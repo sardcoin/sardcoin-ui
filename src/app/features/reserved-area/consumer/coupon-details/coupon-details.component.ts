@@ -6,6 +6,7 @@ import {environment} from '../../../../../environments/environment';
 import {Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-coupon-details',
@@ -24,6 +25,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private couponService: CouponService,
     private router: Router,
     private modalService: BsModalService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -80,6 +82,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.message = 'Confirmed!';
     this.modalRef.hide();
     console.log('coupon buy');
+    this.toastBuy();
+
 
   }
 
@@ -91,11 +95,17 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
+    this.toastBuy();
+
   }
 
   decline(): void {
     this.message = 'Declined!';
     this.modalRef.hide();
+  }
+
+  toastBuy() {
+    this.toastr.success('Bought coupon', 'Coupon bought successfully');
   }
 
 }

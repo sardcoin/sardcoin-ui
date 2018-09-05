@@ -13,6 +13,7 @@ import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -47,7 +48,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     public formBuilder: FormBuilder,
     public storeService: StoreService,
     public couponService: CouponService,
-    private breadcrumbActions: BreadcrumbActions
+    private breadcrumbActions: BreadcrumbActions,
+    private toastr: ToastrService
   ) {
   }
 
@@ -128,6 +130,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         data => {
           // if ((i + 1) === quantityCoupon) {
           this.router.navigate(['/reserved-area/producer/list']);
+          this.toastCreate();
+
           // }
         }, error => {
           console.log(error);
@@ -174,6 +178,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibility3(e) {
     this.marked3 = e.target.checked;
+  }
+  toastCreate() {
+    this.toastr.success('Create coupon', 'Coupon created successfully');
   }
 }
 

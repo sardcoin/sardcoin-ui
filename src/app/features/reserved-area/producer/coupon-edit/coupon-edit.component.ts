@@ -10,6 +10,7 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCouponValidation.directive';
 import {DateEditValidation} from '../coupon-create/validator/DateEditValidation.directive';
 import {environment} from '../../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -51,7 +52,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     public formBuilder: FormBuilder,
     public couponService: CouponService,
     public storeService: StoreService,
-    private breadcrumbActions: BreadcrumbActions
+    private breadcrumbActions: BreadcrumbActions,
+    private toastr: ToastrService
   ) {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
 
@@ -134,6 +136,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     console.log('coupon edit', this.coupon);
     this.couponService.editCoupon(this.coupon);
+    this.toastEdited();
   }
 
   addBreadcrumb() {
@@ -178,6 +181,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   toggleVisibility3(e) {
     this.marked3 = e.target.checked;
     this.couponForm.value.constraints = '';
+  }
+  toastEdited() {
+    this.toastr.success('Edited coupon', 'Coupon edited successfully');
   }
 
 }
