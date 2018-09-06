@@ -13,10 +13,11 @@ import {environment} from '../../../environments/environment';
 export class CouponService {
   coupon: Coupon;
   couponChange: any = null;
-  couponArray: Coupon[] = [];
-  httpOptions: any = {};
+  fromEdit = false;
+  private boolFormEdit = new BehaviorSubject(this.fromEdit);
   private couponSource = new BehaviorSubject(this.couponChange);
   currentMessage = this.couponSource.asObservable();
+  checkFrom = this.boolFormEdit.asObservable();
 
   constructor(
     private router: Router,
@@ -53,16 +54,17 @@ export class CouponService {
     console.log('description  ' + cp.description);
 
     this.router.navigate(['reserved-area/producer/edit']);
+
+  }
+  setFromEdit(fromEdit: boolean) {
+    this.boolFormEdit.next(fromEdit);
+    console.log('from edit  ' + fromEdit);
+
   }
 
+
   editCoupon(cp: any) {
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/update', {body: cp}).subscribe(
-      (data) => {
-        this.router.navigate(['/reserved-area/producer/list']);
-      }, error => {
-        console.log(error);
-      }
-    );
+    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/update', {body: cp});
 
   }
 

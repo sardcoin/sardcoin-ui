@@ -11,6 +11,8 @@ import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCoupo
 import {DateEditValidation} from '../coupon-create/validator/DateEditValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import {Coupon} from '../../../../shared/_models/Coupon';
+import {first} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -24,10 +26,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   marked = false;
   marked2 = false;
   marked3 = false;
-
+  fromEdit = false;
   price = null;
-
-  theCheckbox = false;
+  couponCopy: Coupon;
+  idCopy = 0;
   myDate: Date;
   coupon: {};
   couponPass: any = null;
@@ -56,12 +58,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
+    this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
 
     if (this.couponPass === null) {
 
       this.router.navigate(['/']);
       return;
     }
+
   }
 
   ngOnInit() {
@@ -74,6 +78,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       until = '';
     }
     const ownerId = parseInt(this.storeService.getId(), 10);
+
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
@@ -97,6 +102,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+
+
+
+
   }
 
 
@@ -118,7 +127,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     }
     this.coupon = {
-      'id': this.couponPass.valueOf().id,
+      'id': this.fromEdit === true ? this.couponPass.valueOf().id : this.idCopy,
+      // 'id':  this.couponPass.valueOf().id ,
       'title': this.couponForm.value.title,
       'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
       'timestamp': this.couponForm.value.timestamp,
@@ -133,9 +143,15 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       'quantity': this.couponForm.value.quantity
     };
 
-
+    console.log('nuovo id', this.idCopy)
     console.log('coupon edit', this.coupon);
-    this.couponService.editCoupon(this.coupon);
+    this.couponService.editCoupon(this.coupon).subscribe(
+      (data) => {
+        this.router.navigate(['/reserved-area/producer/list']);
+      }, error => {
+        console.log(error);
+      }
+    );
     this.toastEdited();
   }
 
@@ -184,6 +200,55 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
   toastEdited() {
     this.toastr.success('Edited coupon', 'Coupon edited successfully');
+  }
+
+  couponCreateCopy() {
+
+    this.couponCreate();
+    this.saveChange();
+  }
+
+  couponCreate() {
+    if (this.fromEdit === false) {
+
+      this.dateFrom = new Date(this.couponForm.value.valid_from);
+      this.dateUntil = new Date(this.couponForm.value.valid_until);
+
+      if (!isValidDate(this.dateUntil)) {
+        this.dateUntil = new Date(0);
+      }
+      this.submitted = true;
+      if (this.couponForm.invalid) {
+        console.log('coupon invalid');
+        return;
+
+      }
+      this.couponCopy = new Coupon(
+        this.couponForm.value.title,
+        this.couponForm.value.description,
+        this.imagePath ? this.imagePath : this.couponPass.image,
+        this.couponForm.value.timestamp,
+        this.couponForm.value.price ? this.couponForm.value.price : 0,
+        this.dateFrom.getTime().valueOf(),
+        (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
+        0,
+        this.couponForm.value.constraints,
+        this.couponForm.value.owner,
+        this.couponForm.value.consumer,
+        this.couponForm.value.quantity
+      );
+      this.couponService.register(this.couponCopy).pipe(first())
+        .subscribe(
+          data => {
+            console.log('new coupon create', data);
+            this.idCopy = JSON.parse( JSON.stringify(data)).id;
+            console.log('id', JSON.parse( JSON.stringify(data)).id);
+          }, error => {
+            console.log(error);
+          }
+        );
+
+    }
   }
 
 }

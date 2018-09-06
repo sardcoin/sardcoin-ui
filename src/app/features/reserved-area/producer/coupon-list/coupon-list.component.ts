@@ -42,8 +42,16 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   onEdit(coupon: any) {
     this.couponService.setCoupon(coupon);
+    this.couponService.setFromEdit(true);
     console.log('coupon.id: ' + coupon.id);
   }
+
+  onCopy(coupon: any) {
+    this.couponService.setCoupon(coupon);
+    this.couponService.setFromEdit(false);
+    console.log('coupon.id: ' + coupon.id);
+  }
+
 
   onDelete(coupon_id: number) {
     this.message = 'Confirmed!';
