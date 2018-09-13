@@ -43,6 +43,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   onEdit(coupon: any) {
     this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(true);
+    this.router.navigate(['reserved-area/producer/edit']);
+
     console.log('coupon.id: ' + coupon.id);
   }
 
@@ -106,16 +108,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     }
 
     return '€ ' + price.toFixed(2);
-  }
-
-  formatState(state) {
-/*    switch (state) {
-      case 0:
-        return 'Active';
-      default:
-        return 'unknown';
-    }*/
-    return 'Active';
   }
 
   control() {

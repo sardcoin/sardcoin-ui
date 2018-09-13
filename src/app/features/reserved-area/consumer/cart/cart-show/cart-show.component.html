@@ -1,0 +1,66 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th style="width: 40%">Title</th>
+    <th style="width: 10%">Image</th>
+    <th style="width: 10%">Price</th>
+    <th style="width: 10%">Quantity</th>
+    <th style="width: 10%">Valid until</th>
+    <th style="width: 5%"></th>
+    <th style="width: 5%"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let coupon of cartArray">
+    <td>
+      <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+      <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+    </td>
+    <td>
+      <img class="img-thumbnail crop centered-and-cropped"   [src]="imageUrl(coupon.image)" alt="Card image cap">
+    </td>
+    <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
+    <td>{{formatPrice(coupon.price)}}</td>
+    <td>{{coupon.quantity}}</td>
+    <td>{{coupon.valid_until === null? 'Unlimited': coupon.valid_until }}</td>
+
+
+
+    <td>
+      <button type="button" class="btn btn-danger btn-sm" (click)="del()">-</button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-primary btn-sm" (click)="add()">+</button>
+    </td>
+
+    <td>
+      <button type="button" class="btn btn-info" (click)="details(coupon)">Details</button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Coupon delete</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Are you sure to delete this coupon on cart?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+          <button type="button" class="btn btn-success" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+        </div>
+      </ng-template>
+    </td>
+  </tr>
+
+  </tbody>
+
+</table>
+<button type="button" class="btn btn-block btn-success" (click)="buy(cartArray)">Buy</button>

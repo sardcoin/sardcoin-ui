@@ -37,7 +37,7 @@ export class CouponService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
   }
 
-  getCreatedCoupons(){
+  getCreatedCoupons() {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
   }
 
@@ -51,9 +51,7 @@ export class CouponService {
 
   setCoupon(cp: any) {
     this.couponSource.next(cp);
-    console.log('description  ' + cp.description);
 
-    this.router.navigate(['reserved-area/producer/edit']);
 
   }
   setFromEdit(fromEdit: boolean) {
@@ -81,6 +79,8 @@ export class CouponService {
   buyCoupon(coupon_id: number) {
     return this.http.post('http://' + environment.host + ':' + environment.port + '/coupons/buyCoupon', {coupon_id: coupon_id});
   }
+
+
 }
 
 

@@ -78,7 +78,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 
-  buy() {
+  addToCart() {
     this.message = 'Confirmed!';
     this.modalRef.hide();
     console.log('coupon buy');

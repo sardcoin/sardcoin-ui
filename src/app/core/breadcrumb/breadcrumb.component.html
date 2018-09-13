@@ -2,6 +2,15 @@
   <ol class="breadcrumb border border-info border-left-0 border-right-0">
     <li *ngFor="let item of breadList" class="breadcrumb-item">
       <a [routerLink]="[item.url]">{{item.label}}</a>
+
     </li>
+    <div *ngIf="breadList[2].label.includes('Consumer')"  class="ml-auto">
+      <a *ngIf="arrayCart.length === 0">The cart is empty!   </a>
+      <a *ngIf="arrayCart.length > 0">The cart have {{arrayCart.length}} coupons   </a>
+
+      <i class="fas fa-cart-arrow-down" (click)="viewCart()"></i>
+    </div>
   </ol>
+
 </nav>
+

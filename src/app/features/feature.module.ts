@@ -24,7 +24,8 @@ import {CommonModule} from '@angular/common';
     CoreModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+
   ],
   providers: [
     IsAuthenticatedGuard

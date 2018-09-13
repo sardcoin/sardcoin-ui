@@ -17,7 +17,7 @@ import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.mod
   declarations: [
     FeatureReservedAreaProducerComponent,
     FeatureReservedAreaProducerCouponReportComponent,
-    CouponEditComponent,
+
 
   ],
   imports: [
@@ -30,10 +30,14 @@ import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.mod
     FeatureReservedAreaCouponEditModule,
     CommonModule,
     FileUploadModule,
+
+
   ],
   providers: [
     CouponService,
   ],
+
+
   exports: [
     FeatureReservedAreaProducerComponent
   ]

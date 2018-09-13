@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 export class StoreService {
 
   constructor() {
+
   }
 
   setToken(token: string) {
@@ -42,19 +43,21 @@ export class StoreService {
     localStorage.removeItem('type');
   }
 
-  setUserNames(name: string){
+  setUserNames(name: string) {
     localStorage.setItem('usernames', name);
   }
 
-  getUserNames(){
+  getUserNames() {
     return localStorage.getItem('usernames');
   }
 
-  removeUserNames(){
+  removeUserNames() {
     localStorage.removeItem('usernames');
   }
 
   clear() {
     localStorage.clear();
   }
+
+
 }
