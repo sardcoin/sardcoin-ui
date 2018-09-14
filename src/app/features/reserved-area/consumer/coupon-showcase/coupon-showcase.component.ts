@@ -27,6 +27,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   modalRef: BsModalRef;
   message: string;
   cart = new CartItem();
+  crt = [];
   quantity = 1;
   bread = [] as Breadcrumb[];
 
@@ -75,9 +76,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             this.coupons = coupons;
           } else {
             let getCart = [];
-            getCart = cart
+            getCart = cart;
             for (let i = 0; i < getCart.length; i++) {
-              for (let j of this.coupons) {
+              for (const j of this.coupons) {
                 console.log('j[1]', j.id);
                if (getCart[i].id === j.id) {
                   this.couponsCheckCart.push(j);
@@ -216,10 +217,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
         } else {
           this.cart.id = coupon_id;
           this.cart.quantity = this.quantity;
-          this.localStorage.getItem('cart').subscribe(data => {
-            data.push(this.cart);
-            this.localStorage.setItem('cart', data).subscribe(() => {this.loadCoupons()});
-          });
+            this.crt = cart;
+              this.crt.push(this.cart);
+            this.localStorage.setItem('cart', this.crt).subscribe(() => {this.loadCoupons(); });
+
         }
     });
     // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
@@ -238,9 +239,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.loadCoupons();
   }
 
-  inCart(id){
+  inCart(id) {
 
-    for (let i of this.couponsCheckCart){
+    for (const i of this.couponsCheckCart) {
       if (id === i.id) {
         return true;
       }

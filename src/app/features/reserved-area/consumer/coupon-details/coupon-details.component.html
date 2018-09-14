@@ -25,7 +25,8 @@
           </p>
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back</button>
-          <button class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
+          <button *ngIf="!inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
+          <button *ngIf="inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
 
           <ng-template #template>
             <div class="modal-header">
@@ -41,7 +42,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-              <button type="button" class="btn btn-success" (click)="addToCart()">Yes</button>
+              <button type="button" class="btn btn-success" (click)="addToCart(couponPass.id)">Yes</button>
             </div>
           </ng-template>
 

@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import {CartItem} from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-coupon-details',
@@ -19,21 +21,52 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   message: string;
   couponPass: any;
+  cart = new CartItem();
+  quantity = 1;
+  couponsCheckCart: CartItem[];
+  inCart: boolean;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private modalService: BsModalService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    protected localStorage: LocalStorage
+  ) {
+
+
+  }
 
   ngOnInit() {
 
-    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
-    this.URLstring = this.URLstring + this.couponPass.image;
 
+    this.couponService.currentMessage.subscribe(coupon => {
+      this.couponPass = coupon;
+
+      if (this.couponPass === null) {
+        this.router.navigate(['/reserved-area/consumer/showcase']);
+         } else {
+        this.localStorage.getItem<any>('cart').subscribe((cart) => {
+          this.couponsCheckCart = cart;
+
+          for (const i of this.couponsCheckCart) {
+            if (this.couponPass.id === i.id) {
+              this.inCart = true;
+              return true;
+            }
+          }
+          this.inCart = false;
+        });
+
+      }
+
+    });
+
+    this.URLstring = this.URLstring + this.couponPass.image;
     this.addBreadcrumb();
+
+
   }
 
   ngOnDestroy(): void {
@@ -50,6 +83,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
+
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
@@ -70,7 +104,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     return until;
   }
 
-  formatFrom(dataFrom){
+  formatFrom(dataFrom) {
     return dataFrom.toString().substring(0, dataFrom.indexOf('T'));
   }
 
@@ -78,10 +112,31 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 
-  addToCart() {
-    this.message = 'Confirmed!';
+  addToCart(coupon_id: number) {
+    this.localStorage.getItem<any>('cart').subscribe((cart) => {
+      this.couponsCheckCart = cart;
+      if (cart === null) {
+        console.log('cart null');
+
+        this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
+          // this.loadCoupons();
+          return;
+        });
+      } else {
+        this.cart.id = this.couponPass.id;
+        this.cart.quantity = this.quantity;
+        console.log('id', this.cart.id);
+        let crt = [];
+        crt = cart;
+        crt.push(this.cart);
+          this.localStorage.setItem('cart', crt).subscribe(() => {
+          });
+
+      }
+    });
+    // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
     this.modalRef.hide();
-    console.log('coupon buy');
+
     this.toastBuy();
 
 
@@ -108,4 +163,38 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.toastr.success('Bought coupon', 'Coupon bought successfully');
   }
 
+  setQuantity(e) {
+    this.quantity = e;
+
+  }
+
+  viewCart() {
+    this.router.navigate(['/reserved-area/consumer/cart']);
+
+  }
+
+  inCartFunction(id) {
+    let value: boolean;
+    this.localStorage.getItem<any>('cart').subscribe((cart) => {
+      this.couponsCheckCart = cart;
+
+      for (const i of this.couponsCheckCart) {
+        if (id === i.id) {
+          value = true;
+          return true;
+        }
+      }
+      value = false;
+    });
+    return value;
+  }
+
+  // getCart() {
+  //
+  //   this.localStorage.getItem<any>('cart').subscribe((cart) => {
+  //     this.couponsCheckCart = cart;
+  //     return;
+  //   });
+  //
+  // }
 }
