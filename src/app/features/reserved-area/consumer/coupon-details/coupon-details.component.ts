@@ -46,14 +46,19 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
       if (this.couponPass === null) {
         this.router.navigate(['/reserved-area/consumer/showcase']);
+        this.addBreadcrumb();
          } else {
+        this.URLstring = this.URLstring + this.couponPass.image;
+        this.addBreadcrumb();
         this.localStorage.getItem<any>('cart').subscribe((cart) => {
           this.couponsCheckCart = cart;
 
-          for (const i of this.couponsCheckCart) {
-            if (this.couponPass.id === i.id) {
-              this.inCart = true;
-              return true;
+          if (this.couponsCheckCart !== null) {
+            for (const i of this.couponsCheckCart) {
+              if (this.couponPass.id === i.id) {
+                this.inCart = true;
+                return true;
+              }
             }
           }
           this.inCart = false;
@@ -63,8 +68,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     });
 
-    this.URLstring = this.URLstring + this.couponPass.image;
-    this.addBreadcrumb();
+
+
 
 
   }
@@ -79,7 +84,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
+    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));};
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -138,6 +143,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
 
     this.toastBuy();
+    this.router.navigate(['/reserved-area/consumer/showcase']);
+
 
 
   }

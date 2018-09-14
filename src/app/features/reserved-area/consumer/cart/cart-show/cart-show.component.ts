@@ -127,4 +127,35 @@ export class CartShowComponent implements OnInit, OnDestroy {
   toastBuy() {
     this.toastr.success('Bought coupon', 'Coupon bought successfully');
   }
+
+  onDelete(id: number) {
+    let arr = [];
+    for (const i  of  this.couponCart ) {
+      if (i.id !== id) {
+        arr.push(i);
+      }
+      this.couponCart = arr;
+    }
+
+    this.localStorage.setItem('cart', arr ).subscribe(() => {
+      this.cartArray = [];
+      for (let i = 0 ; i < this.couponCart.length; i++) {
+        for (let j = 0 ; j < this.couponArray.length; j++) {
+          if (this.couponCart[i].id === this.couponArray[j].id) {
+            this.couponArray[j].quantity = this.couponCart[i].quantity;
+            this.cartArray.push(this.couponArray[j]);
+          }
+        }
+      }
+      console.log('cart with complete data', this.cartArray);
+    });
+    this.modalRef.hide();
+
+  }
+  del(coupon) {
+
+  }
+  add(coupon) {
+
+}
 }

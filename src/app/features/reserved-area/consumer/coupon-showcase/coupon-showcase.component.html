@@ -7,13 +7,13 @@
           <h5 class="card-title">{{coupon.title}}</h5>
           <p class="card-text">{{coupon.description}}</p>
         </div>
-        <div class="card-footer">
-          <button *ngIf="!inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template)">Add to cart</button>
+        <div  class="card-footer">
+          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template)">Add to cart</button>
           <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="createOrUpdateCart(coupon)">get storage</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="setStorage(coupon)">set storage</button>
+          <!--<button type="button" class="btn btn-info text-white float-right" (click)="createOrUpdateCart(coupon)">get storage</button>-->
+          <!--<button type="button" class="btn btn-info text-white float-right" (click)="setStorage(coupon)">set storage</button>-->
           <button type="button" class="btn btn-info text-white float-right" (click)="deleteStorage()">del cart</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="prove()">prove</button>
+          <!--<button type="button" class="btn btn-info text-white float-right" (click)="prove()">prove</button>-->
         </div>
 
         <div class="coupon-price">{{formatPrice(coupon.price)}}</div>

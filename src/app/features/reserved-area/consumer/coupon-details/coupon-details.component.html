@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="couponPass !== null" class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card mx-4" style="padding: 5px">
@@ -24,7 +24,7 @@
             </span>
           </p>
 
-          <button class="col-sm-5 btn btn-danger" (click)="retry()">Back</button>
+          <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to shopping</button>
           <button *ngIf="!inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
           <button *ngIf="inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
 
@@ -37,7 +37,20 @@
             </div>
 
             <div class="modal-body">
-              Confirm add to cart coupon?
+              <p>Confirm add to cart Coupon?</p>
+              <!--<p>Quantity:-->
+              <!--<input type="number"></p>-->
+
+
+              <form>
+                <div class="form-group">
+                  <label for="formControlRange">Quantity: Max {{couponPass.quantity}}</label>
+                  <input  type="range" min="1" max="{{couponPass.quantity}}" value="1" class="form-control-range" id="formControlRange" (input)="setQuantity($event.target.value)">
+                  <label>Selected: {{quantity}}</label>
+                </div>
+              </form>
+
+
             </div>
 
             <div class="modal-footer">
