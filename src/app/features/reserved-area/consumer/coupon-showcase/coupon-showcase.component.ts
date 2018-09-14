@@ -40,6 +40,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               private toastr: ToastrService,
               protected localStorage: LocalStorage) {
 
+        this.localStorage.getItem('cart').subscribe(cart => {
+          if (cart === null) {
+            console.log('set cart []', []);
+            this.localStorage.setItem('cart', []);
+          }
+        });
 
   }
 

@@ -135,15 +135,16 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         crt = cart;
         crt.push(this.cart);
           this.localStorage.setItem('cart', crt).subscribe(() => {
+            this.inCart = true;
           });
 
       }
     });
     // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
     this.modalRef.hide();
+    this.inCart = true;
 
     this.toastBuy();
-    this.router.navigate(['/reserved-area/consumer/showcase']);
 
 
 
