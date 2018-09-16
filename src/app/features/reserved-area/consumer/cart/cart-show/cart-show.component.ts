@@ -18,10 +18,12 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class CartShowComponent implements OnInit, OnDestroy {
 
+
   couponArray: any;
   couponCart: any;
   cartArray =  [];
   modalRef: BsModalRef;
+  getAffordables: any;
   message: string;
   bread = [] as Breadcrumb[];
 
@@ -34,7 +36,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
 
-  ) { }
+  ) {this.returnGetAffordables(); }
 
   ngOnInit() {
     this.addBreadcrumb();
@@ -59,14 +61,21 @@ export class CartShowComponent implements OnInit, OnDestroy {
     return '€ ' + price.toFixed(2);
   }
 
+  returnGetAffordables() {
+    this.couponService.getAffordables().subscribe(
+      data => {
+        this.getAffordables = data;
+        console.log('aff', this.getAffordables);
+      });
+  }
+
   control() {
 
     this.couponService.getAffordables().subscribe(
       data => {
         this.couponArray = data;
-        console.log(data);
 
-        CartController.GetCartSimple(this.localStorage).subscribe((crt) => {
+        this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
           for (let i = 0 ; i < this.couponCart.length; i++) {
@@ -108,8 +117,22 @@ export class CartShowComponent implements OnInit, OnDestroy {
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
+
+
   buy(cartArray) {
 
+    // for (const i of cartArray) {
+    //   this.couponService.buyCoupon(i.id)
+    //     .subscribe(data => {
+    //
+    //       this.router.navigate(['/reserved-area/consumer/bought']);
+    //       this.toastBuy();
+    //     }, err => {
+    //       console.log(err);
+    //     });
+    // }
+    //
+    // this.decline();
   }
   decline(): void {
     this.modalRef.hide();
@@ -124,12 +147,15 @@ export class CartShowComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
+
+
   toastBuy() {
     this.toastr.success('Bought coupon', 'Coupon bought successfully');
+
   }
 
   onDelete(id: number) {
-    let arr = [];
+    const arr = [];
     for (const i  of  this.couponCart ) {
       if (i.id !== id) {
         arr.push(i);
@@ -153,9 +179,74 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   }
   del(coupon) {
+    const arr = [];
+    for (const i  of  this.couponCart ) {
+      if (i.id !== coupon.id) {
+        arr.push(i);
+      } else {
+        const qty = (Number(coupon.quantity) - 1);
+        const item = {id: coupon.id, quantity: qty};
+
+        arr.push(item);
+      }
+      this.couponCart = arr;
+    }
+
+    this.localStorage.setItem('cart', arr ).subscribe(() => {
+      this.cartArray = [];
+      for (let i = 0 ; i < this.couponCart.length; i++) {
+        for (let j = 0 ; j < this.couponArray.length; j++) {
+          if (this.couponCart[i].id === this.couponArray[j].id) {
+            this.couponArray[j].quantity = this.couponCart[i].quantity;
+            this.cartArray.push(this.couponArray[j]);
+          }
+        }
+      }
+      console.log('del quantity', this.cartArray);
+    });
 
   }
   add(coupon) {
 
-}
+
+    const arr = [];
+    for (const i  of  this.couponCart ) {
+      if (i.id !== coupon.id) {
+        arr.push(i);
+      } else {
+        const qty = (Number(coupon.quantity) + 1);
+        const item = {id: coupon.id, quantity: qty};
+        arr.push(item);
+      }
+      this.couponCart = arr;
+    }
+
+    this.localStorage.setItem('cart', arr ).subscribe(() => {
+      this.cartArray = [];
+      for (let i = 0 ; i < this.couponCart.length; i++) {
+        for (let j = 0 ; j < this.couponArray.length; j++) {
+          if (this.couponCart[i].id === this.couponArray[j].id) {
+            this.couponArray[j].quantity = this.couponCart[i].quantity;
+            this.cartArray.push(this.couponArray[j]);
+          }
+        }
+      }
+      console.log('del quantity', this.cartArray);
+    });
+
+  }
+  maximumQuantity(id) {
+
+    for (const i of this.getAffordables) {
+      if (id !== i.id) {
+        continue;
+      } else {
+        console.log('true');
+        console.log('quantity', i.quantity);
+        return Number(Number(i.quantity));
+      }
+    }
+
+
+  }
 }

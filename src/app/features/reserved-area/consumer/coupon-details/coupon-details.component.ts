@@ -144,7 +144,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
     this.inCart = true;
 
-    this.toastBuy();
+    this.toastCart();
 
 
 
@@ -158,7 +158,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    this.toastBuy();
+    this.toastCart();
 
   }
 
@@ -167,8 +167,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
-  toastBuy() {
-    this.toastr.success('Bought coupon', 'Coupon bought successfully');
+  toastCart() {
+    this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
   }
 
   setQuantity(e) {

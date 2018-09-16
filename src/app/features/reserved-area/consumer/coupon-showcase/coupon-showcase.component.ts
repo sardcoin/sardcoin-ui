@@ -77,6 +77,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAffordables()
       .subscribe(coupons => {
         this.coupons = coupons;
+        console.log('getAffordables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -116,7 +117,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       .subscribe(data => {
 
         this.router.navigate(['/reserved-area/consumer/bought']);
-        this.toastBuy();
+        this.toastCart();
 
       }, err => {
         console.log(err);
@@ -147,54 +148,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   }
 
-  toastBuy() {
-    this.toastr.success('Bought coupon', 'Coupon bought successfully');
+  toastCart() {
+    this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
   }
 
   createOrUpdateCart(coupon_id: number) {
-    // const cart = {id: 2, quantity: 2}; // per settare
-    // const cart2: string = JSON.stringify({id: 3, quantity: 2}); // per aggiungere
 
-    // });
-
-
-//     this.localStore.setCart(cart);
-//     // arrayCart.push(cart2);
-//     // this.localStore.createOrUpdateCart(cart);
-//     // this.localStore.createOrUpdateCart(cart2);
-//
-//     const cartSave = this.localStore.getCart();
-//     console.log('cartSave', cartSave);
-//
-//     console.log('preCart', JSON.parse(JSON.stringify(cartSave)));
-//     arrayCart.push(cartSave) ;
-//     console.log('jsonCart', arrayCart);
-//     arrayCart.push(cart2);
-//     const parse = JSON.parse(JSON.stringify(arrayCart));
-//     const jsonArray = parse;
-//     console.log('jsonCartPush', arrayCart);
-//     const item = jsonArray[1];
-//     console.log('jsonArrayPush', jsonArray);
-//
-//     const testObject = [{ 'one': 1, 'two': 2, 'three': 3 }];
-//
-// // Put the object into storage
-//     localStorage.setItem('testObject', JSON.stringify(testObject));
-//
-// // Retrieve the object from storage
-//     const retrievedObject = localStorage.getItem('testObject');
-//
-//     console.log('retrievedObject: ', JSON.parse(retrievedObject));
-//
-//
-//     const cart3: Cart = { id: 1, quantity: 2 };
-//
-//     this.localStore.setCart(cart);
-//
-//
-//     // cart(coupon_id, 2);
-//     // // this.couponService.createOrUpdateCart(cart);
-//     // console.log('cart', cart);
 
     const a = CartController.GetCart(this.localStorage);
     console.log('a', a);
@@ -232,7 +191,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
     this.modalRef.hide();
 
-    this.toastBuy();
+    this.toastCart();
 
 
   }
