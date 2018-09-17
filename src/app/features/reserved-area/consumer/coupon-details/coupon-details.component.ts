@@ -124,7 +124,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         console.log('cart null');
 
         this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
-          // this.loadCoupons();
+          this.addBreadcrumb();
           return;
         });
       } else {
@@ -136,6 +136,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         crt.push(this.cart);
           this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
+            this.addBreadcrumb();
+
           });
 
       }

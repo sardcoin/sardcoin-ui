@@ -121,18 +121,22 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   buy(cartArray) {
 
-    // for (const i of cartArray) {
-    //   this.couponService.buyCoupon(i.id)
-    //     .subscribe(data => {
-    //
-    //       this.router.navigate(['/reserved-area/consumer/bought']);
-    //       this.toastBuy();
-    //     }, err => {
-    //       console.log(err);
-    //     });
-    // }
-    //
-    // this.decline();
+    for (const i of cartArray) {
+      this.couponService.buyCoupon(i.id)
+        .subscribe(data => {
+          this.localStorage.setItem('cart', []).subscribe( () => {
+            this.addBreadcrumb();
+            this.router.navigate(['/reserved-area/consumer/bought']);
+          });
+
+
+        }, err => {
+          console.log(err);
+        });
+    }
+    this.addBreadcrumb();
+    this.toastBuy();
+    this.decline();
   }
   decline(): void {
     this.modalRef.hide();
@@ -173,6 +177,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
+      this.addBreadcrumb();
       console.log('cart with complete data', this.cartArray);
     });
     this.modalRef.hide();
