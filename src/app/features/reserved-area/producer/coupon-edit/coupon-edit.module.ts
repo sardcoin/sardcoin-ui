@@ -9,19 +9,22 @@ import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
+    CouponEditComponent
   ],
   imports: [
     ReactiveFormsModule,
     SharedModule,
     CommonModule,
     FileUploadModule,
+
   ],
   exports: [
   ],
   providers: [
     BreadcrumbActions,
     StoreService
-  ]
+  ],
+
 })
 export class FeatureReservedAreaCouponEditModule {
 }

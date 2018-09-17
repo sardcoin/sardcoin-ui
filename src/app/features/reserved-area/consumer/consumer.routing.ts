@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
+import {CartShowComponent} from './cart/cart-show/cart-show.component';
 
 /** App Components **/
 
@@ -26,6 +27,10 @@ import {CouponDetailsComponent} from './coupon-details/coupon-details.component'
       {
         path: 'details',
         component: CouponDetailsComponent
+      },
+      {
+        path: 'cart',
+        component: CartShowComponent
       }
     ])
   ],

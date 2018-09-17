@@ -25,8 +25,7 @@
               "node_modules/flag-icon-css/css/flag-icon.css",
               "node_modules/simple-line-icons/css/simple-line-icons.css",
               "src/scss/style.scss",
-              "node_modules/ngx-toastr/toastr.css"
-            ],
+              "node_modules/ngx-toastr/toastr.css"],
             "scripts": [
               "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/jquery/dist/jquery.js",

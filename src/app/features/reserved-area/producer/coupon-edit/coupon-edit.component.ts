@@ -14,13 +14,23 @@ import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {first} from 'rxjs/internal/operators';
 
+
+
+
 @Component({
   selector: 'app-edit-coupon',
   templateUrl: './coupon-edit.component.html',
-  styleUrls: ['./coupon-edit.component.scss']
+  styleUrls: ['./coupon-edit.component.scss'],
 })
 
 export class CouponEditComponent implements OnInit, OnDestroy {
+
+  formSettings = {
+    theme: 'mobiscroll'
+  };
+
+  compact: Date;
+  expanded: Date;
 
   couponForm: FormGroup;
   marked = false;

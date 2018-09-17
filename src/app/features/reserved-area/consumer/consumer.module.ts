@@ -11,13 +11,18 @@ import {ModalModule} from 'ngx-bootstrap';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
+import {CartController} from './cart/cart-controller';
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import { CartShowComponent } from './cart/cart-show/cart-show.component';
 
 @NgModule({
   declarations: [
     FeatureReservedAreaConsumerComponent,
     FeatureReservedAreaConsumerBoughtComponent,
     CouponDetailsComponent,
-    FeatureReservedAreaConsumerShowcaseComponent
+    FeatureReservedAreaConsumerShowcaseComponent,
+    CartShowComponent,
+
   ],
   imports: [
     SharedModule,
@@ -25,11 +30,13 @@ import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/co
     ConsumerRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
+
   ],
   providers: [
     CouponService,
     BreadcrumbActions,
-    BsModalService
+    BsModalService,
+
   ],
   exports: [
     FeatureReservedAreaConsumerComponent,
