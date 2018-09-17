@@ -61,7 +61,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
               }
             }
           }
-          this.inCart = false;
         });
 
       }
@@ -124,7 +123,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         console.log('cart null');
 
         this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
-          this.addBreadcrumb();
+          // this.loadCoupons();
           return;
         });
       } else {
@@ -136,8 +135,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         crt.push(this.cart);
           this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
-            this.addBreadcrumb();
-
           });
 
       }

@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table *ngIf="!(isEmpty)" class="table table-striped">
   <thead>
   <tr>
     <th style="width: 40%">Title</th>
@@ -63,7 +63,7 @@
   </tbody>
 
 </table>
-<button type="button" class="btn btn-block btn-success" (click)="openModal(template_buy)">Buy</button>
+<button *ngIf="! (cartArray.length  === 0)" type="button" class="btn btn-block btn-success" (click)="openModal(template_buy)">Buy</button>
 <ng-template #template_buy>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Buy</h4>
@@ -83,3 +83,6 @@
     <button type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>
   </div>
 </ng-template>
+<div *ngIf="isEmpty">
+<img  class="container-fluid" src="assets/img/empty.png"  />
+</div>
