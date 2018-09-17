@@ -93,6 +93,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               }
             }
           }
+          this.addBreadcrumb();
         });
         this.coupons = coupons;
       }, err => {

@@ -61,7 +61,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
               }
             }
           }
-          this.inCart = false;
         });
 
       }
