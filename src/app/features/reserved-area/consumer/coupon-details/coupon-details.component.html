@@ -27,8 +27,9 @@
           </p>
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to shopping</button>
-          <button *ngIf="!inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
+          <button *ngIf="!inCart && !inPurchased" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
           <button *ngIf="inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
+          <button *ngIf="inPurchased" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
 
           <ng-template #template>
             <div class="modal-header">

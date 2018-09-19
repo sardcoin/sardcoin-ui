@@ -26,6 +26,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   quantity = 1;
   couponsCheckCart: CartItem[];
   inCart: boolean;
+  inPurchased = false;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -59,7 +60,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             if (this.couponsPurchased !== null) {
               for (const i of this.couponsPurchased) {
                 if (this.couponPass.id === i.id) {
-                  this.inCart = true;
+                  this.inPurchased = true;
                   return true;
                 }
               }
