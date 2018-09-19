@@ -153,7 +153,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       'quantity': this.couponForm.value.quantity
     };
 
-    console.log('nuovo id', this.idCopy)
+    console.log('nuovo id', this.idCopy);
     console.log('coupon edit', this.coupon);
     this.couponService.editCoupon(this.coupon).subscribe(
       (data) => {
