@@ -12,7 +12,9 @@
           -->
 
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
-
+          <div class="coupon-cart" *ngIf="inCart" (click)="viewCart()">
+            <i class="fas fa-cart-arrow-down" ></i>
+          </div>
           <p class="card-text">{{couponPass.description}}</p>
           <p class="card-text">
             <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}

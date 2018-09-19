@@ -12,6 +12,7 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import {CartController} from '../cart/cart-controller';
+import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 
 // import Any = jasmine.Any;
 
@@ -29,7 +30,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   cart = new CartItem();
   crt = [];
   quantity = 1;
+  maxQuantity = 3;
   bread = [] as Breadcrumb[];
+  value: any;
+  myForm: FormGroup;
+  refreshQuantity: number;
+
 
   constructor(private couponService: CouponService,
               private breadcrumbActions: BreadcrumbActions,
@@ -38,7 +44,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               private localStore: StoreService,
               private router: Router,
               private toastr: ToastrService,
-              protected localStorage: LocalStorage) {
+              protected localStorage: LocalStorage,
+              private formBuilder: FormBuilder) {
 
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
@@ -52,6 +59,40 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   ngOnInit(): void {
     this.loadCoupons();
     this.addBreadcrumb();
+
+
+  }
+  get f() {
+    return this.myForm.controls;
+  }
+
+  onChanges(): void {
+
+    const value = this.maxQuantity;
+    console.log('maxquantity', this.maxQuantity);
+    const insert = this.value;
+    this.myForm.valueChanges.subscribe(val => {
+
+      const val_quantity = val.quantity;
+      val.quantity = this.setQuantity(val.quantity);
+      console.log('val', val.quantity);
+      this.refreshQuantity = val.quantity;
+      // if (val.quantity >= this.quantity ) {
+      //   this.refreshQuantity = this.quantity;
+      // } else if (val.quantity < 1) {
+      //   this.refreshQuantity = 1;
+      // } else {
+      //   this.refreshQuantity = val.quantity;
+      // }
+      //
+
+
+      console.log('refreshQuantity', this.refreshQuantity);
+      console.log('value', value);
+      console.log('insert', insert);
+
+
+    });
   }
 
   ngOnDestroy(): void {
@@ -127,7 +168,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.decline();
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, quantity) {
+    this.maxQuantity = quantity;
+    this.myForm = this.formBuilder.group({
+      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity)])]
+
+    });
+
+    this.onChanges();
+    console.log('from modal', this.maxQuantity);
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
@@ -169,8 +218,43 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   setQuantity(e) {
-    this.quantity = e;
 
+    this.value = e;
+    console.log('maxQtyIn_set', this.maxQuantity);
+    console.log('value in set', this.value);
+
+    console.log('eeeeee', this.value)
+    if ((this.value > this.maxQuantity)) {
+
+      this.quantity = this.maxQuantity;
+    } else if (this.value < 1) {
+      this.quantity = 1;
+    } else {
+      this.quantity = this.value;
+    }
+    console.log('qty', this.quantity)
+    return this.quantity;
+
+
+  }
+
+  setValue() {
+
+    if ((this.value > this.quantity)) {
+
+      this.quantity = this.quantity;
+    } else if (this.value < 1) {
+      this.quantity = 1;
+    } else {
+      this.quantity = this.value;
+    }
+    return this.quantity ;
+  }
+
+  putQuantity(e, quantity) {
+    this.value = e;
+    this.maxQuantity = quantity;
+    console.log('maxQtyIn_put', this.maxQuantity);
   }
 
   addToCart(coupon_id: number) {

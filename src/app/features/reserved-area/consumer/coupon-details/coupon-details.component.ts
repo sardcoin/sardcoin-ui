@@ -22,6 +22,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   message: string;
   couponPass: any;
   cart = new CartItem();
+  couponsPurchased: any;
   quantity = 1;
   couponsCheckCart: CartItem[];
   inCart: boolean;
@@ -50,6 +51,22 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
          } else {
         this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
+
+        this.couponService.getPurchasedCoupons()
+          .subscribe(coupons => {
+            this.couponsPurchased = coupons;
+
+            if (this.couponsPurchased !== null) {
+              for (const i of this.couponsPurchased) {
+                if (this.couponPass.id === i.id) {
+                  this.inCart = true;
+                  return true;
+                }
+              }
+            }
+          }, err => {
+            console.log(err);
+          });
         this.localStorage.getItem<any>('cart').subscribe((cart) => {
           this.couponsCheckCart = cart;
 
@@ -83,7 +100,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));};
+    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase')); }
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -123,7 +140,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         console.log('cart null');
 
         this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
-          // this.loadCoupons();
+          this.inCart = true;
+          this.addBreadcrumb();
           return;
         });
       } else {
@@ -135,13 +153,15 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         crt.push(this.cart);
           this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
+            this.addBreadcrumb();
+            return;
           });
 
       }
+      return;
     });
     // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
     this.modalRef.hide();
-    this.inCart = true;
 
     this.toastCart();
 
@@ -196,12 +216,4 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  // getCart() {
-  //
-  //   this.localStorage.getItem<any>('cart').subscribe((cart) => {
-  //     this.couponsCheckCart = cart;
-  //     return;
-  //   });
-  //
-  // }
 }
