@@ -8,37 +8,61 @@
           <p class="card-text">{{coupon.description}}</p>
         </div>
         <div  class="card-footer">
-          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template)">Add to cart</button>
+          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon.quantity)">Add to cart</button>
           <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="createOrUpdateCart(coupon)">get storage</button>-->
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="setStorage(coupon)">set storage</button>-->
-          <button type="button" class="btn btn-info text-white float-right" (click)="deleteStorage()">del cart</button>
+          <!--<button type="button" class="btn btn-info text-white float-right" (click)="deleteStorage()">del cart</button>-->
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="prove()">prove</button>-->
         </div>
 
         <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
+        <div class="coupon-cart" *ngIf="inCart(coupon.id)" (click)="viewCart()">
+          <i class="fas fa-cart-arrow-down" ></i>
+        </div>
 
         <ng-template #template>
           <div class="modal-header">
-            <h4 class="modal-title pull-left">Add to cart</h4>
+            <h4 class="modal-title pull-left">Add to shopping cart</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            <p>Confirm add to cart Coupon?</p>
+            <!--<p>Confirm add to cart Coupon?</p>-->
             <!--<p>Quantity:-->
             <!--<input type="number"></p>-->
 
 
-            <form>
+            <!--<form>-->
+              <!--<div class="form-group">-->
+                <!--<label for="formControlRange">Quantity: Max {{coupon.quantity}}</label>-->
+                <!--<input  type="range" min="1" max="{{coupon.quantity}}" value="1" class="form-control-range" id="formControlRange" (input)="setQuantity($event.target.value)">-->
+              <!--<label>Selected: {{quantity}}</label>-->
+              <!--</div>-->
+            <!--</form>-->
+
+            <form [formGroup]="myForm" >
               <div class="form-group">
-                <label for="formControlRange">Quantity: Max {{coupon.quantity}}</label>
-                <input  type="range" min="1" max="{{coupon.quantity}}" value="1" class="form-control-range" id="formControlRange" (input)="setQuantity($event.target.value)">
-              <label>Selected: {{quantity}}</label>
+                <label class="col-sm-5">Coupons available: {{coupon.quantity}}</label>
+
+                <input  formControlName="quantity"
+                        class="col-sm-2"
+                        type="number" min="1" max="{{coupon.quantity}}"
+                        (input)="putQuantity($event.target.value, coupon.quantity )"
+                        />
+                <!--value="{{refreshQuantity}}"-->
+
+                <label class="col-sm-5">Selected: {{refreshQuantity}}</label>
+                <div >
+                <div style="color: #bd0a0d;
+                            text-align: center"  *ngIf="f.quantity.errors">Insert a valid quantity!</div>
+                </div>
               </div>
             </form>
+
+
 
 
           </div>
@@ -48,9 +72,9 @@
             <button type="button" class="btn btn-success" (click)="addToCart(coupon.id)">Yes</button>
           </div>
         </ng-template>
-        <button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart
-          <i class="fas fa-cart-arrow-down" ></i>
-        </button>
+        <!--<button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart-->
+          <!--<i class="fas fa-cart-arrow-down" ></i>-->
+        <!--</button>-->
       </div>
 
 

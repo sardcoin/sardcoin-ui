@@ -80,7 +80,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
         this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
-          if (crt == null) {
+          console.log('crt', crt)
+          if (crt.length === 0) {
             this.isEmpty = true;
           } else {
             this.isEmpty = false;
@@ -143,6 +144,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
     }
     this.addBreadcrumb();
     this.toastBuy();
+    this.isEmpty = true;
     this.decline();
   }
   decline(): void {
@@ -174,6 +176,9 @@ export class CartShowComponent implements OnInit, OnDestroy {
       this.couponCart = arr;
     }
 
+    if (this.couponCart.length === 0){
+      this.isEmpty = true;
+    }
     this.localStorage.setItem('cart', arr ).subscribe(() => {
       this.cartArray = [];
       for (let i = 0 ; i < this.couponCart.length; i++) {
@@ -260,5 +265,12 @@ export class CartShowComponent implements OnInit, OnDestroy {
     }
 
 
+  }
+
+  retry() {
+    this.router.navigate(['/reserved-area/consumer/showcase']);
+  }
+  openBought(){
+    this.router.navigate(['/reserved-area/consumer/bought']);
   }
 }
