@@ -35,7 +35,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     console.log('vedi qua dopo tutto in ngOnInit', this.couponArrayTitleAndQuantity);
 
 
-
     this.addBreadcrumb();
   }
 
@@ -75,6 +74,16 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   onDetails() {
 
+  }
+
+  formatState(state) { // TODO fixme
+    /*    switch (state) {
+          case 0:
+            return 'Active';
+          default:
+            return 'unknown';
+        }*/
+    return 'Active';
   }
 
   addBreadcrumb() {
@@ -135,6 +144,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.message = 'Declined!';
     this.modalRef.hide();
   }
+
   toastDelete() {
     this.toastr.success('Delete coupon', 'Coupon deleted successfully');
   }
