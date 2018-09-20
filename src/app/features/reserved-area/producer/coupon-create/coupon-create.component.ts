@@ -14,6 +14,7 @@ import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import { sha256, sha224 } from 'js-sha256';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -108,36 +109,69 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       return;
 
     }
-    this.coupon = new Coupon(
-      this.couponForm.value.title,
-      this.couponForm.value.description,
-      this.imagePath,
-      this.couponForm.value.timestamp,
-      this.couponForm.value.price ? this.couponForm.value.price : 0,
-      this.dateFrom.getTime().valueOf(),
-      (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
-      this.couponForm.value.state,
-      this.couponForm.value.constraints,
-      this.couponForm.value.owner,
-      this.couponForm.value.consumer,
-      this.couponForm.value.quantity
-    );
-
-    // const quantityCoupon = parseInt(this.couponForm.value.quantity);
-    // for (let i = 0 ; i < quantityCoupon; i++) {
-    this.couponService.register(this.coupon).pipe(first())
-      .subscribe(
-        data => {
-          // if ((i + 1) === quantityCoupon) {
-          this.router.navigate(['/reserved-area/producer/list']);
-          this.toastCreate();
-
-          // }
-        }, error => {
-          console.log(error);
-        }
+    if (this.couponForm.value.quantity === 1) {
+      this.coupon = new Coupon(
+        this.couponForm.value.title,
+        this.couponForm.value.description,
+        this.imagePath,
+        this.couponForm.value.timestamp,
+        this.couponForm.value.price ? this.couponForm.value.price : 0,
+        this.dateFrom.getTime().valueOf(),
+        (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
+        this.couponForm.value.state,
+        this.couponForm.value.constraints,
+        this.couponForm.value.owner,
+        this.couponForm.value.consumer,
+        this.couponForm.value.quantity
       );
-    // }
+      this.couponService.register(this.coupon).pipe(first())
+        .subscribe(
+          data => {
+            // if ((i + 1) === quantityCoupon) {
+            this.router.navigate(['/reserved-area/producer/list']);
+            this.toastCreate();
+
+            // }
+          }, error => {
+            console.log(error);
+          }
+        );
+    } else {
+
+      this.coupon = new Coupon(
+        this.couponForm.value.title,
+        this.couponForm.value.description,
+        this.imagePath,
+        this.couponForm.value.timestamp,
+        this.couponForm.value.price ? this.couponForm.value.price : 0,
+        this.dateFrom.getTime().valueOf(),
+        (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
+        this.couponForm.value.state,
+        this.couponForm.value.constraints,
+        this.couponForm.value.owner,
+        this.couponForm.value.consumer,
+        1,
+        this.generateToken(this.couponForm.value.title)
+      );
+
+      for (let i = 0 ; i < this.couponForm.value.quantity; i++) {
+      this.couponService.register(this.coupon).pipe(first())
+        .subscribe(
+          data => {
+            // if ((i + 1) === quantityCoupon) {
+
+
+            // }
+          }, error => {
+            console.log(error);
+          }
+
+        );
+        this.router.navigate(['/reserved-area/producer/list']);
+        this.toastCreate();
+      }
+
+    }
   }
 
   addBreadcrumb() {
@@ -182,6 +216,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   toastCreate() {
     this.toastr.success('Create coupon', 'Coupon created successfully');
   }
+
+  generateToken(title: string) {
+
+    return sha256(title);
+}
 }
 
 
