@@ -36,7 +36,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   dateUntil: Date;
   submitted = false;
   URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
-  imagePath: string = null;
+  imagePath = 'no_image.jpeg';
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
@@ -60,10 +60,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
-      description: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
+      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
       image: [this.imagePath],
       price: [],
-      valid_from: ['', Validators.required],
+      valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
       valid_until: [],
       state: ['0'],
       constraints: [],
@@ -112,7 +112,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     if (this.couponForm.value.quantity === 1) {
       this.coupon = new Coupon(
         this.couponForm.value.title,
-        this.couponForm.value.description,
+        this.couponForm.value.description === '' ? null : this.couponForm.value.description,
         this.imagePath,
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
