@@ -140,7 +140,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
       this.coupon = new Coupon(
         this.couponForm.value.title,
-        this.couponForm.value.description,
+        this.couponForm.value.description === '' ? null : this.couponForm.value.description,
         this.imagePath,
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
