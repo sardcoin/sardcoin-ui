@@ -28,6 +28,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   inCart: boolean;
   inPurchased = false;
 
+
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,

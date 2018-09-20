@@ -19,8 +19,10 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   modalRef: BsModalRef;
   message: string;
-  couponArray: any;
+  couponArray = [];
   couponArrayTitleAndQuantity: any = [];
+  arrayCreatedCoupons: any;
+  tokenArray = new Array();
 
   constructor(private modalService: BsModalService,
               private couponService: CouponService,
@@ -119,21 +121,30 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     return '€ ' + price.toFixed(2);
   }
 
-  formatState(state) {
-    /*    switch (state) {
-          case 0:
-            return 'Active';
-          default:
-            return 'unknown';
-        }*/
-    return 'Active';
-  }
 
   control() {
 
     this.couponService.getCreatedCoupons().subscribe(
       data => {
-        this.couponArray = data;
+       this.arrayCreatedCoupons = data;
+        const array = [];
+        let filter = [];
+        for (const i of this.arrayCreatedCoupons) {
+          array.push(i); // mi creo l'array per manipolarlo meglio
+
+
+        }
+        // filtro l'array con token univoco (coupons con token tutti diversi)
+         filter = array.reduce((x, y) => x.findIndex(e => e.token === y.token) < 0 ? [...x, y] : x, []);
+
+        // // esempio:
+        // const some = [ {name: 'Guille', last: 'Foo'}, {name: 'Jorge', last: 'bar'}, {name: 'Pedro', last: 'Foo'}, {name: 'Guille', last: 'Ipsum'} ];
+        // const result = some.reduce((x, y) => x.findIndex(e => e.name === y.name) < 0 ? [...x, y] : x, []);
+
+        // console.log('some', result);
+
+        this.couponArray = filter;
+        console.log('set', array);
         console.log(data);
       },
       error => console.log(error)
@@ -157,6 +168,17 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   toastDelete() {
     this.toastr.success('Delete coupon', 'Coupon deleted successfully');
+  }
+
+  compare(a, b) {
+
+    if (a.token !== b.token) {
+      return -1;
+    }
+    if (a.token === b.token) {
+      return 1;
+    }
+    return 0;
   }
 
 }

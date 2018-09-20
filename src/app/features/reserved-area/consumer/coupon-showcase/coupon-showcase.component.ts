@@ -37,6 +37,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   refreshQuantity: number;
 
 
+
   constructor(private couponService: CouponService,
               private breadcrumbActions: BreadcrumbActions,
               private _sanitizer: DomSanitizer,
