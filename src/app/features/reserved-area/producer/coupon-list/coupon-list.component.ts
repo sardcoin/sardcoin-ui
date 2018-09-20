@@ -119,16 +119,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     return '€ ' + price.toFixed(2);
   }
 
-  formatState(state) {
-    /*    switch (state) {
-          case 0:
-            return 'Active';
-          default:
-            return 'unknown';
-        }*/
-    return 'Active';
-  }
-
   control() {
 
     this.couponService.getCreatedCoupons().subscribe(
