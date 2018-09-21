@@ -3,8 +3,13 @@
     <div class="col-md-12">
       <div class="card mx-4">
         <div class="card-body px-5">
-          <h1 class="text-left">Add new coupon</h1>
-          <h4 class="text-muted text-left mb-5">Fill the form:</h4>
+          <div>
+            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:150px" />
+          </div>
+          <div>
+            <h1 class="text-left">Add new coupon</h1>
+            <h6 class="text-muted text-left mb-5">All fields are required</h6>
+          </div>
 
           <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
