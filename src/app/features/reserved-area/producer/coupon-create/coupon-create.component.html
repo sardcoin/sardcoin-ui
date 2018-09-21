@@ -84,7 +84,7 @@
                   <div *ngIf="f.price.errors">Value required</div>
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-4 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
                          (change)="toggleVisibilityPrice($event)">
@@ -113,7 +113,7 @@
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-4 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check1" data-md-icheck
                          (change)="toggleVisibilityExpiration($event)">
@@ -124,14 +124,14 @@
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Place</label>
-              <div class="col-sm-8">
+              <div class="col-sm-6">
                 <input [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-4 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
                          (change)="toggleVisibilityPlace($event)">
@@ -167,7 +167,7 @@
             </div>
             <div class="form group">
               <p>
-                <button class="btn btn-block btn-success btn-create-coupon">Create coupon</button>
+                <button class="btn btn-block btn-success btn-create-coupon">Create</button>
               </p>
             </div>
 
