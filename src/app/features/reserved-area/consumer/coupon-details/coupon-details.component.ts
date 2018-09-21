@@ -27,6 +27,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   couponsCheckCart: CartItem[];
   inCart: boolean;
   inPurchased = false;
+  availability: string;
 
 
   constructor(
@@ -54,7 +55,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
 
-        this.couponService.getPurchasedCoupons()
+        this.couponService.getDistinctAvailables()
           .subscribe(coupons => {
             this.couponsPurchased = coupons;
 

@@ -29,7 +29,7 @@ export class Coupon {
               owner?: number,
               consumer?: number,
               quantity?: number,
-              token?: string ) {
+               ) {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -42,7 +42,7 @@ export class Coupon {
     this.owner = owner;
     this.consumer = consumer;
     this.quantity = quantity;
-    this.token = token;
+
 
   }
 

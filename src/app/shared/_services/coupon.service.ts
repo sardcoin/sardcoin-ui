@@ -36,7 +36,9 @@ export class CouponService {
   getPurchasedCoupons() {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
   }
-
+  getDistinctAvailables() {
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getDistinctAvailables');
+  }
   getCreatedCoupons() {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
   }

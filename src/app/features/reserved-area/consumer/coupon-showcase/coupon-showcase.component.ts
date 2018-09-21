@@ -116,10 +116,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   loadCoupons() {
-    this.couponService.getAffordables()
+    this.couponService.getDistinctAvailables()
       .subscribe(coupons => {
         this.coupons = coupons;
-        console.log('getAffordables', coupons);
+        console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
