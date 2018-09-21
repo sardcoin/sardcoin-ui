@@ -6,12 +6,12 @@
           <div style="float:left; margin-right:4.8em">
             <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:100px" />
           </div>
-          <div>
+          <div style="padding-top:20px">
             <h1 class="text-left">Add new coupon</h1>
-            <h6 class="text-muted text-left mb-5">All fields are required</h6>
+            <h5 class="text-muted text-left mb-5">All fields are required</h5>
           </div>
 
-          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()" style="margin-top:30px">
+          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()" style="padding-top:30px">
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
