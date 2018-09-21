@@ -4,9 +4,9 @@
       <div class="card mx-4">
         <div class="card-body px-5">
           <div style="float:left; margin-right:4.8em">
-            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:100px" />
+            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:100px"/>
           </div>
-          <div style="padding-top:20px">
+          <div style="padding-top:12px">
             <h1 class="text-left">Add new coupon</h1>
             <h5 class="text-muted text-left mb-5">All fields are required</h5>
           </div>
@@ -49,11 +49,11 @@
                             (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                       <span class="glyphicon glyphicon-upload"></span> Upload
                     </button>
-                    <button type="button" class="btn btn-warning btn-sm ml-1"
+                    <button type="button" class="btn btn-warning btn-sm ml-1 btn-secondary"
                             (click)="item.cancel()" [disabled]="!item.isUploading">
                       <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm ml-1"
+                    <button type="button" class="btn btn-danger btn-sm ml-1 btn-secondary"
                             (click)="item.remove()">
                       <span class="glyphicon glyphicon-trash"></span> Remove
                     </button>
@@ -78,10 +78,15 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
               <div class="col-sm-2">
-                <div class="form-check">
+                <!--<div class="form-check">
                   <input type="checkbox" class="form-check-input" id="check2" data-md-icheck
                          (change)="toggleVisibility2($event)">
                   <label class="form-check-label" for="check2">Free</label>
+                </div>-->
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
+                         (change)="toggleVisibility2($event)">
+                  <label class="custom-control-label" for="check2">Free</label>
                 </div>
               </div>
               <div class="col-sm-8">
