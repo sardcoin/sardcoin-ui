@@ -78,11 +78,6 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
               <div class="col-sm-2">
-                <!--<div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="check2" data-md-icheck
-                         (change)="toggleVisibility2($event)">
-                  <label class="form-check-label" for="check2">Free</label>
-                </div>-->
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
                          (change)="toggleVisibility2($event)">
@@ -111,13 +106,6 @@
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid until</label>
-              <div class="col-sm-2">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="check1" data-md-icheck
-                         (change)="toggleVisibility($event)">
-                  <label class="form-check-label" for="check1">Unlimited</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input [readonly]="marked" type="datetime-local" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
@@ -125,22 +113,29 @@
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
                 </div>
               </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check1" data-md-icheck
+                         (change)="toggleVisibility($event)">
+                  <label class="custom-control-label" for="check1">Never expires</label>
+                </div>
+              </div>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Place</label>
-              <div class="col-sm-2">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="check3" data-md-icheck
-                         (change)="toggleVisibility3($event)">
-                  <label class="form-check-label" for="check1">None</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
+                         (change)="toggleVisibility2($event)">
+                  <label class="custom-control-label" for="check3">Everywhere</label>
                 </div>
               </div>
             </div>
