@@ -77,18 +77,18 @@
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
-                         (change)="toggleVisibility2($event)">
-                  <label class="custom-control-label" for="check2">Free</label>
-                </div>
-              </div>
-              <div class="col-sm-8">
+              <div class="col-sm-6">
                 <input [readonly]="marked2" type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                   <div *ngIf="f.price.errors">Value required</div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
+                         (change)="toggleVisibilityPrice($event)">
+                  <label class="custom-control-label" for="check2">Free</label>
                 </div>
               </div>
             </div>
@@ -106,17 +106,17 @@
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid until</label>
-              <div class="col-sm-8">
+              <div class="col-sm-6">
                 <input [readonly]="marked" type="datetime-local" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
                 <div *ngIf="submitted && f.valid_until.errors" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-4">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check1" data-md-icheck
-                         (change)="toggleVisibility($event)">
+                         (change)="toggleVisibilityExpiration($event)">
                   <label class="custom-control-label" for="check1">Never expires</label>
                 </div>
               </div>
@@ -134,7 +134,7 @@
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
-                         (change)="toggleVisibility2($event)">
+                         (change)="toggleVisibilityPlace($event)">
                   <label class="custom-control-label" for="check3">Everywhere</label>
                 </div>
               </div>

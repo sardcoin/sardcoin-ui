@@ -199,16 +199,16 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     console.log(this.uploader.queue[0]);
   }
 
-  toggleVisibility(e) {
+  toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
   }
 
-  toggleVisibility2(e) {
+  toggleVisibilityPrice(e) {
     this.marked2 = e.target.checked;
     this.price = 0;
   }
 
-  toggleVisibility3(e) {
+  toggleVisibilityPlace(e) {
     this.marked3 = e.target.checked;
   }
   toastCreate() {
