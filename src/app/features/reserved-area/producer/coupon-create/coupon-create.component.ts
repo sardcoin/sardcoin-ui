@@ -122,7 +122,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
-        this.couponForm.value.quantity
       );
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
@@ -150,8 +149,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
-        1,
-        this.generateToken(this.couponForm.value.title)
       );
 
       for (let i = 0 ; i < this.couponForm.value.quantity; i++) {
@@ -167,9 +164,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           }
 
         );
-        this.router.navigate(['/reserved-area/producer/list']);
-        this.toastCreate();
+
       }
+      this.router.navigate(['/reserved-area/producer/list']);
+      this.toastCreate();
 
     }
   }
