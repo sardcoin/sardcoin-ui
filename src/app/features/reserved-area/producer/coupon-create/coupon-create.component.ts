@@ -94,7 +94,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-    console.log(this.dateUntil.getMilliseconds());
+    // console.log(this.dateUntil.getMilliseconds());
 
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
@@ -105,7 +105,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
-      console.log(this.couponForm);
+      // console.log(this.couponForm);
       return;
 
     }

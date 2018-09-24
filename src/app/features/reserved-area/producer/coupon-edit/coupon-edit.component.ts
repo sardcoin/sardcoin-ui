@@ -153,8 +153,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       'quantity': this.couponForm.value.quantity
     };
 
-    console.log('nuovo id', this.idCopy);
-    console.log('coupon edit', this.coupon);
+    // console.log('nuovo id', this.idCopy);
+    // console.log('coupon edit', this.coupon);
     this.couponService.editCoupon(this.coupon).subscribe(
       (data) => {
         this.router.navigate(['/reserved-area/producer/list']);
@@ -186,13 +186,13 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    console.log(data);
+    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     // let error = JSON.parse(response); //error server response
-    console.log(response);
-    console.log(this.uploader.queue[0]);
+    // console.log(response);
+    // console.log(this.uploader.queue[0]);
   }
 
   toggleVisibility(e) {
@@ -250,9 +250,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.couponService.register(this.couponCopy).pipe(first())
         .subscribe(
           data => {
-            console.log('new coupon create', data);
+            // console.log('new coupon create', data);
             this.idCopy = JSON.parse( JSON.stringify(data)).id;
-            console.log('id', JSON.parse( JSON.stringify(data)).id);
+            //console.log('id', JSON.parse( JSON.stringify(data)).id);
           }, error => {
             console.log(error);
           }

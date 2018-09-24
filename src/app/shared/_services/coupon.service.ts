@@ -58,7 +58,7 @@ export class CouponService {
   }
   setFromEdit(fromEdit: boolean) {
     this.boolFormEdit.next(fromEdit);
-    console.log('from edit  ' + fromEdit);
+    // console.log('from edit  ' + fromEdit);
 
   }
 
@@ -73,7 +73,7 @@ export class CouponService {
   }
 
   getAffordables() {
-    console.log('token consumer ' , this.localStore.getToken());
+    // console.log('token consumer ' , this.localStore.getToken());
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
 
   }

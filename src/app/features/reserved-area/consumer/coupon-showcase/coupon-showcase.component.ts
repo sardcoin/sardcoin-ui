@@ -50,7 +50,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
-            console.log('set cart []', []);
+            // console.log('set cart []', []);
             this.localStorage.setItem('cart', []);
           }
         });
@@ -70,13 +70,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   onChanges(): void {
 
     const value = this.maxQuantity;
-    console.log('maxquantity', this.maxQuantity);
+    // console.log('maxquantity', this.maxQuantity);
     const insert = this.value;
     this.myForm.valueChanges.subscribe(val => {
 
       const val_quantity = val.quantity;
       val.quantity = this.setQuantity(val.quantity);
-      console.log('val', val.quantity);
+       // console.log('val', val.quantity);
       this.refreshQuantity = val.quantity;
       // if (val.quantity >= this.quantity ) {
       //   this.refreshQuantity = this.quantity;
@@ -88,9 +88,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       //
 
 
-      console.log('refreshQuantity', this.refreshQuantity);
-      console.log('value', value);
-      console.log('insert', insert);
+      // console.log('refreshQuantity', this.refreshQuantity);
+      // console.log('value', value);
+      // console.log('insert', insert);
 
 
     });
@@ -119,7 +119,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getDistinctAvailables()
       .subscribe(coupons => {
         this.coupons = coupons;
-        console.log('getDistinctAvailables', coupons);
+        // console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -128,7 +128,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             getCart = cart;
             for (let i = 0; i < getCart.length; i++) {
               for (const j of this.coupons) {
-                console.log('j[1]', j.id);
+                // console.log('j[1]', j.id);
                if (getCart[i].id === j.id) {
                   this.couponsCheckCart.push(j);
                }
@@ -177,7 +177,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     });
 
     this.onChanges();
-    console.log('from modal', this.maxQuantity);
+    // console.log('from modal', this.maxQuantity);
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
@@ -207,7 +207,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
 
     const a = CartController.GetCart(this.localStorage);
-    console.log('a', a);
+    // console.log('a', a);
   }
 
   setStorage() {
@@ -221,10 +221,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   setQuantity(e) {
 
     this.value = e;
-    console.log('maxQtyIn_set', this.maxQuantity);
-    console.log('value in set', this.value);
-
-    console.log('eeeeee', this.value)
+    // console.log('maxQtyIn_set', this.maxQuantity);
+    // console.log('value in set', this.value);
+    //
+    // console.log('eeeeee', this.value)
     if ((this.value > this.maxQuantity)) {
 
       this.quantity = this.maxQuantity;
@@ -233,7 +233,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     } else {
       this.quantity = this.value;
     }
-    console.log('qty', this.quantity)
+    // console.log('qty', this.quantity)
     return this.quantity;
 
 
@@ -255,7 +255,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   putQuantity(e, quantity) {
     this.value = e;
     this.maxQuantity = quantity;
-    console.log('maxQtyIn_put', this.maxQuantity);
+    // console.log('maxQtyIn_put', this.maxQuantity);
   }
 
   addToCart(coupon_id: number) {
