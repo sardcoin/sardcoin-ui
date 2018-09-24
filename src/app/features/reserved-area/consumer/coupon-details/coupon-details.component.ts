@@ -140,7 +140,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
-        console.log('cart null');
+        // console.log('cart null');
 
         this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
           this.inCart = true;
@@ -150,7 +150,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       } else {
         this.cart.id = this.couponPass.id;
         this.cart.quantity = this.quantity;
-        console.log('id', this.cart.id);
+        // console.log('id', this.cart.id);
         let crt = [];
         crt = cart;
         crt.push(this.cart);

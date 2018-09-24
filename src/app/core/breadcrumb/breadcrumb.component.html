@@ -1,14 +1,14 @@
 <nav aria-label="breadcrumb" class="" *ngIf="isUserLoggedIn">
   <ol class="breadcrumb border border-info border-left-0 border-right-0">
     <li *ngFor="let item of breadList" class="breadcrumb-item">
-      <a [routerLink]="[item.url]">{{item.label}}</a>
+      <a *ngIf="item !== 'undefined'" [routerLink]="[item.url]">{{item.label}}</a>
 
     </li>
-    <div *ngIf="breadList[2].label.includes('Consumer')"  class="ml-auto">
+    <div *ngIf="breadList[2].label.includes('Consumer')"  class="ml-auto" (click)="viewCart()">
       <a *ngIf="arrayCart.length === 0">The cart is empty!   </a>
-      <a *ngIf="arrayCart.length > 0">The cart have {{arrayCart.length}} coupons   </a>
+      <a routerLink="/reserved-area/consumer/cart" *ngIf="arrayCart.length > 0">Go to cart ({{arrayCart.length}})   </a>
 
-      <i class="fas fa-cart-arrow-down" (click)="viewCart()"></i>
+      <i routerLink="/reserved-area/consumer/cart" style="font-size: 1.5em !important;" class="fas fa-cart-arrow-down" ></i>
     </div>
   </ol>
 

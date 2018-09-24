@@ -23,7 +23,9 @@ export class CartShowComponent implements OnInit, OnDestroy {
   couponCart: any;
   cartArray =  [];
   modalRef: BsModalRef;
+  getDistinctAvailables: any;
   getAffordables: any;
+
   isEmpty: boolean;
   message: string;
   bread = [] as Breadcrumb[];
@@ -37,7 +39,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
 
-  ) {this.returnGetAffordables();
+  ) {this.returnGetDistinctAvailables();
+    this.returnGetAffordables();
      }
 
   ngOnInit() {
@@ -63,24 +66,32 @@ export class CartShowComponent implements OnInit, OnDestroy {
     return '€ ' + price.toFixed(2);
   }
 
+  returnGetDistinctAvailables() {
+    this.couponService.getDistinctAvailables().subscribe(
+      data => {
+        this.getDistinctAvailables = data;
+        // console.log('distinct', this.getDistinctAvailables);
+      });
+  }
+
   returnGetAffordables() {
     this.couponService.getAffordables().subscribe(
       data => {
         this.getAffordables = data;
-        console.log('aff', this.getAffordables);
+        // console.log('affordables', this.getAffordables  );
       });
   }
 
   control() {
 
-    this.couponService.getAffordables().subscribe(
+    this.couponService.getDistinctAvailables().subscribe(
       data => {
         this.couponArray = data;
 
         this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
-          console.log('crt', crt)
+          // console.log('crt', crt);
           if (crt.length === 0) {
             this.isEmpty = true;
           } else {
@@ -94,7 +105,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
               }
             }
           }
-          console.log('cart with complete data', this.cartArray);
+          // console.log('cart with complete data', this.cartArray);
         });
       },
       error => console.log(error)
@@ -130,18 +141,27 @@ export class CartShowComponent implements OnInit, OnDestroy {
   buy(cartArray) {
 
     for (const i of cartArray) {
-      this.couponService.buyCoupon(i.id)
-        .subscribe(data => {
-          this.localStorage.setItem('cart', []).subscribe( () => {
-            this.addBreadcrumb();
-            this.router.navigate(['/reserved-area/consumer/bought']);
-          });
+      let quantityBuy = 0;
+      for (const j of this.getAffordables) {
+        if (i.title === j.title) {
+          if (quantityBuy < i.quantity) {
+            quantityBuy++;
+            this.couponService.buyCoupon(j.id)
+              .subscribe(data => {
+                this.localStorage.setItem('cart', []).subscribe(() => {
+                  this.addBreadcrumb();
+                  this.router.navigate(['/reserved-area/consumer/bought']);
+                });
 
 
-        }, err => {
-          console.log(err);
-        });
+              }, err => {
+                console.log(err);
+              });
+          }
+        }
+      }
     }
+
     this.addBreadcrumb();
     this.toastBuy();
     this.isEmpty = true;
@@ -176,7 +196,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
       this.couponCart = arr;
     }
 
-    if (this.couponCart.length === 0){
+    if (this.couponCart.length === 0) {
       this.isEmpty = true;
     }
     this.localStorage.setItem('cart', arr ).subscribe(() => {
@@ -190,7 +210,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
         }
       }
       this.addBreadcrumb();
-      console.log('cart with complete data', this.cartArray);
+      // console.log('cart with complete data', this.cartArray);
     });
     this.modalRef.hide();
 
@@ -219,7 +239,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      console.log('del quantity', this.cartArray);
+      // console.log('del quantity', this.cartArray);
     });
 
   }
@@ -248,18 +268,18 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      console.log('del quantity', this.cartArray);
+      // console.log('del quantity', this.cartArray);
     });
 
   }
   maximumQuantity(id) {
 
-    for (const i of this.getAffordables) {
+    for (const i of this.getDistinctAvailables) {
       if (id !== i.id) {
         continue;
       } else {
-        console.log('true');
-        console.log('quantity', i.quantity);
+        // console.log('true');
+        // console.log('quantity', i.quantity);
         return Number(Number(i.quantity));
       }
     }
@@ -270,7 +290,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
   retry() {
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
-  openBought(){
+  openBought() {
     this.router.navigate(['/reserved-area/consumer/bought']);
   }
 }
