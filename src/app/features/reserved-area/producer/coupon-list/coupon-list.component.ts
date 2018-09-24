@@ -34,7 +34,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.control();
-    console.log('vedi qua dopo tutto in ngOnInit', this.couponArrayTitleAndQuantity);
+    // console.log('vedi qua dopo tutto in ngOnInit', this.couponArrayTitleAndQuantity);
 
 
     this.addBreadcrumb();
@@ -46,20 +46,20 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
 
-    console.log('coupon.id: ' + coupon.id);
+    // console.log('coupon.id: ' + coupon.id);
   }
 
   onCopy(coupon: any) {
     this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(false);
-    console.log('coupon.id: ' + coupon.id);
+   // console.log('coupon.id: ' + coupon.id);
   }
 
 
   onDelete(coupon_id: number) {
     this.message = 'Confirmed!';
 
-    console.log('coupon_id: ', coupon_id);
+    // console.log('coupon_id: ', coupon_id);
     this.couponService.deleteCoupon(coupon_id)
       .subscribe(dataDeleted => {
 
@@ -121,6 +121,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     return '€ ' + price.toFixed(2);
   }
 
+
   control() {
 
     this.couponService.getCreatedCoupons().subscribe(
@@ -142,9 +143,9 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
         // console.log('some', result);
 
-        this.couponArray = filter;
-        console.log('set', array);
-        console.log(data);
+        this.couponArray = array;
+        // console.log('set', array);
+        // console.log(data);
       },
       error => console.log(error)
     );

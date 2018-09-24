@@ -293,4 +293,12 @@ export class CartShowComponent implements OnInit, OnDestroy {
   openBought() {
     this.router.navigate(['/reserved-area/consumer/bought']);
   }
+
+  goToDetailPayment(cartArray) {
+    this.localStorage.setItem('cart-confirm', cartArray ).subscribe(() => {
+      this.router.navigate(['/reserved-area/consumer/cart-detail-payment']);
+      this.decline();
+
+    });
+  }
 }

@@ -14,6 +14,7 @@ import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/co
 import {CartController} from './cart/cart-controller';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import { CartShowComponent } from './cart/cart-show/cart-show.component';
+import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CartShowComponent } from './cart/cart-show/cart-show.component';
     CouponDetailsComponent,
     FeatureReservedAreaConsumerShowcaseComponent,
     CartShowComponent,
+    PaymentDetailComponent,
 
   ],
   imports: [
