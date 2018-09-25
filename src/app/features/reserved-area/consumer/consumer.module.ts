@@ -15,6 +15,7 @@ import {CartController} from './cart/cart-controller';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import { CartShowComponent } from './cart/cart-show/cart-show.component';
 import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
+import {UserService} from '../../../shared/_services/user.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PaymentDetailComponent } from './payment-detail/payment-detail.componen
     CouponService,
     BreadcrumbActions,
     BsModalService,
+    UserService,
 
   ],
   exports: [

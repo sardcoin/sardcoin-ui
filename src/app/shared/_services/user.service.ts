@@ -11,4 +11,9 @@ export class UserService {
   register(user: User) {
     return this.http.post('http://' + environment.host + ':' + environment.port + '/users/create', user);
   }
+
+  getUserById() {
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/users/getFromId');
+
+  }
 }

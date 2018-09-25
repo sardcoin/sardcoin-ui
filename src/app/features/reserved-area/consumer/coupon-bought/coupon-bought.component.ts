@@ -65,7 +65,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
       return 'Free';
     }
 
-    return '€ ' + price;
+    return '€ ' + price.toFixed(2);
   }
 
   details(coupon: any) {
