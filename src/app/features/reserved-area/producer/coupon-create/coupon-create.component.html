@@ -1,20 +1,17 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
-      <div class="card mx-4">
-        <div class="card-body px-5">
-          <div style="float:left; margin-right:4.8em">
-            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:100px"/>
-          </div>
-          <div style="padding-top:12px">
-            <h1 class="text-left">Add new coupon</h1>
-            <h5 class="text-muted text-left mb-5">All fields are required</h5>
-          </div>
+    <div class="col-lg-12 col-xl-9">
+      <div class="card">
+        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
+            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
+            <h6 class="display-4" style="float:left; font-size:30pt;">Add new coupon</h6>
+        </div>
 
-          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()" style="padding-top:30px">
+        <div class="card-body p-5">
+          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Title</label>
-              <div class="col-sm-10">
+              <label class="col-lg-2 col-sm-4 col-form-label">Title</label>
+              <div class="col-lg-10 col-sm-8">
                 <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"-->
 
                 <input type="text" formControlName="title" class="form-control"
@@ -25,8 +22,8 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Description</label>
-              <div class="col-sm-10">
+              <label class="col-lg-2 col-sm-4 col-form-label">Description</label>
+              <div class="col-lg-10 col-sm-8">
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
@@ -37,8 +34,8 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Image</label>
-              <div class="col-sm-10">
+              <label class="col-lg-2 col-sm-4 col-form-label">Image</label>
+              <div class="col-lg-10 col-sm-8">
 
                 <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
@@ -70,21 +67,21 @@
 
                 <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
                   <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Image is required</div>
+                  <div>Image is required.</div>
                 </div>
               </div>
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Price</label>
-              <div class="col-sm-6">
+              <label class="col-lg-2 col-sm-4 col-form-label">Price</label>
+              <div class="col-lg-8 col-sm-4">
                 <input [readonly]="marked2" type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
-                  <div *ngIf="f.price.errors">Value required</div>
+                  <div *ngIf="f.price.errors">Value required.</div>
                 </div>
               </div>
-              <div class="col-sm-4 my-auto">
+              <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
                          (change)="toggleVisibilityPrice($event)">
@@ -94,26 +91,26 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Valid from</label>
-              <div class="col-sm-10">
+              <label class="col-sm-4 col-lg-2 col-form-label">Valid from</label>
+              <div class="col-sm-8 col-lg-10">
                 <input type="datetime-local" formControlName="valid_from" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
+                  <div *ngIf=" f.valid_from.errors ">Date or time are incorrect.</div>
                 </div>
               </div>
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Valid until</label>
-              <div class="col-sm-6">
+              <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
+              <div class="col-sm-4 col-lg-8">
                 <input [readonly]="marked" type="datetime-local" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
                 <div *ngIf="submitted && f.valid_until.errors" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
                 </div>
               </div>
-              <div class="col-sm-4 my-auto">
+              <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check1" data-md-icheck
                          (change)="toggleVisibilityExpiration($event)">
@@ -123,15 +120,15 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Place</label>
-              <div class="col-sm-6">
+              <label class="col-sm-4 col-lg-2 col-form-label">Place</label>
+              <div class="col-sm-4 col-lg-8">
                 <input [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
                 </div>
               </div>
-              <div class="col-sm-4 my-auto">
+              <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
                          (change)="toggleVisibilityPlace($event)">
@@ -141,8 +138,8 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Quantity</label>
-              <div class="col-sm-10">
+              <label class="col-sm-4 col-lg-2 col-form-label">Quantity</label>
+              <div class="col-sm-12 col-lg-10">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" min="1" max="1"/>
                 <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
@@ -156,14 +153,13 @@
               already passed.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until must be greater than Data
-              From.
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Expiration date must follow the first day of validity.
             </div>
             <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
-              Please upload an image before create the coupon.
+              Please upload an image before creating the coupon.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchQuantity">Quantity incorrect.
+                 *ngIf="submitted && f.valid_until.errors?.MatchQuantity">Incorrect quantity.
             </div>
             <div class="form group">
               <p>
