@@ -27,7 +27,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   quantity = 1;
   couponsCheckCart: Coupon[];
   inCart = false;
-  avariable = false;
+  available = false;
   availability: string;
 
 
@@ -63,7 +63,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             if (this.couponsPurchased !== null) {
               for (const i of this.couponsPurchased) {
                 if (this.couponPass.title === i.title) {
-                  this.avariable = true;
+                  this.available = true;
                 }
               }
             }
