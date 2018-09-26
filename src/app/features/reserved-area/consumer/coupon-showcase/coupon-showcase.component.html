@@ -49,12 +49,12 @@
 
                 <input  formControlName="quantity"
                         class="col-sm-2"
-                        type="number" min="1" max="{{coupon.quantity}}"
-                        (input)="putQuantity($event.target.value, coupon.quantity )"
-                        />
+                        type="number" min="1" max="{{coupon.quantity}}" />
+                        <!--(input)="putQuantity($event.target.value, coupon.quantity )"-->
+
                 <!--value="{{refreshQuantity}}"-->
 
-                <label class="col-sm-5">Selected: {{refreshQuantity}}</label>
+                <!--<label class="col-sm-5">Selected: {{refreshQuantity}}</label>-->
                 <div >
                 <div style="color: #bd0a0d;
                             text-align: center"  *ngIf="f.quantity.errors">Insert a valid quantity!</div>
@@ -69,7 +69,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button type="button" class="btn btn-success" (click)="addToCart(coupon.id)">Yes</button>
+            <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon.id)">Yes</button>
           </div>
         </ng-template>
         <!--<button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart-->

@@ -26,15 +26,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   coupons: any;
   couponsCheckCart = [];
   modalRef: BsModalRef;
-  message: string;
+  // message: string;
   cart = new CartItem();
   crt = [];
   quantity = 1;
-  maxQuantity = 3;
+  maxQuantity = 1;
   bread = [] as Breadcrumb[];
   value: any;
   myForm: FormGroup;
-  refreshQuantity: number;
+  // refreshQuantity: number;
 
 
 
@@ -67,34 +67,34 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return this.myForm.controls;
   }
 
-  onChanges(): void {
-
-    const value = this.maxQuantity;
-    // console.log('maxquantity', this.maxQuantity);
-    const insert = this.value;
-    this.myForm.valueChanges.subscribe(val => {
-
-      const val_quantity = val.quantity;
-      val.quantity = this.setQuantity(val.quantity);
-       // console.log('val', val.quantity);
-      this.refreshQuantity = val.quantity;
-      // if (val.quantity >= this.quantity ) {
-      //   this.refreshQuantity = this.quantity;
-      // } else if (val.quantity < 1) {
-      //   this.refreshQuantity = 1;
-      // } else {
-      //   this.refreshQuantity = val.quantity;
-      // }
-      //
-
-
-      // console.log('refreshQuantity', this.refreshQuantity);
-      // console.log('value', value);
-      // console.log('insert', insert);
-
-
-    });
-  }
+  // onChanges(): void {
+  //
+  //   const value = this.maxQuantity;
+  //   // console.log('maxquantity', this.maxQuantity);
+  //   const insert = this.value;
+  //   this.myForm.valueChanges.subscribe(val => {
+  //
+  //     const val_quantity = val.quantity;
+  //     val.quantity = this.setQuantity(val.quantity);
+  //      // console.log('val', val.quantity);
+  //     this.refreshQuantity = val.quantity;
+  //     // if (val.quantity >= this.quantity ) {
+  //     //   this.refreshQuantity = this.quantity;
+  //     // } else if (val.quantity < 1) {
+  //     //   this.refreshQuantity = 1;
+  //     // } else {
+  //     //   this.refreshQuantity = val.quantity;
+  //     // }
+  //     //
+  //
+  //
+  //     // console.log('refreshQuantity', this.refreshQuantity);
+  //     // console.log('value', value);
+  //     // console.log('insert', insert);
+  //
+  //
+  //   });
+  // }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
@@ -155,28 +155,37 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return '€ ' + price.toFixed(2);
   }
 
-  buyCoupon(coupon_id: number) {
-    this.couponService.buyCoupon(coupon_id)
-      .subscribe(data => {
-
-        this.router.navigate(['/reserved-area/consumer/bought']);
-        this.toastCart();
-
-      }, err => {
-        console.log(err);
-      });
-
-    this.decline();
-  }
+  // buyCoupon(coupon_id: number) {
+  //
+  //   console.log('quantity invalid', this.myForm.invalid);
+  //
+  //   if (this.myForm.invalid) {
+  //     console.log('quantity invalid');
+  //     // console.log(this.couponForm);
+  //     return;
+  //
+  //   }
+  //   this.couponService.buyCoupon(coupon_id)
+  //     .subscribe(data => {
+  //
+  //       this.router.navigate(['/reserved-area/consumer/bought']);
+  //       this.toastCart();
+  //
+  //     }, err => {
+  //       console.log(err);
+  //     });
+  //
+  //   this.decline();
+  // }
 
   openModal(template: TemplateRef<any>, quantity) {
     this.maxQuantity = quantity;
     this.myForm = this.formBuilder.group({
-      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity)])]
+      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
 
     });
 
-    this.onChanges();
+    // this.onChanges();
     // console.log('from modal', this.maxQuantity);
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
@@ -192,73 +201,80 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
 
-  buy() {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-    console.log('coupon buy');
-
-  }
+  // buy() {
+  //   this.message = 'Confirmed!';
+  //   this.modalRef.hide();
+  //   console.log('coupon buy');
+  //
+  // }
 
   toastCart() {
     this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
   }
 
-  createOrUpdateCart(coupon_id: number) {
+  // createOrUpdateCart(coupon_id: number) {
+  //
+  //
+  //   const a = CartController.GetCart(this.localStorage);
+  //   // console.log('a', a);
+  // }
 
+  // setStorage() {
+  //
+  //   const c: CartItem[] = [{id: 1, quantity: 1}, {id: 2, quantity: 2}];
+  //
+  //   this.localStorage.setItem('cart', c).subscribe(() => {
+  //   });
+  // }
 
-    const a = CartController.GetCart(this.localStorage);
-    // console.log('a', a);
-  }
+  // setQuantity(e) {
+  //
+  //   this.value = e;
+  //   // console.log('maxQtyIn_set', this.maxQuantity);
+  //   // console.log('value in set', this.value);
+  //   //
+  //   // console.log('eeeeee', this.value)
+  //   if ((this.value > this.maxQuantity)) {
+  //
+  //     this.quantity = this.maxQuantity;
+  //   } else if (this.value < 1) {
+  //     this.quantity = 1;
+  //   } else {
+  //     this.quantity = this.value;
+  //   }
+  //   // console.log('qty', this.quantity)
+  //   return this.quantity;
+  // }
 
-  setStorage() {
+  // setValue() {
+  //
+  //   if ((this.value > this.quantity)) {
+  //
+  //     this.quantity = this.quantity;
+  //   } else if (this.value < 1) {
+  //     this.quantity = 1;
+  //   } else {
+  //     this.quantity = this.value;
+  //   }
+  //   return this.quantity ;
+  // }
 
-    const c: CartItem[] = [{id: 1, quantity: 1}, {id: 2, quantity: 2}];
-
-    this.localStorage.setItem('cart', c).subscribe(() => {
-    });
-  }
-
-  setQuantity(e) {
-
-    this.value = e;
-    // console.log('maxQtyIn_set', this.maxQuantity);
-    // console.log('value in set', this.value);
-    //
-    // console.log('eeeeee', this.value)
-    if ((this.value > this.maxQuantity)) {
-
-      this.quantity = this.maxQuantity;
-    } else if (this.value < 1) {
-      this.quantity = 1;
-    } else {
-      this.quantity = this.value;
-    }
-    // console.log('qty', this.quantity)
-    return this.quantity;
-
-
-  }
-
-  setValue() {
-
-    if ((this.value > this.quantity)) {
-
-      this.quantity = this.quantity;
-    } else if (this.value < 1) {
-      this.quantity = 1;
-    } else {
-      this.quantity = this.value;
-    }
-    return this.quantity ;
-  }
-
-  putQuantity(e, quantity) {
-    this.value = e;
-    this.maxQuantity = quantity;
-    // console.log('maxQtyIn_put', this.maxQuantity);
-  }
+  // putQuantity(e, quantity) {
+  //   this.value = e;
+  //   this.maxQuantity = quantity;
+  //   // console.log('maxQtyIn_put', this.maxQuantity);
+  // }
 
   addToCart(coupon_id: number) {
+
+    console.log('quantity invalid', this.myForm.invalid);
+
+    if (this.myForm.invalid) {
+      console.log('quantity invalid');
+      // console.log(this.couponForm);
+      return;
+
+    }
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
         if (cart === null) {
           this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
@@ -267,7 +283,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
           });
         } else {
           this.cart.id = coupon_id;
-          this.cart.quantity = this.quantity;
+          this.cart.quantity = this.myForm.value.quantity;
             this.crt = cart;
               this.crt.push(this.cart);
             this.localStorage.setItem('cart', this.crt).subscribe(() => {this.loadCoupons(); });
@@ -285,10 +301,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.localStorage.removeItem('cart').subscribe(() => {});
   }
 
-  prove() {
-
-    this.loadCoupons();
-  }
+  // prove() {
+  //
+  //   this.loadCoupons();
+  // }
 
   inCart(id) {
 
