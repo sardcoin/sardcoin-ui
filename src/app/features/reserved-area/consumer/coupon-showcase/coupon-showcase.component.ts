@@ -11,10 +11,8 @@ import {ToastrService} from 'ngx-toastr';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import {CartController} from '../cart/cart-controller';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 
-// import Any = jasmine.Any;
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -26,7 +24,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   coupons: any;
   couponsCheckCart = [];
   modalRef: BsModalRef;
-  // message: string;
   cart = new CartItem();
   crt = [];
   quantity = 1;
@@ -34,7 +31,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   bread = [] as Breadcrumb[];
   value: any;
   myForm: FormGroup;
-  // refreshQuantity: number;
 
 
 
@@ -50,7 +46,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
-            // console.log('set cart []', []);
             this.localStorage.setItem('cart', []);
           }
         });
@@ -185,8 +180,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     });
 
-    // this.onChanges();
-    // console.log('from modal', this.maxQuantity);
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
@@ -200,70 +193,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.router.navigate(['/reserved-area/consumer/details']);
   }
 
-
-  // buy() {
-  //   this.message = 'Confirmed!';
-  //   this.modalRef.hide();
-  //   console.log('coupon buy');
-  //
-  // }
-
   toastCart() {
     this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
   }
 
-  // createOrUpdateCart(coupon_id: number) {
-  //
-  //
-  //   const a = CartController.GetCart(this.localStorage);
-  //   // console.log('a', a);
-  // }
-
-  // setStorage() {
-  //
-  //   const c: CartItem[] = [{id: 1, quantity: 1}, {id: 2, quantity: 2}];
-  //
-  //   this.localStorage.setItem('cart', c).subscribe(() => {
-  //   });
-  // }
-
-  // setQuantity(e) {
-  //
-  //   this.value = e;
-  //   // console.log('maxQtyIn_set', this.maxQuantity);
-  //   // console.log('value in set', this.value);
-  //   //
-  //   // console.log('eeeeee', this.value)
-  //   if ((this.value > this.maxQuantity)) {
-  //
-  //     this.quantity = this.maxQuantity;
-  //   } else if (this.value < 1) {
-  //     this.quantity = 1;
-  //   } else {
-  //     this.quantity = this.value;
-  //   }
-  //   // console.log('qty', this.quantity)
-  //   return this.quantity;
-  // }
-
-  // setValue() {
-  //
-  //   if ((this.value > this.quantity)) {
-  //
-  //     this.quantity = this.quantity;
-  //   } else if (this.value < 1) {
-  //     this.quantity = 1;
-  //   } else {
-  //     this.quantity = this.value;
-  //   }
-  //   return this.quantity ;
-  // }
-
-  // putQuantity(e, quantity) {
-  //   this.value = e;
-  //   this.maxQuantity = quantity;
-  //   // console.log('maxQtyIn_put', this.maxQuantity);
-  // }
 
   addToCart(coupon_id: number) {
 
@@ -290,21 +223,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         }
     });
-    // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
     this.modalRef.hide();
 
     this.toastCart();
 
 
   }
-  deleteStorage() {
-    this.localStorage.removeItem('cart').subscribe(() => {});
-  }
-
-  // prove() {
-  //
-  //   this.loadCoupons();
-  // }
 
   inCart(id) {
 
