@@ -40,9 +40,9 @@ export class PaymentDetailComponent implements OnInit, OnDestroy {
               private couponService: CouponService
               ) {
 
-    this.cartArray = this.localStorage.getItem('cart-confirm');
+    this.cartArray = this.localStorage.getItem('cart');
     // console.log('cartArray', this.cartArray);
-    this.cartArray = this.localStorage.getItem('cart-confirm');
+    this.cartArray = this.localStorage.getItem('cart');
     this.userService.getUserById().subscribe( user => { this.user = user;
       this.returnGetAffordables();
       });
@@ -51,7 +51,7 @@ export class PaymentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.addBreadcrumb();
-    this.localStorage.getItem('cart-confirm').subscribe(cart => {
+    this.localStorage.getItem('cart').subscribe(cart => {
       this.cartArray = cart;
       // console.log('cartArray', this.cartArray);
       for (const i of this.cartArray) {
@@ -99,10 +99,8 @@ export class PaymentDetailComponent implements OnInit, OnDestroy {
             this.couponService.buyCoupon(j.id)
               .subscribe(data => {
                 this.localStorage.setItem('cart', []).subscribe(() => {
-                  this.localStorage.setItem('cart-confirm', [] ).subscribe( () => {
-                    this.router.navigate(['/reserved-area/consumer/bought']);
 
-                  } );
+                    this.router.navigate(['/reserved-area/consumer/bought']);
                 });
 
 

@@ -8,8 +8,8 @@
           <p class="card-text">{{coupon.description}}</p>
         </div>
         <div  class="card-footer">
-          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon.quantity)">Add to cart</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
+          <button [disabled] = "inCart(coupon)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon.quantity)">Add to cart</button>
+          <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon, coupon.quantity)">Details</button>
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="createOrUpdateCart(coupon)">get storage</button>-->
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="setStorage(coupon)">set storage</button>-->
           <!--<button type="button" class="btn btn-info text-white float-right" (click)="deleteStorage()">del cart</button>-->
@@ -17,7 +17,7 @@
         </div>
 
         <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
-        <div class="coupon-cart" *ngIf="inCart(coupon.id)" (click)="viewCart()">
+        <div class="coupon-cart" *ngIf="inCart(coupon)" (click)="viewCart()">
           <i class="fas fa-cart-arrow-down" ></i>
         </div>
 
@@ -69,7 +69,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon.id)">Yes</button>
+            <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon)">Yes</button>
           </div>
         </ng-template>
         <!--<button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart-->

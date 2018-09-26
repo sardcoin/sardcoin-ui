@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import _date = moment.unitOfTime._date;
 
 export class Coupon {
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -17,6 +18,7 @@ export class Coupon {
   token: string
 
   constructor(
+              id?: number,
               title?: string,
               description?: string,
               image?: string,

@@ -4,7 +4,7 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
   coupons: any;
+  getAffordables: any;
 
   constructor(
     private couponService: CouponService,
@@ -69,8 +70,21 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   }
 
   details(coupon: any) {
-    this.couponService.setCoupon(coupon);
 
-    this.router.navigate(['/reserved-area/consumer/details']);
+    const cp = coupon;
+    cp.quantity = 0;
+    this.couponService.getAffordables().subscribe(
+      data => {
+        this.getAffordables = data;
+        for (const i of this.getAffordables) {
+          if (cp.title === i.title) {
+            cp.quantity++;
+          }
+        }
+        this.couponService.setCoupon(coupon);
+
+        this.router.navigate(['/reserved-area/consumer/details']);
+      });
+
   }
 }

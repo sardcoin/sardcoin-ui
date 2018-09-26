@@ -99,7 +99,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
           for (let i = 0 ; i < this.couponCart.length; i++) {
             for (let j = 0 ; j < this.couponArray.length; j++) {
-              if (this.couponCart[i].id === this.couponArray[j].id) {
+              if (this.couponCart[i].title === this.couponArray[j].title) {
                 this.couponArray[j].quantity = this.couponCart[i].quantity;
                 this.cartArray.push(this.couponArray[j]);
               }
@@ -295,7 +295,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
   }
 
   goToDetailPayment(cartArray) {
-    this.localStorage.setItem('cart-confirm', cartArray ).subscribe(() => {
+    this.localStorage.setItem('cart', cartArray ).subscribe(() => {
       this.router.navigate(['/reserved-area/consumer/cart-detail-payment']);
       this.decline();
 

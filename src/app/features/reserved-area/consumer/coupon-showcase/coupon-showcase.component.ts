@@ -12,6 +12,7 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
+import {Coupon} from '../../../../shared/_models/Coupon';
 
 
 @Component({
@@ -124,15 +125,16 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             for (let i = 0; i < getCart.length; i++) {
               for (const j of this.coupons) {
                 // console.log('j[1]', j.id);
-               if (getCart[i].id === j.id) {
+               if (getCart[i].title === j.title) {
                   this.couponsCheckCart.push(j);
+                 this.coupons = coupons;
                }
               }
             }
           }
           this.addBreadcrumb();
         });
-        this.coupons = coupons;
+        // this.coupons = coupons;
       }, err => {
         console.log(err);
       });
@@ -187,8 +189,11 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef.hide();
   }
 
-  details(coupon: any) {
-    this.couponService.setCoupon(coupon);
+  details(coupon: any, quantity) {
+    const cp = coupon;
+    cp.quantity = quantity;
+    console.log('cp', cp);
+    this.couponService.setCoupon(cp);
 
     this.router.navigate(['/reserved-area/consumer/details']);
   }
@@ -198,7 +203,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
 
-  addToCart(coupon_id: number) {
+  addToCart(coupon: Coupon) {
 
     console.log('quantity invalid', this.myForm.invalid);
 
@@ -208,20 +213,34 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       return;
 
     }
+    const cpn = new Coupon();
+    cpn.quantity = this.myForm.value.quantity;
+    cpn.id = coupon.id;
+    cpn.title = coupon.title;
+    cpn.description = coupon.description;
+    cpn.image = coupon.image;
+    cpn.timestamp = coupon.timestamp;
+    cpn.price = coupon.price;
+    cpn.valid_from = coupon.valid_from;
+    cpn.valid_until = coupon.valid_until;
+    cpn.state = coupon.state;
+    cpn.constraints = coupon.constraints;
+    cpn.owner = coupon.owner;
+    cpn.consumer = coupon.consumer;
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
         if (cart === null) {
-          this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
+          this.localStorage.setItem('cart', [cpn]).subscribe(() => {
             this.loadCoupons();
             return;
           });
         } else {
-          this.cart.id = coupon_id;
-          this.cart.quantity = this.myForm.value.quantity;
             this.crt = cart;
-              this.crt.push(this.cart);
+              this.crt.push(cpn);
             this.localStorage.setItem('cart', this.crt).subscribe(() => {this.loadCoupons(); });
 
         }
+
+        console.log('cpn', cpn);
     });
     this.modalRef.hide();
 
@@ -230,10 +249,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   }
 
-  inCart(id) {
+  inCart(coupon) {
 
     for (const i of this.couponsCheckCart) {
-      if (id === i.id) {
+      if (coupon.title === i.title) {
         return true;
       }
     }

@@ -9,6 +9,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {CartItem} from '../../../../shared/_models/CartItem';
+import {Coupon} from '../../../../shared/_models/Coupon';
 
 @Component({
   selector: 'app-coupon-details',
@@ -21,12 +22,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   message: string;
   couponPass: any;
-  cart = new CartItem();
+  cart = new Coupon();
   couponsPurchased: any;
   quantity = 1;
-  couponsCheckCart: CartItem[];
-  inCart: boolean;
-  inPurchased = false;
+  couponsCheckCart: Coupon[];
+  inCart = false;
+  avariable = false;
   availability: string;
 
 
@@ -61,27 +62,27 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
             if (this.couponsPurchased !== null) {
               for (const i of this.couponsPurchased) {
-                if (this.couponPass.id === i.id) {
-                  this.inPurchased = true;
-                  return true;
+                if (this.couponPass.title === i.title) {
+                  this.avariable = true;
                 }
               }
             }
-          }, err => {
+            this.localStorage.getItem<any>('cart').subscribe((cart) => {
+              this.couponsCheckCart = cart;
+
+              if (this.couponsCheckCart !== null) {
+                for (const i of this.couponsCheckCart) {
+                  if (this.couponPass.title === i.title) {
+                    this.inCart = true;
+                  }
+                }
+              }
+            });
+
+            }, err => {
             console.log(err);
           });
-        this.localStorage.getItem<any>('cart').subscribe((cart) => {
-          this.couponsCheckCart = cart;
 
-          if (this.couponsCheckCart !== null) {
-            for (const i of this.couponsCheckCart) {
-              if (this.couponPass.id === i.id) {
-                this.inCart = true;
-                return true;
-              }
-            }
-          }
-        });
 
       }
 
@@ -136,13 +137,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 
-  addToCart(coupon_id: number) {
+  addToCart(coupon: Coupon) {
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
         // console.log('cart null');
 
-        this.localStorage.setItem('cart', [{id: coupon_id, quantity: this.quantity}]).subscribe(() => {
+        this.localStorage.setItem('cart', [{id: coupon.id, quantity: this.quantity}]).subscribe(() => {
           this.inCart = true;
           this.addBreadcrumb();
           return;
@@ -150,11 +151,25 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       } else {
         this.cart.id = this.couponPass.id;
         this.cart.quantity = this.quantity;
+        this.cart.title = this.couponPass.title;
+        this.cart.description = this.couponPass.description;
+        this.cart.image = this.couponPass.image;
+        this.cart.timestamp = this.couponPass.timestamp;
+        this.cart.price = this.couponPass.price;
+        this.cart.valid_from = this.couponPass.valid_from;
+        this.cart.valid_until = this.couponPass.valid_until;
+        this.cart.state = this.couponPass.state;
+        this.cart.constraints = this.couponPass.constraints;
+        this.cart.owner = this.couponPass.owner;
+        this.cart.consumer = this.couponPass.consumer;
+        this.cart.quantity = this.quantity;
         // console.log('id', this.cart.id);
         let crt = [];
         crt = cart;
         crt.push(this.cart);
-          this.localStorage.setItem('cart', crt).subscribe(() => {
+        console.log('crt', crt);
+
+        this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
             this.addBreadcrumb();
             return;
