@@ -43,6 +43,11 @@ export class CouponService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
   }
 
+  getDistinctCreatedCoupons() {
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getDistinctCreatedCoupons');
+
+  }
+
   deleteCoupon(cp: number) {
     return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
 
