@@ -111,6 +111,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     }
     if (this.couponForm.value.quantity === 1) {
       this.coupon = new Coupon(
+        null,
         this.couponForm.value.title,
         this.couponForm.value.description === '' ? null : this.couponForm.value.description,
         this.imagePath,
@@ -138,6 +139,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     } else {
 
       this.coupon = new Coupon(
+        null,
         this.couponForm.value.title,
         this.couponForm.value.description === '' ? null : this.couponForm.value.description,
         this.imagePath,
