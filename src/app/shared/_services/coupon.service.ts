@@ -88,7 +88,12 @@ export class CouponService {
   }
 
 
+  getCouponsCreatedFromToken(token: string) {
 
+
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromToken/' + token );
+
+  }
 }
 
 

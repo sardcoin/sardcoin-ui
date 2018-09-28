@@ -29,8 +29,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     theme: 'mobiscroll'
   };
 
-  compact: Date;
-  expanded: Date;
+  getCouponsCreatedFromToken = new Array();
 
   couponForm: FormGroup;
   marked = false;
@@ -79,6 +78,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    // console.log('token', this.couponPass.token);
     this.URLstring = this.URLstring + this.couponPass.image;
     this.myDate = new Date(this.couponPass.valid_from);
     const from = this.myDate.toISOString().substring(0, 23);
@@ -136,32 +137,33 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    this.coupon = {
-      'id': this.fromEdit === true ? this.couponPass.valueOf().id : this.idCopy,
-      // 'id':  this.couponPass.valueOf().id ,
-      'title': this.couponForm.value.title,
-      'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-      'timestamp': this.couponForm.value.timestamp,
-      'image': this.imagePath ? this.imagePath : this.couponPass.image,
-      'price': this.price != null ? this.price : this.couponForm.value.price,
-      'valid_from': this.dateFrom.getTime().valueOf(),
-      'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
-      'state': this.couponForm.value.state,
-      'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-      'owner': this.couponForm.value.owner,
-      'consumer': this.couponForm.value.consumer,
-      'quantity': this.couponForm.value.quantity
-    };
+    this.couponService.getCouponsCreatedFromToken(this.couponPass.token).subscribe(coupons => {
+      this.getCouponsCreatedFromToken = JSON.parse(JSON.stringify(coupons));
+      for (const i of this.getCouponsCreatedFromToken) {
+        this.coupon = {
+          'id': i.id,
+          'title': this.couponForm.value.title,
+          'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
+          'timestamp': this.couponForm.value.timestamp,
+          'image': this.imagePath ? this.imagePath : this.couponPass.image,
+          'price': this.price != null ? this.price : this.couponForm.value.price,
+          'valid_from': this.dateFrom.getTime().valueOf(),
+          'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+          'state': this.couponForm.value.state,
+          'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
+          'owner': this.couponForm.value.owner,
+          'consumer': this.couponForm.value.consumer,
+        };
 
-    // console.log('nuovo id', this.idCopy);
-    // console.log('coupon edit', this.coupon);
-    this.couponService.editCoupon(this.coupon).subscribe(
-      (data) => {
-        this.router.navigate(['/reserved-area/producer/list']);
-      }, error => {
-        console.log(error);
+        this.couponService.editCoupon(this.coupon).subscribe(
+          (data) => {
+            this.router.navigate(['/reserved-area/producer/list']);
+          }, error => {
+            console.log(error);
+          }
+        );
       }
-    );
+    });
     this.toastEdited();
   }
 
