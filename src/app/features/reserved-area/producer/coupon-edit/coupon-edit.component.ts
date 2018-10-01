@@ -95,7 +95,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
       description: [this.couponPass.description],
       image: [],
-      price: [this.couponPass.price, Validators.compose([Validators.required])],
+      price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_from_old : from,
       valid_from: [from, Validators.compose([Validators.required])],
       valid_until: [until],
@@ -247,7 +247,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   couponCreateCopy() {
 
     this.couponCreate();
-    this.saveChange();
+    // this.saveChange();
   }
 
   couponCreate() {
@@ -265,7 +265,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         return;
 
       }
+      for ( let i = 0; i <   this.couponForm.value.quantity; i++) {
       this.couponCopy = new Coupon(
+        null,
         this.couponForm.value.title,
         this.couponForm.value.description,
         this.imagePath ? this.imagePath : this.couponPass.image,
@@ -277,7 +279,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
-        this.couponForm.value.quantity
       );
       this.couponService.register(this.couponCopy).pipe(first())
         .subscribe(
@@ -285,11 +286,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             // console.log('new coupon create', data);
             this.idCopy = JSON.parse( JSON.stringify(data)).id;
             // console.log('id', JSON.parse( JSON.stringify(data)).id);
+
+            this.router.navigate(['/reserved-area/producer/list']);
+
           }, error => {
             console.log(error);
           }
         );
-
+      }
     }
   }
 
