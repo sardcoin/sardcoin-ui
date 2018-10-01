@@ -40,7 +40,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   couponCopy: Coupon;
   idCopy = 0;
   myDate: Date;
-  coupon: {};
+  coupon: any;
   couponPass: any = null;
   dateFrom: Date;
   dateUntil: Date;
@@ -137,33 +137,63 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    this.couponService.getCouponsCreatedFromToken(this.couponPass.token).subscribe(coupons => {
-      this.getCouponsCreatedFromToken = JSON.parse(JSON.stringify(coupons));
-      for (const i of this.getCouponsCreatedFromToken) {
-        this.coupon = {
-          'id': i.id,
-          'title': this.couponForm.value.title,
-          'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-          'timestamp': this.couponForm.value.timestamp,
-          'image': this.imagePath ? this.imagePath : this.couponPass.image,
-          'price': this.price != null ? this.price : this.couponForm.value.price,
-          'valid_from': this.dateFrom.getTime().valueOf(),
-          'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
-          'state': this.couponForm.value.state,
-          'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-          'owner': this.couponForm.value.owner,
-          'consumer': this.couponForm.value.consumer,
-        };
+    if (Number(this.couponPass.quantity) === Number(this.couponForm.value.quantity)) {
+      this.couponService.getCouponsCreatedFromToken(this.couponPass.token).subscribe(coupons => {
+        this.getCouponsCreatedFromToken = JSON.parse(JSON.stringify(coupons));
+        for (const i of this.getCouponsCreatedFromToken) {
+          this.coupon = {
+            'id': i.id,
+            'title': this.couponForm.value.title,
+            'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
+            'timestamp': this.couponForm.value.timestamp,
+            'image': this.imagePath ? this.imagePath : this.couponPass.image,
+            'price': this.price != null ? this.price : this.couponForm.value.price,
+            'valid_from': this.dateFrom.getTime().valueOf(),
+            'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+            'state': this.couponForm.value.state,
+            'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
+            'owner': this.couponForm.value.owner,
+            'consumer': this.couponForm.value.consumer,
+          };
 
-        this.couponService.editCoupon(this.coupon).subscribe(
-          (data) => {
+          this.couponService.editCoupon(this.coupon).subscribe(
+            (data) => {
+              this.router.navigate(['/reserved-area/producer/list']);
+            }, error => {
+              console.log(error);
+            }
+          );
+        }
+      });
+    } else {
+
+      this.couponService.getCouponsCreatedFromToken(this.couponPass.token).subscribe(coupons => {
+        this.getCouponsCreatedFromToken = JSON.parse(JSON.stringify(coupons));
+        for (const i of this.getCouponsCreatedFromToken) {
+          this.couponService.deleteCoupon(i.id).subscribe();
+        }
+        for (let i = 0; i  < this.couponForm.value.quantity;  i ++) {
+          this.coupon =  new Coupon(null, this.couponForm.value.title,
+            this.couponForm.value.description === '' ? null : this.couponForm.value.description,
+            this.imagePath ? this.imagePath : this.couponPass.image,
+              this.couponForm.value.timestamp,
+            this.price != null ? this.price : this.couponForm.value.price,
+            this.dateFrom.getTime().valueOf(),
+            this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+            this.couponForm.value.state,
+            this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
+            this.couponForm.value.owner,
+            null);
+          this.couponService.register(this.coupon).subscribe(() => {
             this.router.navigate(['/reserved-area/producer/list']);
-          }, error => {
-            console.log(error);
-          }
-        );
-      }
-    });
+          });
+        }
+      });
+
+
+    }
+
+
     this.toastEdited();
   }
 
@@ -254,7 +284,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
           data => {
             // console.log('new coupon create', data);
             this.idCopy = JSON.parse( JSON.stringify(data)).id;
-            //console.log('id', JSON.parse( JSON.stringify(data)).id);
+            // console.log('id', JSON.parse( JSON.stringify(data)).id);
           }, error => {
             console.log(error);
           }
