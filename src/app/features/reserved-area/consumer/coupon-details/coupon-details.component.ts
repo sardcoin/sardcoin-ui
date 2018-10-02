@@ -205,7 +205,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   toastCart() {
-    this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
+    this.toastr.success( 'Coupon added to cart!');
   }
 
   setQuantity(e) {

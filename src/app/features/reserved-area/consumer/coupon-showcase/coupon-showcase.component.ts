@@ -199,7 +199,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   toastCart() {
-    this.toastr.success('Coupon in the cart', 'Coupon into to cart!');
+    this.toastr.success( 'Coupon added to cart!');
   }
 
 

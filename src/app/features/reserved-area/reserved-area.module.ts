@@ -8,10 +8,16 @@ import {CouponService} from '../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
 import {IsProducerGuard} from "../../shared/_guards/is-producer.guard";
 import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaComponent
+    FeatureReservedAreaComponent,
+    PersonalInfoComponent
+
+
+
+
   ],
   imports: [
     SharedModule,
@@ -27,7 +33,7 @@ import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
     IsConsumerGuard
   ],
   exports: [
-    FeatureReservedAreaComponent
+    FeatureReservedAreaComponent,
   ]
 })
 

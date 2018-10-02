@@ -15,7 +15,17 @@ export class IsAuthenticatedGuard implements CanActivate {
     // If the token exists, then the user is logged in and can carry on
     if (this.localStore.getToken() != null) {
       this.eventEmitter.isUserLoggedIn.next(true);
-      return true;
+      switch (this.localStore.getType()) {
+        case '0': // admin
+          this.eventEmitter.userType.next('0');
+          return true;
+        case '1': // producer
+          this.eventEmitter.userType.next('1');
+          return true;
+        case '2': // consumer
+          this.eventEmitter.userType.next('2');
+          return true;
+      }
     }
 
     // If the user is not logged in, he is redirect to the login view

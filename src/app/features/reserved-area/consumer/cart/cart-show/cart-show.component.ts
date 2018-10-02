@@ -183,7 +183,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
 
   toastBuy() {
-    this.toastr.success('Bought coupon', 'Coupon bought successfully');
+    this.toastr.success( 'Purchase successfully completed');
 
   }
 

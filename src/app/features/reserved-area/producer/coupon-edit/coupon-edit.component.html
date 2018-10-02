@@ -3,8 +3,10 @@
     <div class="col-md-10 offset-1">
       <div class="card mx-4">
         <div class="card-body p-4">
-          <h1 class="text-center">Edit</h1>
-          <h4 class="text-muted text-center">Edit Coupon</h4>
+          <h1 *ngIf="fromEdit === true" class="text-center">Edit</h1>
+          <h4 *ngIf="fromEdit === true" class="text-muted text-center">Edit Coupon</h4>
+          <h1 *ngIf="fromEdit === false" class="text-center">Create</h1>
+          <h4 *ngIf="fromEdit === false" class="text-muted text-center">Create Coupon</h4>
           <form [formGroup]="couponForm" (ngSubmit)="fromEdit === false ? couponCreateCopy(): saveChange()">
 
           <!--<form [formGroup]="couponForm" (ngSubmit)="saveChange()">-->
@@ -164,7 +166,9 @@
             </div>
             <div class="form group">
               <p>
-                <button class="btn btn-block btn-success">Save change</button>
+                <button *ngIf="fromEdit === true" class="btn btn-block btn-success">Save change</button>
+                <button *ngIf="fromEdit === false" class="btn btn-block btn-success">Create coupon</button>
+
               </p>
             </div>
 

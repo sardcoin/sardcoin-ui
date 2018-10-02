@@ -20,9 +20,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   modalRef: BsModalRef;
   message: string;
   couponArray = [];
-  couponArrayTitleAndQuantity: any = [];
   arrayCreatedCoupons: any;
-  tokenArray = new Array();
 
   constructor(private modalService: BsModalService,
               private couponService: CouponService,
@@ -134,14 +132,14 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
       data => {
        this.arrayCreatedCoupons = data;
         const array = [];
-        let filter = [];
+        // let filter = [];
         for (const i of this.arrayCreatedCoupons) {
           array.push(i); // mi creo l'array per manipolarlo meglio
 
 
         }
         // filtro l'array con token univoco (coupons con token tutti diversi)
-         filter = array.reduce((x, y) => x.findIndex(e => e.token === y.token) < 0 ? [...x, y] : x, []);
+        // filter = array.reduce((x, y) => x.findIndex(e => e.token === y.token) < 0 ? [...x, y] : x, []);
 
         // // esempio:
         // const some = [ {name: 'Guille', last: 'Foo'}, {name: 'Jorge', last: 'bar'}, {name: 'Pedro', last: 'Foo'}, {name: 'Guille', last: 'Ipsum'} ];
@@ -174,17 +172,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   toastDelete() {
     this.toastr.success('Delete coupon', 'Coupon deleted successfully');
-  }
-
-  compare(a, b) {
-
-    if (a.token !== b.token) {
-      return -1;
-    }
-    if (a.token === b.token) {
-      return 1;
-    }
-    return 0;
   }
 
 }

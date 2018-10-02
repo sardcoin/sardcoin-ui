@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Coupon} from '../_models/Coupon';
-import {User} from '../_models/User';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
-import {first} from 'rxjs/internal/operators';
 import {environment} from '../../../environments/environment';
 
 @Injectable()
@@ -13,8 +11,8 @@ import {environment} from '../../../environments/environment';
 export class CouponService {
   coupon: Coupon;
   couponChange: any = null;
-  fromEdit = false;
-  private boolFormEdit = new BehaviorSubject(this.fromEdit);
+  fromEditOrCopy = false;
+  private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
   private couponSource = new BehaviorSubject(this.couponChange);
   currentMessage = this.couponSource.asObservable();
   checkFrom = this.boolFormEdit.asObservable();
