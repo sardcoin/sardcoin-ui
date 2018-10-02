@@ -22,7 +22,6 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
   selectedUser = 'editor';
   loading = false;
   submitted = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -105,7 +104,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
       .subscribe(
         data => {
           // this.setSignedUp(this.registrationForm.value.username);
-          this.router.navigate(['/login']);
+          this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;
           console.log(error);

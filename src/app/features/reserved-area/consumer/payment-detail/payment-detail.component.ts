@@ -98,7 +98,7 @@ export class PaymentDetailComponent implements OnInit, OnDestroy {
             quantityBuy++;
             this.couponService.buyCoupon(j.id)
               .subscribe(data => {
-                this.localStorage.setItem('cart', []).subscribe(() => {
+                this.localStorage.removeItem('cart').subscribe(() => {
 
                     this.router.navigate(['/reserved-area/consumer/bought']);
                 });

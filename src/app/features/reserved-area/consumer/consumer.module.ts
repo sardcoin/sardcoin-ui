@@ -37,9 +37,8 @@ import {UserService} from '../../../shared/_services/user.service';
   ],
   providers: [
     CouponService,
-    BreadcrumbActions,
     BsModalService,
-    UserService,
+
 
   ],
   exports: [

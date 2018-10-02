@@ -92,7 +92,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
           this.couponCart = crt;
           // console.log('crt', crt);
-          if (crt.length === 0) {
+          if (crt === null) {
             this.isEmpty = true;
           } else {
             this.isEmpty = false;
