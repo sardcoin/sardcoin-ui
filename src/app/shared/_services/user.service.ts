@@ -16,4 +16,9 @@ export class UserService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/users/getFromId');
 
   }
+
+  update(user: User) {
+    return this.http.put('http://' + environment.host + ':' + environment.port + '/users/update', user);
+
+  }
 }

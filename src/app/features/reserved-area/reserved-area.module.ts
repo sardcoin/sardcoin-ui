@@ -9,6 +9,8 @@ import {CommonModule} from '@angular/common';
 import {IsProducerGuard} from "../../shared/_guards/is-producer.guard";
 import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import {UserService} from '../../shared/_services/user.service';
+import {BreadcrumbActions} from '../../core/breadcrumb/breadcrumb.actions';
 
 @NgModule({
   declarations: [
@@ -30,10 +32,15 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
   providers: [
     CouponService,
     IsProducerGuard,
-    IsConsumerGuard
+    IsConsumerGuard,
+    BreadcrumbActions,
+    UserService,
+
   ],
   exports: [
     FeatureReservedAreaComponent,
+    PersonalInfoComponent
+
   ]
 })
 

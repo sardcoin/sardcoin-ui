@@ -12,7 +12,6 @@ import {FeatureReservedAreaProducerComponent} from './producer.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-report.component';
 import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.module';
-import {PersonalInfoComponent} from '../personal-info/personal-info.component';
 
 @NgModule({
   declarations: [
