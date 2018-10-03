@@ -169,7 +169,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.bread.push(new Breadcrumb('Home', '/'));
     this.bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    this.bread.push(new Breadcrumb('personal-info', '/reserved-area/personal_info'));
+    this.bread.push(new Breadcrumb('Personal Info', '/reserved-area/personal_info'));
 
     this.breadcrumbActions.updateBreadcrumb(this.bread);
   }

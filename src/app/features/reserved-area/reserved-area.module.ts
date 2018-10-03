@@ -11,11 +11,13 @@ import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import {UserService} from '../../shared/_services/user.service';
 import {BreadcrumbActions} from '../../core/breadcrumb/breadcrumb.actions';
+import { PaymentDetailsComponent } from './payment-details/payment-details.component';
 
 @NgModule({
   declarations: [
     FeatureReservedAreaComponent,
-    PersonalInfoComponent
+    PersonalInfoComponent,
+    PaymentDetailsComponent
 
 
 
