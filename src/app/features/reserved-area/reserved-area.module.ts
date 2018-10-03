@@ -41,7 +41,8 @@ import { PaymentDetailsComponent } from './payment-details/payment-details.compo
   ],
   exports: [
     FeatureReservedAreaComponent,
-    PersonalInfoComponent
+    PersonalInfoComponent,
+    PaymentDetailsComponent
 
   ]
 })

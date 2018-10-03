@@ -1,3 +1,176 @@
-<p>
-  payment-details works!
-</p>
+<!--<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">-->
+  <form [formGroup]="paymentForm"  (ngSubmit)="onSubmit()">
+
+  <div *ngIf="this.selectedUser === 2">
+    <div class="input-group  mb-0  col-md-12">
+      <div class=" col-md-6" ><label class="col-form-label">Company name </label></div>
+      <div class=" col-md-6"><label class="col-form-label">Vat number </label></div>
+    </div>
+    <div class="form-row">
+      <div class="input-group mb-3 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-briefcase"></i></span>
+        </div>
+        <input type="text" formControlName="company_name" class="form-control" placeholder="Company Name"
+               [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+
+        <div *ngIf="this.submitted && f.company_name.errors" class="invalid-feedback">
+          <div *ngIf="f.company_name.errors.required">Company Name is required</div>
+        </div>
+      </div>
+      <div class="input-group mb-3 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-chart"></i></span>
+        </div>
+        <input type="text" formControlName="vat_number" class="form-control" placeholder="Vat Number" required
+               [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+
+        <div *ngIf="this.submitted && f.vat_number.errors" class="invalid-feedback">
+          <div *ngIf="f.vat_number.errors.required">Vat Number is required</div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- Vat Number and Company Name only for companies users -->
+
+    <div class="form-row">
+      <div class="input-group  mb-0  col-md-12">
+        <div class=" col-md-6" ><label class="col-form-label">First Name </label></div>
+        <div class=" col-md-6"><label class="col-form-label">Last Name </label></div>
+      </div>
+    </div>
+  <div class="form-row">
+    <div class="input-group mb-4 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="icon-user"></i></span>
+      </div>
+      <input type="text" formControlName="first_name" class="form-control" placeholder="First Name"
+             [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+
+      <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+        <div *ngIf="f.first_name.errors.required">First Name is required</div>
+        <div *ngIf="f.first_name.errors.maxlength">First name must be long at max 40 characters</div>
+      </div>
+    </div>
+    <div class="input-group mb-4 ml-auto col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="icon-user"></i></span>
+      </div>
+      <input type="text" formControlName="last_name" class="form-control" placeholder="Last Name"
+             [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+
+      <div *ngIf="this.submitted && f.last_name.errors" class="invalid-feedback">
+        <div *ngIf="f.last_name.errors.required">Last Name is required</div>
+        <div *ngIf="f.last_name.errors.maxlength">Last name must be long at max 40 characters</div>
+      </div>
+    </div>
+
+  </div> <!-- First and last name -->
+
+    <div class="form-row">
+      <div class="input-group  mb-0  col-md-12">
+        <div class=" col-md-6" ><label class="col-form-label">Fiscal Code </label></div>
+        <div class=" col-md-6"><label class="col-form-label">Email Paypal </label></div>
+      </div>
+    </div>
+  <div class="form-row">
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+      </div>
+      <input type="text" formControlName="fiscal_code" class="form-control" placeholder="Fiscal Code"
+             [ngClass]="{ 'is-invalid': submitted && f.fiscal_code.errors }"/>
+
+      <div *ngIf="submitted && f.fiscal_code.errors" class="invalid-feedback">
+        <div *ngIf="f.fiscal_code.errors.required">Fiscal code is required</div>
+        <div *ngIf="f.fiscal_code.errors.maxlength">Fiscal code must be long at max 16 characters</div>
+        <div *ngIf="f.fiscal_code.errors.InvalidFiscalCode">Please insert a valid fiscal code</div>
+      </div>
+
+
+    </div>
+
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <!--<span class="input-group-text">@</span>-->
+        <span class="input-group-text"><i class="fab fa-paypal"></i></span>
+      </div>
+      <input type="text" formControlName="email_paypal" class="form-control" placeholder="Email Paypal"
+             [ngClass]="{ 'is-invalid': submitted && f.email_paypal.errors }"/>
+
+      <div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">
+        <!--<div *ngIf="f.email_paypal.errors.required">Email is required</div>-->
+        <div *ngIf="f.email_paypal.errors.email">Please insert a valid email</div>
+      </div>
+
+
+    </div> <!-- Mail Paypal -->
+  </div>
+    <div class="form-row">
+      <div class="input-group  mb-0  col-md-12">
+        <div class=" col-md-6" ><label class="col-form-label">Street </label></div>
+        <div class=" col-md-6"><label class="col-form-label">City </label></div>
+      </div>
+    </div>
+
+  <div class="form-row">
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+      </div>
+      <input type="text" formControlName="address" class="form-control" placeholder="Address"
+             [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+
+      <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+        <div *ngIf="f.address.errors.required">Address is required</div>
+        <div *ngIf="f.address.errors.maxlength">Address must be long at max 100 characters</div>
+      </div>
+    </div>
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+      </div>
+      <input type="text" formControlName="city" class="form-control" placeholder="Residence City"
+             [ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>
+
+      <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+        <div *ngIf="f.city.errors.required">City is required</div>
+        <div *ngIf="f.city.errors.maxlength">Birth place must be long at max 50 characters</div>
+      </div>
+    </div>
+  </div> <!-- Address and Residence City -->
+
+    <div class="form-row">
+      <div class="input-group  mb-0  col-md-12">
+        <div class=" col-md-6" ><label class="col-form-label">Province </label></div>
+        <div class=" col-md-6"><label class="col-form-label">Zip Code </label></div>
+      </div>
+    </div>
+  <div class="form-row">
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-map"></i></span>
+      </div>
+      <input type="text" formControlName="province" class="form-control" placeholder="Province"
+             [ngClass]="{ 'is-invalid': submitted && f.province.errors }" maxlength="2"/>
+
+      <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
+        <div *ngIf="f.province.errors.required">Province is required</div>
+        <div *ngIf="f.province.errors.maxlength">Province must be long at max 2 characters</div>
+      </div>
+    </div>
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-code"></i></span>
+      </div>
+      <input type="text" formControlName="zip" class="form-control" placeholder="Zip Code"
+             [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>
+
+      <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
+        <div *ngIf="f.zip.errors.required">Zip Code is required</div>
+        <div *ngIf="f.zip.errors.maxlength">Zip Code must be long at max 5 numbers</div>
+      </div>
+    </div>
+  </div> <!-- Province and Zip Code-->
+    <button [disabled]="loading" class="btn btn-block btn-success">Save change</button>
+   <!-- Password and repeated password -->
+</form>

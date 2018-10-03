@@ -1,7 +1,7 @@
 <div class="form-inline mb-2">
 </div>
 
-<form [formGroup]="updateRegistration" (ngSubmit)="onSubmit()">
+<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
 
   <div *ngIf="this.selectedUser === 2">
     <div class="form-row">
@@ -97,7 +97,23 @@
       </div>
 
     </div> <!-- Fiscal code -->
-  </div> <!-- Fiscal Code -->
+
+    <div class="input-group mb-3 col-md-6">
+      <div class="input-group-prepend">
+        <!--<span class="input-group-text">@</span>-->
+        <span class="input-group-text"><i class="fab fa-paypal"></i></span>
+      </div>
+      <input type="text" formControlName="email_paypal" class="form-control" placeholder="Email Paypal"
+             [ngClass]="{ 'is-invalid': submitted && f.email_paypal.errors }"/>
+
+      <div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">
+        <!--<div *ngIf="f.email_paypal.errors.required">Email is required</div>-->
+        <div *ngIf="f.email_paypal.errors.email">Please insert a valid email</div>
+      </div>
+
+
+    </div> <!-- Mail Paypal -->
+  </div>
   <div class="form-row">
     <div class="input-group mb-3 col-md-6">
       <div class="input-group-prepend">

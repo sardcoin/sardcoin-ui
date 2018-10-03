@@ -31,21 +31,22 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
-      first_name:  ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      last_name:   ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      birth_place: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      birth_date:  ['', Validators.required],
-      fiscal_code: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
-      address:     ['', Validators.compose([Validators.maxLength(100), Validators.required])],
-      city:        ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip:         ['', Validators.compose([Validators.maxLength(5), Validators.required])],
-      province:    ['', Validators.compose([Validators.maxLength(2), Validators.required])],
-      username:    ['', Validators.compose([Validators.maxLength(20), Validators.required])],
-      email:       ['', Validators.required],
-      password:    ['', Validators.compose([Validators.minLength(10), Validators.required])],
-      r_password:  ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      first_name:   ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      last_name:    ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      birth_place:  ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      birth_date:   ['', Validators.required],
+      fiscal_code:  ['', Validators.compose([Validators.maxLength(16), Validators.required])],
+      email_paypal: [null , Validators.compose([ Validators.maxLength(50)])],
+      address:      ['', Validators.compose([Validators.maxLength(100), Validators.required])],
+      city:         ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      zip:          ['', Validators.compose([Validators.maxLength(5), Validators.required])],
+      province:     ['', Validators.compose([Validators.maxLength(2), Validators.required])],
+      username:     ['', Validators.compose([Validators.maxLength(20), Validators.required])],
+      email:        ['', Validators.required],
+      password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      r_password:   ['', Validators.compose([Validators.minLength(10), Validators.required])],
       company_name: [],
-      vat_number: []
+      vat_number:   []
     }, {
       validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
     });

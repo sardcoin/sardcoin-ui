@@ -209,8 +209,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   setQuantity(e) {
-    this.quantity = e;
-
+    console.log('e', e);
+    if (!(Number(e) === NaN)) {
+      console.log('e Number', e);
+      this.quantity = e;
+    }
   }
 
   viewCart() {

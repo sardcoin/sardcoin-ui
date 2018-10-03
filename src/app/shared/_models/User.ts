@@ -9,6 +9,7 @@ export interface User {
   birth_place: string;
   birth_date: Date;
   fiscal_code: string;
+  email_paypal: string;
   address: string;
   province: string;
   city: string;
