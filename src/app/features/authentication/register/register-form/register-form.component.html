@@ -1,15 +1,15 @@
 <div class="form-inline mb-2">
   <label class="my-1 mr-2" for="userType">Type of user</label>
   <select (change)="selectChangeHandler($event)" class="custom-select my-1 mr-sm-2" id="userType">
-    <option value="company">Company</option>
-    <option value="editor" selected>Editor</option>
-    <option value="analyst">Analyst</option>
+    <option value="2">Company</option>
+    <option value="1" selected>Editor</option>
+    <option value="0">Analyst</option>
   </select>
 </div>
 
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
 
-  <div *ngIf="this.selectedUser === 'company'">
+  <div *ngIf="this.selectedUser === '2'">
     <div class="form-row">
       <div class="input-group mb-3 col-md-6">
         <div class="input-group-prepend">
@@ -147,12 +147,12 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-code"></i></span>
       </div>
-      <input type="text" formControlName="zip_code" class="form-control" placeholder="Zip Code"
-             [ngClass]="{ 'is-invalid': submitted && f.zip_code.errors }" maxlength="5"/>
+      <input type="text" formControlName="zip" class="form-control" placeholder="Zip Code"
+             [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>
 
-      <div *ngIf="submitted && f.zip_code.errors" class="invalid-feedback">
-        <div *ngIf="f.zip_code.errors.required">Zip Code is required</div>
-        <div *ngIf="f.zip_code.errors.maxlength">Zip Code must be long at max 5 numbers</div>
+      <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
+        <div *ngIf="f.zip.errors.required">Zip Code is required</div>
+        <div *ngIf="f.zip.errors.maxlength">Zip Code must be long at max 5 numbers</div>
       </div>
     </div>
   </div> <!-- Province and Zip Code-->

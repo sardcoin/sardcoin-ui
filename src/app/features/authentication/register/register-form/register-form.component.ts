@@ -38,7 +38,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
       fiscal_code: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
       address:     ['', Validators.compose([Validators.maxLength(100), Validators.required])],
       city:        ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip_code:    ['', Validators.compose([Validators.maxLength(5), Validators.required])],
+      zip:         ['', Validators.compose([Validators.maxLength(5), Validators.required])],
       province:    ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       username:    ['', Validators.compose([Validators.maxLength(20), Validators.required])],
       email:       ['', Validators.required],
@@ -56,7 +56,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
   selectChangeHandler (event: any) {
     this.selectedUser = event.target.value;
 
-    if (this.selectedUser === 'company') {
+    if (this.selectedUser === '2') {
        console.log('sto nel set');
       this.registrationForm.controls['company_name'].setValidators(Validators.required);
       this.registrationForm.controls['company_name'].updateValueAndValidity();
@@ -88,7 +88,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
     this.registrationForm.value.checksum = 0;
 
     // If the user is not a company, put the fanValues to null
-    if (this.selectedUser !== 'company') {
+    if (this.selectedUser !== '2') {
       this.registrationForm.value.company_name = null;
       this.registrationForm.value.vat_number = null;
     }

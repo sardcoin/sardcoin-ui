@@ -51,7 +51,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       fiscal_code: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
       address:     ['', Validators.compose([Validators.maxLength(100), Validators.required])],
       city:        ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip_code:    ['', Validators.compose([Validators.maxLength(5), Validators.required])],
+      zip:    ['', Validators.compose([Validators.maxLength(5), Validators.required])],
       province:    ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       username:    ['', Validators.compose([Validators.maxLength(20), Validators.required])],
       email:       ['', Validators.required],
@@ -72,12 +72,12 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
         address:     [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
         city:        [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
-        zip_code:    [this.user.zip_code, Validators.compose([Validators.maxLength(5), Validators.required])],
+        zip:    [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
         province:    [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username:    [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
         email:       [this.user.email, Validators.required],
-        password:    [this.user.password, Validators.compose([Validators.minLength(10), Validators.required])],
-        r_password:  [this.user.r_password, Validators.compose([Validators.minLength(10), Validators.required])],
+        password:    ['', Validators.compose([Validators.minLength(10), Validators.required])],
+        r_password:  ['', Validators.compose([Validators.minLength(10), Validators.required])],
         company_name: [this.user.company_name],
         vat_number: [this.user.vat_number]
       }, {
@@ -91,36 +91,13 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.addBreadcrumb();
-
-
-     // this.selectChangeHandler (this.user.user_type);
-    //   this.registrationForm = this.formBuilder.group({
-    //   first_name:  [this.user.value.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-    //   last_name:   [this.user.value.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-    //   birth_place: [this.user.value.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
-    //   birth_date:  [this.user.value.birth_date, Validators.required],
-    //   fiscal_code: [this.user.value.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
-    //   address:     [this.user.value.address, Validators.compose([Validators.maxLength(100), Validators.required])],
-    //   city:        [this.user.value.city, Validators.compose([Validators.maxLength(50), Validators.required])],
-    //   zip_code:    [this.user.value.zip_code, Validators.compose([Validators.maxLength(5), Validators.required])],
-    //   province:    [this.user.value.province, Validators.compose([Validators.maxLength(2), Validators.required])],
-    //   username:    [this.user.value.username, Validators.compose([Validators.maxLength(20), Validators.required])],
-    //   email:       [this.user.value.email, Validators.required],
-    //   password:    [this.user.value.password, Validators.compose([Validators.minLength(10), Validators.required])],
-    //   r_password:  [this.user.value.r_password, Validators.compose([Validators.minLength(10), Validators.required])],
-    //   company_name: [this.user.value.company_name],
-    //   vat_number: [this.user.value.vat_number]
-    // }, {
-    //     validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
-    //
-    //   });
   }
 
 
   get f() { return this.updateRegistration.controls; }
 
   selectChangeHandler (user_type) {
-    this.selectedUser = user_type;
+    this.selectedUser = Number(user_type);
 
     if (this.selectedUser === 2) {
       console.log('sto nel set');
@@ -196,7 +173,4 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.breadcrumbActions.updateBreadcrumb(this.bread);
   }
-
-
-
 }
