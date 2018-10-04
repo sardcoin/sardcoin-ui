@@ -63,8 +63,14 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     }, {
       validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
     });
+  }
+
+  ngOnInit(): void {
+    this.addBreadcrumb();
+
     this.userService.getUserById().subscribe( user => {
       this.user = user;
+      console.log('user', this.user);
       this.updateRegistration = this.formBuilder.group({
         first_name:   [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
         last_name:    [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
@@ -78,8 +84,8 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         province:     [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username:     [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
         email:        [this.user.email, Validators.required],
-        password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
-        r_password:   ['', Validators.compose([Validators.minLength(10), Validators.required])],
+        password:     [null, Validators.compose([Validators.minLength(10), Validators.required])],
+        r_password:   [null, Validators.compose([Validators.minLength(10), Validators.required])],
         company_name: [this.user.company_name],
         vat_number:   [this.user.vat_number]
       }, {
@@ -88,11 +94,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       this.selectChangeHandler (this.user.user_type);
       console.log('this.registrationForm.value', this.updateRegistration.value);
     });
-
-  }
-
-  ngOnInit(): void {
-    this.addBreadcrumb();
   }
 
 

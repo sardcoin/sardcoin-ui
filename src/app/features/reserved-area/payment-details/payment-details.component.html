@@ -1,10 +1,12 @@
 <!--<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">-->
-  <form [formGroup]="paymentForm"  (ngSubmit)="onSubmit()">
+  <form [formGroup]="paymentForm" >
 
   <div *ngIf="this.selectedUser === 2">
+    <div class="form-row">
     <div class="input-group  mb-0  col-md-12">
       <div class=" col-md-6" ><label class="col-form-label">Company name </label></div>
       <div class=" col-md-6"><label class="col-form-label">Vat number </label></div>
+    </div>
     </div>
     <div class="form-row">
       <div class="input-group mb-3 col-md-6">
@@ -171,6 +173,33 @@
       </div>
     </div>
   </div> <!-- Province and Zip Code-->
-    <button [disabled]="loading" class="btn btn-block btn-success">Save change</button>
+    <button [disabled]="loading" class="btn btn-block btn-success" (click)="openModal(template)">Save change</button>
+
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Confirm</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="myForm" >
+        <div class="form-group">
+          <label class="col-sm-4">Insert password</label>
+
+          <input  formControlName="password"
+                  class="col-sm-7"
+                  type="text" min="10" max="50" />
+          <div >
+            <div style="color: #bd0a0d;
+                            text-align: center"  *ngIf="g.password.errors">Wrong Password!</div>
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+        <button type="button" class="btn btn-success" (click)="onSubmit()">Yes</button>
+      </div>
+    </ng-template>
    <!-- Password and repeated password -->
 </form>

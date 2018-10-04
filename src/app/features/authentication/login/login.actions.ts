@@ -12,6 +12,7 @@ export const LOGIN_USER          = 'LOGIN_USER';
 export const LOGIN_USER_SUCCESS  = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_ERROR    = 'LOGIN_USER_ERROR';
 export const LOGOUT_USER         = 'LOGOUT_USER';
+export const PASSWORD_CONTROL    = 'PASSWORD_CONTROL';
 
 @Injectable()
 export class LoginActions {
@@ -51,5 +52,17 @@ export class LoginActions {
     this.eventManager.isUserLoggedIn.next(false);
 
     this.router.navigate(['/authentication/login']);
+  }
+
+  passwordControl() {
+    this.ngRedux.dispatch({ type: LOGOUT_USER });
+
+    this.storeLocal.removeToken();
+    this.storeLocal.removeId();
+    this.storeLocal.removeType();
+    this.storeLocal.removeUserNames();
+    console.log('login.actions.passwordControl');
+    this.eventManager.isUserLoggedIn.next(false);
+
   }
 }

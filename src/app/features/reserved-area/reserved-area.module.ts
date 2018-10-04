@@ -12,6 +12,8 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import {UserService} from '../../shared/_services/user.service';
 import {BreadcrumbActions} from '../../core/breadcrumb/breadcrumb.actions';
 import { PaymentDetailsComponent } from './payment-details/payment-details.component';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {ModalModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { PaymentDetailsComponent } from './payment-details/payment-details.compo
     AppFooterModule,
     FeatureReservedAreaRoutingModule,
     CommonModule,
+    ModalModule.forRoot(),
 
   ],
   providers: [
@@ -37,6 +40,8 @@ import { PaymentDetailsComponent } from './payment-details/payment-details.compo
     IsConsumerGuard,
     BreadcrumbActions,
     UserService,
+    BsModalService,
+
 
   ],
   exports: [

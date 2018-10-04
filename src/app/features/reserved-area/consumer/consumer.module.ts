@@ -32,12 +32,10 @@ import {UserService} from '../../../shared/_services/user.service';
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
-    ModalModule.forRoot(),
 
   ],
   providers: [
     CouponService,
-    BsModalService,
 
 
   ],

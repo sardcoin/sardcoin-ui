@@ -1,4 +1,4 @@
-import {LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, LOGOUT_USER} from './login.actions';
+import {LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, LOGOUT_USER, PASSWORD_CONTROL} from './login.actions';
 import {LOGIN_INITIAL_STATE, LoginState} from './login.model';
 
 
@@ -41,6 +41,14 @@ export function LoginReducer(state: LoginState = LOGIN_INITIAL_STATE , action): 
           isLoading: false
         });
 
+    case PASSWORD_CONTROL:
+      return Object.assign({}, state,
+        {
+          token: action.token,
+          user: action.user,
+          hasError: false,
+          isLoading: false
+        });
     default:
       return state;
     }

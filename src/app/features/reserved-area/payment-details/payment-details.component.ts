@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
 import {LocalStorage} from '@ngx-pwa/local-storage';
@@ -13,6 +13,11 @@ import {PasswordValidation} from '../../authentication/validators/password-valid
 import {FiscalCodeValidation} from '../../authentication/validators/fiscal-code-validator.directive';
 import {first} from 'rxjs/internal/operators';
 import {User} from '../../../shared/_models/User';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {AuthenticationService} from '../../authentication/authentication.service';
+import {Credentials} from '../../authentication/login/login.model';
+import {LoginActions} from '../../authentication/login/login.actions';
 
 @Component({
   selector: 'app-payment-details',
@@ -28,13 +33,21 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   selectedUser = 0;
   loading = false;
   submitted = false;
+  myForm: FormGroup;
+  modalRef: BsModalRef;
+  password: string;
+  credentials: Credentials;
+
 
   constructor(private breadcrumbActions: BreadcrumbActions,
               private _sanitizer: DomSanitizer,
               private userService: UserService,
               private localStorage: LocalStorage,
               private localService: StoreService,
+              private modalService: BsModalService,
               private router: Router,
+              private loginActions: LoginActions,
+  private authenticationService: AuthenticationService,
               private toastr: ToastrService,
               private formBuilder: FormBuilder) {
     this.paymentForm = this.formBuilder.group({
@@ -75,8 +88,8 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
         province:     [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username:     [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
         email:        [this.user.email, Validators.required],
-        password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
-        r_password:   ['', Validators.compose([Validators.minLength(10), Validators.required])],
+        password:     [null],
+        r_password:   [null],
         company_name: [this.user.company_name],
         vat_number:   [this.user.vat_number]
       }, {
@@ -90,6 +103,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   }
 
   get f() { return this.paymentForm.controls; }
+  get g() { return this.myForm.controls; }
 
   selectChangeHandler (user_type) {
     this.selectedUser = Number(user_type);
@@ -116,6 +130,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     // If the registration form is invalid, return
     if (this.paymentForm.invalid) {
       this.loading = false;
+      console.log('this.paymentForm.invalid');
       return;
     }
 
@@ -136,19 +151,70 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    this.userService.update(<User> this.paymentForm.value)
+    this.credentials = {
+      username: this.user.username,
+      password: this.myForm.value.password
+    };
+    console.log('password', this.myForm.value.password)
+    console.log('user', this.user.username)
+    const token = this.localService.getToken();
+    this.loginActions.passwordControl();
+    this.authenticationService.passwordControl(this.credentials, token, this.paymentForm.value)
       .pipe(first())
-      .subscribe(
-        data => {
-          // this.setSignedUp(this.registrationForm.value.username);
-          this.router.navigate(['/authentication/login']);
-        }, error => {
-          this.loading = false;
-          console.log(error);
-          console.log('User or email already exists');
-        }
-      );
+      .subscribe(data => {
+
+        this.paymentForm.value.password = this.myForm.value.password;
+            this.userService.update(<User> this.paymentForm.value)
+              .pipe(first())
+              .subscribe(
+                up => {
+                  // this.setSignedUp(this.registrationForm.value.username);
+                  this.router.navigate(['/reserved-area/payment_details']);
+                }, error1 => {
+                  this.loading = false;
+                  console.log('error1', error1);
+                  console.log('No update user');
+                }
+              );
+        // this.loginActions.loginUserSuccess(this.paymentForm.value, this.localService.getToken());
+        // this.router.navigate(['reserved-area']);
+        // setTimeout(() => {
+        //   this.paymentForm.value.password = this.myForm.value.password;
+        //     this.userService.update(<User> this.paymentForm.value)
+        //       .pipe(first())
+        //       .subscribe(
+        //         up => {
+        //           // this.setSignedUp(this.registrationForm.value.username);
+        //           this.router.navigate(['reserved-area']);
+        //         }, error1 => {
+        //           this.loading = false;
+        //           console.log('error1', error1);
+        //           console.log('No update user');
+        //         }
+        //       );
+        //   },
+        //   500);
+      }, error => {
+        // this.loginActions.loginUserSuccess(this.paymentForm.value, token);
+        this.loginActions.loginUserSuccess(this.paymentForm.value, token);
+        this.router.navigate(['/reserved-area/payment_details']);
+        console.log('error2', error);
+        console.log('Wrong password');
+      });
+
   }
+
+  openModal(template: TemplateRef<any>, password) {
+    this.myForm = this.formBuilder.group({
+      user: [this.user.username],
+      password: [ null , Validators.compose([Validators.required ])]
+
+    });
+
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  }
+
+  decline() {}
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
