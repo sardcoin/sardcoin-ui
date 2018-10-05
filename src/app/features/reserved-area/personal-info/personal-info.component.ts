@@ -150,7 +150,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           // this.setSignedUp(this.registrationForm.value.username);
-          this.router.navigate(['/authentication/login']);
+          // this.router.navigate(['/authentication/login']);
+          this.toastSuccessfull();
+          this.router.navigate(['/reserved-area/personal_info']);
         }, error => {
           this.loading = false;
           console.log(error);
@@ -176,4 +178,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.breadcrumbActions.updateBreadcrumb(this.bread);
   }
+
+  toastSuccessfull() {
+    this.toastr.success( 'Successful changes !!!');
+  }
+
 }

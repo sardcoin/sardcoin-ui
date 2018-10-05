@@ -10,7 +10,7 @@
           <span class="input-group-text"><i class="icon-briefcase"></i></span>
         </div>
         <input type="text" formControlName="company_name" class="form-control" placeholder="Company Name"
-               [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+               [ngClass]="{ 'is-invalid': submitted && f.company_name.errors }"/>
 
         <div *ngIf="this.submitted && f.company_name.errors" class="invalid-feedback">
           <div *ngIf="f.company_name.errors.required">Company Name is required</div>
@@ -21,7 +21,7 @@
           <span class="input-group-text"><i class="icon-chart"></i></span>
         </div>
         <input type="text" formControlName="vat_number" class="form-control" placeholder="Vat Number" required
-               [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+               [ngClass]="{ 'is-invalid': submitted && f.vat_number.errors }"/>
 
         <div *ngIf="this.submitted && f.vat_number.errors" class="invalid-feedback">
           <div *ngIf="f.vat_number.errors.required">Vat Number is required</div>
@@ -36,7 +36,7 @@
         <span class="input-group-text"><i class="icon-user"></i></span>
       </div>
       <input type="text" formControlName="first_name" class="form-control" placeholder="First Name"
-             [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
+             [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }"/>
 
       <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
         <div *ngIf="f.first_name.errors.required">First Name is required</div>
@@ -108,7 +108,7 @@
 
       <div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">
         <!--<div *ngIf="f.email_paypal.errors.required">Email is required</div>-->
-        <div *ngIf="f.email_paypal.errors.email">Please insert a valid email</div>
+        <div *ngIf="f.email_paypal.errors">Please insert a valid email</div>
       </div>
 
 
@@ -218,6 +218,6 @@
          *ngIf="submitted && f.r_password.errors?.MatchPassword">Password not match
     </div>
 
-    <button [disabled]="loading" class="btn btn-block btn-success">Update Account</button>
+    <button  class="btn btn-block btn-success">Update Account</button>
   </div> <!-- Password and repeated password -->
 </form>
