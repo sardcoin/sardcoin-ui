@@ -166,7 +166,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         // console.log('id', this.cart.id);
         crt = cart;
         crt.push(this.cart);
-        console.log('crt', crt);
+        // console.log('crt', crt);
         this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
             this.addBreadcrumb();
@@ -207,9 +207,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   setQuantity(e) {
-    console.log('e', e);
+    // console.log('e', e);
     if (!(Number(e) === NaN)) {
-      console.log('e Number', e);
+      // console.log('e Number', e);
       this.quantity = e;
     }
   }

@@ -192,7 +192,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   details(coupon: any, quantity) {
     const cp = coupon;
     cp.quantity = quantity;
-    console.log('cp', cp);
+    // console.log('cp', cp);
     this.couponService.setCoupon(cp);
 
     this.router.navigate(['/reserved-area/consumer/details']);
@@ -240,7 +240,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         }
 
-        console.log('cpn', cpn);
+        // console.log('cpn', cpn);
     });
     this.modalRef.hide();
 

@@ -98,7 +98,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
       this.selectChangeHandler (this.user.user_type);
-      console.log('this.registrationForm.value', this.paymentForm.value);
+      // console.log('this.registrationForm.value', this.paymentForm.value);
     });
     this.addBreadcrumb();
 
@@ -111,14 +111,14 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.selectedUser = Number(user_type);
 
     if (this.selectedUser === 2) {
-      console.log('sto nel set');
+      // console.log('sto nel set');
       this.paymentForm.controls['company_name'].setValidators(Validators.required);
       this.paymentForm.controls['company_name'].updateValueAndValidity();
 
       this.paymentForm.controls['vat_number'].setValidators(Validators.required);
       this.paymentForm.controls['vat_number'].updateValueAndValidity();
     } else {
-      console.log('pulisco');
+      // console.log('pulisco');
       this.paymentForm.controls['company_name'].setValidators(null);
       this.paymentForm.controls['company_name'].updateValueAndValidity();
 
@@ -133,7 +133,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     // If the registration form is invalid, return
     if (this.paymentForm.invalid) {
       this.loading = false;
-      console.log('this.paymentForm.invalid');
+      // console.log('this.paymentForm.invalid');
       return;
     }
 
@@ -150,7 +150,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
     delete this.paymentForm.value.r_password;
 
-    console.log(this.paymentForm.value);
+    // console.log(this.paymentForm.value);
 
     this.loading = true;
 
@@ -158,8 +158,8 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
       username: this.user.username,
       password: this.myForm.value.password
     };
-    console.log('password', this.myForm.value.password)
-    console.log('user', this.user.username)
+    // console.log('password', this.myForm.value.password)
+    // console.log('user', this.user.username)
     const token = this.localService.getToken();
     this.loginActions.passwordControl();
     this.authenticationService.passwordControl(this.credentials, token, this.paymentForm.value)

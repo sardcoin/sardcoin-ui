@@ -91,7 +91,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
         this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
-          console.log('crt', crt);
+          // console.log('crt', crt);
           if (crt === null) {
             this.isEmpty = true;
           } else {

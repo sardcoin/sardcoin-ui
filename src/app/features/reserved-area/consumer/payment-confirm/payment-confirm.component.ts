@@ -14,10 +14,10 @@ import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 
 @Component({
   selector: 'app-payment-detail',
-  templateUrl: './payment-detail.component.html',
-  styleUrls: ['./payment-detail.component.scss']
+  templateUrl: './payment-confirm.component.html',
+  styleUrls: ['./payment-confirm.component.scss']
 })
-export class PaymentDetailComponent implements OnInit, OnDestroy {
+export class PaymentConfirmComponent implements OnInit, OnDestroy {
 
 
   cartArray: any;

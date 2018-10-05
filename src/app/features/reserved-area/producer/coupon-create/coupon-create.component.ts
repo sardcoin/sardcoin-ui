@@ -197,8 +197,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     // let error = JSON.parse(response); //error server response
-    console.log(response);
-    console.log(this.uploader.queue[0]);
+    // console.log(response);
+    // console.log(this.uploader.queue[0]);
   }
 
   toggleVisibilityExpiration(e) {

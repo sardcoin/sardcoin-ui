@@ -4,7 +4,7 @@ import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/co
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {CartShowComponent} from './cart/cart-show/cart-show.component';
-import {PaymentDetailComponent} from './payment-detail/payment-detail.component';
+import {PaymentConfirmComponent} from './payment-confirm/payment-confirm.component';
 
 /** App Components **/
 
@@ -35,7 +35,7 @@ import {PaymentDetailComponent} from './payment-detail/payment-detail.component'
       },
       {
         path: 'cart-detail-payment',
-        component: PaymentDetailComponent
+        component: PaymentConfirmComponent
       }
     ])
   ],

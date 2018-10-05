@@ -58,14 +58,14 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
     this.selectedUser = event.target.value;
 
     if (this.selectedUser === '2') {
-       console.log('sto nel set');
+       // console.log('sto nel set');
       this.registrationForm.controls['company_name'].setValidators(Validators.required);
       this.registrationForm.controls['company_name'].updateValueAndValidity();
 
       this.registrationForm.controls['vat_number'].setValidators(Validators.required);
       this.registrationForm.controls['vat_number'].updateValueAndValidity();
     } else {
-      console.log('pulisco');
+      // console.log('pulisco');
       this.registrationForm.controls['company_name'].setValidators(null);
       this.registrationForm.controls['company_name'].updateValueAndValidity();
 
@@ -96,7 +96,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
 
     delete this.registrationForm.value.r_password;
 
-    console.log(this.registrationForm.value);
+    // console.log(this.registrationForm.value);
 
     this.loading = true;
 

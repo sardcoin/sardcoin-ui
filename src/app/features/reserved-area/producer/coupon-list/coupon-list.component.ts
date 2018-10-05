@@ -148,7 +148,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         // console.log('some', result);
 
         this.couponArray = array;
-        console.log('set', array);
+        // console.log('set', array);
         // console.log(data);
       },
       error => console.log(error)

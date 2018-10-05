@@ -60,15 +60,15 @@ export class AuthenticationService {
 
         if (user && token) {
           this.loginActions.loginUserSuccessPostPassword(user, token);
-          console.log('autentication.service user && token .passwordControl');
+          // console.log('autentication.service user && token .passwordControl');
 
           return response;
         } else {
-          console.log('autentication.service else .passwordControl');
+          // console.log('autentication.service else .passwordControl');
           this.loginActions.loginUserSuccessPostPassword(user, token);
           return response;
         }}, error => {
-        console.log('autentication.service error .passwordControl');
+        // console.log('autentication.service error .passwordControl');
         this.loginActions.loginUserSuccessPostPassword(user, token);
           console.log('errorAutentication', error);
           console.log('Wrong password');
