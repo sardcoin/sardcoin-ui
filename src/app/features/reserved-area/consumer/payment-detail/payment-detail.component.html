@@ -11,6 +11,7 @@
           <p class="card-text"><label class="col-md-4 col-form-label">Last name:</label><label class="data-user col-md-8"> {{user.last_name}}</label></p>
           <p class="card-text"><label class="col-md-4 col-form-label">Fiscal code:</label><label class=" data-user col-md-8"> {{user.fiscal_code}}</label></p>
           <p class="card-text"><label class="col-md-4 col-form-label">Total amount:</label><label class="data-user col-md-8"> {{totalAmount}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Account Paypal:</label><label class=" data-user col-md-8"> {{user.email_paypal}}</label></p>
 
           <h5 class="card-text">Coupons to buy:</h5>
           <div *ngFor="let title of arrayTitle">

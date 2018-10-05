@@ -133,7 +133,7 @@ export class PaymentDetailComponent implements OnInit, OnDestroy {
   }
 
   toastBuy() {
-    this.toastr.success('Bought coupons', 'Coupons bought successfully');
+    this.toastr.success( 'Your purchase has successfully completed', 'Congratulations!');
 
   }
 

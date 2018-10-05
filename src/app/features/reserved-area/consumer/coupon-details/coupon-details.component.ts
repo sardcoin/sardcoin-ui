@@ -138,37 +138,35 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToCart(coupon: Coupon) {
-    this.localStorage.getItem<any>('cart').subscribe((cart) => {
+      this.cart.id = this.couponPass.id;
+      this.cart.quantity = this.quantity;
+      this.cart.title = this.couponPass.title;
+      this.cart.description = this.couponPass.description;
+      this.cart.image = this.couponPass.image;
+      this.cart.timestamp = this.couponPass.timestamp;
+      this.cart.price = this.couponPass.price;
+      this.cart.valid_from = this.couponPass.valid_from;
+      this.cart.valid_until = this.couponPass.valid_until;
+      this.cart.state = this.couponPass.state;
+      this.cart.constraints = this.couponPass.constraints;
+      this.cart.owner = this.couponPass.owner;
+      this.cart.consumer = this.couponPass.consumer;
+      this.cart.quantity = this.quantity;
+      let crt = [];
+      this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
-        // console.log('cart null');
-
-        this.localStorage.setItem('cart', [{id: coupon.id, quantity: this.quantity}]).subscribe(() => {
+        crt.push(this.cart);
+        this.localStorage.setItem('cart', crt).subscribe(() => {
           this.inCart = true;
           this.addBreadcrumb();
           return;
         });
       } else {
-        this.cart.id = this.couponPass.id;
-        this.cart.quantity = this.quantity;
-        this.cart.title = this.couponPass.title;
-        this.cart.description = this.couponPass.description;
-        this.cart.image = this.couponPass.image;
-        this.cart.timestamp = this.couponPass.timestamp;
-        this.cart.price = this.couponPass.price;
-        this.cart.valid_from = this.couponPass.valid_from;
-        this.cart.valid_until = this.couponPass.valid_until;
-        this.cart.state = this.couponPass.state;
-        this.cart.constraints = this.couponPass.constraints;
-        this.cart.owner = this.couponPass.owner;
-        this.cart.consumer = this.couponPass.consumer;
-        this.cart.quantity = this.quantity;
         // console.log('id', this.cart.id);
-        let crt = [];
         crt = cart;
         crt.push(this.cart);
         console.log('crt', crt);
-
         this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
             this.addBreadcrumb();
