@@ -32,6 +32,8 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   @select() just_signed;
   selectedUser = 0;
   loading = false;
+  done = false;
+  successPassword = null;
   submitted = false;
   myForm: FormGroup;
   modalRef: BsModalRef;
@@ -56,7 +58,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
       birth_place:  ['', Validators.compose([Validators.maxLength(50), Validators.required])],
       birth_date:   ['', Validators.required],
       fiscal_code:  ['', Validators.compose([Validators.maxLength(16), Validators.required])],
-      email_paypal: [null , Validators.compose([ Validators.maxLength(50)])],
+      email_paypal: ['' , Validators.compose([ Validators.maxLength(50), Validators.required])],
       address:      ['', Validators.compose([Validators.maxLength(100), Validators.required])],
       city:         ['', Validators.compose([Validators.maxLength(50), Validators.required])],
       zip:          ['', Validators.compose([Validators.maxLength(5), Validators.required])],
@@ -81,7 +83,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
         birth_place:  [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
         birth_date:   [this.user.birth_date, Validators.required],
         fiscal_code:  [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
-        email_paypal: [this.user.email_paypal , Validators.compose([ Validators.maxLength(50)])],
+        email_paypal: [this.user.email_paypal , Validators.compose([ Validators.maxLength(50), Validators.required])],
         address:      [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
         city:         [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
         zip:          [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
@@ -125,6 +127,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit() {
+    this.done = true;
     this.submitted = true;
 
     // If the registration form is invalid, return
@@ -162,13 +165,14 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.authenticationService.passwordControl(this.credentials, token, this.paymentForm.value)
       .pipe(first())
       .subscribe(data => {
-
+        this.modalRef.hide();
         this.paymentForm.value.password = this.myForm.value.password;
             this.userService.update(<User> this.paymentForm.value)
               .pipe(first())
               .subscribe(
                 up => {
-                  // this.setSignedUp(this.registrationForm.value.username);
+                  this.modalRef.hide();
+                  this.toastSuccessfull();
                   this.router.navigate(['/reserved-area/payment_details']);
                 }, error1 => {
                   this.loading = false;
@@ -176,28 +180,11 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
                   console.log('No update user');
                 }
               );
-        // this.loginActions.loginUserSuccess(this.paymentForm.value, this.localService.getToken());
-        // this.router.navigate(['reserved-area']);
-        // setTimeout(() => {
-        //   this.paymentForm.value.password = this.myForm.value.password;
-        //     this.userService.update(<User> this.paymentForm.value)
-        //       .pipe(first())
-        //       .subscribe(
-        //         up => {
-        //           // this.setSignedUp(this.registrationForm.value.username);
-        //           this.router.navigate(['reserved-area']);
-        //         }, error1 => {
-        //           this.loading = false;
-        //           console.log('error1', error1);
-        //           console.log('No update user');
-        //         }
-        //       );
-        //   },
-        //   500);
       }, error => {
         // this.loginActions.loginUserSuccess(this.paymentForm.value, token);
         this.loginActions.loginUserSuccess(this.paymentForm.value, token);
-        this.router.navigate(['/reserved-area/payment_details']);
+        this.successPassword = false;
+        // this.router.navigate(['/reserved-area/payment_details']);
         console.log('error2', error);
         console.log('Wrong password');
       });
@@ -205,16 +192,31 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>, password) {
+    this.submitted = true;
     this.myForm = this.formBuilder.group({
       user: [this.user.username],
       password: [ null , Validators.compose([Validators.required ])]
 
     });
 
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    if (this.paymentForm.valid) {
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    }
+    }
+
+  goToShowcase() {
+
+    this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 
-  decline() {}
+
+  decline(): void {
+    this.modalRef.hide();
+  }
+
+  toastSuccessfull() {
+    this.toastr.success( 'Successful changes !!!');
+  }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();

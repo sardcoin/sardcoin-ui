@@ -59,17 +59,17 @@ export class AuthenticationService {
       .pipe(map(response => {
 
         if (user && token) {
-          this.loginActions.loginUserSuccess(user, token);
+          this.loginActions.loginUserSuccessPostPassword(user, token);
           console.log('autentication.service user && token .passwordControl');
 
           return response;
         } else {
           console.log('autentication.service else .passwordControl');
-          this.loginActions.loginUserSuccess(user, token);
+          this.loginActions.loginUserSuccessPostPassword(user, token);
           return response;
         }}, error => {
         console.log('autentication.service error .passwordControl');
-        this.loginActions.loginUserSuccess(user, token);
+        this.loginActions.loginUserSuccessPostPassword(user, token);
           console.log('errorAutentication', error);
           console.log('Wrong password');
       }));
