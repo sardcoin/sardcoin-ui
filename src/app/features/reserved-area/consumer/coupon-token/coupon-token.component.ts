@@ -54,9 +54,10 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
          token: this.tokenForm.value.token,
          consumer: this.storeService.getId(),
        };
-       console.log('coupon', this.coupon)
+       console.log('coupon', this.coupon);
        this.couponService.validate(this.coupon).subscribe(
          (data) => {
+           this.toastValidate();
            this.router.navigate(['/reserved-area/consumer/bought']);
          }, error => {
            console.log(error);
@@ -79,6 +80,10 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
+  }
+
+  toastValidate() {
+    this.toastr.success( 'Coupon validated successfully');
   }
 
 
