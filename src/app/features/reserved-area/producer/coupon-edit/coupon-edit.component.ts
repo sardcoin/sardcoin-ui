@@ -69,15 +69,58 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
 
+    this.couponForm = this.formBuilder.group({
+      title: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      description: [''],
+      image: [],
+      price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
+      valid_from_old : [''],
+      valid_from: ['', Validators.compose([Validators.required])],
+      valid_until: [''],
+      state: ['0'],
+      constraints: [''],
+      owner: ['', Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
+      consumer: [''],
+      quantity: ['', Validators.required],
+
+      // consumer: ['2', Validators.compose([Validators.required])] //
+    }, {
+      validator: Validators.compose([DateEditValidation.CheckDateDay,  QuantityCouponValidation.CheckQuantityCoupon])
+    });
+
     if (this.couponPass === null) {
 
       this.router.navigate(['/']);
       return;
+    } else {
+      console.log('cp', this.couponPass);
     }
 
   }
 
   ngOnInit() {
+    this.couponForm = this.formBuilder.group({
+      title: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      description: [''],
+      image: [],
+      price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
+      valid_from_old : [''],
+      valid_from: ['', Validators.compose([Validators.required])],
+      valid_until: [''],
+      state: ['0'],
+      constraints: [''],
+      owner: ['', Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
+      consumer: [''],
+      quantity: ['', Validators.required],
+
+      // consumer: ['2', Validators.compose([Validators.required])] //
+    }, {
+      validator: Validators.compose([DateEditValidation.CheckDateDay,  QuantityCouponValidation.CheckQuantityCoupon])
+    });
+
+
+
+
 
     // console.log('token', this.couponPass.token);
     this.URLstring = this.URLstring + this.couponPass.image;
@@ -99,7 +142,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       valid_from_old : from,
       valid_from: [from, Validators.compose([Validators.required])],
       valid_until: [until],
-      state: ['1'],
+      state: ['0'],
       constraints: [this.couponPass.constraints],
       owner: [ownerId, Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
       consumer: [],

@@ -14,6 +14,8 @@ import {BreadcrumbActions} from '../../core/breadcrumb/breadcrumb.actions';
 import { PaymentDetailsComponent } from './payment-details/payment-details.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import {ModalModule} from 'ngx-bootstrap';
     SharedModule,
     CoreModule,
     AppFooterModule,
+    ReactiveFormsModule,
     FeatureReservedAreaRoutingModule,
     CommonModule,
     ModalModule.forRoot(),

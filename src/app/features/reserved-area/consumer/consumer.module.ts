@@ -16,6 +16,7 @@ import {LocalStorage} from '@ngx-pwa/local-storage';
 import { CartShowComponent } from './cart/cart-show/cart-show.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';
 import {UserService} from '../../../shared/_services/user.service';
+import { CouponTokenComponent } from './coupon-token/coupon-token.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {UserService} from '../../../shared/_services/user.service';
     FeatureReservedAreaConsumerShowcaseComponent,
     CartShowComponent,
     PaymentConfirmComponent,
+    CouponTokenComponent,
 
   ],
   imports: [

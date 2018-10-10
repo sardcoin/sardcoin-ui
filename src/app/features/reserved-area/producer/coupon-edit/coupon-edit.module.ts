@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CouponEditComponent} from './coupon-edit.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
@@ -12,7 +12,6 @@ import {CommonModule} from '@angular/common';
     CouponEditComponent
   ],
   imports: [
-    ReactiveFormsModule,
     SharedModule,
     CommonModule,
     FileUploadModule,

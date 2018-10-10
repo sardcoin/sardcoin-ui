@@ -115,7 +115,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getDistinctAvailables()
       .subscribe(coupons => {
         this.coupons = coupons;
-        // console.log('getDistinctAvailables', coupons);
+        console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -158,7 +158,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   //
   //   if (this.myForm.invalid) {
   //     console.log('quantity invalid');
-  //     // console.log(this.couponForm);
+  //     // console.log(this.tokenForm);
   //     return;
   //
   //   }
@@ -209,7 +209,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     if (this.myForm.invalid) {
       console.log('quantity invalid');
-      // console.log(this.couponForm);
+      // console.log(this.tokenForm);
       return;
 
     }

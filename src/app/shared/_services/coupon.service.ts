@@ -92,6 +92,10 @@ export class CouponService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromToken/' + token );
 
   }
+  validate(cp: any) {
+    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/validate', {body: cp});
+
+  }
 }
 
 

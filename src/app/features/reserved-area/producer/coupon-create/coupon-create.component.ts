@@ -61,7 +61,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
-      image: [this.imagePath],
+      image: [null],
       price: [],
       valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
       valid_until: [],
@@ -105,7 +105,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
-      // console.log(this.couponForm);
+      // console.log(this.tokenForm);
       return;
 
     }
