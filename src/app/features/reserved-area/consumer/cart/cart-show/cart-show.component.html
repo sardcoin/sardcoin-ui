@@ -1,4 +1,5 @@
-<table *ngIf="!(isEmpty)" class="table table-striped">
+<div *ngIf="!(isEmpty)">
+ <table *ngIf="!(isEmpty)" class="table table-striped">
   <thead>
   <tr>
     <th style="width: 40%">Title</th>
@@ -64,12 +65,12 @@
 
   </tbody>
 
-</table>
-<div class="card-body p-4">
-<button  *ngIf="!isEmpty" class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
-<button *ngIf="!isEmpty" type="button" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template_buy)">Buy</button>
+ </table>
+ <div class="card-body p-4">
+  <button  *ngIf="!isEmpty" class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
+  <button *ngIf="!isEmpty" type="button" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template_buy)">Buy</button>
+ </div>
 </div>
-
 <ng-template #template_buy>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Buy</h4>

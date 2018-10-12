@@ -86,10 +86,11 @@ export class CouponService {
   }
 
 
-  getCouponsCreatedFromToken(token: string) {
+  getCouponsCreatedFromTitleDescriptionPrice(cp: any) {
 
+    let cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description.toString()) + '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString())
 
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromToken/' + token );
+    return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy );
 
   }
   validate(cp: any) {
