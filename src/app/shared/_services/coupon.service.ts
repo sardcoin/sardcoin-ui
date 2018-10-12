@@ -88,7 +88,7 @@ export class CouponService {
 
   getCouponsCreatedFromTitleDescriptionPrice(cp: any) {
 
-    let cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description.toString()) + '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString())
+    const cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description != null ? cp.description.toString() : null) + '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString())
 
     return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy );
 

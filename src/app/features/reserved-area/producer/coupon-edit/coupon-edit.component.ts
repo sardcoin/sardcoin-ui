@@ -71,7 +71,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      description: [''],
+      description: ['', Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
       image: [],
       price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_from_old : [''],
@@ -101,7 +101,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      description: [''],
+      description: ['', Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
       image: [],
       price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_from_old : [''],
@@ -136,7 +136,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
-      description: [this.couponPass.description],
+      description: [this.couponPass.description   , Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
       image: [],
       price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_from_old : from,
@@ -170,7 +170,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   saveChange() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
-
+    if (this.dateUntil.getMilliseconds() === 0) {this.marked = true; }
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
     }
@@ -198,7 +198,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             'image': this.imagePath ? this.imagePath : this.couponPass.image,
             'price': this.price != null ? this.price : this.couponForm.value.price,
             'valid_from': this.dateFrom.getTime().valueOf(),
-            'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+            'valid_until': this.marked ? null : this.dateUntil.getTime().valueOf(),
             'state': this.couponForm.value.state,
             'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
             'owner': this.couponForm.value.owner,
@@ -226,7 +226,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         'image': this.imagePath ? this.imagePath : this.couponPass.image,
         'price': this.price != null ? this.price : this.couponForm.value.price,
         'valid_from': this.dateFrom.getTime().valueOf(),
-        'valid_until': this.marked ? 0 : this.dateUntil.getTime().valueOf(),
+        'valid_until': this.marked ? null : this.dateUntil.getTime().valueOf(),
         'state': this.couponForm.value.state,
         'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
         'owner': this.couponForm.value.owner,

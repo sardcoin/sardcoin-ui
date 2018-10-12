@@ -61,7 +61,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
-      image: [null],
+      image: [this.imagePath ? this.imagePath : 'no_image.jpeg'],
       price: [],
       valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
       valid_until: [],
@@ -94,7 +94,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-    // console.log(this.dateUntil.getMilliseconds());
+    console.log(this.dateUntil.getMilliseconds());
+
+    if (this.dateUntil.getMilliseconds() === 0) {this.marked = true; }
 
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = new Date(0);
@@ -114,11 +116,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         null,
         this.couponForm.value.title,
         this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-        this.imagePath,
+        this.imagePath ? this.imagePath : 'no_image.jpeg',
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
-        (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
+        (this.marked ? null : this.dateUntil.getTime().valueOf()),
         this.couponForm.value.state,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
@@ -142,7 +144,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         null,
         this.couponForm.value.title,
         this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-        this.imagePath,
+        this.imagePath ? this.imagePath : 'no_image.jpeg',
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
