@@ -94,10 +94,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   saveCoupon() {
+    let register;
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-    console.log(this.dateUntil.getMilliseconds());
+    // console.log(this.dateUntil.getMilliseconds());
 
     if (this.dateUntil.getMilliseconds() === 0) {this.marked = true; }
 
@@ -159,11 +160,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       );
 
       for (let i = 0 ; i < this.couponForm.value.quantity; i++) {
-      this.couponService.register(this.coupon).pipe(first())
+        register = this.couponService.register(this.coupon)
         .subscribe(
           data => {
             // if ((i + 1) === quantityCoupon) {
-
+              if ( i === this.couponForm.value.quantity - 1) {
+                this.router.navigate(['/reserved-area/producer/list']);
+                this.toastCreate();
+              }
 
             // }
           }, error => {
@@ -171,11 +175,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           }
 
         );
-
       }
-      this.router.navigate(['/reserved-area/producer/list']);
-      this.toastCreate();
-
     }
   }
 
@@ -197,7 +197,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    console.log(data);
+    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {

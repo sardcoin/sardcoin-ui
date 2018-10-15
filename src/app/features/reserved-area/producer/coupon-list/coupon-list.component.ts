@@ -45,7 +45,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
 
-    console.log('coupon: ', cp.id);
+    // console.log('coupon: ', cp.id);
   }
 
   onCopy(coupon: any) {
@@ -62,7 +62,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     this.couponService.getCouponsCreatedFromTitleDescriptionPrice(cp).subscribe(coupons => {
 
-      console.log('coupons', coupons)
+       // console.log('coupons', coupons)
       const getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
       for (const i of getCouponsCreatedFromTitleDescriptionPrice) {
       this.couponService.deleteCoupon(i.id)

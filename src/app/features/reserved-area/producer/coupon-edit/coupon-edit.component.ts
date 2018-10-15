@@ -93,7 +93,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
       return;
     } else {
-      console.log('cp', this.couponPass);
+      // console.log('cp', this.couponPass);
     }
 
   }
@@ -180,16 +180,16 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
 
     }
-    console.log('this.couponPass.quantity', this.couponPass.quantity)
-    console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
+    // console.log('this.couponPass.quantity', this.couponPass.quantity)
+    // console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
     this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
       this.getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
     if (Number(this.couponPass.quantity) <= Number(this.couponForm.value.quantity)) {
-      console.log('quantità uguali')
+      // console.log('quantità uguali')
 
-        console.log('coupons', coupons)
+        // console.log('coupons', coupons)
         for (const i of this.getCouponsCreatedFromTitleDescriptionPrice) {
-          console.log('dentro for', i)
+          // console.log('dentro for', i)
           this.coupon = {
             'id': i.id,
             'title': this.couponForm.value.title,
@@ -208,11 +208,11 @@ export class CouponEditComponent implements OnInit, OnDestroy {
           this.couponService.editCoupon(this.coupon).subscribe(
             (data) => {
 
-              console.log('dentro edit coupon con quantità maggiore')
+              // console.log('dentro edit coupon con quantità maggiore')
 
               this.router.navigate(['/reserved-area/producer/list']);
             }, error => {
-              console.log('errore edit coupon con quantità maggiore')
+              // console.log('errore edit coupon con quantità maggiore')
 
               console.log(error);
             }
@@ -233,20 +233,20 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         'consumer': this.couponForm.value.consumer,
       };
       for (let mario = k ; mario < this.couponForm.value.quantity ; mario++) {
-        console.log('j', mario)
-        console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
+        // console.log('j', mario)
+        // console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
         this.couponService.register(this.coupon).subscribe(() => {
-          console.log('dentro register coupon con quantità diverse')
+          // console.log('dentro register coupon con quantità diverse')
 
           this.router.navigate(['/reserved-area/producer/list']);
         });
       }
 
     } else {
-      console.log('dentro register coupon con quantità diverse')
+      // console.log('dentro register coupon con quantità diverse')
 
       for (let i = this.couponForm.value.quantity; i < this.couponPass.quantity; i++) {
-            console.log('dentro else')
+           // console.log('dentro else')
 
             this.couponService.deleteCoupon(this.getCouponsCreatedFromTitleDescriptionPrice[i].id).subscribe(() =>{
               this.router.navigate(['/reserved-area/producer/list']);
