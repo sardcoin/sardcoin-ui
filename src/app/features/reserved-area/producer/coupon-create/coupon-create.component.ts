@@ -40,7 +40,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
-
+    isHTML5: true,
+    method: 'POST',
+    itemAlias: 'file',
+    authTokenHeader:  'authorization',
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
@@ -55,13 +58,13 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
-    this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
+    // this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     const ownerId = parseInt(this.storeService.getId(), 10);
 
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
-      image: [this.imagePath ? this.imagePath : 'no_image.jpeg'],
+      image: [],
       price: [],
       valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
       valid_until: [],
@@ -71,7 +74,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       consumer: [],
       quantity: [1, Validators.required]
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, ImageValidation.CheckImage, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateFromValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
 
     this.addBreadcrumb();
