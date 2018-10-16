@@ -1,0 +1,43 @@
+<div *ngIf="couponPass !== null" class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card mx-4" style="padding: 5px">
+        <img src="{{URLstring}}" alt="" class="">
+        <div class="card-body p-4">
+          <h3 class="card-title">{{couponPass.title}}</h3>
+          <!--
+          <div id="yourImage"></div>
+          <label class="col-sm-2 col-form-label">Title</label>
+          <label class="col-sm-10" type="text">{{couponPass.title}}</label>
+          -->
+
+          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
+
+          <p class="card-text">{{couponPass.description}}</p>
+        <div class="card-text">
+          <i style="color: #20a8d8" class="col-6">Scan this QR-Code</i>
+            <div class="col-6">
+              <qrcode class="col-6" [qrdata]="couponPass.token" [size]="200" [level]="'M'"></qrcode>
+            </div>
+        </div>
+          <p class="card-text">
+            <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
+          </p>
+        <br/>
+          <div class="card-text">
+            <span *ngIf="couponPass.constraints">
+              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+            </span>
+          </div>
+          <br/>
+          <div style="text-align:center;">
+            <button class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
+          </div>
+        </div>
+        </div>
+    </div>
+      </div>
+
+
+    </div>
+
