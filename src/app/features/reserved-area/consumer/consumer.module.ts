@@ -17,6 +17,8 @@ import { CartShowComponent } from './cart/cart-show/cart-show.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';
 import {UserService} from '../../../shared/_services/user.service';
 import { CouponTokenComponent } from './coupon-token/coupon-token.component';
+import { CouponBoughtDetailComponent } from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
+import {QRCodeModule} from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { CouponTokenComponent } from './coupon-token/coupon-token.component';
     CartShowComponent,
     PaymentConfirmComponent,
     CouponTokenComponent,
+    CouponBoughtDetailComponent,
 
   ],
   imports: [
@@ -34,6 +37,7 @@ import { CouponTokenComponent } from './coupon-token/coupon-token.component';
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
+    QRCodeModule
 
   ],
   providers: [

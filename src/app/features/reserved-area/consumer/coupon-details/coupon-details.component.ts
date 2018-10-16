@@ -126,7 +126,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       return 'Unlimited';
     }
 
-    return until;
+    return this.formatFrom(until);
   }
 
   formatFrom(dataFrom) {

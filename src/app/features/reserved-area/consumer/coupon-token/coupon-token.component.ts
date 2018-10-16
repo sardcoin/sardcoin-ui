@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {validate} from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-coupon-token',
@@ -46,25 +47,46 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   }
   redeems() {
     this.submitted = true;
- this.couponService.getAffordables().subscribe(coupons => {
+
+    this.couponService.getAffordables().subscribe(coupons => {
    const cp = JSON.parse(JSON.stringify(coupons));
+      // console.log('cp.keys.length', cp.length);
+      // console.log('cp', cp);
+
+      let length = 1;
+      let isValidate = false;
    for ( const i of cp) {
+
+
+     length ++;
      if (i.state === 3 && i.token === this.tokenForm.value.token) {
+       isValidate = true;
        this.coupon = {
          token: this.tokenForm.value.token,
          consumer: this.storeService.getId(),
        };
-       console.log('coupon', this.coupon);
+
        this.couponService.validate(this.coupon).subscribe(
          (data) => {
            this.toastValidate();
            this.router.navigate(['/reserved-area/consumer/bought']);
+           return;
          }, error => {
+           this.toastError()
+
            console.log(error);
          }
        );
+     } else if (length === Number(cp.length) && !isValidate) {
+       // console.log('non trovato');
+       this.toastError();
      }
    }
+ }, error1 => {
+   this.toastError()
+
+   ;
+   console.log(error1);
  });
   }
   addBreadcrumb() {
@@ -84,6 +106,10 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
   toastValidate() {
     this.toastr.success( 'Coupon validated successfully');
+  }
+
+  toastError() {
+    this.toastr.error( 'Coupon invalid!');
   }
 
 

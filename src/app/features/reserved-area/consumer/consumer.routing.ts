@@ -6,6 +6,7 @@ import {CouponDetailsComponent} from './coupon-details/coupon-details.component'
 import {CartShowComponent} from './cart/cart-show/cart-show.component';
 import {PaymentConfirmComponent} from './payment-confirm/payment-confirm.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
+import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 
 /** App Components **/
 
@@ -41,6 +42,11 @@ import {CouponTokenComponent} from './coupon-token/coupon-token.component';
       {
         path: 'coupon-token',
         component: CouponTokenComponent
+      },
+
+      {
+        path: 'bought/bought-details',
+        component: CouponBoughtDetailComponent
       }
 
     ])
