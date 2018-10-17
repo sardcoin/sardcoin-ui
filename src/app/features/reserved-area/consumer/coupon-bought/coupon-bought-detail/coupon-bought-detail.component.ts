@@ -96,12 +96,14 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
       return 'Unlimited';
     }
 
-    return until;
+    return this.formatFrom(until);
   }
 
 
   formatFrom(dataFrom) {
-    return dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+    const date = dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+    const time = dataFrom.toString().substring(dataFrom.indexOf('T') + 1, dataFrom.indexOf('Z'));
+    return 'Date: ' + date + ' Time: ' + time;
   }
 
 

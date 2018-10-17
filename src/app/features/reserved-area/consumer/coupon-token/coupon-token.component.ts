@@ -59,14 +59,15 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
 
      length ++;
-     if (i.state === 3 && i.token === this.tokenForm.value.token) {
+     if (i.state === 3 && i.token === this.tokenForm.value.token && i.consumer === null) {
        isValidate = true;
        this.coupon = {
          token: this.tokenForm.value.token,
          consumer: this.storeService.getId(),
+         state: 1,
        };
 
-       this.couponService.validate(this.coupon).subscribe(
+       this.couponService.importCoupon(this.coupon).subscribe(
          (data) => {
            this.toastValidate();
            this.router.navigate(['/reserved-area/consumer/bought']);

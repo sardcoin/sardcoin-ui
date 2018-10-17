@@ -93,8 +93,8 @@ export class CouponService {
     return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy );
 
   }
-  validate(cp: any) {
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/validate', {body: cp});
+  importCoupon(cp: any) {
+    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/importCoupon', {body: cp});
 
   }
 }

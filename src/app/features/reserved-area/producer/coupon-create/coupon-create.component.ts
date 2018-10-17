@@ -28,6 +28,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   price = null;
   marked2 = false;
   marked3 = false;
+  marked4 = false;
+
 
   theCheckbox = false;
   coupon: Coupon;
@@ -68,7 +70,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       price: [],
       valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
       valid_until: [],
-      state: ['0'],
+      state: [this.marked4 ? 3 : 0],
       constraints: [],
       owner: [ownerId],
       consumer: [],
@@ -125,7 +127,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
         (this.marked ? null : this.dateUntil.getTime().valueOf()),
-        this.couponForm.value.state,
+        this.marked4 ? 3 : 0,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
@@ -153,7 +155,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
         (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
-        this.couponForm.value.state,
+        this.marked4 ? 3 : 0,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
@@ -226,6 +228,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     return sha256(title);
 }
+
+  toggleVisibility(e) {
+    this.marked4 = e.target.checked;
+    console.log('visible', this.marked4);
+  }
 }
 
 

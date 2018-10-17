@@ -26,7 +26,7 @@
     <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
     <td>{{formatPrice(coupon.price)}}</td>
     <td>{{coupon.quantity}}</td>
-    <td>{{coupon.valid_until === null? 'Unlimited': coupon.valid_until }}</td>
+    <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
 
 
 

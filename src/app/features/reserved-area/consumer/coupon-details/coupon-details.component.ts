@@ -130,7 +130,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   formatFrom(dataFrom) {
-    return dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+    const date = dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+    const time = dataFrom.toString().substring(dataFrom.indexOf('T') + 1, dataFrom.indexOf('Z'));
+    return 'Date: ' + date + ' Time: ' + time;
   }
 
   retry() {

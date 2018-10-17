@@ -301,4 +301,19 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
     });
   }
+
+  formatUntil(until) {
+    if (until === null) {
+      return 'Unlimited';
+    }
+
+    return this.formatFrom(until);
+  }
+
+
+  formatFrom(dataFrom) {
+    const date = dataFrom.toString().substring(0, dataFrom.indexOf('T'));
+    const time = dataFrom.toString().substring(dataFrom.indexOf('T') + 1, dataFrom.indexOf('Z'));
+    return 'Date: ' + date + ' Time: ' + time;
+  }
 }

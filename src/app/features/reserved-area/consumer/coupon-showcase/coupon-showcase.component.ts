@@ -152,29 +152,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return '€ ' + price.toFixed(2);
   }
 
-  // buyCoupon(coupon_id: number) {
-  //
-  //   console.log('quantity invalid', this.myForm.invalid);
-  //
-  //   if (this.myForm.invalid) {
-  //     console.log('quantity invalid');
-  //     // console.log(this.tokenForm);
-  //     return;
-  //
-  //   }
-  //   this.couponService.buyCoupon(coupon_id)
-  //     .subscribe(data => {
-  //
-  //       this.router.navigate(['/reserved-area/consumer/bought']);
-  //       this.toastCart();
-  //
-  //     }, err => {
-  //       console.log(err);
-  //     });
-  //
-  //   this.decline();
-  // }
-
   openModal(template: TemplateRef<any>, quantity) {
     this.maxQuantity = quantity;
     this.myForm = this.formBuilder.group({
