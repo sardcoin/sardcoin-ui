@@ -1,6 +1,6 @@
 import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
 import {CouponService} from '../../../../shared/_services/coupon.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
@@ -8,11 +8,11 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCouponValidation.directive';
-import {DateEditValidation} from '../coupon-create/validator/DateEditValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {first} from 'rxjs/internal/operators';
+import {DateFromValidation} from '../coupon-create/validator/DateFromValidation.directive';
 
 
 
@@ -95,13 +95,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
 
     this.couponForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.required])],
+      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
       description: [this.couponPass.description   , Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
       image: [],
       price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_from_old : from,
+      valid_until_empty: [this.marked],
       valid_from: [from, Validators.compose([Validators.required])],
-      valid_until: [this.marked ? null : until],
+      valid_until: [this.marked ? null : until ],
       state: [this.marked4 ? 3 : 0],
       constraints: [this.couponPass.constraints],
       owner: [ownerId, Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
@@ -110,7 +111,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       // consumer: ['2', Validators.compose([Validators.required])] //
     }, {
-      validator: Validators.compose([this.marked ? null : DateEditValidation.CheckDateDay,  QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateFromValidation.CheckDateDay,  QuantityCouponValidation.CheckQuantityCoupon])
     });
 
     this.addBreadcrumb();
@@ -133,11 +134,15 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     console.log('this.couponForm.value.valid_until', this.couponForm.value.valid_until);
 
     if (!isValidDate(this.dateUntil)) {
-      this.dateUntil = new Date(0);
+      this.dateUntil = null;
     }
+
+
     this.submitted = true;
+
+
     if (this.couponForm.invalid) {
-      console.log('coupon invalid');
+      console.log('coupon invalid', this.couponForm);
       return;
 
     }
@@ -161,7 +166,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             'image': this.imagePath ? this.imagePath : this.couponPass.image,
             'price': this.price != null ? this.price : this.couponForm.value.price,
             'valid_from': this.dateFrom.getTime().valueOf(),
-            'valid_until': this.marked ? null : this.dateUntil.getTime().valueOf(),
+            'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
             'state':         this.marked4 ? 3 : 0,
             'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
             'owner': this.couponForm.value.owner,
@@ -189,7 +194,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         'image': this.imagePath ? this.imagePath : this.couponPass.image,
         'price': this.price != null ? this.price : this.couponForm.value.price,
         'valid_from': this.dateFrom.getTime().valueOf(),
-        'valid_until': this.marked ? null : this.dateUntil.getTime().valueOf(),
+        'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
         'state':         this.marked4 ? 3 : 0,
         'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
         'owner': this.couponForm.value.owner,
@@ -219,7 +224,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
                 'image': this.imagePath ? this.imagePath : this.couponPass.image,
                 'price': this.price != null ? this.price : this.couponForm.value.price,
                 'valid_from': this.dateFrom.getTime().valueOf(),
-                'valid_until': this.marked ? null : this.dateUntil.getTime().valueOf(),
+                'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
                 'state':         this.marked4 ? 3 : 0,
                 'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
                 'owner': this.couponForm.value.owner,
@@ -281,6 +286,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   toggleVisibility(e) {
     this.marked = e.target.checked;
     delete this.couponForm.value.valid_until ;
+    this.couponForm.value.valid_until_empty = true;
     console.log('unlimited', this.marked);
   }
 
@@ -315,13 +321,21 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.dateUntil = new Date(this.couponForm.value.valid_until);
 
       if (!isValidDate(this.dateUntil)) {
-        this.dateUntil = new Date(0);
+        this.dateUntil = null;
       }
       this.submitted = true;
       if (this.couponForm.invalid) {
         console.log('coupon invalid');
         return;
 
+      }
+      if (this.marked) {
+        if (this.marked) {
+          this.couponForm.removeControl('valid_until');
+          this.couponForm.removeControl('valid_until');
+
+
+        }
       }
       for ( let i = 0; i <   this.couponForm.value.quantity; i++) {
       this.couponCopy = new Coupon(
@@ -332,7 +346,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
-        (this.marked ? null : this.dateUntil.getTime().valueOf()),
+        (this.marked ? null : this.returnDateUntil(this.dateUntil)),
         this.marked4 ? 3 : 0,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
@@ -353,6 +367,15 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         );
       }
     }
+  }
+
+  returnDateUntil(date) {
+    if (!isValidDate(date)) {
+      return null;
+    } else {
+      return date.getTime().valueOf();
+    }
+
   }
 
 }

@@ -1,6 +1,6 @@
 import {AbstractControl} from '@angular/forms';
 
-export class DateEditValidation {
+export class DateUntilValidation {
 
   static CheckDateDay(AC: AbstractControl) {
 
