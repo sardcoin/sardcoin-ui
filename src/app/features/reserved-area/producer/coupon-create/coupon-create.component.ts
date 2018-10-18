@@ -68,8 +68,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
       image: [],
       price: [],
+      valid_until_empty: [this.marked],
       valid_from: [new Date().toISOString().slice(0, 16), Validators.required],
-      valid_until: [],
+      valid_until: [null],
       state: [this.marked4 ? 3 : 0],
       constraints: [],
       owner: [ownerId],
@@ -102,18 +103,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     // console.log(this.dateUntil.getMilliseconds());
 
-    if (this.dateUntil.getMilliseconds() === 0) {this.marked = true; }
 
-    if (!isValidDate(this.dateUntil)) {
-      this.dateUntil = new Date(0);
 
-    }
     this.submitted = true;
 
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
-      // console.log(this.tokenForm);
+      console.log(this.marked);
       return;
 
     }
@@ -126,7 +123,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
-        (this.marked ? null : this.dateUntil.getTime().valueOf()),
+        (this.marked ? null : this.returnDateUntil(this.dateUntil)),
         this.marked4 ? 3 : 0,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
@@ -135,6 +132,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
           data => {
+
             // if ((i + 1) === quantityCoupon) {
             this.router.navigate(['/reserved-area/producer/list']);
             this.toastCreate();
@@ -154,7 +152,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.timestamp,
         this.couponForm.value.price ? this.couponForm.value.price : 0,
         this.dateFrom.getTime().valueOf(),
-        (this.dateUntil.getMilliseconds() === 0 ? null : this.dateUntil.getTime().valueOf()),
+        (this.dateUntil.getMilliseconds() === 0 ? null : this.returnDateUntil(this.dateUntil)),
         this.marked4 ? 3 : 0,
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
@@ -179,6 +177,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         );
       }
     }
+
   }
 
   addBreadcrumb() {
@@ -232,6 +231,15 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   toggleVisibility(e) {
     this.marked4 = e.target.checked;
     console.log('visible', this.marked4);
+  }
+
+  returnDateUntil(date) {
+    if (!isValidDate(date)) {
+      return null;
+    } else {
+      return date.getTime().valueOf();
+    }
+
   }
 }
 

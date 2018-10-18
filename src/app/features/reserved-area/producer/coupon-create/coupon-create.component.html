@@ -93,7 +93,7 @@
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valid from</label>
               <div class="col-sm-8 col-lg-10">
-                <input type="datetime-local" formControlName="valid_from" class="form-control"
+                <input value='' type="datetime-local" formControlName="valid_from" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
                   <div *ngIf=" f.valid_from.errors ">Date or time are incorrect.</div>
@@ -105,14 +105,14 @@
               <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
               <div class="col-sm-4 col-lg-8">
                 <input [readonly]="marked" type="datetime-local" formControlName="valid_until" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors }"/>
-                <div *ngIf="submitted && f.valid_until.errors" class="invalid-feedback">
-                  <div *ngIf="f.valid_until.errors">Date or time is incorrect</div>
+                       [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
+                <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
+                  <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check1" data-md-icheck
+                  <input formControlName="valid_until_empty" type="checkbox" class="custom-control-input" id="check1" data-md-icheck
                          (change)="toggleVisibilityExpiration($event)">
                   <label class="custom-control-label" for="check1">Never expires</label>
                 </div>
@@ -171,7 +171,7 @@
               Please upload an image before creating the coupon.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchQuantity">Incorrect quantity.
+                 *ngIf="submitted && f.quantity.errors?.MatchQuantity">Incorrect quantity.
             </div>
             <div class="form group">
               <p>
