@@ -1,10 +1,11 @@
 <nav aria-label="breadcrumb" class="" *ngIf="isUserLoggedIn">
   <ol class="breadcrumb border border-info border-left-0 border-right-0">
     <li *ngFor="let item of breadList" class="breadcrumb-item">
+
       <a *ngIf="item !== 'undefined'" [routerLink]="[item.url]">{{item.label}}</a>
 
     </li>
-    <div *ngIf="breadList[2].label.includes('Consumer')"  class="ml-auto" (click)="viewCart()" style="margin-right:21px">
+    <div *ngIf="breadList.length > 2 && breadList[2].label.includes('Consumer')"  class="ml-auto" (click)="viewCart()" style="margin-right:21px">
       <a *ngIf="arrayCart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
       <a routerLink="/reserved-area/consumer/cart" *ngIf="arrayCart.length > 0">There are <b class="text-info">{{arrayCart.length}} items</b> in your cart. Checkout now! </a>
 

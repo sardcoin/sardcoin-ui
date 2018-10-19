@@ -30,6 +30,14 @@
             </span>
           </p>
 
+          <div class="card-text">
+            <span *ngIf="couponPass.owner">
+                    <p class="card-text"  >Producer:
+                      <i style="color:#19ff26" routerLink="/reserved-area/consumer/producer-info-coupon" class="text-info">{{producer === null? null : producer.username}}</i > </p>
+            </span>
+          </div>
+          <br/>
+
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to shopping</button>
           <button *ngIf="!inCart && available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
           <button [disabled] = "!available" *ngIf="!inCart && !available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>

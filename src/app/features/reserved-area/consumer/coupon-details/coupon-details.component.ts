@@ -29,6 +29,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   inCart = false;
   available = false;
   availability: string;
+  producer = null;
+
 
 
   constructor(
@@ -49,10 +51,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
+
+
       if (this.couponPass === null) {
         this.router.navigate(['/reserved-area/consumer/showcase']);
-        this.addBreadcrumb();
+        // this.addBreadcrumb();
          } else {
+        this.getOwner();
         this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
 
@@ -136,6 +141,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   retry() {
+
+    this.removeBreadcrumb();
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 
@@ -235,6 +242,15 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       value = false;
     });
     return value;
+  }
+
+  getOwner() {
+    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+      console.log('user', user);
+      this.producer = user;
+      this.couponService.setUserCoupon(this.producer);
+
+    });
   }
 
 }

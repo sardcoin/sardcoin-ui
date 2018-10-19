@@ -11,10 +11,14 @@ import {environment} from '../../../environments/environment';
 export class CouponService {
   coupon: Coupon;
   couponChange: any = null;
+  couponInfoUser: any = null;
   fromEditOrCopy = false;
   private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
   private couponSource = new BehaviorSubject(this.couponChange);
+  private couponUser = new BehaviorSubject(this.couponInfoUser);
+
   currentMessage = this.couponSource.asObservable();
+  currentUserCoupon = this.couponUser.asObservable();
   checkFrom = this.boolFormEdit.asObservable();
 
   constructor(
@@ -59,6 +63,11 @@ export class CouponService {
 
 
   }
+  setUserCoupon(user: any) {
+    this.couponUser.next(user);
+
+
+  }
   setFromEdit(fromEdit: boolean) {
     this.boolFormEdit.next(fromEdit);
     // console.log('from edit  ' + fromEdit);
@@ -95,6 +104,10 @@ export class CouponService {
   }
   importCoupon(cp: any) {
     return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/importCoupon', {body: cp});
+
+  }
+  getProducerFromId(id) {
+    return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/users/getProducerFromId/' + id );
 
   }
 }

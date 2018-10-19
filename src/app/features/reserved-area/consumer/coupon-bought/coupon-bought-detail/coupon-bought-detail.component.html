@@ -24,6 +24,13 @@
             </span>
           </div>
           <br/>
+          <div class="card-text">
+            <span *ngIf="couponPass.owner">
+                    <a  >Producer:
+                      <b routerLink="/reserved-area/consumer/producer-info-coupon" class="text-info">{{producer === null? null : producer.username}}</b > </a>
+            </span>
+          </div>
+          <br/>
           <div style="text-align:center;">
             <button class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
           </div>

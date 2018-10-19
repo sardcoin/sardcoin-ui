@@ -23,6 +23,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   cart = new Coupon();
   couponsPurchased: any;
   quantity = 1;
+  producer = null;
   couponsCheckCart: Coupon[];
   inCart = false;
   available = false;
@@ -37,6 +38,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
+
     // console.log('couponPass', this.couponPass)
     if (this.couponPass === null) {
       this.router.navigate(['/reserved-area/consumer/bought']);
@@ -48,7 +50,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
       this.couponService.getPurchasedCoupons()
         .subscribe(coupons => {
           this.couponsPurchased = coupons;
-
+          this.getOwner();
           if (this.couponsPurchased !== null) {
             for (const i of this.couponsPurchased) {
               if (this.couponPass.token === i.token) {
@@ -108,7 +110,18 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
 
 
   retry() {
+    this.removeBreadcrumb();
+
     this.router.navigate(['/reserved-area/consumer/bought']);
+  }
+
+  getOwner() {
+    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+      console.log('user', user);
+        this.producer = user;
+      this.couponService.setUserCoupon(this.producer);
+
+    });
   }
 
 

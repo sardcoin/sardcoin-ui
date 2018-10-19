@@ -19,6 +19,7 @@ import {UserService} from '../../../shared/_services/user.service';
 import { CouponTokenComponent } from './coupon-token/coupon-token.component';
 import { CouponBoughtDetailComponent } from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {QRCodeModule} from 'angularx-qrcode';
+import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-info-coupon.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {QRCodeModule} from 'angularx-qrcode';
     PaymentConfirmComponent,
     CouponTokenComponent,
     CouponBoughtDetailComponent,
+    ProducerInfoCouponComponent,
 
   ],
   imports: [
