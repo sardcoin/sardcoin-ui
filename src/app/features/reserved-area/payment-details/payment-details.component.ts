@@ -191,7 +191,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  openModal(template: TemplateRef<any>, password) {
+  openModal(template: TemplateRef<any>) {
     this.submitted = true;
     this.myForm = this.formBuilder.group({
       user: [this.user.username],
