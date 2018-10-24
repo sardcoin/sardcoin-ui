@@ -93,7 +93,9 @@
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valid from</label>
               <div class="col-sm-8 col-lg-10">
-                <input value='' type="datetime-local" formControlName="valid_from" class="form-control"
+                <input style="background: white" type="text" mwlFlatpickr
+                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                       dateFormat="Y-m-d H:i" formControlName="valid_from" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
                   <div *ngIf=" f.valid_from.errors ">Date or time are incorrect.</div>
@@ -103,8 +105,15 @@
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
-              <div class="col-sm-4 col-lg-8">
-                <input [readonly]="marked" type="datetime-local" formControlName="valid_until" class="form-control"
+              <div  class="col-sm-4 col-lg-8">
+                <!--<ng2-flatpickr  #datepicker style="background: transparent;"  [config]="exampleOptions" formControlName="valid_until" class="form-control"-->
+                                <!--[ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"></ng2-flatpickr>-->
+                <!--<div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">-->
+                  <!--<div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>-->
+                <!--</div>-->
+                <input [ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"  type="text" mwlFlatpickr
+                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                          dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
@@ -122,7 +131,7 @@
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Place</label>
               <div class="col-sm-4 col-lg-8">
-                <input [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
+                <input  [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
@@ -179,6 +188,7 @@
               </p>
             </div>
 
+
           </form>
 
         </div>
@@ -190,4 +200,3 @@
 
   </div>
 </div>
-

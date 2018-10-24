@@ -1,4 +1,4 @@
-import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
+import {Component, Directive, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -15,21 +15,32 @@ import {QuantityCouponValidation} from './validator/QuantityCouponValidation.dir
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import { sha256, sha224 } from 'js-sha256';
+import {FlatpickrOptions} from 'ng2-flatpickr';
+import {} from 'flatpickr';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
   templateUrl: './coupon-create.component.html',
-  styleUrls: ['./coupon-create.component.scss']
+  styleUrls: ['./coupon-create.component.scss'],
 })
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
-  marked = false;
+  date: FormGroup;
+  marked = false; // settare sempre a false
   price = null;
   marked2 = false;
   marked3 = false;
   marked4 = false;
-
+  @ViewChild('datepicker') datepicker;
+  selectedDate: Date = new Date();
+  exampleOptions: FlatpickrOptions = {
+    defaultDate: null,
+    enableTime: true,
+    noCalendar: false,
+    clickOpens: true, // false for disable
+    allowInput: false,
+  };
 
   theCheckbox = false;
   coupon: Coupon;
@@ -63,6 +74,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     const ownerId = parseInt(this.storeService.getId(), 10);
 
+    this.date = this.formBuilder.group({
+      datetimePicker: [],
+    });
+
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
@@ -75,7 +90,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: [],
       owner: [ownerId],
       consumer: [],
-      quantity: [1, Validators.required]
+      quantity: [1, Validators.required],
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
@@ -209,6 +224,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
+    if (this.marked === true) {
+      this.couponForm.get('valid_until').disable();
+    } else {
+      this.couponForm.get('valid_until').enable();
+
+    }
   }
 
   toggleVisibilityPrice(e) {
@@ -241,6 +262,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     }
 
   }
+
+  isMarked() {}
 }
 
 

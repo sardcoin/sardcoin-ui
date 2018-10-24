@@ -288,6 +288,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     delete this.couponForm.value.valid_until ;
     this.couponForm.value.valid_until_empty = true;
     console.log('unlimited', this.marked);
+    if (this.marked === true) {
+      this.couponForm.get('valid_until').disable();
+    } else {
+      this.couponForm.get('valid_until').enable();
+
+    }
   }
 
   toggleVisibility2(e) {

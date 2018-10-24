@@ -6,6 +6,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {FileUploadModule} from 'ng2-file-upload';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {CommonModule} from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {CommonModule} from '@angular/common';
     SharedModule,
     CommonModule,
     FileUploadModule,
+    FlatpickrModule.forRoot(),
 
   ],
   exports: [
