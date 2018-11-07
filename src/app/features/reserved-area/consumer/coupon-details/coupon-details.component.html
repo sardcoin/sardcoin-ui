@@ -45,23 +45,27 @@
 
           <ng-template #template>
             <div class="modal-header">
-              <h4 class="modal-title pull-left">Add to cart</h4>
+              <h4 class="text-info modal-title pull-left">Add to shopping cart</h4>
               <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-              <p>Confirm add to cart Coupon?</p>
-              <!--<p>Quantity:-->
-              <!--<input type="number"></p>-->
+              <form [formGroup]="myForm">
+                <label style="color: #999999;"  class="col-sm-12"> You are adding  <label class="text-info"> {{couponPass.title}}</label> to cart.  </label>
 
+                <div class="form-group col-sm-12">
+                  <label style="color: #999999;"  class="col-sm-7">Choose the quantity: <label class="text-info" > ({{couponPass.quantity}} available)</label></label>
+                  <input  formControlName="quantity"
+                          class="col-sm-2 small inline-button-input"
+                          type="number" min="1" max="{{couponPass.quantity}}" />
+                  <button class="col-sm-1 button-add-del small inline-button-input  " [disabled]="myForm.value.quantity === 1"  style="color: red; margin:0.5%;"  (click)="del()">-</button ><button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"  style="color: green; margin:0.5%;" (click)="add()">+</button>
 
-              <form>
-                <div class="form-group">
-                  <label for="formControlRange">Quantity: Max {{couponPass.quantity}}</label>
-                  <input  type="range" min="1" max="{{couponPass.quantity}}" value="1" class="form-control-range" id="formControlRange" (input)="setQuantity($event.target.value)">
-                  <label>Selected: {{quantity}}</label>
+                  <div >
+                    <div style="color: #bd0a0d;
+                            text-align: center"  *ngIf="f.quantity.errors">Insert a valid quantity!</div>
+                  </div>
                 </div>
               </form>
 
@@ -73,8 +77,6 @@
               <button type="button" class="btn btn-success" (click)="addToCart(couponPass.id)">Yes</button>
             </div>
           </ng-template>
-
-
         </div>
 
       </div>

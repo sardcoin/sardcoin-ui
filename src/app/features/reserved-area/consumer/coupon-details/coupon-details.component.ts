@@ -10,6 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-coupon-details',
@@ -20,16 +21,20 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 export class CouponDetailsComponent implements OnInit, OnDestroy {
   URLstring = 'http://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
+  myForm: FormGroup;
   message: string;
   couponPass: any;
   cart = new Coupon();
   couponsPurchased: any;
   quantity = 1;
+  isMax = false;
   couponsCheckCart: Coupon[];
   inCart = false;
   available = false;
   availability: string;
   producer = null;
+  maxQuantity = 1;
+
 
 
 
@@ -39,7 +44,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    protected localStorage: LocalStorage
+    protected localStorage: LocalStorage,
+    private formBuilder: FormBuilder
   ) {
 
 
@@ -147,6 +153,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToCart(coupon: Coupon) {
+
+    if (this.myForm.invalid) {
+      // console.log('quantity invalid');
+      // console.log(this.tokenForm);
+      return;
+
+    }
       this.cart.id = this.couponPass.id;
       this.cart.quantity = this.quantity;
       this.cart.title = this.couponPass.title;
@@ -185,7 +198,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       }
       return;
     });
-    // CartController.CheckCartCoupon(this.localStorage, coupon_id, this.quantity);
+    this.isMax = false;
     this.modalRef.hide();
 
     this.toastCart();
@@ -194,7 +207,22 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  openModal(template: TemplateRef<any>) {
+  get f() {
+    return this.myForm.controls;
+  }
+
+
+  openModal(template: TemplateRef<any>, quantity) {
+    this.maxQuantity = quantity;
+
+    this.myForm = this.formBuilder.group({
+      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
+
+    });
+
+    if (this.myForm.value.quantity === this.maxQuantity) {
+      this.isMax = true;
+    }
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
@@ -207,6 +235,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   decline(): void {
+    this.isMax = false;
     this.message = 'Declined!';
     this.modalRef.hide();
   }
@@ -252,5 +281,19 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     });
   }
+
+  add() {
+    this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
+    if ( this.myForm.value.quantity === this.maxQuantity) {
+      this.isMax = true;
+    }
+  }
+
+  del() {
+
+    this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
+    this.isMax = false;
+  }
+
 
 }

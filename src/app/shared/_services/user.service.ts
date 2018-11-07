@@ -13,7 +13,7 @@ export class UserService {
   }
 
   getUserById() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/users/getFromId');
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/users/getFromToken');
 
   }
 

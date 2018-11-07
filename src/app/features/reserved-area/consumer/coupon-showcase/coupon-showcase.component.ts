@@ -29,6 +29,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   crt = [];
   quantity = 1;
   maxQuantity = 1;
+  isMax = false;
   bread = [] as Breadcrumb[];
   value: any;
   myForm: FormGroup;
@@ -154,15 +155,20 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   openModal(template: TemplateRef<any>, quantity) {
     this.maxQuantity = quantity;
+
     this.myForm = this.formBuilder.group({
       quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
 
     });
 
+    if (this.myForm.value.quantity === this.maxQuantity) {
+      this.isMax = true;
+    }
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
   decline(): void {
+    this.isMax = false;
     this.modalRef.hide();
   }
 
@@ -182,10 +188,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   addToCart(coupon: Coupon) {
 
-    console.log('quantity invalid', this.myForm.invalid);
+    // console.log('quantity invalid', this.myForm.invalid);
 
     if (this.myForm.invalid) {
-      console.log('quantity invalid');
+      // console.log('quantity invalid');
       // console.log(this.tokenForm);
       return;
 
@@ -219,6 +225,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         // console.log('cpn', cpn);
     });
+    this.isMax = false;
     this.modalRef.hide();
 
     this.toastCart();
@@ -239,5 +246,18 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
 
+  }
+
+  add() {
+    this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
+    if ( this.myForm.value.quantity === this.maxQuantity) {
+      this.isMax = true;
+    }
+  }
+
+  del() {
+
+    this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
+    this.isMax = false;
   }
 }
