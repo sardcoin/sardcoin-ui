@@ -209,6 +209,10 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
+      if (arr.length === 0) {
+        this.localStorage.removeItem('cart').subscribe();
+      }
+
       this.addBreadcrumb();
       // console.log('cart with complete data', this.cartArray);
     });
