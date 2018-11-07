@@ -7,26 +7,32 @@ import {SharedModule} from '../shared/shared.module';
 import {LoginActions} from '../features/authentication/login/login.actions';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {ModalModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+
   ],
   imports: [
     RouterModule,
-    SharedModule
+    SharedModule,
+    ModalModule.forRoot()
+
   ],
   providers: [
-    LoginActions
+    LoginActions,
+    BsModalService,
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
   ]
 })
 
