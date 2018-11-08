@@ -1,11 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 mt-1">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+          <h1 class="text-center">Register</h1>
+          <p class="text-info text-muted text-center">Create your account for producer</p>
 
-<div class="form-inline mb-2">
-  <a >
-    <a [routerLink]="['../register-producer']" type="text/html" class="small active mt-3">Are you a company and want to publish coupons on Sardcoin? Sign up from here!</a>
-  </a>
-</div>
 
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <div >
+    <div class="form-row">
+      <div class="input-group mb-3 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-briefcase"></i></span>
+        </div>
+        <input type="text" formControlName="company_name" class="form-control" placeholder="Company Name"
+               [ngClass]="{ 'is-invalid': submitted && f.company_name.errors }"/>
+
+        <div *ngIf="this.submitted && f.company_name.errors" class="invalid-feedback">
+          <div *ngIf="f.company_name.errors.required">Company Name is required</div>
+        </div>
+      </div>
+      <div class="input-group mb-3 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-chart"></i></span>
+        </div>
+        <input type="text" formControlName="vat_number" class="form-control" placeholder="Vat Number" required
+               [ngClass]="{ 'is-invalid': submitted && f.vat_number.errors }"/>
+
+        <div *ngIf="this.submitted && f.vat_number.errors" class="invalid-feedback">
+          <div *ngIf="f.vat_number.errors.required">Vat Number is required</div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- Vat Number and Company Name only for companies users -->
 
   <div class="form-row">
     <div class="input-group mb-4 col-md-6">
@@ -201,3 +230,14 @@
     <button [disabled]="loading" class="btn btn-block btn-success">Create Account</button>
   </div> <!-- Password and repeated password -->
 </form>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>

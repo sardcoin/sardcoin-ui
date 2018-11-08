@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
   templateUrl: './coupon-bought.component.html',
+  styleUrls: ['./coupon-bought.component.css']
 })
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {

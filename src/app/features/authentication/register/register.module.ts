@@ -6,11 +6,13 @@ import {FeatureAuthenticationRegisterFormComponent} from './register-form/regist
 import {FeatureAuthenticationRegisterComponent} from './register.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {RouterLinkActive, RouterModule} from '@angular/router';
+import { RegisterFormProducerComponent } from './register-form-producer/register-form-producer.component';
 
 @NgModule({
   declarations: [
     FeatureAuthenticationRegisterFormComponent,
-    FeatureAuthenticationRegisterComponent
+    FeatureAuthenticationRegisterComponent,
+    RegisterFormProducerComponent
   ],
   imports: [
     SharedModule,
