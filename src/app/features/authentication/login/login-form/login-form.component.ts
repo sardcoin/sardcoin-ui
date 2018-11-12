@@ -4,7 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../authentication.service';
 import {Credentials} from '../login.model';
 import {first} from 'rxjs/internal/operators';
-import {LoginActions} from "../login.actions";
+import {LoginActions} from '../login.actions';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {StoreService} from '../../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-feature-authentication-login-form',
@@ -18,13 +20,17 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   failed = false;
+  userType = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private loginActions: LoginActions
+    private globalEventService: GlobalEventsManagerService,
+    private loginActions: LoginActions,
+    private storeLocal: StoreService,
+
   ) { }
 
   ngOnInit(): void {
@@ -62,14 +68,27 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
     this.authenticationService.login(this.credentials)
       .pipe(first())
       .subscribe(data => {
-        setTimeout(() => {
-            this.router.navigate(['reserved-area']);
+        setTimeout((response) => {
+
+            this.userType = this.storeLocal.getType();
+              if (this.userType !== null) {
+                if (this.userType == 3) {
+                  this.router.navigate(['reserved-area/verifier']);
+                  return;
+                } else {
+                  this.router.navigate(['reserved-area']);
+                  return;
+
+                }
+              }
+
           },
           500);
       }, error => {
         this.loading = false;
         this.failed = true;
       });
+
 
   }
 

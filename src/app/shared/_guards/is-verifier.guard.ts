@@ -6,7 +6,7 @@ import {GlobalEventsManagerService} from '../_services/global-event-manager.serv
 
 @Injectable()
 
-export class IsConsumerGuard implements CanActivate {
+export class IsVerifierGuard implements CanActivate {
   constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
   }
 
@@ -23,14 +23,14 @@ export class IsConsumerGuard implements CanActivate {
           this.eventEmitter.userType.next('0');
           return true;
         case '1': // producer
-          this.router.navigate(['reserved-area/producer']);
+          this.eventEmitter.userType.next('1');
           return false;
         case '2': // consumer
           this.eventEmitter.userType.next('2');
-          return true;
+          return false;
         case '3': // verifier
           this.eventEmitter.userType.next('3');
-          return false;
+          return true;
       }
     }
 

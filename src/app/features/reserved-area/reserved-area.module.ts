@@ -16,12 +16,15 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
+import { VerifierComponent } from './verifier/verifier.component';
+import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
 
 @NgModule({
   declarations: [
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
-    PaymentDetailsComponent
+    PaymentDetailsComponent,
+    VerifierComponent
 
 
 
@@ -41,6 +44,7 @@ import {BrowserModule} from '@angular/platform-browser';
     CouponService,
     IsProducerGuard,
     IsConsumerGuard,
+    IsVerifierGuard,
     BreadcrumbActions,
     UserService,
     BsModalService,
@@ -50,7 +54,8 @@ import {BrowserModule} from '@angular/platform-browser';
   exports: [
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
-    PaymentDetailsComponent
+    PaymentDetailsComponent,
+    VerifierComponent
 
   ]
 })

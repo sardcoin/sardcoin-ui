@@ -28,6 +28,9 @@ export class IsProducerGuard implements CanActivate {
         case '2': // consumer
           this.router.navigate(['reserved-area/consumer']);
           return false;
+        case '3': // verifier
+          this.eventEmitter.userType.next('3');
+          return false;
       }
     }
 

@@ -43,6 +43,14 @@
         <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
           <span class="menu-collapsed">Get Coupon by Token</span>
         </a>
+
+      </div>
+
+      <div *ngIf="this.userType == '3' || this.userType == '0'">
+        <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Verifer page</span>
+        </a>
+
       </div>
 
       <a class="list-group-item list-group-item-action text-secondary">
@@ -50,29 +58,30 @@
       </a>
 
     </div>
-
-    <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
-       class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-start align-items-center">
-        <span class="fa fa-user fa-fw mr-3"></span>
-        <span class="menu-collapsed">Account</span>
-        <span class="fas fa-plus ml-auto"></span>
-      </div>
-    </a>
+    <div *ngIf="this.userType != '3'">
+      <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+         class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-user fa-fw mr-3"></span>
+          <span class="menu-collapsed">Account</span>
+          <span class="fas fa-plus ml-auto"></span>
+        </div>
+      </a>
     <!-- Submenu content -->
-    <div id="submenu2" class="collapse sidebar-submenu">
-      <a [routerLink]="['/reserved-area/personal_info']" class="list-group-item list-group-item-action text-white">
-        <span class="menu-collapsed">Personal info</span>
-      </a>
-      <a class="list-group-item list-group-item-action text-secondary">
-        <span class="menu-collapsed">Settings</span>
-      </a>
-      <a [routerLink]="['/reserved-area/payment_details']" class="list-group-item list-group-item-action text-white">
-        <span class="menu-collapsed">Payment details</span>
-      </a>
-      <a class="list-group-item list-group-item-action text-secondary">
-        <span class="menu-collapsed">Receipts</span>
-      </a>
+      <div id="submenu2" class="collapse sidebar-submenu">
+        <a [routerLink]="['/reserved-area/personal_info']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Personal info</span>
+        </a>
+        <a class="list-group-item list-group-item-action text-secondary">
+          <span class="menu-collapsed">Settings</span>
+        </a>
+        <a [routerLink]="['/reserved-area/payment_details']" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed">Payment details</span>
+        </a>
+        <a class="list-group-item list-group-item-action text-secondary">
+          <span class="menu-collapsed">Receipts</span>
+        </a>
+      </div>
     </div>
     <!-- Separator without title -->
     <li class="list-group-item sidebar-separator menu-collapsed"></li>

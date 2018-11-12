@@ -5,6 +5,8 @@ import {IsConsumerGuard} from "../../shared/_guards/is-consumer.guard";
 import {PersonalInfoComponent} from './personal-info/personal-info.component';
 import {IsAuthenticatedGuard} from '../../shared/_guards/is-authenticated.guard';
 import {PaymentDetailsComponent} from './payment-details/payment-details.component';
+import {VerifierComponent} from './verifier/verifier.component';
+import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
 
 /** App Components **/
 
@@ -37,7 +39,11 @@ import {PaymentDetailsComponent} from './payment-details/payment-details.compone
         component: PaymentDetailsComponent,
         canActivate: [IsAuthenticatedGuard]
       },
-
+      {
+        path: 'verifier',
+        component: VerifierComponent,
+        canActivate: [IsVerifierGuard]
+      },
     ])
   ],
   exports: [RouterModule]

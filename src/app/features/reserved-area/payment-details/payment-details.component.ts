@@ -49,7 +49,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
               private modalService: BsModalService,
               private router: Router,
               private loginActions: LoginActions,
-  private authenticationService: AuthenticationService,
+              private authenticationService: AuthenticationService,
               private toastr: ToastrService,
               private formBuilder: FormBuilder) {
     this.paymentForm = this.formBuilder.group({
