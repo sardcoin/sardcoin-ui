@@ -13,7 +13,7 @@ import {select} from '@angular-redux/store';
   templateUrl: './verifier.component.html',
   styleUrls: ['./verifier.component.scss']
 })
-export class VerifierComponent implements OnInit, OnDestroy  {
+export class VerifierComponent implements OnInit, OnDestroy {
   tokenForm: FormGroup;
   submitted = false;
   coupon: any;
@@ -48,10 +48,10 @@ export class VerifierComponent implements OnInit, OnDestroy  {
   verifier() {
     this.submitted = true;
 
-    this.couponService.getAffordables().subscribe(coupons => {
+    this.couponService.getTotalCoupons().subscribe(coupons => {
       const cp = JSON.parse(JSON.stringify(coupons));
       // console.log('cp.keys.length', cp.length);
-      // console.log('cp', cp);
+      console.log('cp', cp);
 
       let length = 1;
       let isValidate = false;
@@ -59,18 +59,18 @@ export class VerifierComponent implements OnInit, OnDestroy  {
 
 
         length ++;
-        if (i.state === 3 && i.token === this.tokenForm.value.token && i.consumer === null) {
+        if (i.state === 1 && i.token === this.tokenForm.value.token ) {
           isValidate = true;
           this.coupon = {
             token: this.tokenForm.value.token,
-            consumer: this.storeService.getId(),
-            state: 1,
+            verifier: this.storeService.getId(),
+            state: 2,
           };
 
-          this.couponService.importCoupon(this.coupon).subscribe(
+          this.couponService.verifierCoupon(this.coupon).subscribe(
             (data) => {
               this.toastValidate();
-              this.router.navigate(['/reserved-area/consumer/bought']);
+              this.router.navigate(['/reserved-area/verifier']);
               return;
             }, error => {
               this.toastError()
@@ -95,8 +95,7 @@ export class VerifierComponent implements OnInit, OnDestroy  {
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Validate Coupons', '/reserved-area/consumer/coupon-token/'));
+    bread.push(new Breadcrumb('Verifier', '/reserved-area/verifier/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -106,7 +105,7 @@ export class VerifierComponent implements OnInit, OnDestroy  {
   }
 
   toastValidate() {
-    this.toastr.success( 'Coupon validated successfully');
+    this.toastr.success( 'Coupon verifier successfully');
   }
 
   toastError() {

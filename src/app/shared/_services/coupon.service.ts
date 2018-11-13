@@ -106,10 +106,21 @@ export class CouponService {
     return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/importCoupon', {body: cp});
 
   }
+  verifierCoupon(cp: any) {
+    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/verifierCoupon', {body: cp});
+
+  }
   getProducerFromId(id) {
     return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/users/getProducerFromId/' + id );
 
   }
+
+  getTotalCoupons() {
+    // console.log('token consumer ' , this.localStore.getToken());
+    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllCoupons');
+
+  }
+
 }
 
 
