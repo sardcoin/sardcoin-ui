@@ -41,7 +41,7 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
       },
       {
         path: 'verifier',
-        component: VerifierComponent,
+        loadChildren: './verifier/verifier.module#VerifierModule',
         canActivate: [IsVerifierGuard]
       },
     ])

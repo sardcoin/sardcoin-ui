@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
@@ -6,13 +6,14 @@ import {ToastrService} from 'ngx-toastr';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {StoreService} from '../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
+import {select} from '@angular-redux/store';
 
 @Component({
   selector: 'app-verifier',
   templateUrl: './verifier.component.html',
   styleUrls: ['./verifier.component.scss']
 })
-export class VerifierComponent implements OnInit {
+export class VerifierComponent implements OnInit, OnDestroy  {
   tokenForm: FormGroup;
   submitted = false;
   coupon: any;

@@ -24,7 +24,7 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
     PaymentDetailsComponent,
-    VerifierComponent
+
 
 
 
@@ -55,7 +55,7 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
     PaymentDetailsComponent,
-    VerifierComponent
+
 
   ]
 })
