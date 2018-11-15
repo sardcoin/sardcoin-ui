@@ -37,6 +37,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   marked3 = false;
   marked4 = false;
 
+  markedQuantity = false;
+  purchasable = 1;
+
   fromEdit = false;
   price = null;
   couponCopy: Coupon;
@@ -108,6 +111,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       owner: [ownerId, Validators.compose([Validators.required])], // da settare l'owner che è quello che genera il coupon
       consumer: [],
       quantity: [this.couponPass.quantity, Validators.required],
+      purchasable: [this.couponPass.purchasable, Validators.required]
+
 
       // consumer: ['2', Validators.compose([Validators.required])] //
     }, {
@@ -155,7 +160,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       if (Number(this.couponPass.quantity) <= Number(this.couponForm.value.quantity)) {
       // console.log('quantità uguali')
 
-        // console.log('coupons', coupons)
+        console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable)
         for (const i of this.getCouponsCreatedFromTitleDescriptionPrice) {
           // console.log('dentro for', i)
           this.coupon = {
@@ -171,6 +176,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
             'owner': this.couponForm.value.owner,
             'consumer': this.couponForm.value.consumer,
+            'purchasable': this.couponForm.value.purchasable,
           };
 
           this.couponService.editCoupon(this.coupon).subscribe(
@@ -199,6 +205,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
         'owner': this.couponForm.value.owner,
         'consumer': this.couponForm.value.consumer,
+        'purchasable': this.couponForm.value.purchasable,
+
       };
       for (let mario = k ; mario < this.couponForm.value.quantity ; mario++) {
         // console.log('j', mario)
@@ -229,6 +237,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
                 'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
                 'owner': this.couponForm.value.owner,
                 'consumer': this.couponForm.value.consumer,
+                'purchasable': this.couponForm.value.purchasable,
+
               };
               this.couponService.editCoupon(this.coupon).subscribe(
                 (data) => {
@@ -310,6 +320,19 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.marked4 = e.target.checked;
     this.couponForm.value.state = 3;
   }
+
+
+  toggleVisibilityQuatity(e) {
+    this.markedQuantity = e.target.checked;
+    if (e.target.checked) {
+      this.couponForm.value.purchasable = this.couponForm.value.quantity;
+      this.purchasable = this.couponForm.value.quantity;
+      this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
+      console.log('no limit', this.markedQuantity);
+    } else {
+
+    }
+  }
   toastEdited() {
     this.toastr.success('Edited coupon', 'Coupon edited successfully');
   }
@@ -357,6 +380,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
+        this.couponForm.value.quantity,
+        this.couponForm.value.purchasable,
+
       );
       this.couponService.register(this.couponCopy).pipe(first())
         .subscribe(
