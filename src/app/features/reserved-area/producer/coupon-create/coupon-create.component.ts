@@ -32,6 +32,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   marked2 = false;
   marked3 = false;
   marked4 = false;
+  markedQuantity = false;
+  purchasable = 1;
+
   @ViewChild('datepicker') datepicker;
   selectedDate: Date = new Date();
   exampleOptions: FlatpickrOptions = {
@@ -91,6 +94,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       owner: [ownerId],
       consumer: [],
       quantity: [1, Validators.required],
+      purchasable: [1, Validators.required]
     }, {
       validator: Validators.compose([DateFromValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
@@ -143,7 +147,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
+        this.couponForm.value.quantity,
+        this.couponForm.value.purchasable,
       );
+      console.log('this.coupon', this.coupon);
+      console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
+
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
           data => {
@@ -172,6 +181,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.constraints,
         this.couponForm.value.owner,
         this.couponForm.value.consumer,
+        this.couponForm.value.quantity,
+        this.couponForm.value.purchasable,
       );
 
       for (let i = 0 ; i < this.couponForm.value.quantity; i++) {
@@ -224,6 +235,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
+    console.log('toggleVisibilityExpiration', this.marked  )
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
     } else {
@@ -252,6 +264,18 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   toggleVisibility(e) {
     this.marked4 = e.target.checked;
     console.log('visible', this.marked4);
+  }
+
+  toggleVisibilityQuatity(e) {
+    this.markedQuantity = e.target.checked;
+    if (e.target.checked) {
+      this.couponForm.value.purchasable = this.couponForm.value.quantity;
+      this.purchasable = this.couponForm.value.quantity;
+      this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
+      console.log('no limit', this.markedQuantity);
+    } else {
+
+    }
   }
 
   returnDateUntil(date) {

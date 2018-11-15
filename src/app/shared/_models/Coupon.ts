@@ -15,7 +15,9 @@ export class Coupon {
   owner: number;
   consumer: number;
   quantity: number;
-  token: string
+  token: string;
+  purchasable: number;
+
 
   constructor(
               id?: number,
@@ -31,6 +33,7 @@ export class Coupon {
               owner?: number,
               consumer?: number,
               quantity?: number,
+              purchasable?: number,
                ) {
     this.title = title;
     this.description = description;
@@ -44,7 +47,7 @@ export class Coupon {
     this.owner = owner;
     this.consumer = consumer;
     this.quantity = quantity;
-
+    this.purchasable = purchasable;
 
   }
 

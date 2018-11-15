@@ -107,13 +107,13 @@
               <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
               <div  class="col-sm-4 col-lg-8">
                 <!--<ng2-flatpickr  #datepicker style="background: transparent;"  [config]="exampleOptions" formControlName="valid_until" class="form-control"-->
-                                <!--[ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"></ng2-flatpickr>-->
+                <!--[ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"></ng2-flatpickr>-->
                 <!--<div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">-->
-                  <!--<div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>-->
+                <!--<div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>-->
                 <!--</div>-->
-                <input [ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"  type="text" mwlFlatpickr
+                <input  [ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"  type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
-                          dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
+                       dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
@@ -127,6 +127,7 @@
                 </div>
               </div>
             </div>
+
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Place</label>
@@ -156,6 +157,26 @@
                 </div>
               </div>
             </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
+              <div  class="col-sm-4 col-lg-8">
+                <input  [readonly]="markedQuantity" type="text" formControlName="purchasable" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
+                <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
+                  <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-lg-2 my-auto">
+                <div class="custom-control custom-checkbox">
+                  <input formControlName="valid_until_empty" type="checkbox" class="custom-control-input" id="checkQuantity" data-md-icheck
+                         (change)="toggleVisibilityQuatity($event)">
+                  <label class="custom-control-label" for="checkQuantity">No limit</label>
+                </div>
+              </div>
+            </div>
+
+
 
             <div class="form-group row">
 
