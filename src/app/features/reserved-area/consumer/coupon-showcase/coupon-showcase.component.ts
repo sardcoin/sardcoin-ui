@@ -33,7 +33,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   bread = [] as Breadcrumb[];
   value: any;
   myForm: FormGroup;
-
+  couponArray: any;
 
 
   constructor(private couponService: CouponService,
@@ -64,34 +64,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return this.myForm.controls;
   }
 
-  // onChanges(): void {
-  //
-  //   const value = this.maxQuantity;
-  //   // console.log('maxquantity', this.maxQuantity);
-  //   const insert = this.value;
-  //   this.myForm.valueChanges.subscribe(val => {
-  //
-  //     const val_quantity = val.quantity;
-  //     val.quantity = this.setQuantity(val.quantity);
-  //      // console.log('val', val.quantity);
-  //     this.refreshQuantity = val.quantity;
-  //     // if (val.quantity >= this.quantity ) {
-  //     //   this.refreshQuantity = this.quantity;
-  //     // } else if (val.quantity < 1) {
-  //     //   this.refreshQuantity = 1;
-  //     // } else {
-  //     //   this.refreshQuantity = val.quantity;
-  //     // }
-  //     //
-  //
-  //
-  //     // console.log('refreshQuantity', this.refreshQuantity);
-  //     // console.log('value', value);
-  //     // console.log('insert', insert);
-  //
-  //
-  //   });
-  // }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
@@ -153,18 +125,53 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return '€ ' + price.toFixed(2);
   }
 
-  openModal(template: TemplateRef<any>, quantity) {
-    this.maxQuantity = quantity;
+  openModal(template: TemplateRef<any>, cp) {
+    this.couponService.getPurchasedCoupons().subscribe(coupon => {
 
-    this.myForm = this.formBuilder.group({
-      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
+      let count = 0;
+      this.couponArray = coupon;
+      console.log('this.couponArray', this.couponArray);
+      for (let i = 0; i < this.couponArray.length; i++) {
+        if ((this.couponArray[i].title === cp.title)
+          && (this.couponArray[i].description === cp.description) &&
+          Number(this.couponArray[i].price) === Number(cp.price)) {
+          console.log('i.title', this.couponArray[i].title);
+          console.log('i.description', this.couponArray[i].description);
+          console.log('i.price', this.couponArray[i].price);
 
+          count++;
+        }
+
+      }
+      console.log('purchasable', cp.purchasable);
+      console.log('couponPass', cp);
+      console.log('count', count);
+      console.log('quantity', cp.quantity);
+
+
+
+        this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable);
+
+      if (this.maxQuantity < 1) {
+        this.toastExcesBuy();
+        return;
+      }
+
+      this.myForm = this.formBuilder.group({
+        quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+
+      });
+
+      if (this.myForm.value.quantity === this.maxQuantity) {
+        this.isMax = true;
+      }
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     });
-
-    if (this.myForm.value.quantity === this.maxQuantity) {
-      this.isMax = true;
     }
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+
+  toastExcesBuy() {
+    this.toastr.error( 'Coupon exceded to buy!');
+
   }
 
   decline(): void {
@@ -172,11 +179,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef.hide();
   }
 
-  details(coupon: any, quantity) {
-    const cp = coupon;
-    cp.quantity = quantity;
-    // console.log('cp', cp);
-    this.couponService.setCoupon(cp);
+  details(coupon: any) {
+
+    this.couponService.setCoupon(coupon);
 
     this.router.navigate(['/reserved-area/consumer/details']);
   }
@@ -259,5 +264,21 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
     this.isMax = false;
+  }
+
+
+  maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
+    let max = 0;
+
+    if (dispTotal > limitUser) {
+      max = limitUser - buyedUser;
+    } else if ( (limitUser - buyedUser) < dispTotal ) {
+
+      max = dispTotal - buyedUser;
+    } else {
+      max = dispTotal;
+    }
+
+    return max;
   }
 }

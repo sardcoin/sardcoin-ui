@@ -8,12 +8,8 @@
           <p class="card-text">{{coupon.description}}</p>
         </div>
         <div  class="card-footer">
-          <button [disabled] = "inCart(coupon)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon.quantity)">Add to cart</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon, coupon.quantity)">Details</button>
-          <!--<button type="button" class="btn btn-info text-white float-right" (click)="createOrUpdateCart(coupon)">get storage</button>-->
-          <!--<button type="button" class="btn btn-info text-white float-right" (click)="setStorage(coupon)">set storage</button>-->
-          <!--<button type="button" class="btn btn-info text-white float-right" (click)="deleteStorage()">del cart</button>-->
-          <!--<button type="button" class="btn btn-info text-white float-right" (click)="prove()">prove</button>-->
+          <button [disabled] = "inCart(coupon)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon)">Add to cart</button>
+          <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
         </div>
 
         <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
@@ -34,7 +30,7 @@
               <label style="color: #999999;"  class=" col-sm-12"> You are adding  <label class="text-info"> {{coupon.title}}</label> to cart.  </label>
               <div class="form-group col-sm-12">
 
-                <label style="color: #999999;"  class=" col-sm-7">Choose the quantity: <label class="text-info" > ({{coupon.quantity}} available)</label></label>
+                <label style="color: #999999;"  class=" col-sm-7">Choose the quantity: <label class="text-info" > ({{maxQuantity}} available)</label></label>
 
                 <input  formControlName="quantity"
                         class="col-sm-2 small inline-button-input"

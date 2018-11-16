@@ -31,10 +31,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   couponsCheckCart: Coupon[];
   inCart = false;
   available = false;
-  availability: string;
+  availability: number;
   producer = null;
   maxQuantity = 1;
-
+  couponArray: any;
 
 
 
@@ -58,11 +58,41 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       this.couponPass = coupon;
 
 
-
       if (this.couponPass === null) {
         this.router.navigate(['/reserved-area/consumer/showcase']);
         // this.addBreadcrumb();
          } else {
+
+        this.couponService.getPurchasedCoupons().subscribe(cp => {
+
+          let count = 0;
+          this.couponArray = cp;
+          console.log('this.couponArray', this.couponArray);
+          for ( let i = 0;  i < this.couponArray.length; i++) {
+            console.log('i.title', this.couponArray[i].title);
+            console.log('i.description', this.couponArray[i].description);
+            console.log('i.price', this.couponArray[i].price);
+
+            if ((this.couponArray[i].title === this.couponPass.title)
+              && (this.couponArray[i].description === this.couponPass.description) &&
+              Number(this.couponArray[i].price) === Number(this.couponPass.price)) {
+              console.log('i.title', this.couponArray[i].title);
+              console.log('i.description', this.couponArray[i].description);
+              console.log('i.price', this.couponArray[i].price);
+
+              count++;
+            }
+
+          }
+          console.log('quantity', this.couponPass.purchasable);
+          console.log('couponPass', this.couponPass);
+          console.log('count', count);
+
+          this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
+                                                    count, this.couponPass.purchasable);
+
+
+
         this.getOwner();
         this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
@@ -94,7 +124,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             console.log(err);
           });
 
-
+        });
       }
 
     });
@@ -161,7 +191,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     }
       this.cart.id = this.couponPass.id;
-      this.cart.quantity = this.quantity;
       this.cart.title = this.couponPass.title;
       this.cart.description = this.couponPass.description;
       this.cart.image = this.couponPass.image;
@@ -173,7 +202,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       this.cart.constraints = this.couponPass.constraints;
       this.cart.owner = this.couponPass.owner;
       this.cart.consumer = this.couponPass.consumer;
-      this.cart.quantity = this.quantity;
+      this.cart.quantity = this.myForm.value.quantity;
       let crt = [];
       this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
@@ -213,17 +242,25 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
 
   openModal(template: TemplateRef<any>, quantity) {
-    this.maxQuantity = quantity;
 
-    this.myForm = this.formBuilder.group({
-      quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
 
-    });
 
-    if (this.myForm.value.quantity === this.maxQuantity) {
-      this.isMax = true;
-    }
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+
+      if (this.maxQuantity < 1) {
+        this.toastExcesBuy();
+        return;
+      }
+
+      this.myForm = this.formBuilder.group({
+        quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
+
+      });
+
+      if (this.myForm.value.quantity === this.maxQuantity) {
+        this.isMax = true;
+      }
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+
   }
 
 
@@ -242,6 +279,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   toastCart() {
     this.toastr.success( 'Coupon added to cart!');
+  }
+
+  toastExcesBuy() {
+    this.toastr.error( 'Coupon exceded to buy!');
+
   }
 
   setQuantity(e) {
@@ -293,6 +335,22 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
     this.isMax = false;
+  }
+
+
+  maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
+    let max = 0;
+    this.availability = dispTotal;
+    if (dispTotal > limitUser) {
+      max = limitUser - buyedUser;
+    } else if ( (limitUser - buyedUser) < dispTotal ) {
+
+      max = dispTotal - buyedUser;
+    } else {
+      max = dispTotal;
+    }
+
+    return max;
   }
 
 
