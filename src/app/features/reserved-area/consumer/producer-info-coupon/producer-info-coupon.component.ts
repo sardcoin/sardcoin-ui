@@ -23,10 +23,10 @@ export class ProducerInfoCouponComponent implements OnInit, OnDestroy  {
   ngOnInit() {
     this.couponService.currentUserCoupon.subscribe(user => {
       this.producerCoupon = user;
-      console.log('this.producerCoupon', this.producerCoupon);
+      // console.log('this.producerCoupon', this.producerCoupon);
       this.couponService.currentMessage.subscribe(coupon => {
         this.couponPass = coupon;
-        console.log('this.producerCoupon', this.couponPass);
+        // console.log('this.producerCoupon', this.couponPass);
         this.addBreadcrumb();
       });
     });

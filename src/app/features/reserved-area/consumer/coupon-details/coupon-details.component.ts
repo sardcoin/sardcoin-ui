@@ -67,26 +67,26 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
           let count = 0;
           this.couponArray = cp;
-          console.log('this.couponArray', this.couponArray);
+          // console.log('this.couponArray', this.couponArray);
           for ( let i = 0;  i < this.couponArray.length; i++) {
-            console.log('i.title', this.couponArray[i].title);
-            console.log('i.description', this.couponArray[i].description);
-            console.log('i.price', this.couponArray[i].price);
+            // console.log('i.title', this.couponArray[i].title);
+            // console.log('i.description', this.couponArray[i].description);
+            // console.log('i.price', this.couponArray[i].price);
 
             if ((this.couponArray[i].title === this.couponPass.title)
               && (this.couponArray[i].description === this.couponPass.description) &&
               Number(this.couponArray[i].price) === Number(this.couponPass.price)) {
-              console.log('i.title', this.couponArray[i].title);
-              console.log('i.description', this.couponArray[i].description);
-              console.log('i.price', this.couponArray[i].price);
+              // console.log('i.title', this.couponArray[i].title);
+              // console.log('i.description', this.couponArray[i].description);
+              // console.log('i.price', this.couponArray[i].price);
 
               count++;
             }
 
           }
-          console.log('quantity', this.couponPass.purchasable);
-          console.log('couponPass', this.couponPass);
-          console.log('count', count);
+          // console.log('quantity', this.couponPass.purchasable);
+          // console.log('couponPass', this.couponPass);
+          // console.log('count', count);
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
                                                     count, this.couponPass.purchasable);
@@ -317,7 +317,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   getOwner() {
     this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      console.log('user', user);
+      // console.log('user', user);
       this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 
@@ -343,13 +343,14 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.availability = dispTotal;
     if (dispTotal > limitUser) {
       max = limitUser - buyedUser;
-    } else if ( (limitUser - buyedUser) < dispTotal ) {
-
-      max = dispTotal - buyedUser;
-    } else {
-      max = dispTotal;
     }
-
+    if (dispTotal <= limitUser) {
+      if (limitUser - buyedUser  >= dispTotal) {
+        max = dispTotal ;
+      } else {
+        max = limitUser - buyedUser;
+      }
+    }
     return max;
   }
 

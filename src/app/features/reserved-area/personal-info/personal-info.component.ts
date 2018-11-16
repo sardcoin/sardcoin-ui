@@ -70,7 +70,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.userService.getUserById().subscribe( user => {
       this.user = user;
-      console.log('user', this.user);
+      // console.log('user', this.user);
       this.updateRegistration = this.formBuilder.group({
         first_name:   [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
         last_name:    [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
@@ -92,7 +92,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
       this.selectChangeHandler (this.user.user_type);
-      console.log('this.registrationForm.value', this.updateRegistration.value);
+      // console.log('this.registrationForm.value', this.updateRegistration.value);
     });
   }
 
@@ -103,14 +103,14 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.selectedUser = Number(user_type);
 
     if (this.selectedUser === 2) {
-      console.log('sto nel set');
+      // console.log('sto nel set');
       this.updateRegistration.controls['company_name'].setValidators(Validators.required);
       this.updateRegistration.controls['company_name'].updateValueAndValidity();
 
       this.updateRegistration.controls['vat_number'].setValidators(Validators.required);
       this.updateRegistration.controls['vat_number'].updateValueAndValidity();
     } else {
-      console.log('pulisco');
+      // console.log('pulisco');
       this.updateRegistration.controls['company_name'].setValidators(null);
       this.updateRegistration.controls['company_name'].updateValueAndValidity();
 
@@ -141,7 +141,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     delete this.updateRegistration.value.r_password;
 
-    console.log(this.updateRegistration.value);
+    // console.log(this.updateRegistration.value);
 
     this.loading = true;
 

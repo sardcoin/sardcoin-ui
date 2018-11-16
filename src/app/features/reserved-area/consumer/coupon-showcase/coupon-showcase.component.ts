@@ -130,23 +130,23 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
       let count = 0;
       this.couponArray = coupon;
-      console.log('this.couponArray', this.couponArray);
+      // console.log('this.couponArray', this.couponArray);
       for (let i = 0; i < this.couponArray.length; i++) {
         if ((this.couponArray[i].title === cp.title)
           && (this.couponArray[i].description === cp.description) &&
           Number(this.couponArray[i].price) === Number(cp.price)) {
-          console.log('i.title', this.couponArray[i].title);
-          console.log('i.description', this.couponArray[i].description);
-          console.log('i.price', this.couponArray[i].price);
+          // console.log('i.title', this.couponArray[i].title);
+          // console.log('i.description', this.couponArray[i].description);
+          // console.log('i.price', this.couponArray[i].price);
 
           count++;
         }
 
       }
-      console.log('purchasable', cp.purchasable);
-      console.log('couponPass', cp);
-      console.log('count', count);
-      console.log('quantity', cp.quantity);
+      // console.log('purchasable', cp.purchasable);
+      // console.log('couponPass', cp);
+      // console.log('count', count);
+      // console.log('quantity', cp.quantity);
 
 
 
@@ -272,13 +272,14 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     if (dispTotal > limitUser) {
       max = limitUser - buyedUser;
-    } else if ( (limitUser - buyedUser) < dispTotal ) {
-
-      max = dispTotal - buyedUser;
-    } else {
-      max = dispTotal;
     }
-
+    if (dispTotal <= limitUser) {
+      if (limitUser - buyedUser  >= dispTotal) {
+        max = dispTotal ;
+      } else {
+        max = limitUser - buyedUser;
+      }
+    }
     return max;
   }
 }

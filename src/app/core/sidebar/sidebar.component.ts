@@ -25,7 +25,7 @@ export class SidebarComponent{
 
     this.globalEventService.userType.subscribe(value => {
       this.userType = value;
-      console.log('this.userType', this.userType);
+      // console.log('this.userType', this.userType);
     });
   }
 

@@ -35,7 +35,7 @@ export class AuthenticationService {
 
         if (response['user'] && response['token']) {
           this.loginActions.loginUserSuccess(response['user'], response['token']);
-          console.log('response in auth', response);
+          // console.log('response in auth', response);
           return response;
         } else {
           this.loginActions.loginUserError();
