@@ -19,7 +19,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   modalRef: BsModalRef;
   message: string;
-  couponArray = [];
+  couponArray: any;
   arrayCreatedCoupons: any;
 
   constructor(private modalService: BsModalService,
@@ -132,26 +132,19 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     this.couponService.getDistinctCreatedCoupons().subscribe(
       data => {
-       this.arrayCreatedCoupons = data;
-        const array = [];
-        // let filter = [];
-        for (const i of this.arrayCreatedCoupons) {
-          array.push(i); // mi creo l'array per manipolarlo meglio
-
-
-        }
-        // filtro l'array con token univoco (coupons con token tutti diversi)
-        // filter = array.reduce((x, y) => x.findIndex(e => e.token === y.token) < 0 ? [...x, y] : x, []);
-
-        // // esempio:
-        // const some = [ {name: 'Guille', last: 'Foo'}, {name: 'Jorge', last: 'bar'}, {name: 'Pedro', last: 'Foo'}, {name: 'Guille', last: 'Ipsum'} ];
-        // const result = some.reduce((x, y) => x.findIndex(e => e.name === y.name) < 0 ? [...x, y] : x, []);
-
-        // console.log('some', result);
-
-        this.couponArray = array;
+       // this.arrayCreatedCoupons = data;
+        // const array = [];
+        // // let filter = [];
+        // for (const i of this.arrayCreatedCoupons) {
+        //   array.push(i); // mi creo l'array per manipolarlo meglio
+        //
+        //
+        // }
+        //
+        // this.couponArray = array;
         // console.log('set', array);
         // console.log(data);
+        this.couponArray = data;
       },
       error => console.log(error)
     );
