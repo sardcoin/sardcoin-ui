@@ -33,6 +33,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.6",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@ngx-pwa/local-storage": "^6.1.1",
+    "@zxing/library": "^0.8.3",
     "angularx-flatpickr": "^6.1.0",
     "angularx-qrcode": "^1.2.4",
     "bootstrap": "^4.1.3",
