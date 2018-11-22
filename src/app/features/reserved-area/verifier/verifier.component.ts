@@ -7,6 +7,7 @@ import {CouponService} from '../../../shared/_services/coupon.service';
 import {StoreService} from '../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {select} from '@angular-redux/store';
+import { BrowserQRCodeReader, VideoInputDevice } from '@zxing/library';
 
 @Component({
   selector: 'app-verifier',
@@ -17,7 +18,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   tokenForm: FormGroup;
   submitted = false;
   coupon: any;
-
+  isScan = false;
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
@@ -73,7 +74,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
               this.router.navigate(['/reserved-area/verifier']);
               return;
             }, error => {
-              this.toastError()
+              this.toastError();
 
               console.log(error);
             }
@@ -110,6 +111,33 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
   toastError() {
     this.toastr.error( 'Coupon invalid!');
+  }
+
+  scan() {
+    this.isScan = true;
+    const codeReader = new BrowserQRCodeReader();
+
+    codeReader.getVideoInputDevices()
+      .then(videoInputDevices => {
+        videoInputDevices.forEach(
+          device => {
+            console.log(`${device.label}, ${device.deviceId}`);
+            const firstDeviceId = videoInputDevices[0].deviceId;
+
+            codeReader.decodeFromInputVideoDevice(firstDeviceId, 'video')
+              .then(result => {
+                console.log(result.getText());
+                this.tokenForm.controls.token.setValue((result.getText()));
+                this.isScan = false;
+              })
+              .catch(err => console.error(err));
+          }
+        );
+      })
+      .catch(error => console.error(error));
+
+
+
   }
 
 }
