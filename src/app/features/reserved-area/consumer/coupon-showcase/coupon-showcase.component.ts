@@ -85,10 +85,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   loadCoupons() {
-    this.couponService.getDistinctAvailables()
+    this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
-        // console.log('getDistinctAvailables', coupons);
+        console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -126,34 +126,34 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   openModal(template: TemplateRef<any>, cp) {
-    this.couponService.getPurchasedCoupons().subscribe(coupon => {
+    this.localStorage.getItem('cart').subscribe(coupon => {
 
       let count = 0;
       this.couponArray = coupon;
       // console.log('this.couponArray', this.couponArray);
-      for (let i = 0; i < this.couponArray.length; i++) {
-        if ((this.couponArray[i].title === cp.title)
-          && (this.couponArray[i].description === cp.description) &&
-          Number(this.couponArray[i].price) === Number(cp.price)) {
-          // console.log('i.title', this.couponArray[i].title);
-          // console.log('i.description', this.couponArray[i].description);
-          // console.log('i.price', this.couponArray[i].price);
+      if ( ! (this.couponArray === null)) {
+        for (let i = 0; i < this.couponArray.length; i++) {
+          if ((this.couponArray[i].id === cp.id)) {
+            // console.log('i.title', this.couponArray[i].title);
+            // console.log('i.description', this.couponArray[i].description);
+            // console.log('i.price', this.couponArray[i].price);
 
-          count++;
+            count++;
+          }
+
         }
-
       }
-      // console.log('purchasable', cp.purchasable);
-      // console.log('couponPass', cp);
-      // console.log('count', count);
-      // console.log('quantity', cp.quantity);
+      console.log('purchasable', cp.purchasable);
+      console.log('couponPass', cp);
+      console.log('count', count);
+      console.log('quantity', cp.quantity);
 
 
 
-        this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable);
+        this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable == null ? cp.quantity : cp.purchasable );
 
       if (this.maxQuantity < 1) {
-        this.toastExcesBuy();
+        this.toastExcededBuy();
         return;
       }
 
@@ -169,7 +169,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     });
     }
 
-  toastExcesBuy() {
+  toastExcededBuy() {
     this.toastr.error( 'Coupon exceded to buy!');
 
   }
@@ -267,17 +267,17 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
 
-  maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
+  maxQuantityAvaliableForUser(dispTotal, quantityInCart, limitUser) {
     let max = 0;
 
     if (dispTotal > limitUser) {
-      max = limitUser - buyedUser;
+      max = limitUser - quantityInCart;
     }
     if (dispTotal <= limitUser) {
-      if (limitUser - buyedUser  >= dispTotal) {
+      if (limitUser - quantityInCart  >= dispTotal) {
         max = dispTotal ;
       } else {
-        max = limitUser - buyedUser;
+        max = limitUser - quantityInCart;
       }
     }
     return max;

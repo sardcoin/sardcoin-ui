@@ -39,8 +39,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
 
-  ) {this.returnGetDistinctAvailables();
-    this.returnGetAffordables();
+  ) {this.returnGetAvailablesCoupons();
+    // this.returnGetAffordables();
      }
 
   ngOnInit() {
@@ -66,8 +66,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
     return '€ ' + price.toFixed(2);
   }
 
-  returnGetDistinctAvailables() {
-    this.couponService.getDistinctAvailables().subscribe(
+  returnGetAvailablesCoupons() {
+    this.couponService.getAvailableCoupons().subscribe(
       data => {
         this.getDistinctAvailables = data;
         // console.log('distinct', this.getDistinctAvailables);
@@ -84,7 +84,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   control() {
 
-    this.couponService.getDistinctAvailables().subscribe(
+    this.couponService.getAvailableCoupons().subscribe(
       data => {
         this.couponArray = data;
 

@@ -40,7 +40,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
 
   onEdit(coupon: any) {
-    const cp = JSON.parse(JSON.stringify(coupon))
+    const cp = JSON.parse(JSON.stringify(coupon));
     this.couponService.setCoupon(cp);
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
