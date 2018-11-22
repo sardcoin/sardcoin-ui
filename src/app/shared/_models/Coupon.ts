@@ -9,11 +9,10 @@ export class Coupon {
   timestamp: string;
   price: number;
   valid_from: string;
+  visible_from: string;
   valid_until: string;
-  state: number;
   constraints: string;
   owner: number;
-  consumer: number;
   quantity: number;
   token: string;
   purchasable: number;
@@ -27,11 +26,11 @@ export class Coupon {
               timestamp?: string,
               price?: number,
               valid_from?: any,
+              visible_from?: any,
               valid_until?: any,
               state?: number,
               constraints?: string,
               owner?: number,
-              consumer?: number,
               quantity?: number,
               purchasable?: number,
                ) {
@@ -42,10 +41,9 @@ export class Coupon {
     this.price = price;
     this.valid_from = valid_from;
     this.valid_until = valid_until;
-    this.state = state;
+    this.visible_from = visible_from;
     this.constraints = constraints;
     this.owner = owner;
-    this.consumer = consumer;
     this.quantity = quantity;
     this.purchasable = purchasable;
 
