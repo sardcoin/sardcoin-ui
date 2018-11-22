@@ -410,4 +410,19 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   }
 
+  isIllimited() {
+
+
+    console.log('fiunzione illimitata');
+    if (this.couponPass.valid_until === null) {
+      console.log('this.couponPass.valid_until === null');
+      delete this.couponForm.value.valid_until ;
+      this.couponForm.value.valid_until_empty = true;
+      this.couponForm.removeControl('valid_until');
+      this.marked = true;
+      return true;
+    }
+
+  }
+
 }
