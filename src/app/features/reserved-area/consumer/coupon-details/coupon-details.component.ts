@@ -97,7 +97,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
 
-        this.couponService.getDistinctAvailables()
+        this.couponService.getAvailableCoupons()
           .subscribe(coupons => {
             this.couponsPurchased = coupons;
 
