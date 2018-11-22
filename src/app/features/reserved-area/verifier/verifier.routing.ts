@@ -11,11 +11,11 @@ import {VerifierComponent} from './verifier.component';
     RouterModule.forChild([
       {
         path: '',
-        redirectTo: 'verifier',
-        pathMatch: 'full'
-      },
-      {
-        path: 'verifier',
+        // redirectTo: 'verifier',
+        // pathMatch: 'full'
+      // },
+      // {
+      //   path: 'verifier',
         component: VerifierComponent
       },
     ])

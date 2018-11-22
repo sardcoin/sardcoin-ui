@@ -6,6 +6,8 @@ import {GlobalEventsManagerService} from '../_services/global-event-manager.serv
 
 @Injectable()
 
+// TODO Fix guards
+
 export class IsVerifierGuard implements CanActivate {
   constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
   }

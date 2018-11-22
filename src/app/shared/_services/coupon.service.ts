@@ -99,7 +99,7 @@ export class CouponService {
 
     const cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description != null ? cp.description.toString() : null) + '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString())
 
-    return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy );
+    return this.http.get<Coupon>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy );
 
   }
   importCoupon(cp: any) {
