@@ -20,7 +20,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   modalRef: BsModalRef;
   message: string;
   couponArray: any;
-  arrayCreatedCoupons: any;
 
   constructor(private modalService: BsModalService,
               private couponService: CouponService,
@@ -32,9 +31,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.control();
-    // console.log('vedi qua dopo tutto in ngOnInit', this.couponArrayTitleAndQuantity);
-
-
     this.addBreadcrumb();
   }
 
@@ -44,16 +40,12 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.setCoupon(cp);
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
-
-    // console.log('coupon: ', cp.id);
   }
 
   onCopy(coupon: any) {
     this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(false);
     this.router.navigate(['reserved-area/producer/edit']);
-
-    // console.log('coupon.id: ' + coupon.id);
   }
 
 
@@ -61,8 +53,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.message = 'Confirmed!';
 
     this.couponService.getCouponsCreatedFromTitleDescriptionPrice(cp).subscribe(coupons => {
-
-       // console.log('coupons', coupons)
       const getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
       for (const i of getCouponsCreatedFromTitleDescriptionPrice) {
       this.couponService.deleteCoupon(i.id)
@@ -114,7 +104,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   imageUrl(path) {
-    // let subs = path.substr(path.lastIndexOf('\\')+1);
     // return correct address and port backend plus name image
     return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
   }
@@ -130,20 +119,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   control() {
 
-    this.couponService.getDistinctCreatedCoupons().subscribe(
+    this.couponService.getProducerCoupons().subscribe(
       data => {
-       // this.arrayCreatedCoupons = data;
-        // const array = [];
-        // // let filter = [];
-        // for (const i of this.arrayCreatedCoupons) {
-        //   array.push(i); // mi creo l'array per manipolarlo meglio
-        //
-        //
-        // }
-        //
-        // this.couponArray = array;
-        // console.log('set', array);
-        // console.log(data);
         this.couponArray = data;
       },
       error => console.log(error)
