@@ -32,7 +32,7 @@ export class CouponService {
   }
 
   getAllCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllByUser');
+    return this.http.get<Coupon[]>(this.formatUrl('getAllByUser'));
   }
 
   getPurchasedCoupons() {
@@ -47,8 +47,8 @@ export class CouponService {
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
   }
 
-  getDistinctCreatedCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getDistinctCreatedCoupons');
+  getProducerCoupons() {
+    return this.http.get<Coupon>('http://' + environment.host + ':' + environment.port + '/coupons/getProducerCoupons');
 
   }
 
@@ -113,6 +113,9 @@ export class CouponService {
 
   }
 
+  private formatUrl(methodName) {
+    return 'http://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
+  }
 }
 
 
