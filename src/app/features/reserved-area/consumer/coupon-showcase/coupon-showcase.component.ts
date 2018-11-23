@@ -126,7 +126,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   openModal(template: TemplateRef<any>, cp) {
-    this.localStorage.getItem('cart').subscribe(coupon => {
+    this.couponService.getPurchasedCoupons().subscribe(coupon => {
 
       let count = 0;
       this.couponArray = coupon;
@@ -138,7 +138,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             // console.log('i.description', this.couponArray[i].description);
             // console.log('i.price', this.couponArray[i].price);
 
-            count++;
+            count = this.couponArray[i].CouponTokens.length;
           }
 
         }

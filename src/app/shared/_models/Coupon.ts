@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import _date = moment.unitOfTime._date;
+import {CouponToken} from './CouponToken';
 
 export class Coupon {
   id: number;
@@ -15,7 +16,7 @@ export class Coupon {
   owner: number;
   quantity: number;
   purchasable: number;
-
+  CouponTokens: CouponToken[];
 
   constructor(
               id?: number,
@@ -32,6 +33,7 @@ export class Coupon {
               owner?: number,
               quantity?: number,
               purchasable?: number,
+              CouponTokens?: CouponToken[],
                ) {
     this.title = title;
     this.description = description;

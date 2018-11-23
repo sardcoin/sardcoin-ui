@@ -73,14 +73,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             // console.log('i.description', this.couponArray[i].description);
             // console.log('i.price', this.couponArray[i].price);
 
-            if ((this.couponArray[i].title === this.couponPass.title)
-              && (this.couponArray[i].description === this.couponPass.description) &&
-              Number(this.couponArray[i].price) === Number(this.couponPass.price)) {
+            if ((this.couponArray[i].id === this.couponPass.id)) {
               // console.log('i.title', this.couponArray[i].title);
               // console.log('i.description', this.couponArray[i].description);
               // console.log('i.price', this.couponArray[i].price);
 
-              count++;
+              count = this.couponArray[i].CouponTokens.length;
             }
 
           }
@@ -89,7 +87,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           // console.log('count', count);
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
-                                                    count, this.couponPass.purchasable);
+                                                    count, this.couponPass.purchasable == null ? this.couponPass.quantity : this.couponPass.purchasable);
 
 
 
@@ -198,12 +196,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       this.cart.price = this.couponPass.price;
       this.cart.valid_from = this.couponPass.valid_from;
       this.cart.valid_until = this.couponPass.valid_until;
-      this.cart.state = this.couponPass.state;
+      this.cart.visible_from = this.couponPass.visible_from;
       this.cart.constraints = this.couponPass.constraints;
       this.cart.owner = this.couponPass.owner;
-      this.cart.consumer = this.couponPass.consumer;
       this.cart.quantity = this.myForm.value.quantity;
-      let crt = [];
+      this.cart.purchasable = this.couponPass.purchasable;
+
+    let crt = [];
       this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
