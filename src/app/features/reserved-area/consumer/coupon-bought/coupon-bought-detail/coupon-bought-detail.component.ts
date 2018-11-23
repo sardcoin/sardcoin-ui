@@ -18,16 +18,10 @@ import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   URLstring = 'http://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
-  message: string;
   couponPass: any;
   cart = new Coupon();
-  couponsPurchased: any;
   quantity = 1;
   producer = null;
-  couponsCheckCart: Coupon[];
-  inCart = false;
-  available = false;
-  availability: string;
   constructor( private breadcrumbActions: BreadcrumbActions,
                private couponService: CouponService,
                private router: Router,
@@ -46,23 +40,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
     } else {
       this.URLstring = this.URLstring + this.couponPass.image;
       this.addBreadcrumb();
-
-      this.couponService.getPurchasedCoupons()
-        .subscribe(coupons => {
-          this.couponsPurchased = coupons;
-          this.getOwner();
-          if (this.couponsPurchased !== null) {
-            for (const i of this.couponsPurchased) {
-              if (this.couponPass.token === i.token) {
-                this.available = true;
-              }
-            }
-          }
-
-        }, err => {
-          console.log(err);
-        });
-
+      this.getOwner();
     }
     });
   }

@@ -36,11 +36,11 @@ export class CouponService {
   }
 
   getPurchasedCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
+    return this.http.get<Coupon[]>('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
   }
 
   getAvailableCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAvailableCoupons');
+    return this.http.get<Coupon[]>('http://' + environment.host + ':' + environment.port + '/coupons/getAvailableCoupons');
   }
 
   getCreatedCoupons() {
@@ -60,7 +60,7 @@ export class CouponService {
   deleteAllCoupons() {
   }
 
-  setCoupon(cp: any) {
+  setCoupon(cp: Coupon) {
     this.couponSource.next(cp);
   }
 
