@@ -97,11 +97,13 @@ export class CartShowComponent implements OnInit, OnDestroy {
           } else {
             this.isEmpty = false;
           }
-          for (let i = 0 ; i < this.couponCart.length; i++) {
-            for (let j = 0 ; j < this.couponArray.length; j++) {
-              if (this.couponCart[i].title === this.couponArray[j].title) {
-                this.couponArray[j].quantity = this.couponCart[i].quantity;
-                this.cartArray.push(this.couponArray[j]);
+          if (this.couponCart != null || this.couponCart != undefined ) {
+            for (let i = 0; i < this.couponCart.length; i++) {
+              for (let j = 0; j < this.couponArray.length; j++) {
+                if (this.couponCart[i].title === this.couponArray[j].title) {
+                  this.couponArray[j].quantity = this.couponCart[i].quantity;
+                  this.cartArray.push(this.couponArray[j]);
+                }
               }
             }
           }
@@ -226,14 +228,14 @@ export class CartShowComponent implements OnInit, OnDestroy {
         arr.push(i);
       } else {
         const qty = (Number(coupon.quantity) - 1);
-        const item = {id: coupon.id, quantity: qty};
-
-        arr.push(item);
+        // const item = {id: coupon.id, quantity: qty};
+        i.quantity = qty;
+        arr.push(i);
       }
       this.couponCart = arr;
     }
 
-    this.localStorage.setItem('cart', arr ).subscribe(() => {
+    this.localStorage.setItem('cart', this.couponCart ).subscribe(() => {
       this.cartArray = [];
       for (let i = 0 ; i < this.couponCart.length; i++) {
         for (let j = 0 ; j < this.couponArray.length; j++) {
@@ -256,13 +258,13 @@ export class CartShowComponent implements OnInit, OnDestroy {
         arr.push(i);
       } else {
         const qty = (Number(coupon.quantity) + 1);
-        const item = {id: coupon.id, quantity: qty};
-        arr.push(item);
+        i.quantity = qty;
+        arr.push(i);
       }
       this.couponCart = arr;
     }
 
-    this.localStorage.setItem('cart', arr ).subscribe(() => {
+    this.localStorage.setItem('cart', this.couponCart ).subscribe(() => {
       this.cartArray = [];
       for (let i = 0 ; i < this.couponCart.length; i++) {
         for (let j = 0 ; j < this.couponArray.length; j++) {

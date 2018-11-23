@@ -98,7 +98,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             for (let i = 0; i < getCart.length; i++) {
               for (const j of this.coupons) {
                 // console.log('j[1]', j.id);
-               if (getCart[i].title === j.title) {
+               if (getCart[i].id === j.id) {
                   this.couponsCheckCart.push(j);
                  this.coupons = coupons;
                }
@@ -211,10 +211,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     cpn.price = coupon.price;
     cpn.valid_from = coupon.valid_from;
     cpn.valid_until = coupon.valid_until;
-    cpn.state = coupon.state;
+    cpn.visible_from = coupon.visible_from;
     cpn.constraints = coupon.constraints;
     cpn.owner = coupon.owner;
-    cpn.consumer = coupon.consumer;
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
         if (cart === null) {
           this.localStorage.setItem('cart', [cpn]).subscribe(() => {

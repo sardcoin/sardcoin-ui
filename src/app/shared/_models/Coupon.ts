@@ -14,7 +14,6 @@ export class Coupon {
   constraints: string;
   owner: number;
   quantity: number;
-  token: string;
   purchasable: number;
 
 
