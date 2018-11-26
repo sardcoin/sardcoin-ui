@@ -8,6 +8,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import {Coupon} from '../../../../shared/_models/Coupon';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -35,52 +36,37 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
 
-  onEdit(coupon: any) {
-    const cp = JSON.parse(JSON.stringify(coupon));
-    this.couponService.setCoupon(cp);
+  onEdit(coupon: Coupon) {
+    this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
   }
 
-  onCopy(coupon: any) {
+  onCopy(coupon: Coupon) {
     this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(false);
     this.router.navigate(['reserved-area/producer/edit']);
   }
 
 
-  onDelete(cp: any) {
+  onDelete(coupon: Coupon) {
     this.message = 'Confirmed!';
 
-    this.couponService.getCouponsCreatedFromTitleDescriptionPrice(cp).subscribe(coupons => {
-      const getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
-      for (const i of getCouponsCreatedFromTitleDescriptionPrice) {
-      this.couponService.deleteCoupon(i.id)
-        .subscribe(dataDeleted => {
+    this.couponService.deleteCoupon(coupon.id).subscribe((data) => {
 
-          }, error => {
-            console.log(error);
-          }
-        );
+      if (data['deleted']) {
+        this.toastr.success('Coupon deleted.', 'Success');
+        this.control();
       }
-      this.control();
+    }, error => {
+      console.log(error);
+      this.toastr.error('Some error occured while deleting the coupon.', 'Error');
     });
 
     this.modalRef.hide();
-    this.toastDelete();
-  }
-
-  onDetails() {
-
   }
 
   formatState(state) { // TODO fixme
-    /*    switch (state) {
-          case 0:
-            return 'Active';
-          default:
-            return 'unknown';
-        }*/
     return 'Active';
   }
 
@@ -118,32 +104,19 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
 
   control() {
-
     this.couponService.getProducerCoupons().subscribe(
       data => {
         this.couponArray = data;
-      },
-      error => console.log(error)
+      }, error => console.log(error)
     );
-
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
-  confirm(): void {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-  }
-
   decline(): void {
     this.message = 'Declined!';
     this.modalRef.hide();
   }
-
-  toastDelete() {
-    this.toastr.success('Delete coupon', 'Coupon deleted successfully');
-  }
-
 }

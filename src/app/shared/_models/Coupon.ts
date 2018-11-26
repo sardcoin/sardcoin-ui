@@ -1,5 +1,22 @@
 import * as moment from 'moment';
 import _date = moment.unitOfTime._date;
+import {CouponToken} from './CouponToken';
+
+export class CouponInt {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  timestamp: string;
+  price: number;
+  visible_from: string;
+  valid_from: string;
+  valid_until: string;
+  purchasable: number;
+  constraints: string;
+  owner: number;
+  quantity?: number;
+}
 
 export class Coupon {
   id: number;
@@ -8,32 +25,31 @@ export class Coupon {
   image: string;
   timestamp: string;
   price: number;
-  valid_from: string;
   visible_from: string;
+  valid_from: string;
   valid_until: string;
+  purchasable: number;
   constraints: string;
   owner: number;
-  quantity: number;
-  token: string;
-  purchasable: number;
-
+  quantity?: number;
+  tokens?: CouponToken[];
 
   constructor(
-              id?: number,
-              title?: string,
-              description?: string,
-              image?: string,
-              timestamp?: string,
-              price?: number,
-              valid_from?: any,
-              visible_from?: any,
-              valid_until?: any,
-              state?: number,
-              constraints?: string,
-              owner?: number,
-              quantity?: number,
-              purchasable?: number,
-               ) {
+    id?: number,
+    title?: string,
+    description?: string,
+    image?: string,
+    timestamp?: string,
+    price?: number,
+    valid_from?: any,
+    visible_from?: any,
+    valid_until?: any,
+    state?: number,
+    constraints?: string,
+    owner?: number,
+    quantity?: number,
+    purchasable?: number,
+  ) {
     this.title = title;
     this.description = description;
     this.image = image;

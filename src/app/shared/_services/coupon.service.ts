@@ -5,6 +5,7 @@ import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {C} from '@angular/core/src/render3';
 
 @Injectable()
 
@@ -13,6 +14,7 @@ export class CouponService {
   couponChange: any = null;
   couponInfoUser: any = null;
   fromEditOrCopy = false;
+
   private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
   private couponSource = new BehaviorSubject(this.couponChange);
   private couponUser = new BehaviorSubject(this.couponInfoUser);
@@ -36,11 +38,11 @@ export class CouponService {
   }
 
   getPurchasedCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
+    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
   }
 
   getAvailableCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAvailableCoupons');
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableCoupons'));
   }
 
   getCreatedCoupons() {
@@ -48,19 +50,20 @@ export class CouponService {
   }
 
   getProducerCoupons() {
-    return this.http.get<Coupon>('http://' + environment.host + ':' + environment.port + '/coupons/getProducerCoupons');
+    return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
 
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
+    console.log(cp);
+    return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/deleteCoupon', {body: {id: cp}});
 
   }
 
   deleteAllCoupons() {
   }
 
-  setCoupon(cp: any) {
+  setCoupon(cp: Coupon) {
     this.couponSource.next(cp);
   }
 
@@ -109,7 +112,7 @@ export class CouponService {
 
   getTotalCoupons() {
     // console.log('token consumer ' , this.localStore.getToken());
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllCouponsStateOne');
+    return this.http.get(this.formatUrl('getAllCouponsStateOne'));
 
   }
 

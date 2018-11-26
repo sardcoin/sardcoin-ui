@@ -9,7 +9,7 @@ export class ImageValidation {
 
       return null;
     } catch (Error) {
-      AC.get('image').setErrors({NoPath: true})
+      AC.get('image').setErrors({NoPath: true});
     }
 
   }
