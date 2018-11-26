@@ -1,7 +1,7 @@
 <!--<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">-->
   <form [formGroup]="paymentForm" class="col-sm-12">
 
-  <div *ngIf="this.selectedUser === 2">
+  <div *ngIf="this.selectedUser === 1 || this.selectedUser === 0">
     <div class="form-row">
     <div class="input-group  mb-0  col-md-12">
       <div class=" col-md-6" ><label class="col-form-label">Company name </label></div>
