@@ -125,7 +125,7 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
   }
 
   returnGetAffordables() {
-    this.couponService.getAffordables().subscribe(
+    this.couponService.getAvailableCoupons().subscribe(
       data => {
         this.getAffordables = data;
         // console.log('affordables', this.getAffordables  );

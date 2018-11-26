@@ -21,4 +21,12 @@ export class UserService {
     return this.http.put('http://' + environment.host + ':' + environment.port + '/users/update', user);
 
   }
+  getProducerFromId(id) {
+    return this.http.get<User>(this.formatUrl('getProducerFromId/') + id);
+  }
+
+  private formatUrl(methodName) {
+    return 'http://' + environment.host + ':' + environment.port + '/users/' + methodName;
+  }
+
 }

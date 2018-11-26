@@ -36,24 +36,24 @@ export class CouponService {
   }
 
   getPurchasedCoupons() {
-    return this.http.get<Coupon[]>('http://' + environment.host + ':' + environment.port + '/coupons/getPurchasedCoupons');
+    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
   }
 
   getAvailableCoupons() {
-    return this.http.get<Coupon[]>('http://' + environment.host + ':' + environment.port + '/coupons/getAvailableCoupons');
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableCoupons'));
   }
 
   getCreatedCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getCreatedCoupons');
+    return this.http.get(this.formatUrl('getCreatedCoupons'));
   }
 
   getProducerCoupons() {
-    return this.http.get<Coupon>('http://' + environment.host + ':' + environment.port + '/coupons/getProducerCoupons');
+    return this.http.get<Coupon>(this.formatUrl('getProducerCoupons'));
 
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', 'http://' + environment.host + ':' + environment.port + '/coupons/delete', {body: {id: cp}});
+    return this.http.request('delete', this.formatUrl('delete'), {body: {id: cp}});
 
   }
 
@@ -73,19 +73,19 @@ export class CouponService {
   }
 
   editCoupon(cp: any) {
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/update', {body: cp});
+    return this.http.request('put', this.formatUrl('update'), {body: cp});
   }
 
   register(coupon: Coupon) {
-    return this.http.post('http://' + environment.host + ':' + environment.port + '/coupons/create', coupon);
+    return this.http.post(this.formatUrl('create'), coupon);
   }
 
-  getAffordables() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
-  }
+  // getAffordables() {
+  //   return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
+  // }
 
   buyCoupon(coupon_id: number) {
-    return this.http.post('http://' + environment.host + ':' + environment.port + '/coupons/buyCoupon', {coupon_id: coupon_id});
+    return this.http.post(this.formatUrl('buyCoupon'), {coupon_id: coupon_id});
   }
 
   getCouponsCreatedFromTitleDescriptionPrice(cp: any) {
@@ -96,16 +96,14 @@ export class CouponService {
   }
 
   importOfflineCoupon(cp: any) {
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/importOfflineCoupon', {body: cp});
+    return this.http.request('put', this.formatUrl('importOfflineCoupon'), {body: cp});
   }
 
   verifierCoupon(cp: any) {
-    return this.http.request('put', 'http://' + environment.host + ':' + environment.port + '/coupons/verifierCoupon', {body: cp});
+    return this.http.request('put', this.formatUrl('verifierCoupon'), {body: cp});
   }
 
-  getProducerFromId(id) {
-    return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/users/getProducerFromId/' + id);
-  }
+
 
   getTotalCoupons() {
     // console.log('token consumer ' , this.localStore.getToken());

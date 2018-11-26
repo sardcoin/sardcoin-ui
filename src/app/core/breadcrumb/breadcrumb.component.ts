@@ -36,7 +36,7 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
       this.localStorage.getItem('cart').subscribe((data) => {
 
 
-        console.log('cart', data)
+        // console.log('cart', data)
         if (data === null) {
           this.arrayCart = [];
           return;

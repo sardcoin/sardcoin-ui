@@ -60,7 +60,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
        this.couponService.importOfflineCoupon(this.data).subscribe(
          (data) => {
-           console.log('data', data);
+           // console.log('data', data);
            if (data !== null) {
              this.toastValidate();
              this.router.navigate(['/reserved-area/consumer/bought']);

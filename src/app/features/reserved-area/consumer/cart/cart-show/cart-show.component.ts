@@ -74,13 +74,13 @@ export class CartShowComponent implements OnInit, OnDestroy {
       });
   }
 
-  returnGetAffordables() {
-    this.couponService.getAffordables().subscribe(
-      data => {
-        this.getAffordables = data;
-        // console.log('affordables', this.getAffordables  );
-      });
-  }
+  // returnGetAffordables() {
+  //   this.couponService.getAffordables().subscribe(
+  //     data => {
+  //       this.getAffordables = data;
+  //       // console.log('affordables', this.getAffordables  );
+  //     });
+  // }
 
   control() {
 
@@ -100,7 +100,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
           if (this.couponCart != null || this.couponCart != undefined ) {
             for (let i = 0; i < this.couponCart.length; i++) {
               for (let j = 0; j < this.couponArray.length; j++) {
-                if (this.couponCart[i].title === this.couponArray[j].title) {
+                if (this.couponCart[i].id === this.couponArray[j].id) {
                   this.couponArray[j].quantity = this.couponCart[i].quantity;
                   this.cartArray.push(this.couponArray[j]);
                 }
@@ -140,35 +140,35 @@ export class CartShowComponent implements OnInit, OnDestroy {
   }
 
 
-  buy(cartArray) {
-
-    for (const i of cartArray) {
-      let quantityBuy = 0;
-      for (const j of this.getAffordables) {
-        if (i.title === j.title) {
-          if (quantityBuy < i.quantity) {
-            quantityBuy++;
-            this.couponService.buyCoupon(j.id)
-              .subscribe(data => {
-                this.localStorage.setItem('cart', []).subscribe(() => {
-                  this.addBreadcrumb();
-                  this.router.navigate(['/reserved-area/consumer/bought']);
-                });
-
-
-              }, err => {
-                console.log(err);
-              });
-          }
-        }
-      }
-    }
-
-    this.addBreadcrumb();
-    this.toastBuy();
-    this.isEmpty = true;
-    this.decline();
-  }
+  // buy(cartArray) {
+  //
+  //   for (const i of cartArray) {
+  //     let quantityBuy = 0;
+  //     for (const j of this.getAffordables) {
+  //       if (i.title === j.title) {
+  //         if (quantityBuy < i.quantity) {
+  //           quantityBuy++;
+  //           this.couponService.buyCoupon(j.id)
+  //             .subscribe(data => {
+  //               this.localStorage.setItem('cart', []).subscribe(() => {
+  //                 this.addBreadcrumb();
+  //                 this.router.navigate(['/reserved-area/consumer/bought']);
+  //               });
+  //
+  //
+  //             }, err => {
+  //               console.log(err);
+  //             });
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   this.addBreadcrumb();
+  //   this.toastBuy();
+  //   this.isEmpty = true;
+  //   this.decline();
+  // }
   decline(): void {
     this.modalRef.hide();
   }

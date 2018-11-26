@@ -88,7 +88,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
-        console.log('getDistinctAvailables', coupons);
+        //console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -143,10 +143,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         }
       }
-      console.log('purchasable', cp.purchasable);
-      console.log('couponPass', cp);
-      console.log('count', count);
-      console.log('quantity', cp.quantity);
+      // console.log('purchasable', cp.purchasable);
+      // console.log('couponPass', cp);
+      // console.log('count', count);
+      // console.log('quantity', cp.quantity);
 
 
 

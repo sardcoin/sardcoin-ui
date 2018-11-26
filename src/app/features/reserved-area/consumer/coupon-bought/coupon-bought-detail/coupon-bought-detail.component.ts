@@ -9,6 +9,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
+import {UserService} from '../../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -27,6 +28,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
                private router: Router,
                private modalService: BsModalService,
                private toastr: ToastrService,
+               private userService: UserService,
                protected localStorage: LocalStorage) { }
 
   ngOnInit() {
@@ -94,8 +96,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   }
 
   getOwner() {
-    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      console.log('user', user);
+    this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+      // console.log('user', user);
         this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 

@@ -11,6 +11,7 @@ import {LocalStorage} from '@ngx-pwa/local-storage';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -45,7 +46,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private toastr: ToastrService,
     protected localStorage: LocalStorage,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService,
   ) {
 
 
@@ -62,6 +64,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         this.router.navigate(['/reserved-area/consumer/showcase']);
         // this.addBreadcrumb();
          } else {
+        this.URLstring = this.URLstring + this.couponPass.image;
 
         this.couponService.getPurchasedCoupons().subscribe(cp => {
 
@@ -92,7 +95,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
 
         this.getOwner();
-        this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
 
         this.couponService.getAvailableCoupons()
@@ -101,7 +103,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
             if (this.couponsPurchased !== null) {
               for (const i of this.couponsPurchased) {
-                if (this.couponPass.title === i.title) {
+                if (this.couponPass.id === i.id) {
                   this.available = true;
                 }
               }
@@ -111,7 +113,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
               if (this.couponsCheckCart !== null) {
                 for (const i of this.couponsCheckCart) {
-                  if (this.couponPass.title === i.title) {
+                  if (this.couponPass.id === i.id) {
                     this.inCart = true;
                   }
                 }
@@ -315,7 +317,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   getOwner() {
-    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+    this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
       // console.log('user', user);
       this.producer = user;
       this.couponService.setUserCoupon(this.producer);
