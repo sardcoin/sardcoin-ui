@@ -17,6 +17,12 @@ import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-
         pathMatch: 'full'
       },
       {
+        path: 'verifier',
+        redirectTo: 'verifier',
+        pathMatch: 'full'
+      },
+
+      {
         path: 'list',
         component: FeatureReservedAreaCouponListComponent
       },

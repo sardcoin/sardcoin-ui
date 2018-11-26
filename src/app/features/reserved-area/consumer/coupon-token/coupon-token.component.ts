@@ -10,6 +10,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {validate} from 'codelyzer/walkerFactory/walkerFn';
+import {BrowserQRCodeReader} from '@zxing/library';
 
 @Component({
   selector: 'app-coupon-token',
@@ -20,6 +21,8 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   tokenForm: FormGroup;
   submitted = false;
   data: any;
+  isScan = false;
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -100,5 +103,38 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
     this.toastr.error( 'Coupon invalid!');
   }
 
+  scan() {
+    this.isScan = true;
+    const codeReader = new BrowserQRCodeReader();
+
+    codeReader.getVideoInputDevices()
+      .then(videoInputDevices => {
+        videoInputDevices.forEach(
+          device => {
+            console.log(`${device.label}, ${device.deviceId}`);
+            const firstDeviceId = videoInputDevices[0].deviceId;
+
+            codeReader.decodeFromInputVideoDevice(firstDeviceId, 'video')
+              .then(result => {
+                console.log(result.getText());
+                this.tokenForm.controls.token.setValue((result.getText()));
+                this.isScan = false;
+                codeReader.reset();
+                this.qrCodeReadSuccess();
+              })
+              .catch(err => console.error(err));
+          }
+        );
+      })
+      .catch(error => console.error(error));
+
+
+
+  }
+
+
+  qrCodeReadSuccess() {
+    this.toastr.success( 'Qr-code reader successfully');
+  }
 
 }

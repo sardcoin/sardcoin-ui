@@ -129,6 +129,9 @@ export class VerifierComponent implements OnInit, OnDestroy {
                 console.log(result.getText());
                 this.tokenForm.controls.token.setValue((result.getText()));
                 this.isScan = false;
+                codeReader.reset();
+                this.qrCodeReadSuccess();
+
               })
               .catch(err => console.error(err));
           }
@@ -138,6 +141,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
 
 
+  }
+
+  qrCodeReadSuccess() {
+    this.toastr.success( 'Qr-code reader successfully');
   }
 
 }
