@@ -8,7 +8,6 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
 import {LocalStorage} from '@ngx-pwa/local-storage';
-import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../shared/_services/user.service';
@@ -105,6 +104,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
               for (const i of this.couponsPurchased) {
                 if (this.couponPass.id === i.id) {
                   this.available = true;
+                  this.availability = i.quantity;
+                  // console.log('i', i);
                 }
               }
             }
@@ -341,7 +342,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
     let max = 0;
-    this.availability = dispTotal;
+    // this.availability = dispTotal;
     if (dispTotal > limitUser) {
       max = limitUser - buyedUser;
     }
