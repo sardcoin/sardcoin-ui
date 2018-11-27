@@ -51,8 +51,6 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.getTotalCoupons().subscribe(coupons => {
       const cp = JSON.parse(JSON.stringify(coupons));
-      // console.log('cp.keys.length', cp.length);
-      console.log('cp', cp);
 
       let length = 1;
       let isValidate = false;
@@ -80,7 +78,6 @@ export class VerifierComponent implements OnInit, OnDestroy {
             }
           );
         } else if (length === Number(cp.length) && !isValidate) {
-          // console.log('non trovato');
           this.toastError();
         }
       }

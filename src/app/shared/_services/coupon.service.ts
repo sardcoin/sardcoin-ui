@@ -106,7 +106,6 @@ export class CouponService {
 
 
   getTotalCoupons() {
-    // console.log('token consumer ' , this.localStore.getToken());
     return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllCouponsStateOne');
 
   }

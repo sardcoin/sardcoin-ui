@@ -5,12 +5,6 @@
         <img src="{{URLstring}}" alt="" class="">
         <div class="card-body p-4">
           <h3 class="card-title">{{couponPass.title}}</h3>
-          <!--
-          <div id="yourImage"></div>
-          <label class="col-sm-2 col-form-label">Title</label>
-          <label class="col-sm-10" type="text">{{couponPass.title}}</label>
-          -->
-
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
           <div class="coupon-cart" *ngIf="inCart" (click)="viewCart()">
             <i class="fas fa-cart-arrow-down" ></i>
@@ -40,7 +34,7 @@
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to shopping</button>
           <button *ngIf="!inCart && available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
-          <button [disabled] = "!available" *ngIf="!inCart && !available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template, couponPass.purchasable)">Add to cart</button>
+          <button [disabled] = "!available" *ngIf="!inCart && !available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
           <button *ngIf="inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
 
           <ng-template #template>

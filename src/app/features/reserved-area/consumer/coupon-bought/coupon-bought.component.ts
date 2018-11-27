@@ -58,7 +58,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
         }
         this.coupons = coupons;
-        //console.log('this.coupons', this.coupons);
       }, err => {
         console.log(err);
       });

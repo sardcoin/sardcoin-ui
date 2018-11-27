@@ -1,15 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DateFromValidation} from '../../producer/coupon-create/validator/DateFromValidation.directive';
-import {ImageValidation} from '../../producer/coupon-create/validator/ImageValidation.directive.';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {QuantityCouponValidation} from '../../producer/coupon-create/validator/QuantityCouponValidation.directive';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {validate} from 'codelyzer/walkerFactory/walkerFn';
 import {BrowserQRCodeReader} from '@zxing/library';
 
 @Component({
@@ -60,7 +56,6 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
        this.couponService.importOfflineCoupon(this.data).subscribe(
          (data) => {
-           // console.log('data', data);
            if (data !== null) {
              this.toastValidate();
              this.router.navigate(['/reserved-area/consumer/bought']);
@@ -73,7 +68,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
            this.toastError();
 
            console.log(error);
-           return
+           return;
          }
        );
 

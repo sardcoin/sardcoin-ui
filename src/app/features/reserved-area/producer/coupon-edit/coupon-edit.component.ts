@@ -73,7 +73,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ) {
     this.couponService.currentMessage.subscribe(coupon => {this.couponPass = coupon
       if (this.couponPass === null || this.couponPass === undefined) {
-      console.log('couponPass', this.couponPass);
         this.router.navigate(['/reserved-area/producer/list']);
       }});
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
@@ -82,7 +81,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.couponPass === null || this.couponPass === undefined) {
-      console.log('couponPass', this.couponPass);
       this.router.navigate(['/reserved-area/producer/list']);
     }
 
@@ -136,7 +134,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   saveChange() {
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
-    console.log('this.couponForm.value.valid_until', this.couponForm.value.valid_until);
 
     if (!isValidDate(this.dateUntil)) {
       this.dateUntil = null;
@@ -147,22 +144,15 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
 
     if (this.couponForm.invalid) {
-      console.log('coupon invalid', this.couponForm);
       return;
 
     }
-    // console.log('this.couponPass.quantity', this.couponPass.quantity)
-    // console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
     this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
       this.getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
-      console.log('unlimited in save change', this.marked);
 
       if (Number(this.couponPass.quantity) <= Number(this.couponForm.value.quantity)) {
-      // console.log('quantità uguali')
 
-        console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable)
         for (const i of this.getCouponsCreatedFromTitleDescriptionPrice) {
-          // console.log('dentro for', i)
           this.coupon = {
             'id': i.id,
             'title': this.couponForm.value.title,
@@ -182,11 +172,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
           this.couponService.editCoupon(this.coupon).subscribe(
             (data) => {
 
-              // console.log('dentro edit coupon con quantità maggiore')
 
               this.router.navigate(['/reserved-area/producer/list']);
             }, error => {
-              // console.log('errore edit coupon con quantità maggiore')
 
               console.log(error);
             }
@@ -209,20 +197,15 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       };
       for (let mario = k ; mario < this.couponForm.value.quantity ; mario++) {
-        // console.log('j', mario)
-        // console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
         this.couponService.register(this.coupon).subscribe(() => {
-          // console.log('dentro register coupon con quantità diverse')
 
           this.router.navigate(['/reserved-area/producer/list']);
         });
       }
 
     } else {
-      // console.log('dentro register coupon con quantità diverse')
 
       for (let i = 0; i < this.couponPass.quantity; i++) {
-           // console.log('dentro else')
             if ( i < this.couponForm.value.quantity) {
               this.coupon = {
                 'id': this.getCouponsCreatedFromTitleDescriptionPrice[i].id,
@@ -243,11 +226,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
               this.couponService.editCoupon(this.coupon).subscribe(
                 (data) => {
 
-                  // console.log('dentro edit coupon con quantità maggiore')
 
                   this.router.navigate(['/reserved-area/producer/list']);
                 }, error => {
-                  // console.log('errore edit coupon con quantità maggiore')
 
                   console.log(error);
                 }
@@ -284,20 +265,16 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+
   }
 
   toggleVisibility(e) {
     this.marked = e.target.checked;
     delete this.couponForm.value.valid_until ;
     this.couponForm.value.valid_until_empty = true;
-    console.log('unlimited', this.marked);
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
     } else {
@@ -328,7 +305,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.couponForm.value.purchasable = this.couponForm.value.quantity;
       this.purchasable = this.couponForm.value.quantity;
       this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
-      console.log('no limit', this.markedQuantity);
     } else {
 
     }
@@ -387,9 +363,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.couponService.register(this.couponCopy).pipe(first())
         .subscribe(
           data => {
-            // console.log('new coupon create', data);
             this.idCopy = JSON.parse( JSON.stringify(data)).id;
-            // console.log('id', JSON.parse( JSON.stringify(data)).id);
 
             this.router.navigate(['/reserved-area/producer/list']);
 
@@ -413,9 +387,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   isIllimited() {
 
 
-    console.log('fiunzione illimitata');
     if (this.couponPass.valid_until === null) {
-      console.log('this.couponPass.valid_until === null');
       delete this.couponForm.value.valid_until ;
       this.couponForm.value.valid_until_empty = true;
       this.couponForm.removeControl('valid_until');

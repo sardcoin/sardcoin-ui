@@ -120,7 +120,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-    // console.log(this.dateUntil.getMilliseconds());
 
 
 
@@ -129,7 +128,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
-      console.log(this.marked);
       return;
 
     }
@@ -150,8 +148,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.quantity,
         this.couponForm.value.purchasable,
       );
-      //console.log('this.coupon', this.coupon);
-      //console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
 
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
@@ -224,18 +220,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+
   }
 
   toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
-    //console.log('toggleVisibilityExpiration', this.marked  )
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
     } else {
@@ -263,7 +255,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibility(e) {
     this.marked4 = e.target.checked;
-    //console.log('visible', this.marked4);
   }
 
   toggleVisibilityQuatity(e) {
@@ -272,7 +263,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.purchasable = this.couponForm.value.quantity;
       this.purchasable = this.couponForm.value.quantity;
       this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
-      //console.log('no limit', this.markedQuantity);
     } else {
 
     }

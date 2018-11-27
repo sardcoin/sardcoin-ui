@@ -41,7 +41,6 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
               ) {
 
     this.cartArray = this.localStorage.getItem('cart');
-    // console.log('cartArray', this.cartArray);
     this.cartArray = this.localStorage.getItem('cart');
     this.userService.getUserById().subscribe( user => { this.user = user;
       this.returnGetAffordables();
@@ -53,14 +52,12 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.localStorage.getItem('cart').subscribe(cart => {
       this.cartArray = cart;
-      // console.log('cartArray', this.cartArray);
       for (const i of this.cartArray) {
           this.totalAmount += Number(i.price);
           this.arrayTitle.push(i.title);
       }
     });
     this.userService.getUserById().subscribe( user => { this.user = user;
-    // console.log('uuuuuuuuserrrr', this.user);
       });
 
   }
@@ -128,7 +125,6 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
     this.couponService.getAvailableCoupons().subscribe(
       data => {
         this.getAffordables = data;
-        // console.log('affordables', this.getAffordables  );
       });
   }
 

@@ -78,7 +78,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
         this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
-           // console.log('crt', crt);
           if (crt === null || crt.length === 0) {
             this.isEmpty = true;
           } else {
@@ -94,7 +93,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
               }
             }
           }
-          // console.log('cart with complete data', this.cartArray);
         });
       },
       error => console.log(error)
@@ -164,7 +162,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
       }
 
       this.addBreadcrumb();
-      // console.log('cart with complete data', this.cartArray);
     });
     this.modalRef.hide();
 
@@ -193,7 +190,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      // console.log('del quantity', this.cartArray);
     });
 
   }
@@ -222,7 +218,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      // console.log('del quantity', this.cartArray);
     });
 
   }
