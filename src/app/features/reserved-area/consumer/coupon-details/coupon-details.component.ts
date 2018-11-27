@@ -202,7 +202,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       this.cart.constraints = this.couponPass.constraints;
       this.cart.owner = this.couponPass.owner;
       this.cart.quantity = this.myForm.value.quantity;
-      this.cart.purchasable = this.couponPass.purchasable;
+      this.cart.purchasable = this.maxQuantity;
 
     let crt = [];
       this.localStorage.getItem<any>('cart').subscribe((cart) => {
