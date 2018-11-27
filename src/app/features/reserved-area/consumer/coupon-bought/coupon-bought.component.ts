@@ -5,6 +5,8 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Router} from '@angular/router';
+import {Coupon} from '../../../../shared/_models/Coupon';
+import {CouponToken} from '../../../../shared/_models/CouponToken';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -52,7 +54,11 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   loadCoupons() {
     this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
+        for (const i of coupons) {
+
+        }
         this.coupons = coupons;
+        //console.log('this.coupons', this.coupons);
       }, err => {
         console.log(err);
       });
@@ -70,29 +76,23 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   }
 
   formatState(state) {
-    if (state === 2) {
+    if (state !== null) {
       return 'Consumed';
     } else {
       return 'Not consumed';
     }
   }
 
-  details(coupon: any) {
+  details(coupon: Coupon, token: CouponToken) {
 
     const cp = coupon;
     cp.quantity = 0;
-    this.couponService.getAffordables().subscribe(
-      data => {
-        this.getAffordables = data;
-        for (const i of this.getAffordables) {
-          if (cp.title === i.title) {
-            cp.quantity++;
-          }
-        }
+    cp.token = token;
+
         this.couponService.setCoupon(coupon);
 
         this.router.navigate(['/reserved-area/consumer/bought/bought-details']);
-      });
+
 
   }
 }

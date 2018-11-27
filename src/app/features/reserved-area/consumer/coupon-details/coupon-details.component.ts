@@ -8,9 +8,9 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
 import {LocalStorage} from '@ngx-pwa/local-storage';
-import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -45,7 +45,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private toastr: ToastrService,
     protected localStorage: LocalStorage,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService,
   ) {
 
 
@@ -62,6 +63,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         this.router.navigate(['/reserved-area/consumer/showcase']);
         // this.addBreadcrumb();
          } else {
+        this.URLstring = this.URLstring + this.couponPass.image;
 
         this.couponService.getPurchasedCoupons().subscribe(cp => {
 
@@ -73,14 +75,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             // console.log('i.description', this.couponArray[i].description);
             // console.log('i.price', this.couponArray[i].price);
 
-            if ((this.couponArray[i].title === this.couponPass.title)
-              && (this.couponArray[i].description === this.couponPass.description) &&
-              Number(this.couponArray[i].price) === Number(this.couponPass.price)) {
+            if ((this.couponArray[i].id === this.couponPass.id)) {
               // console.log('i.title', this.couponArray[i].title);
               // console.log('i.description', this.couponArray[i].description);
               // console.log('i.price', this.couponArray[i].price);
 
-              count++;
+              count = this.couponArray[i].CouponTokens.length;
             }
 
           }
@@ -89,12 +89,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           // console.log('count', count);
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
-                                                    count, this.couponPass.purchasable);
+                                                    count, this.couponPass.purchasable == null ? this.couponPass.quantity : this.couponPass.purchasable);
 
 
 
         this.getOwner();
-        this.URLstring = this.URLstring + this.couponPass.image;
         this.addBreadcrumb();
 
         this.couponService.getAvailableCoupons()
@@ -103,8 +102,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
             if (this.couponsPurchased !== null) {
               for (const i of this.couponsPurchased) {
-                if (this.couponPass.title === i.title) {
+                if (this.couponPass.id === i.id) {
                   this.available = true;
+                  this.availability = i.quantity;
+                  // console.log('i', i);
                 }
               }
             }
@@ -113,7 +114,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
               if (this.couponsCheckCart !== null) {
                 for (const i of this.couponsCheckCart) {
-                  if (this.couponPass.title === i.title) {
+                  if (this.couponPass.id === i.id) {
                     this.inCart = true;
                   }
                 }
@@ -198,12 +199,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       this.cart.price = this.couponPass.price;
       this.cart.valid_from = this.couponPass.valid_from;
       this.cart.valid_until = this.couponPass.valid_until;
-      this.cart.state = this.couponPass.state;
+      this.cart.visible_from = this.couponPass.visible_from;
       this.cart.constraints = this.couponPass.constraints;
       this.cart.owner = this.couponPass.owner;
-      this.cart.consumer = this.couponPass.consumer;
       this.cart.quantity = this.myForm.value.quantity;
-      let crt = [];
+      this.cart.purchasable = this.maxQuantity;
+
+    let crt = [];
       this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
@@ -316,7 +318,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   getOwner() {
-    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+    this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
       // console.log('user', user);
       this.producer = user;
       this.couponService.setUserCoupon(this.producer);
@@ -340,7 +342,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
     let max = 0;
-    this.availability = dispTotal;
+    // this.availability = dispTotal;
     if (dispTotal > limitUser) {
       max = limitUser - buyedUser;
     }

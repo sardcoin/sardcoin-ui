@@ -3,7 +3,6 @@ import {environment} from '../../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CouponService} from '../../../../../shared/_services/coupon.service';
 import {LocalStorage} from '@ngx-pwa/local-storage';
-import {CartController} from '../cart-controller';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../../core/breadcrumb/breadcrumb.actions';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -23,11 +22,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
   couponCart: any;
   cartArray =  [];
   modalRef: BsModalRef;
-  getDistinctAvailables: any;
-  getAffordables: any;
-
+  getAvailableCoupons: any;
   isEmpty: boolean;
-  message: string;
   bread = [] as Breadcrumb[];
 
 
@@ -40,7 +36,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
               private breadcrumbActions: BreadcrumbActions,
 
   ) {this.returnGetAvailablesCoupons();
-    // this.returnGetAffordables();
      }
 
   ngOnInit() {
@@ -53,8 +48,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
   }
 
   imageUrl(path) {
-    // let subs = path.substr(path.lastIndexOf('\\')+1);
-    // return correct address and port backend plus name image
+
     return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
   }
 
@@ -69,18 +63,11 @@ export class CartShowComponent implements OnInit, OnDestroy {
   returnGetAvailablesCoupons() {
     this.couponService.getAvailableCoupons().subscribe(
       data => {
-        this.getDistinctAvailables = data;
-        // console.log('distinct', this.getDistinctAvailables);
+        this.getAvailableCoupons = data;
       });
   }
 
-  returnGetAffordables() {
-    this.couponService.getAffordables().subscribe(
-      data => {
-        this.getAffordables = data;
-        // console.log('affordables', this.getAffordables  );
-      });
-  }
+
 
   control() {
 
@@ -97,11 +84,13 @@ export class CartShowComponent implements OnInit, OnDestroy {
           } else {
             this.isEmpty = false;
           }
-          for (let i = 0 ; i < this.couponCart.length; i++) {
-            for (let j = 0 ; j < this.couponArray.length; j++) {
-              if (this.couponCart[i].title === this.couponArray[j].title) {
-                this.couponArray[j].quantity = this.couponCart[i].quantity;
-                this.cartArray.push(this.couponArray[j]);
+          if (this.couponCart != null || this.couponCart != undefined ) {
+            for (let i = 0; i < this.couponCart.length; i++) {
+              for (let j = 0; j < this.couponArray.length; j++) {
+                if (this.couponCart[i].id === this.couponArray[j].id) {
+                  this.couponArray[j].quantity = this.couponCart[i].quantity;
+                  this.cartArray.push(this.couponArray[j]);
+                }
               }
             }
           }
@@ -111,15 +100,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
       error => console.log(error)
     );
 
-  }
-  formatState(state) {
-    /*    switch (state) {
-          case 0:
-            return 'Active';
-          default:
-            return 'unknown';
-        }*/
-    return 'Active';
   }
 
   addBreadcrumb() {
@@ -137,36 +117,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-
-  buy(cartArray) {
-
-    for (const i of cartArray) {
-      let quantityBuy = 0;
-      for (const j of this.getAffordables) {
-        if (i.title === j.title) {
-          if (quantityBuy < i.quantity) {
-            quantityBuy++;
-            this.couponService.buyCoupon(j.id)
-              .subscribe(data => {
-                this.localStorage.setItem('cart', []).subscribe(() => {
-                  this.addBreadcrumb();
-                  this.router.navigate(['/reserved-area/consumer/bought']);
-                });
-
-
-              }, err => {
-                console.log(err);
-              });
-          }
-        }
-      }
-    }
-
-    this.addBreadcrumb();
-    this.toastBuy();
-    this.isEmpty = true;
-    this.decline();
-  }
   decline(): void {
     this.modalRef.hide();
   }
@@ -226,14 +176,14 @@ export class CartShowComponent implements OnInit, OnDestroy {
         arr.push(i);
       } else {
         const qty = (Number(coupon.quantity) - 1);
-        const item = {id: coupon.id, quantity: qty};
-
-        arr.push(item);
+        // const item = {id: coupon.id, quantity: qty};
+        i.quantity = qty;
+        arr.push(i);
       }
       this.couponCart = arr;
     }
 
-    this.localStorage.setItem('cart', arr ).subscribe(() => {
+    this.localStorage.setItem('cart', this.couponCart ).subscribe(() => {
       this.cartArray = [];
       for (let i = 0 ; i < this.couponCart.length; i++) {
         for (let j = 0 ; j < this.couponArray.length; j++) {
@@ -256,13 +206,13 @@ export class CartShowComponent implements OnInit, OnDestroy {
         arr.push(i);
       } else {
         const qty = (Number(coupon.quantity) + 1);
-        const item = {id: coupon.id, quantity: qty};
-        arr.push(item);
+        i.quantity = qty;
+        arr.push(i);
       }
       this.couponCart = arr;
     }
 
-    this.localStorage.setItem('cart', arr ).subscribe(() => {
+    this.localStorage.setItem('cart', this.couponCart ).subscribe(() => {
       this.cartArray = [];
       for (let i = 0 ; i < this.couponCart.length; i++) {
         for (let j = 0 ; j < this.couponArray.length; j++) {
@@ -278,17 +228,8 @@ export class CartShowComponent implements OnInit, OnDestroy {
   }
   maximumQuantity(id) {
 
-    for (const i of this.getDistinctAvailables) {
-      if (id !== i.id) {
-        continue;
-      } else {
-        // console.log('true');
-        // console.log('quantity', i.quantity);
-        return Number(Number(i.quantity));
-      }
-    }
 
-
+        return Number(Number(id.purchasable));
   }
 
   retry() {

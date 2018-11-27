@@ -34,7 +34,7 @@
       <button [disabled] = "coupon.quantity === 1" type="button" class="btn btn-danger btn-sm" (click)="del(coupon)">-</button>
     </td>
     <td>
-      <button [disabled] = "coupon.quantity === maximumQuantity(coupon.id)" type="button" class="btn btn-primary btn-sm" (click)="add(coupon)">+</button>
+      <button [disabled] = "coupon.quantity === maximumQuantity(coupon)" type="button" class="btn btn-primary btn-sm" (click)="add(coupon)">+</button>
     </td>
 
     <td>

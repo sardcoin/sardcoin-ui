@@ -9,9 +9,9 @@
 
           <p class="card-text">{{couponPass.description}}</p>
         <div class="card-text">
-          <i style="color: #20a8d8" class="col-6">Scan this QR-Code</i>
+          <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
             <div class="col-6">
-              <qrcode class="col-6" [qrdata]="couponPass.token" [size]="200" [level]="'M'"></qrcode>
+              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="200" [level]="'M'"></qrcode>
             </div>
         </div>
           <p class="card-text">

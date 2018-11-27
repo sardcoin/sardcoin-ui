@@ -10,6 +10,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {validate} from 'codelyzer/walkerFactory/walkerFn';
+import {BrowserQRCodeReader} from '@zxing/library';
 
 @Component({
   selector: 'app-coupon-token',
@@ -19,7 +20,9 @@ import {validate} from 'codelyzer/walkerFactory/walkerFn';
 export class CouponTokenComponent implements OnInit, OnDestroy {
   tokenForm: FormGroup;
   submitted = false;
-  coupon: any;
+  data: any;
+  isScan = false;
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -45,50 +48,37 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   get f() {
     return this.tokenForm.controls;
   }
-  redeems() {
+  import() {
     this.submitted = true;
 
-    this.couponService.getAffordables().subscribe(coupons => {
-   const cp = JSON.parse(JSON.stringify(coupons));
-      // console.log('cp.keys.length', cp.length);
-      // console.log('cp', cp);
-
-      let length = 1;
-      let isValidate = false;
-   for ( const i of cp) {
 
 
-     length ++;
-     if (i.state === 3 && i.token === this.tokenForm.value.token && i.consumer === null) {
-       isValidate = true;
-       this.coupon = {
+
+       this.data = {
          token: this.tokenForm.value.token,
-         consumer: this.storeService.getId(),
-         state: 1,
        };
 
-       this.couponService.importCoupon(this.coupon).subscribe(
+       this.couponService.importOfflineCoupon(this.data).subscribe(
          (data) => {
-           this.toastValidate();
-           this.router.navigate(['/reserved-area/consumer/bought']);
-           return;
+           // console.log('data', data);
+           if (data !== null) {
+             this.toastValidate();
+             this.router.navigate(['/reserved-area/consumer/bought']);
+             return;
+           } else {
+             this.toastError();
+             return;
+           }
          }, error => {
-           this.toastError()
+           this.toastError();
 
            console.log(error);
+           return
          }
        );
-     } else if (length === Number(cp.length) && !isValidate) {
-       // console.log('non trovato');
-       this.toastError();
-     }
-   }
- }, error1 => {
-   this.toastError()
 
-   ;
-   console.log(error1);
- });
+
+
   }
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
@@ -113,5 +103,38 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
     this.toastr.error( 'Coupon invalid!');
   }
 
+  scan() {
+    this.isScan = true;
+    const codeReader = new BrowserQRCodeReader();
+
+    codeReader.getVideoInputDevices()
+      .then(videoInputDevices => {
+        videoInputDevices.forEach(
+          device => {
+            console.log(`${device.label}, ${device.deviceId}`);
+            const firstDeviceId = videoInputDevices[0].deviceId;
+
+            codeReader.decodeFromInputVideoDevice(firstDeviceId, 'video')
+              .then(result => {
+                console.log(result.getText());
+                this.tokenForm.controls.token.setValue((result.getText()));
+                this.isScan = false;
+                codeReader.reset();
+                this.qrCodeReadSuccess();
+              })
+              .catch(err => console.error(err));
+          }
+        );
+      })
+      .catch(error => console.error(error));
+
+
+
+  }
+
+
+  qrCodeReadSuccess() {
+    this.toastr.success( 'Qr-code reader successfully');
+  }
 
 }

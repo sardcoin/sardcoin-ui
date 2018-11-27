@@ -9,6 +9,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
+import {UserService} from '../../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -18,21 +19,16 @@ import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   URLstring = 'http://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
-  message: string;
   couponPass: any;
   cart = new Coupon();
-  couponsPurchased: any;
   quantity = 1;
   producer = null;
-  couponsCheckCart: Coupon[];
-  inCart = false;
-  available = false;
-  availability: string;
   constructor( private breadcrumbActions: BreadcrumbActions,
                private couponService: CouponService,
                private router: Router,
                private modalService: BsModalService,
                private toastr: ToastrService,
+               private userService: UserService,
                protected localStorage: LocalStorage) { }
 
   ngOnInit() {
@@ -46,23 +42,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
     } else {
       this.URLstring = this.URLstring + this.couponPass.image;
       this.addBreadcrumb();
-
-      this.couponService.getPurchasedCoupons()
-        .subscribe(coupons => {
-          this.couponsPurchased = coupons;
-          this.getOwner();
-          if (this.couponsPurchased !== null) {
-            for (const i of this.couponsPurchased) {
-              if (this.couponPass.token === i.token) {
-                this.available = true;
-              }
-            }
-          }
-
-        }, err => {
-          console.log(err);
-        });
-
+      this.getOwner();
     }
     });
   }
@@ -116,8 +96,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   }
 
   getOwner() {
-    this.couponService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      console.log('user', user);
+    this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
+      // console.log('user', user);
         this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 

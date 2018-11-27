@@ -3,7 +3,7 @@
 
 <form [formGroup]="updateRegistration" (ngSubmit)="onSubmit()">
 
-  <div *ngIf="this.selectedUser === 2">
+  <div *ngIf="this.selectedUser === 0 || this.selectedUser === 1">
     <div class="form-row">
       <div class="input-group mb-3 col-md-6">
         <div class="input-group-prepend">
