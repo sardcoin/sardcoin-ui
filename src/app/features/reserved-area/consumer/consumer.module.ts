@@ -11,7 +11,6 @@ import {ModalModule} from 'ngx-bootstrap';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
-import {CartController} from './cart/cart-controller';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import { CartShowComponent } from './cart/cart-show/cart-show.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';

@@ -19,7 +19,6 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
   @select() just_signed;
 
   registrationForm: FormGroup;
-  // selectedUser = 'editor';
   loading = false;
   submitted = false;
   constructor(
@@ -79,7 +78,6 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          // this.setSignedUp(this.registrationForm.value.username);
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;

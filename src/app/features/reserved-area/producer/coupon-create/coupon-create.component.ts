@@ -1,4 +1,4 @@
-import {Component, Directive, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -10,11 +10,10 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import { sha256, sha224 } from 'js-sha256';
+import { sha256 } from 'js-sha256';
 import {FlatpickrOptions} from 'ng2-flatpickr';
 import {} from 'flatpickr';
 
@@ -36,16 +35,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   purchasable = 1;
 
   @ViewChild('datepicker') datepicker;
-  selectedDate: Date = new Date();
-  exampleOptions: FlatpickrOptions = {
-    defaultDate: null,
-    enableTime: true,
-    noCalendar: false,
-    clickOpens: true, // false for disable
-    allowInput: false,
-  };
 
-  theCheckbox = false;
+
   coupon: Coupon;
   couponPass: Coupon = null;
   dateFrom: Date;
@@ -74,7 +65,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
-    // this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     const ownerId = parseInt(this.storeService.getId(), 10);
 
     this.date = this.formBuilder.group({
@@ -152,12 +142,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
           data => {
-
-            // if ((i + 1) === quantityCoupon) {
             this.router.navigate(['/reserved-area/producer/list']);
             this.toastCreate();
 
-            // }
           }, error => {
             console.log(error);
           }
@@ -185,13 +172,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         register = this.couponService.register(this.coupon)
         .subscribe(
           data => {
-            // if ((i + 1) === quantityCoupon) {
               if ( i === this.couponForm.value.quantity - 1) {
                 this.router.navigate(['/reserved-area/producer/list']);
                 this.toastCreate();
               }
-
-            // }
           }, error => {
             console.log(error);
           }

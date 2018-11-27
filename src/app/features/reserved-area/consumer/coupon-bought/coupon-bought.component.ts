@@ -17,8 +17,6 @@ import {CouponToken} from '../../../../shared/_models/CouponToken';
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
   coupons: any;
-  getAffordables: any;
-
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,

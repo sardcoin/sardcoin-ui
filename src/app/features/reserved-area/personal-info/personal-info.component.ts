@@ -144,8 +144,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe(
         data => {
-          // this.setSignedUp(this.registrationForm.value.username);
-          // this.router.navigate(['/authentication/login']);
+
           this.toastSuccessfull();
           this.router.navigate(['/reserved-area/personal_info']);
         }, error => {

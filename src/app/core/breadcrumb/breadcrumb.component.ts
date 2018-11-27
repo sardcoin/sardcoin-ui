@@ -4,7 +4,6 @@ import {NgRedux, select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {Breadcrumb} from './Breadcrumb';
 import {IAppState} from '../../shared/store/model';
-import {CartController} from '../../features/reserved-area/consumer/cart/cart-controller';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Router} from '@angular/router';
 import {importExpr} from '@angular/compiler/src/output/output_ast';

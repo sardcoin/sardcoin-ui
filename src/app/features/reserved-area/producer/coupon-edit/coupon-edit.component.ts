@@ -1,6 +1,6 @@
-import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CouponService} from '../../../../shared/_services/coupon.service';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
@@ -25,9 +25,6 @@ import {DateFromValidation} from '../coupon-create/validator/DateFromValidation.
 
 export class CouponEditComponent implements OnInit, OnDestroy {
 
-  formSettings = {
-    theme: 'mobiscroll'
-  };
 
   getCouponsCreatedFromTitleDescriptionPrice = new Array();
 
