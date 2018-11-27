@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
-import {DateFromValidation} from './validator/DateFromValidation.directive';
+import {DateValidation} from './validator/DateValidation.directive';
 import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
@@ -96,7 +96,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       quantity: [1, Validators.required],
       purchasable: [1, Validators.required]
     }, {
-      validator: Validators.compose([DateFromValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
 
     this.addBreadcrumb();

@@ -9,12 +9,9 @@
           <h4 *ngIf="fromEdit === false" class="text-muted text-center">Create Coupon</h4>
           <form [formGroup]="couponForm" (ngSubmit)="fromEdit === false ? couponCreateCopy(): saveChange()">
 
-            <!--<form [formGroup]="tokenForm" (ngSubmit)="saveChange()">-->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
-                <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-control"-->
-
                 <input type="text" formControlName="title" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
@@ -38,7 +35,7 @@
               <label class="col-sm-2 col-form-label">Image</label>
               <div class="col-sm-10">
                 <div id="yourImage">
-                  <img src={{URLstring}}>
+                  <img src="{{imageURL}}">
                 </div>
 
                 <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
@@ -79,11 +76,14 @@
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
+
+
+
               <div class="col-sm-2">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="check2" data-md-icheck
-                         (change)="toggleVisibility2($event)">
-                  <label class="form-check-label" for="check2">Free</label>
+                <div class="custom-control custom-checkbox">
+                  <input  type="checkbox" class="custom-control-input" id="check2" data-md-icheck
+                          (change)="toggleVisibility2($event)">
+                  <label class="custom-control-label" for="check2">Free</label>
                 </div>
               </div>
               <div class="col-sm-8">
@@ -110,17 +110,20 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid Until:</label>
               <div class="col-sm-2">
-                <div class="form-check">
-                  <input [checked]="isIllimited()" type="checkbox" formControlName="valid_until_empty" class="form-check-input" id="check1" data-md-icheck
+                <div class="custom-control custom-checkbox">
+                  <input [checked]="isIllimited()" type="checkbox" formControlName="valid_until_empty" class="custom-control-input" id="check1" data-md-icheck
                          (change)="toggleVisibility($event)">
-                  <label class="form-check-label" for="check1">Unlimited</label>
+                  <label class="custom-control-label" for="check1">Unlimited</label>
                 </div>
               </div>
               <div class="col-sm-8">
-                <input [ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"  type="text" mwlFlatpickr
-                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                <input type="text"
+                       [noCalendar]="false"
+                       [convertModelValue]="true"
+                       [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="valid_until" class="form-control"
-                       [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
+                       [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }" mwlFlatpickr/>
+                <!--[ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"-->
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
                 </div>
@@ -129,10 +132,10 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Constraints:</label>
               <div class="col-sm-2">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="check3" data-md-icheck
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
                          (change)="toggleVisibility3($event)">
-                  <label class="form-check-label" for="check1">None</label>
+                  <label class="custom-control-label" for="check1">None</label>
                 </div>
               </div>
               <div class="col-sm-8">
@@ -157,6 +160,15 @@
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
+
+              <div class="col-sm-4 col-lg-2 my-auto">
+                <div class="custom-control custom-checkbox">
+                  <input  type="checkbox" class="custom-control-input" id="checkQuantity" data-md-icheck
+                          (change)="toggleVisibilityQuatity($event)">
+                  <label class="custom-control-label" for="checkQuantity">No limit</label>
+                </div>
+              </div>
+
               <div  class="col-sm-4 col-lg-8">
                 <input  [readonly]="markedQuantity" type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
@@ -164,17 +176,9 @@
                   <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
                 </div>
               </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
-                <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="checkQuantity" data-md-icheck
-                         (change)="toggleVisibilityQuatity($event)">
-                  <label class="custom-control-label" for="checkQuantity">No limit</label>
-                </div>
-              </div>
             </div>
 
             <div class="form-group row">
-
               <div class="col-sm-10 col-lg-8 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="check4" data-md-icheck

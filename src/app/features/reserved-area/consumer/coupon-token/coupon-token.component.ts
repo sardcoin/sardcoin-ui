@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DateFromValidation} from '../../producer/coupon-create/validator/DateFromValidation.directive';
+import {DateValidation} from '../../producer/coupon-create/validator/DateValidation.directive';
 import {ImageValidation} from '../../producer/coupon-create/validator/ImageValidation.directive.';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {QuantityCouponValidation} from '../../producer/coupon-create/validator/QuantityCouponValidation.directive';
