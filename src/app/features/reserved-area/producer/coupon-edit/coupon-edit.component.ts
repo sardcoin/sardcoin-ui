@@ -39,8 +39,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   idCopy = 0;
   coupon: any;
   couponPass: any = null;
-  dateFrom: Date;
-  dateUntil: Date;
   submitted = false;
   imageURL = 'http://' + environment.host + ':' + environment.port + '/';
   URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
@@ -79,12 +77,17 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['/reserved-area/producer/list']);
     }
 
+    console.log(this.couponPass);
+
     this.imageURL = this.imageURL + this.couponPass.image;
     const from = (new Date(this.couponPass.valid_from)).toISOString().substring(0, 23);
     const until = this.couponPass.valid_until === null ? '' : (new Date(this.couponPass.valid_until)).toISOString().substring(0, 23);
 
     this.marked = this.couponPass.valid_until === null;
+    this.markedQuantity = this.couponPass.purchasable === null;
     this.bgColorCalendar = this.marked ? '#E4E7EA' : '#FFF';
+
+    console.log(this.markedQuantity);
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
@@ -92,12 +95,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       image: [],
       price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
       valid_until_empty: [this.marked],
-      visible_from: [],
+      published_from: [],
       valid_from: [from, Validators.compose([Validators.required])],
       valid_until: [{value: this.marked ? null : until, disabled: this.marked}],
       constraints: [this.couponPass.constraints],
       quantity: [{value: this.couponPass.quantity, disabled: true}],
-      purchasable: [this.couponPass.purchasable, Validators.required]
+      purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
@@ -113,12 +116,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
   saveChange() {
-    this.dateFrom = new Date(this.couponForm.value.valid_from);
-    this.dateUntil = new Date(this.couponForm.value.valid_until);
-
-    if (!isValidDate(this.dateUntil)) { // TODO ask what does it means
-      this.dateUntil = null;
-    }
+    const dateFrom = new Date(this.couponForm.value.valid_from);
+    const dateUntil = this.couponForm.value.valid_until ? new Date(this.couponForm.value.valid_until) : null;
 
     this.submitted = true;
 
@@ -126,7 +125,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
     }
 
-    /*
+
         this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
           this.getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
 
@@ -233,7 +232,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             }
           }
           this.toastEdited();
-        });*/
+        });
   }
 
   addBreadcrumb() {
@@ -297,15 +296,16 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
 
-  toggleVisibilityQuatity(e) {
+  toggleVisibilityQuantity(e) {
+
     this.markedQuantity = e.target.checked;
-    if (e.target.checked) {
+    if (this.markedQuantity) {
+      this.couponForm.get('purchasable').disable();
       this.couponForm.value.purchasable = this.couponForm.value.quantity;
       this.purchasable = this.couponForm.value.quantity;
       this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
-      console.log('no limit', this.markedQuantity);
     } else {
-
+      this.couponForm.get('purchasable').enable();
     }
   }
 

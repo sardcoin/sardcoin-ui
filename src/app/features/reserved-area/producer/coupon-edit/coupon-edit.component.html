@@ -91,6 +91,26 @@
             </div> <!-- Price -->
 
             <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Published From:</label>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
+                         (change)="toggleVisibility($event)" data-md-icheck>
+                  <label class="custom-control-label" for="privateCheck">Private</label>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <input style="background: white" type="text" mwlFlatpickr
+                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                       dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+                <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
+                  <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
+                </div>
+              </div>
+            </div> <!-- Published From -->
+
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid From:</label>
               <div class="col-sm-10">
                 <input style="background: white" type="text" mwlFlatpickr
@@ -159,14 +179,14 @@
 
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="checkQuantity" data-md-icheck
-                          (change)="toggleVisibilityQuatity($event)">
+                  <input  type="checkbox" class="custom-control-input" id="checkQuantity"
+                          [checked]="markedQuantity" (change)="toggleVisibilityQuantity($event)" data-md-icheck>
                   <label class="custom-control-label" for="checkQuantity">No limit</label>
                 </div>
               </div>
 
               <div  class="col-sm-4 col-lg-8">
-                <input  [readonly]="markedQuantity" type="text" formControlName="purchasable" class="form-control"
+                <input  type="number" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
                   <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
