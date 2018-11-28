@@ -124,9 +124,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     if (this.couponForm.invalid) {
       return;
     }
-
-
-        this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
+    
+       /* this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
           this.getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
 
           if (Number(this.couponPass.quantity) <= Number(this.couponForm.value.quantity)) {
@@ -232,7 +231,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
             }
           }
           this.toastEdited();
-        });
+        });*/
   }
 
   addBreadcrumb() {
