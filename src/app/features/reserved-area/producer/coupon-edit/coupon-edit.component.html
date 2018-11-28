@@ -18,7 +18,7 @@
                   <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Title -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Description:</label>
               <div class="col-sm-10">
@@ -28,8 +28,7 @@
                   <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Description -->
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Image</label>
@@ -72,13 +71,9 @@
                   <div>Image is required</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Image -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
-
-
-
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
                   <input  type="checkbox" class="custom-control-input" id="check2" data-md-icheck
@@ -93,7 +88,8 @@
                   <div *ngIf="f.price.errors">Value required</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Price -->
+
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid From:</label>
               <div class="col-sm-10">
@@ -105,19 +101,19 @@
                   <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Valid From -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid Until:</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input [checked]="isIllimited()" type="checkbox" formControlName="valid_until_empty" class="custom-control-input" id="check1" data-md-icheck
-                         (change)="toggleVisibility($event)">
+                  <input [checked]="isIllimited()" type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="check1"
+                         (change)="toggleVisibility($event)" data-md-icheck>
                   <label class="custom-control-label" for="check1">Unlimited</label>
                 </div>
               </div>
               <div class="col-sm-8">
                 <input type="text"
+                       [style.background]="bgColorCalendar"
                        [noCalendar]="false"
                        [convertModelValue]="true"
                        [enableTime]="true"
@@ -128,7 +124,8 @@
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Valid Until -->
+
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Constraints:</label>
               <div class="col-sm-2">
@@ -145,8 +142,7 @@
                   <div *ngIf="f.constraints.errors">Value required</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Constraints -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Quantity</label>
               <div class="col-sm-10">
@@ -156,7 +152,7 @@
                   <div *ngIf="f.quantity.errors">Value required or incorrect</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Quantity -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
@@ -176,8 +172,7 @@
                   <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Purchasable -->
             <div class="form-group row">
               <div class="col-sm-10 col-lg-8 my-auto">
                 <div class="custom-control custom-checkbox">
@@ -187,7 +182,7 @@
 
                 </div>
               </div>
-            </div>
+            </div> <!-- Visible from-->
 
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">The date inserted in Valid From is already past!

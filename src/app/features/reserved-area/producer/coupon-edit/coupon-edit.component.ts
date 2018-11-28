@@ -28,6 +28,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   marked3 = false;
   marked4 = false;
 
+  bgColorCalendar = '#FFF';
+
   markedQuantity = false;
   purchasable = 1;
 
@@ -80,6 +82,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.imageURL = this.imageURL + this.couponPass.image;
     const from = (new Date(this.couponPass.valid_from)).toISOString().substring(0, 23);
     const until = this.couponPass.valid_until === null ? '' : (new Date(this.couponPass.valid_until)).toISOString().substring(0, 23);
+
+    this.marked = this.couponPass.valid_until === null;
+    this.bgColorCalendar = this.marked ? '#E4E7EA' : '#FFF';
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
@@ -269,16 +274,16 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
+      this.bgColorCalendar = '#E4E7EA';
     } else {
       this.couponForm.get('valid_until').enable();
-
+      this.bgColorCalendar = '#FFF';
     }
   }
 
   toggleVisibility2(e) {
     this.marked2 = e.target.checked;
     this.price = 0;
-
   }
 
   toggleVisibility3(e) {
