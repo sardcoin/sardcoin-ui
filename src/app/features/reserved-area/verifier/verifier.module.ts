@@ -14,6 +14,7 @@ import {FeatureReservedAreaCouponCreateModule} from '../producer/coupon-create/c
 import {NgModule} from '@angular/core';
 import {VerifierComponent} from './verifier.component';
 import {VerifierRoutingModule} from './verifier.routing';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import {VerifierRoutingModule} from './verifier.routing';
     VerifierRoutingModule,
     CommonModule,
     ReactiveFormsModule,
-
+    ZXingScannerModule.forRoot()
   ],
   providers: [
     CouponService,

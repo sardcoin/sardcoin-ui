@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import { VerifierComponent } from './verifier/verifier.component';
 import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,9 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     FeatureReservedAreaRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
+
+
+
 
   ],
   providers: [

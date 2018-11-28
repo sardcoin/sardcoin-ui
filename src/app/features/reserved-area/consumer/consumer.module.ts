@@ -19,6 +19,7 @@ import { CouponTokenComponent } from './coupon-token/coupon-token.component';
 import { CouponBoughtDetailComponent } from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {QRCodeModule} from 'angularx-qrcode';
 import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-info-coupon.component';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-inf
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
-    QRCodeModule
+    QRCodeModule,
+    ZXingScannerModule.forRoot()
 
   ],
   providers: [
