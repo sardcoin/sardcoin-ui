@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BrowserQRCodeReader} from '@zxing/library';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 
 @Component({
