@@ -76,13 +76,13 @@
               <label class="col-sm-2 col-form-label">Price</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="check2" data-md-icheck
-                          (change)="toggleVisibility2($event)">
-                  <label class="custom-control-label" for="check2">Free</label>
+                  <input type="checkbox" class="custom-control-input" id="freeCheck" data-md-icheck
+                         (change)="toggleCheckbox($event)">
+                  <label class="custom-control-label" for="freeCheck">Free</label>
                 </div>
               </div>
               <div class="col-sm-8">
-                <input [readonly]="marked2" type="number" formControlName="price" class="form-control"
+                <input [readonly]="markedFree" type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                   <div *ngIf="f.price.errors">Value required</div>
@@ -95,7 +95,7 @@
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
-                         (change)="toggleVisibility($event)" data-md-icheck>
+                         (change)="toggleCheckbox($event)" data-md-icheck>
                   <label class="custom-control-label" for="privateCheck">Private</label>
                 </div>
               </div>
@@ -126,9 +126,9 @@
               <label class="col-sm-2 col-form-label">Valid Until:</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input [checked]="isIllimited()" type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="check1"
-                         (change)="toggleVisibility($event)" data-md-icheck>
-                  <label class="custom-control-label" for="check1">Unlimited</label>
+                  <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="unlimitedCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="unlimitedCheck">Unlimited</label>
                 </div>
               </div>
               <div class="col-sm-8">
@@ -139,7 +139,7 @@
                        [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }" mwlFlatpickr/>
-                <!--[ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"-->
+                <!--[ngStyle]="{'background': markedUnlimited ? '#e4e7ea' : 'white' }"-->
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
                 </div>
@@ -150,13 +150,13 @@
               <label class="col-sm-2 col-form-label">Constraints:</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
-                         (change)="toggleVisibility3($event)">
-                  <label class="custom-control-label" for="check1">None</label>
+                  <input type="checkbox" class="custom-control-input" id="constraintsCheck" data-md-icheck
+                         (change)="toggleCheckbox($event)">
+                  <label class="custom-control-label" for="constraintsCheck">None</label>
                 </div>
               </div>
               <div class="col-sm-8">
-                <input [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
+                <input [readonly]="markedConstraints" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
@@ -179,9 +179,9 @@
 
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="checkQuantity"
-                          [checked]="markedQuantity" (change)="toggleVisibilityQuantity($event)" data-md-icheck>
-                  <label class="custom-control-label" for="checkQuantity">No limit</label>
+                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
+                          [checked]="markedQuantity" (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="quantityCheck">No limit</label>
                 </div>
               </div>
 
@@ -193,16 +193,6 @@
                 </div>
               </div>
             </div> <!-- Purchasable -->
-            <div class="form-group row">
-              <div class="col-sm-10 col-lg-8 my-auto">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check4" data-md-icheck
-                         (change)="toggleVisibility4($event)">
-                  <label class="custom-control-label" for="check4"> Not visible</label>
-
-                </div>
-              </div>
-            </div> <!-- Visible from-->
 
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">The date inserted in Valid From is already past!

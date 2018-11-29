@@ -235,7 +235,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
-    //console.log('toggleVisibilityExpiration', this.marked  )
+    //console.log('toggleVisibilityExpiration', this.markedUnlimited  )
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
     } else {

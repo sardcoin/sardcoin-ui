@@ -15,7 +15,7 @@ export class CouponService {
   fromEditOrCopy = false;
 
   private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
-  private couponSource = new BehaviorSubject(this.couponChange);
+  private couponSource = new BehaviorSubject<Coupon>(this.couponChange);
   private couponUser = new BehaviorSubject(this.couponInfoUser);
 
   currentMessage = this.couponSource.asObservable();
@@ -73,8 +73,8 @@ export class CouponService {
     this.boolFormEdit.next(fromEdit);
   }
 
-  editCoupon(cp: any) {
-    return this.http.request('put', this.formatUrl('update'), {body: cp});
+  editCoupon(coupon: Coupon) {
+    return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
   }
 
   register(coupon: Coupon) {

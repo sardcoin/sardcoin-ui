@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-import _date = moment.unitOfTime._date;
 import {CouponToken} from './CouponToken';
 
 export class Coupon {
@@ -9,13 +7,13 @@ export class Coupon {
   image: string;
   timestamp: string;
   price: number;
-  visible_from: string;
-  valid_from: string;
-  valid_until: string;
+  visible_from: Date | number;
+  valid_from: Date | number;
+  valid_until: Date | number;
   purchasable: number;
   constraints: string;
-  owner: number;
-  quantity: number;
+  quantity?: number;
+  owner?: number;
   CouponTokens?: CouponToken[];
   token?: CouponToken;
 
@@ -26,9 +24,9 @@ export class Coupon {
               image?: string,
               timestamp?: string,
               price?: number,
-              valid_from?: any,
-              visible_from?: any,
-              valid_until?: any,
+              valid_from?: Date,
+              visible_from?: Date,
+              valid_until?: Date,
               state?: number,
               constraints?: string,
               owner?: number,

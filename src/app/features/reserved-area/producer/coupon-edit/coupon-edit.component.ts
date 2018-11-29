@@ -23,14 +23,16 @@ import {DateValidation} from '../coupon-create/validator/DateValidation.directiv
 export class CouponEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
-  marked = false;
-  marked2 = false;
-  marked3 = false;
-  marked4 = false;
+
+  markedUnlimited = false;
+  markedFree = false;
+  markedConstraints = false;
+  markedVisibleFrom = false;
+  markedQuantity = false;
+  markedPrivate = false;
 
   bgColorCalendar = '#FFF';
 
-  markedQuantity = false;
   purchasable = 1;
 
   fromEdit = false;
@@ -38,7 +40,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   couponCopy: Coupon;
   idCopy = 0;
   coupon: any;
-  couponPass: any = null;
+  couponPass: Coupon;
   submitted = false;
   imageURL = 'http://' + environment.host + ':' + environment.port + '/';
   URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
@@ -77,30 +79,25 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['/reserved-area/producer/list']);
     }
 
-    console.log(this.couponPass);
-
     this.imageURL = this.imageURL + this.couponPass.image;
-    const from = (new Date(this.couponPass.valid_from)).toISOString().substring(0, 23);
-    const until = this.couponPass.valid_until === null ? '' : (new Date(this.couponPass.valid_until)).toISOString().substring(0, 23);
+    const until = this.couponPass.valid_until === null ? '' : this.couponPass.valid_until;
 
-    this.marked = this.couponPass.valid_until === null;
+    this.markedUnlimited = this.couponPass.valid_until === null;
     this.markedQuantity = this.couponPass.purchasable === null;
-    this.bgColorCalendar = this.marked ? '#E4E7EA' : '#FFF';
-
-    console.log(this.markedQuantity);
+    this.bgColorCalendar = this.markedUnlimited ? '#E4E7EA' : '#FFF';
 
     this.couponForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
-      image: [],
-      price: [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
-      valid_until_empty: [this.marked],
-      published_from: [],
-      valid_from: [from, Validators.compose([Validators.required])],
-      valid_until: [{value: this.marked ? null : until, disabled: this.marked}],
-      constraints: [this.couponPass.constraints],
-      quantity: [{value: this.couponPass.quantity, disabled: true}],
-      purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
+      title:              [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
+      description:        [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
+      image:              [],
+      price:              [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
+      valid_until_empty:  [this.markedUnlimited],
+      published_from:     [{value: this.markedVisibleFrom ? null : this.couponPass.visible_from, disabled: this.markedVisibleFrom}],
+      valid_from:         [this.couponPass.valid_from, Validators.compose([Validators.required])],
+      valid_until:        [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
+      constraints:        [this.couponPass.constraints],
+      quantity:           [{value: this.couponPass.quantity, disabled: true}],
+      purchasable:        [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
@@ -124,114 +121,34 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     if (this.couponForm.invalid) {
       return;
     }
-    
-       /* this.couponService.getCouponsCreatedFromTitleDescriptionPrice(this.couponPass).subscribe(coupons => {
-          this.getCouponsCreatedFromTitleDescriptionPrice = JSON.parse(JSON.stringify(coupons));
 
-          if (Number(this.couponPass.quantity) <= Number(this.couponForm.value.quantity)) {
-            // console.log('quantità uguali')
+    const coupon: Coupon = {
+      id: this.couponPass.id,
+      title: this.f.title.value,
+      description: this.f.description.value,
+      image: this.imagePath ? this.imagePath : this.couponPass.image,
+      timestamp: this.couponPass.timestamp,
+      price: this.markedFree ? 0 : this.f.price.value,
+      visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
+      valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
+      valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
+      constraints: this.markedConstraints ? null : this.f.constraints.value,
+      purchasable: this.markedQuantity ? null : this.f.purchasable.value
+    };
 
-            console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
-            for (const i of this.getCouponsCreatedFromTitleDescriptionPrice) {
-              // console.log('dentro for', i)
-              this.coupon = {
-                'id': i.id,
-                'title': this.couponForm.value.title,
-                'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-                'timestamp': this.couponForm.value.timestamp,
-                'image': this.imagePath ? this.imagePath : this.couponPass.image,
-                'price': this.price != null ? this.price : this.couponForm.value.price,
-                'valid_from': this.dateFrom.getTime().valueOf(),
-                'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
-                'state': this.marked4 ? 3 : 0,
-                'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-                'owner': this.couponForm.value.owner,
-                'consumer': this.couponForm.value.consumer,
-                'purchasable': this.couponForm.value.purchasable,
-              };
+    this.couponService.editCoupon(coupon)
+      .subscribe(data => {
+        if (data['status']) {
+          this.toastr.error('An error occurred while updating the coupon', 'Error on update');
+        } else {
+          this.toastr.success('', 'Coupon edited successfully!');
+          this.router.navigate(['/reserved-area/producer/list']);
+        }
+      }, err => {
+        console.log(err);
+        this.toastr.error('An error occurred while updating the coupon', 'Error on update');
+      });
 
-              this.couponService.editCoupon(this.coupon).subscribe(
-                (data) => {
-
-                  // console.log('dentro edit coupon con quantità maggiore')
-
-                  this.router.navigate(['/reserved-area/producer/list']);
-                }, error => {
-                  // console.log('errore edit coupon con quantità maggiore')
-
-                  console.log(error);
-                }
-              );
-            }
-            const k = this.couponPass.quantity;
-            this.coupon = {
-              'title': this.couponForm.value.title,
-              'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-              'timestamp': this.couponForm.value.timestamp,
-              'image': this.imagePath ? this.imagePath : this.couponPass.image,
-              'price': this.price != null ? this.price : this.couponForm.value.price,
-              'valid_from': this.dateFrom.getTime().valueOf(),
-              'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
-              'state': this.marked4 ? 3 : 0,
-              'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-              'owner': this.couponForm.value.owner,
-              'consumer': this.couponForm.value.consumer,
-              'purchasable': this.couponForm.value.purchasable,
-
-            };
-            for (let mario = k; mario < this.couponForm.value.quantity; mario++) {
-              // console.log('j', mario)
-              // console.log('Number(this.couponForm.value.quantity)' , Number(this.couponForm.value.quantity))
-              this.couponService.register(this.coupon).subscribe(() => {
-                // console.log('dentro register coupon con quantità diverse')
-
-                this.router.navigate(['/reserved-area/producer/list']);
-              });
-            }
-
-          } else {
-            // console.log('dentro register coupon con quantità diverse')
-
-            for (let i = 0; i < this.couponPass.quantity; i++) {
-              // console.log('dentro else')
-              if (i < this.couponForm.value.quantity) {
-                this.coupon = {
-                  'id': this.getCouponsCreatedFromTitleDescriptionPrice[i].id,
-                  'title': this.couponForm.value.title,
-                  'description': this.couponForm.value.description === '' ? null : this.couponForm.value.description,
-                  'timestamp': this.couponForm.value.timestamp,
-                  'image': this.imagePath ? this.imagePath : this.couponPass.image,
-                  'price': this.price != null ? this.price : this.couponForm.value.price,
-                  'valid_from': this.dateFrom.getTime().valueOf(),
-                  'valid_until': this.marked ? null : this.returnDateUntil(this.dateUntil),
-                  'state': this.marked4 ? 3 : 0,
-                  'constraints': this.couponForm.value.constraints === '' ? null : this.couponForm.value.constraints,
-                  'owner': this.couponForm.value.owner,
-                  'consumer': this.couponForm.value.consumer,
-                  'purchasable': this.couponForm.value.purchasable,
-
-                };
-                this.couponService.editCoupon(this.coupon).subscribe(
-                  (data) => {
-
-                    // console.log('dentro edit coupon con quantità maggiore')
-
-                    this.router.navigate(['/reserved-area/producer/list']);
-                  }, error => {
-                    // console.log('errore edit coupon con quantità maggiore')
-
-                    console.log(error);
-                  }
-                );
-              } else {
-                this.couponService.deleteCoupon(this.getCouponsCreatedFromTitleDescriptionPrice[i].id).subscribe(() => {
-                  this.router.navigate(['/reserved-area/producer/list']);
-                });
-              }
-            }
-          }
-          this.toastEdited();
-        });*/
   }
 
   addBreadcrumb() {
@@ -264,47 +181,54 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     // console.log(this.uploader.queue[0]);
   }
 
-  toggleVisibility(e) {
-    this.marked = e.target.checked;
-    console.log(this.marked);
-    delete this.couponForm.value.valid_until;
-    this.couponForm.value.valid_until_empty = true;
+  toggleCheckbox(e) {
 
-    if (this.marked === true) {
-      this.couponForm.get('valid_until').disable();
-      this.bgColorCalendar = '#E4E7EA';
-    } else {
-      this.couponForm.get('valid_until').enable();
-      this.bgColorCalendar = '#FFF';
-    }
-  }
+    switch (e.srcElement.id) {
 
-  toggleVisibility2(e) {
-    this.marked2 = e.target.checked;
-    this.price = 0;
-  }
+      case 'privateCheck':
+        this.markedPrivate = e.target.checked;
 
-  toggleVisibility3(e) {
-    this.marked3 = e.target.checked;
-    this.couponForm.value.constraints = '';
-  }
+        if (this.markedPrivate) {
+          this.couponForm.get('published_from').disable();
+        } else {
+          this.couponForm.get('published_from').enable();
+        }
+        break;
 
-  toggleVisibility4(e) {
-    this.marked4 = e.target.checked;
-    this.couponForm.value.state = 3;
-  }
+      case 'freeCheck':
+        this.markedFree = e.target.checked;
+        this.price = 0;
+        break;
 
+      case 'unlimitedCheck':
+        this.markedUnlimited = e.target.checked;
 
-  toggleVisibilityQuantity(e) {
+        if (this.markedUnlimited === true) {
+          this.couponForm.get('valid_until').disable();
+          this.bgColorCalendar = '#E4E7EA';
+        } else {
+          this.couponForm.get('valid_until').enable();
+          this.bgColorCalendar = '#FFF';
+        }
 
-    this.markedQuantity = e.target.checked;
-    if (this.markedQuantity) {
-      this.couponForm.get('purchasable').disable();
-      this.couponForm.value.purchasable = this.couponForm.value.quantity;
-      this.purchasable = this.couponForm.value.quantity;
-      this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
-    } else {
-      this.couponForm.get('purchasable').enable();
+        delete this.couponForm.value.valid_until;
+        this.couponForm.value.valid_until_empty = true;
+        break;
+
+      case 'constraintsCheck':
+        this.markedConstraints = e.target.checked;
+        this.couponForm.value.constraints = '';
+        break;
+
+      case 'quantityCheck':
+        this.markedQuantity = e.target.checked;
+
+        if (this.markedQuantity) {
+          this.couponForm.get('purchasable').disable();
+        } else {
+          this.couponForm.get('purchasable').enable();
+        }
+        break;
     }
   }
 
@@ -321,55 +245,55 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   couponCreate() {
     if (this.fromEdit === false) {
 
- /*     this.dateFrom = new Date(this.couponForm.value.valid_from);
-      this.dateUntil = new Date(this.couponForm.value.valid_until);
+      /*     this.dateFrom = new Date(this.couponForm.value.valid_from);
+           this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-      if (!isValidDate(this.dateUntil)) {
-        this.dateUntil = null;
-      }
-      this.submitted = true;
-      if (this.couponForm.invalid) {
-        console.log('coupon invalid');
-        return;
+           if (!isValidDate(this.dateUntil)) {
+             this.dateUntil = null;
+           }
+           this.submitted = true;
+           if (this.couponForm.invalid) {
+             console.log('coupon invalid');
+             return;
 
-      }
-      if (this.marked) {
-        if (this.marked) {
-          this.couponForm.removeControl('valid_until');
-          this.couponForm.removeControl('valid_until');
-        }
-      }
-      for (let i = 0; i < this.couponForm.value.quantity; i++) {
-        this.couponCopy = new Coupon(
-          null,
-          this.couponForm.value.title,
-          this.couponForm.value.description,
-          this.imagePath ? this.imagePath : this.couponPass.image,
-          this.couponForm.value.timestamp,
-          this.couponForm.value.price ? this.couponForm.value.price : 0,
-          this.dateFrom.getTime().valueOf(),
-          (this.marked ? null : this.returnDateUntil(this.dateUntil)),
-          this.marked4 ? 3 : 0,
-          this.couponForm.value.constraints,
-          this.couponForm.value.owner,
-          this.couponForm.value.consumer,
-          this.couponForm.value.quantity,
-          this.couponForm.value.purchasable,
-        );
-        this.couponService.register(this.couponCopy).pipe(first())
-          .subscribe(
-            data => {
-              // console.log('new coupon create', data);
-              this.idCopy = JSON.parse(JSON.stringify(data)).id;
-              // console.log('id', JSON.parse( JSON.stringify(data)).id);
+           }
+           if (this.markedUnlimited) {
+             if (this.markedUnlimited) {
+               this.couponForm.removeControl('valid_until');
+               this.couponForm.removeControl('valid_until');
+             }
+           }
+           for (let i = 0; i < this.couponForm.value.quantity; i++) {
+             this.couponCopy = new Coupon(
+               null,
+               this.couponForm.value.title,
+               this.couponForm.value.description,
+               this.imagePath ? this.imagePath : this.couponPass.image,
+               this.couponForm.value.timestamp,
+               this.couponForm.value.price ? this.couponForm.value.price : 0,
+               this.dateFrom.getTime().valueOf(),
+               (this.markedUnlimited ? null : this.returnDateUntil(this.dateUntil)),
+               this.marked4 ? 3 : 0,
+               this.couponForm.value.constraints,
+               this.couponForm.value.owner,
+               this.couponForm.value.consumer,
+               this.couponForm.value.quantity,
+               this.couponForm.value.purchasable,
+             );
+             this.couponService.register(this.couponCopy).pipe(first())
+               .subscribe(
+                 data => {
+                   // console.log('new coupon create', data);
+                   this.idCopy = JSON.parse(JSON.stringify(data)).id;
+                   // console.log('id', JSON.parse( JSON.stringify(data)).id);
 
-              this.router.navigate(['/reserved-area/producer/list']);
+                   this.router.navigate(['/reserved-area/producer/list']);
 
-            }, error => {
-              console.log(error);
-            }
-          );
-      }*/
+                 }, error => {
+                   console.log(error);
+                 }
+               );
+           }*/
     }
   }
 
@@ -378,18 +302,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return null;
     } else {
       return date.getTime().valueOf();
-    }
-
-  }
-
-  isIllimited() {
-
-    if (this.couponPass.valid_until === null) {
-      // delete this.couponForm.value.valid_until;
-      this.couponForm.value.valid_until_empty = true;
-      // this.couponForm.removeControl('valid_until');
-      this.marked = true;
-      return true;
     }
 
   }
