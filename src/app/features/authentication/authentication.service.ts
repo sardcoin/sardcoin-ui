@@ -30,7 +30,7 @@ export class AuthenticationService {
       headers: headers
     };
 
-    return this.http.post<any>('http://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
+    return this.http.post<any>('https://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
       .pipe(map(response => {
 
         if (response['user'] && response['token']) {
@@ -56,7 +56,7 @@ export class AuthenticationService {
       headers: headers
     };
 
-    return this.http.post<any>('http://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
+    return this.http.post<any>('https://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
       .pipe(map(response => {
 
         if (user && token) {

@@ -50,8 +50,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  URLstring = 'http://' + environment.host + ':' + environment.port + '/';
-  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
+  URLstring = 'https://' + environment.host + ':' + environment.port + '/';
+  URL = 'https://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({

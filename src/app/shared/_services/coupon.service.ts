@@ -81,7 +81,7 @@ export class CouponService {
   }
 
   // getAffordables() {
-  //   return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
+  //   return this.http.get('https://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
   // }
 
   buyCoupon(coupon_id: number) {
@@ -92,7 +92,7 @@ export class CouponService {
     const cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description != null ? cp.description.toString() : null) +
       '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString());
 
-    return this.http.get<JSON>('http://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy);
+    return this.http.get<JSON>('https://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy);
   }
 
   importOfflineCoupon(cp: any) {
@@ -107,12 +107,12 @@ export class CouponService {
 
   getTotalCoupons() {
     // console.log('token consumer ' , this.localStore.getToken());
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllCouponsStateOne');
+    return this.http.get('https://' + environment.host + ':' + environment.port + '/coupons/getAllCouponsStateOne');
 
   }
 
   private formatUrl(methodName) {
-    return 'http://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
+    return 'https://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
   }
 }
 

@@ -49,7 +49,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   imageUrl(path) {
 
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl('https://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {

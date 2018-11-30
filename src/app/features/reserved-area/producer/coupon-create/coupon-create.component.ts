@@ -51,7 +51,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
+  URL = 'https://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath = 'no_image.jpeg';
 
   public uploader: FileUploader = new FileUploader({

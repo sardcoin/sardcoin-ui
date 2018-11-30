@@ -2,7 +2,7 @@
   "name": "sardcoin-ui",
   "version": "1.0.0",
   "description": "SardCoin User Interface",
-  "homepage": "http://www.sardcoin.eu",
+  "homepage": "https://www.sardcoin.eu",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
