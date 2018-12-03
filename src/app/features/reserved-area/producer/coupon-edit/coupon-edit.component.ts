@@ -27,11 +27,11 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   markedUnlimited = false;
   markedFree = false;
   markedConstraints = false;
-  markedVisibleFrom = false;
   markedQuantity = false;
   markedPrivate = false;
 
   bgColorCalendar = '#FFF';
+  bgColorPrivate = '#FFF';
 
   purchasable = 1;
 
@@ -48,12 +48,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
-    isHTML5: true,
-    method: 'POST',
-    itemAlias: 'file',
-    authTokenHeader: 'authorization',
+    // isHTML5: true,
+    // method: 'POST',
+    // itemAlias: 'file',
+    // authTokenHeader: 'authorization',
     authToken: 'Bearer ' + this.storeService.getToken(),
-  });
+  }); // TODO Upload doesn't work
 
   constructor(
     private router: Router,
@@ -82,20 +82,21 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.imageURL = this.imageURL + this.couponPass.image;
     const until = this.couponPass.valid_until === null ? '' : this.couponPass.valid_until;
 
-    this.markedUnlimited = this.couponPass.valid_until === null;
-    this.markedQuantity = this.couponPass.purchasable === null;
+    this.initMarked();
+
     this.bgColorCalendar = this.markedUnlimited ? '#E4E7EA' : '#FFF';
+    this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.couponForm = this.formBuilder.group({
       title:              [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
       description:        [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
       image:              [],
-      price:              [this.couponPass.price.toFixed(2), Validators.compose([Validators.required])],
+      price:              [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty:  [this.markedUnlimited],
-      published_from:     [{value: this.markedVisibleFrom ? null : this.couponPass.visible_from, disabled: this.markedVisibleFrom}],
+      published_from:     [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
       valid_from:         [this.couponPass.valid_from, Validators.compose([Validators.required])],
       valid_until:        [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
-      constraints:        [this.couponPass.constraints],
+      constraints:        [{value: this.markedConstraints ? null : this.couponPass.constraints, disabled: this.markedConstraints}],
       quantity:           [{value: this.couponPass.quantity, disabled: true}],
       purchasable:        [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
@@ -156,7 +157,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Edit Coupon', '/reserved-area/edit/'));
+    bread.push(new Breadcrumb('Edit Coupon', '/reserved-area/producer/edit/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -171,7 +172,9 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
+    console.log(data);
     this.imagePath = data.image;
+    this.imageURL = this.imagePath;
     // console.log(data);
   }
 
@@ -190,14 +193,24 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
         if (this.markedPrivate) {
           this.couponForm.get('published_from').disable();
+          this.couponForm.get('published_from').setValue(null);
+          this.bgColorPrivate = '#E4E7EA';
         } else {
           this.couponForm.get('published_from').enable();
+          this.couponForm.get('published_from').setValue(Date.now());
+          this.bgColorPrivate = '#FFF';
         }
         break;
 
       case 'freeCheck':
         this.markedFree = e.target.checked;
-        this.price = 0;
+
+        if (this.markedFree) {
+          this.price = 0;
+          this.couponForm.get('price').disable();
+        } else {
+          this.couponForm.get('price').enable();
+        }
         break;
 
       case 'unlimitedCheck':
@@ -217,6 +230,13 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       case 'constraintsCheck':
         this.markedConstraints = e.target.checked;
+
+        if (this.markedConstraints) {
+          this.couponForm.get('constraints').disable();
+        } else {
+          this.couponForm.get('constraints').enable();
+        }
+
         this.couponForm.value.constraints = '';
         break;
 
@@ -232,8 +252,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  toastEdited() {
-    this.toastr.success('Edited coupon', 'Coupon edited successfully');
+  initMarked() {
+    this.markedUnlimited = this.couponPass.valid_until === null;
+    this.markedQuantity = this.couponPass.purchasable === null;
+    this.markedFree = this.couponPass.price === 0;
+    this.markedConstraints = this.couponPass.constraints === null;
+    this.markedPrivate = this.couponPass.visible_from === null;
   }
 
   couponCreateCopy() {

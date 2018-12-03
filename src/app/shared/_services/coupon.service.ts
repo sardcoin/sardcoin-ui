@@ -14,7 +14,7 @@ export class CouponService {
   couponInfoUser: any = null;
   fromEditOrCopy = false;
 
-  private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
+  private boolFormEdit = new BehaviorSubject<boolean>(this.fromEditOrCopy);
   private couponSource = new BehaviorSubject<Coupon>(this.couponChange);
   private couponUser = new BehaviorSubject(this.couponInfoUser);
 

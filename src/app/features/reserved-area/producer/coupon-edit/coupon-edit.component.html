@@ -76,8 +76,8 @@
               <label class="col-sm-2 col-form-label">Price</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="freeCheck" data-md-icheck
-                         (change)="toggleCheckbox($event)">
+                  <input type="checkbox" class="custom-control-input" id="freeCheck"
+                         [checked]="markedFree" (change)="toggleCheckbox($event)" data-md-icheck>
                   <label class="custom-control-label" for="freeCheck">Free</label>
                 </div>
               </div>
@@ -95,7 +95,8 @@
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
-                         (change)="toggleCheckbox($event)" data-md-icheck>
+                         [checked]="markedPrivate" (change)="toggleCheckbox($event)"
+                         data-md-icheck>
                   <label class="custom-control-label" for="privateCheck">Private</label>
                 </div>
               </div>
@@ -103,6 +104,7 @@
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
+                       [style.background]="bgColorPrivate"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
                   <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
@@ -150,8 +152,8 @@
               <label class="col-sm-2 col-form-label">Constraints:</label>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="constraintsCheck" data-md-icheck
-                         (change)="toggleCheckbox($event)">
+                  <input type="checkbox" class="custom-control-input" id="constraintsCheck"
+                         [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
                   <label class="custom-control-label" for="constraintsCheck">None</label>
                 </div>
               </div>
