@@ -21,7 +21,7 @@ import {RegisterFormProducerComponent} from './register/register-form-producer/r
         component: FeatureAuthenticationRegisterComponent
       },
       {
-        path: 'register-producer',
+        path: 'create-producer',
         component: RegisterFormProducerComponent
       }
     ])

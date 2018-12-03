@@ -153,7 +153,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       //console.log('this.coupon', this.coupon);
       //console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
 
-      this.couponService.register(this.coupon).pipe(first())
+      this.couponService.create(this.coupon).pipe(first())
         .subscribe(
           data => {
 
@@ -186,7 +186,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       );
 
       for (let i = 0 ; i < this.couponForm.value.quantity; i++) {
-        register = this.couponService.register(this.coupon)
+        register = this.couponService.create(this.coupon)
         .subscribe(
           data => {
             // if ((i + 1) === quantityCoupon) {

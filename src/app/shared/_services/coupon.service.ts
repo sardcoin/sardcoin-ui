@@ -55,7 +55,6 @@ export class CouponService {
 
   deleteCoupon(cp: number) {
     return this.http.request('delete', this.formatUrl('delete'), {body: {id: cp}});
-
   }
 
   deleteAllCoupons() {
@@ -77,7 +76,7 @@ export class CouponService {
     return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
   }
 
-  register(coupon: Coupon) {
+  create(coupon: Coupon) {
     return this.http.post(this.formatUrl('create'), coupon);
   }
 

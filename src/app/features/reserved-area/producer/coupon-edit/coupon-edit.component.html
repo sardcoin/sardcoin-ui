@@ -3,11 +3,10 @@
     <div class="col-md-10 offset-1">
       <div class="card mx-4">
         <div class="card-body p-4">
-          <h1 *ngIf="fromEdit === true" class="text-center">Edit</h1>
-          <h4 *ngIf="fromEdit === true" class="text-muted text-center">Edit Coupon</h4>
-          <h1 *ngIf="fromEdit === false" class="text-center">Create</h1>
-          <h4 *ngIf="fromEdit === false" class="text-muted text-center">Create Coupon</h4>
-          <form [formGroup]="couponForm" (ngSubmit)="fromEdit === false ? couponCreateCopy(): saveChange()">
+          <h1 class="text-center">{{fromEdit ? 'Edit' : 'Create'}}</h1>
+          <h4 class="text-muted text-center">{{fromEdit ? 'Edit ' : 'Create '}} Coupon</h4>
+
+          <form [formGroup]="couponForm" (ngSubmit)="saveChange()">
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Title</label>
@@ -206,25 +205,16 @@
             <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
             <!--Please upload an image before create the coupon.-->
             <!--</div>-->
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.quantity.errors?.MatchQuantity">Quantity incorrect.
+            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
+              Quantity incorrect.
             </div>
             <div class="form group">
-              <p>
-                <button *ngIf="fromEdit === true" class="btn btn-block btn-success">Save change</button>
-                <button *ngIf="fromEdit === false" class="btn btn-block btn-success">Create coupon</button>
-
-              </p>
+              <p><button class="btn btn-block btn-success">{{fromEdit ? 'Save change' : 'Create coupon'}}</button></p>
             </div>
 
           </form>
-
         </div>
-
       </div>
-
-
     </div>
-
   </div>
 </div>

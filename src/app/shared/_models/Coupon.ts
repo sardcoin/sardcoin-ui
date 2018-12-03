@@ -1,7 +1,7 @@
 import {CouponToken} from './CouponToken';
 
 export class Coupon {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   image: string;
