@@ -49,7 +49,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   imageUrl(path) {
 
-    return this._sanitizer.bypassSecurityTrustUrl('https://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
@@ -84,7 +84,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
           } else {
             this.isEmpty = false;
           }
-          if (this.couponCart != null || this.couponCart != undefined ) {
+          if (this.couponCart != null || this.couponCart !== undefined ) {
             for (let i = 0; i < this.couponCart.length; i++) {
               for (let j = 0; j < this.couponArray.length; j++) {
                 if (this.couponCart[i].id === this.couponArray[j].id) {

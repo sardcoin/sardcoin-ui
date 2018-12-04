@@ -58,14 +58,14 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
         }
         this.coupons = coupons;
-        //console.log('this.coupons', this.coupons);
+        // console.log('this.coupons', this.coupons);
       }, err => {
         console.log(err);
       });
   }
 
   imageUrl(path) {
-    return this._sanitizer.bypassSecurityTrustUrl('https://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {

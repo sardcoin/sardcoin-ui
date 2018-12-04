@@ -105,7 +105,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   imageUrl(path) {
     // return correct address and port backend plus name image
-    return this._sanitizer.bypassSecurityTrustUrl('https://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {

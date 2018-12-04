@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   host: 'localhost', // localhost 192.168.1.38 my home Cagliari
-  port: 8080 //set 443 for push or 3308 for local
+  port: 8080, // set 443 for push or 3308 for local
+  protocol: 'http'
 };

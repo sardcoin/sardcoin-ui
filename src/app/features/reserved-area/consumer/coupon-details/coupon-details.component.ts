@@ -19,7 +19,7 @@ import {UserService} from '../../../../shared/_services/user.service';
 })
 
 export class CouponDetailsComponent implements OnInit, OnDestroy {
-  URLstring = 'https://' + environment.host + ':' + environment.port + '/';
+  URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
   message: string;

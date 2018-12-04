@@ -1,4 +1,4 @@
-import {Component, Directive, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -10,11 +10,10 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {ImageValidation} from './validator/ImageValidation.directive.';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import { sha256, sha224 } from 'js-sha256';
+import { sha256 } from 'js-sha256';
 import {FlatpickrOptions} from 'ng2-flatpickr';
 import {} from 'flatpickr';
 
@@ -51,7 +50,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   dateFrom: Date;
   dateUntil: Date;
   submitted = false;
-  URL = 'https://' + environment.host + ':' + environment.port + '/coupons/addImage';
+  URL = environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath = 'no_image.jpeg';
 
   public uploader: FileUploader = new FileUploader({
@@ -150,8 +149,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.couponForm.value.quantity,
         this.couponForm.value.purchasable,
       );
-      //console.log('this.coupon', this.coupon);
-      //console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
+      // console.log('this.coupon', this.coupon);
+      // console.log('this.couponForm.value.purchasable', this.couponForm.value.purchasable);
 
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
@@ -235,7 +234,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibilityExpiration(e) {
     this.marked = e.target.checked;
-    //console.log('toggleVisibilityExpiration', this.marked  )
+    // console.log('toggleVisibilityExpiration', this.marked  )
     if (this.marked === true) {
       this.couponForm.get('valid_until').disable();
     } else {
@@ -263,7 +262,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   toggleVisibility(e) {
     this.marked4 = e.target.checked;
-    //console.log('visible', this.marked4);
+    // console.log('visible', this.marked4);
   }
 
   toggleVisibilityQuatity(e) {
@@ -272,7 +271,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponForm.value.purchasable = this.couponForm.value.quantity;
       this.purchasable = this.couponForm.value.quantity;
       this.couponForm.controls.purchasable.setValue((this.couponForm.value.quantity));
-      //console.log('no limit', this.markedQuantity);
+      // console.log('no limit', this.markedQuantity);
     } else {
 
     }

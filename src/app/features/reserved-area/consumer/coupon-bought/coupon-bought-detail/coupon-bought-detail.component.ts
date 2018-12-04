@@ -17,7 +17,7 @@ import {UserService} from '../../../../../shared/_services/user.service';
   styleUrls: ['./coupon-bought-detail.component.scss']
 })
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
-  URLstring = 'https://' + environment.host + ':' + environment.port + '/';
+  URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   couponPass: any;
   cart = new Coupon();
