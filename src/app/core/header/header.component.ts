@@ -1,4 +1,3 @@
-///<reference path="../../../../node_modules/rxjs/internal/operators/first.d.ts"/>
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
@@ -26,7 +25,6 @@ export class HeaderComponent {
   userType = null;
   cart = null;
 
-
   constructor(
     private actions: LoginActions,
     private localStore: StoreService,
@@ -34,9 +32,6 @@ export class HeaderComponent {
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
     protected localStorage: LocalStorage,
-
-
-
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -45,13 +40,10 @@ export class HeaderComponent {
         this.userType = type;
       });
     });
-
-
   }
 
   logout() {
     if (this.modalRef != null) {
-
       this.localStorage.removeItem('cart').subscribe(() => {
         this.actions.logoutUser();
         this.authService.logout();
@@ -65,18 +57,17 @@ export class HeaderComponent {
 
   decline() {
     this.modalRef.hide();
-
   }
 
   openModal(template: TemplateRef<any>) {
-    if ( this.userType == 2 || this.userType == 0) {
+    if (this.userType == 2 || this.userType == 0) {
       this.localStorage.getItem('cart').subscribe(cart => {
         if (cart !== null) {
           this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
         } else {
           this.logout();
         }
-        });
+      });
     } else {
       this.logout();
     }

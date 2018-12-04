@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {isValidDate} from 'ngx-bootstrap/timepicker/timepicker.utils';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
@@ -11,7 +10,6 @@ import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCoupo
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
-import {first} from 'rxjs/internal/operators';
 import {DateValidation} from '../coupon-create/validator/DateValidation.directive';
 
 @Component({
@@ -33,27 +31,18 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   bgColorCalendar = '#FFF';
   bgColorPrivate = '#FFF';
 
-  purchasable = 1;
-
   fromEdit = false;
-  price = null;
-  couponCopy: Coupon;
-  idCopy = 0;
-  coupon: any;
-  couponPass: Coupon;
   submitted = false;
-  imageURL = 'http://' + environment.host + ':' + environment.port + '/';
-  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
+
+  couponPass: Coupon;
+
+  imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
-    url: this.URL,
-    // isHTML5: true,
-    // method: 'POST',
-    // itemAlias: 'file',
-    // authTokenHeader: 'authorization',
+    url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage',
     authToken: 'Bearer ' + this.storeService.getToken(),
-  }); // TODO Upload doesn't work
+  });
 
   constructor(
     private router: Router,
@@ -107,7 +96,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
   }
-
 
   get f() {
     return this.couponForm.controls;
@@ -198,16 +186,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
-    console.log(data);
     this.imagePath = data.image;
     this.imageURL = this.imagePath;
-    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+    console.log(response);
   }
 
   toggleCheckbox(e) {
@@ -232,7 +216,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.markedFree = e.target.checked;
 
         if (this.markedFree) {
-          this.price = 0;
           this.couponForm.get('price').disable();
         } else {
           this.couponForm.get('price').enable();
@@ -285,6 +268,4 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.markedConstraints = this.couponPass.constraints === null;
     this.markedPrivate = this.couponPass.visible_from === null;
   }
-
-
 }

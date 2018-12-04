@@ -9,7 +9,6 @@ import {LocalStorage} from '@ngx-pwa/local-storage';
 import {UserService} from '../../../../shared/_services/user.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {StoreService} from '../../../../shared/_services/store.service';
-import {HttpClient} from '@angular/common/http';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 
 @Component({

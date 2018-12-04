@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   templateUrl: './producer-info-coupon.component.html',
   styleUrls: ['./producer-info-coupon.component.scss']
 })
-export class ProducerInfoCouponComponent implements OnInit, OnDestroy  {
+export class ProducerInfoCouponComponent implements OnInit, OnDestroy {
   producerCoupon: any;
   couponPass: any;
 
@@ -17,8 +17,8 @@ export class ProducerInfoCouponComponent implements OnInit, OnDestroy  {
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
-
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.couponService.currentUserCoupon.subscribe(user => {
@@ -29,21 +29,25 @@ export class ProducerInfoCouponComponent implements OnInit, OnDestroy  {
       });
     });
 
-
   }
+
   ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
+
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
+
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase')); }
+    if (this.couponPass !== null) {
+      bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
+    }
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 

@@ -35,7 +35,8 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.newCamera();
@@ -50,40 +51,40 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.removeBreadcrumb();
   }
+
   get f() {
     return this.tokenForm.controls;
   }
+
   import() {
     this.submitted = true;
 
 
+    this.data = {
+      token: this.tokenForm.value.token,
+    };
 
+    this.couponService.importOfflineCoupon(this.data).subscribe(
+      (data) => {
+        if (data !== null) {
+          this.toastValidate();
+          this.router.navigate(['/reserved-area/consumer/bought']);
+          return;
+        } else {
+          this.toastError();
+          return;
+        }
+      }, error => {
+        this.toastError();
 
-       this.data = {
-         token: this.tokenForm.value.token,
-       };
-
-       this.couponService.importOfflineCoupon(this.data).subscribe(
-         (data) => {
-           if (data !== null) {
-             this.toastValidate();
-             this.router.navigate(['/reserved-area/consumer/bought']);
-             return;
-           } else {
-             this.toastError();
-             return;
-           }
-         }, error => {
-           this.toastError();
-
-           console.log(error);
-           return;
-         }
-       );
-
+        console.log(error);
+        return;
+      }
+    );
 
 
   }
+
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
@@ -100,11 +101,11 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   }
 
   toastValidate() {
-    this.toastr.success( 'Coupon validated successfully');
+    this.toastr.success('Coupon validated successfully');
   }
 
   toastError() {
-    this.toastr.error( 'Coupon invalid!');
+    this.toastr.error('Coupon invalid!');
   }
 
   scan() {
@@ -115,7 +116,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
 
   qrCodeReadSuccess() {
-    this.toastr.success( 'Qr-code reader successfully');
+    this.toastr.success('Qr-code reader successfully');
   }
 
   newCamera() {
@@ -133,7 +134,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
-      console.log('permission', this.hasPermission );
+      console.log('permission', this.hasPermission);
     });
 
   }

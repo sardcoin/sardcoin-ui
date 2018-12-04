@@ -26,20 +26,15 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   markedConstraints = false;
   markedQuantity = false;
   markedPrivate = false;
+  submitted = false;
 
   bgColorCalendar = '#FFF';
   bgColorPrivate = '#FFF';
 
-  @ViewChild('datepicker') datepicker;
-
-  dateFrom: Date;
-  dateUntil: Date;
-  submitted = false;
-  URL = 'http://' + environment.host + ':' + environment.port + '/coupons/addImage';
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
-    url: this.URL,
+    url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage',
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
@@ -87,13 +82,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   saveCoupon() {
-    this.dateFrom = new Date(this.couponForm.value.valid_from);
-    this.dateUntil = new Date(this.couponForm.value.valid_until);
-
-    // console.log(this.dateUntil.getMilliseconds())
     this.submitted = true;
 
-    // stop here if form is invalid
+    // It stops here if form is invalid
     if (this.couponForm.invalid) {
       return;
     }
@@ -201,7 +192,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {

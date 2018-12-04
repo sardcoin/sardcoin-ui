@@ -19,7 +19,6 @@ export class FeatureAuthenticationLoginComponent {
   @select() just_signed;
 
   constructor() { }
-
 }
 
 export function getAlertConfig(): AlertConfig {

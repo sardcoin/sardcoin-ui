@@ -1,4 +1,4 @@
-import {Component, NgModule, Pipe} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {FeatureComponent} from './feature.component';
 import {FeatureRoutingModule} from './feature.routing';
 import {SharedModule} from '../shared/shared.module';
@@ -8,7 +8,6 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {P404Component} from '../errors/404.component';
 import {P500Component} from '../errors/500.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Directive} from '@angular/compiler/src/core';
 import {CommonModule} from '@angular/common';
 
 
