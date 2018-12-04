@@ -11,7 +11,6 @@ import {ModalModule} from 'ngx-bootstrap';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
-import {CartController} from './cart/cart-controller';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import { CartShowComponent } from './cart/cart-show/cart-show.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';
@@ -20,6 +19,7 @@ import { CouponTokenComponent } from './coupon-token/coupon-token.component';
 import { CouponBoughtDetailComponent } from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {QRCodeModule} from 'angularx-qrcode';
 import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-info-coupon.component';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,8 @@ import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-inf
     CoreModule,
     ConsumerRoutingModule,
     CommonModule,
-    QRCodeModule
+    QRCodeModule,
+    ZXingScannerModule.forRoot()
 
   ],
   providers: [

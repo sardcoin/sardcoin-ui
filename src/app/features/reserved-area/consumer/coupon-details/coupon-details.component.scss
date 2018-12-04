@@ -24,3 +24,13 @@
 .button-add-del {
   border-radius: 25em !important;
 }
+
+.crop {
+  width: 100%;
+  height: 240px;
+  overflow: hidden !important;
+}
+
+.centered-and-cropped {
+  object-fit: cover
+}

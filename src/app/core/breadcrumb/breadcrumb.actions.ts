@@ -8,7 +8,6 @@ export const BREADCRUMB_DELETE = 'BREADCRUMB_DELETE';
 
 @Injectable()
 export class BreadcrumbActions {
-  // @select('breadcrumb') breadcrumbState: Observable<BreadcrumbState>;
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
@@ -20,11 +19,4 @@ export class BreadcrumbActions {
     this.ngRedux.dispatch({type: BREADCRUMB_DELETE});
   }
 
-  // addBreadcrumbElement(element: BreadcrumbModel) {
-  //
-  // }
-  //
-  // removeBreadcrumbElement(element: BreadcrumbModel) {
-  //
-  // }
 }

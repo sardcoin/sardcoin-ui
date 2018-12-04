@@ -69,30 +69,20 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
           let count = 0;
           this.couponArray = cp;
-          // console.log('this.couponArray', this.couponArray);
           for ( let i = 0;  i < this.couponArray.length; i++) {
-            // console.log('i.title', this.couponArray[i].title);
-            // console.log('i.description', this.couponArray[i].description);
-            // console.log('i.price', this.couponArray[i].price);
 
             if ((this.couponArray[i].id === this.couponPass.id)) {
-              // console.log('i.title', this.couponArray[i].title);
-              // console.log('i.description', this.couponArray[i].description);
-              // console.log('i.price', this.couponArray[i].price);
+
 
               count = this.couponArray[i].CouponTokens.length;
             }
 
           }
-          // console.log('quantity', this.couponPass.purchasable);
-          // console.log('couponPass', this.couponPass);
-          // console.log('count', count);
+
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
-                                                    count, this.couponPass.purchasable == null ? this.couponPass.quantity : this.couponPass.purchasable);
-
-
-
+                                                    count, this.couponPass.purchasable == null
+                                                    ? this.couponPass.quantity : this.couponPass.purchasable);
         this.getOwner();
         this.addBreadcrumb();
 
@@ -105,7 +95,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
                 if (this.couponPass.id === i.id) {
                   this.available = true;
                   this.availability = i.quantity;
-                  // console.log('i', i);
                 }
               }
             }
@@ -129,11 +118,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       }
 
     });
-
-
-
-
-
   }
 
   ngOnDestroy(): void {
@@ -186,8 +170,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   addToCart(coupon: Coupon) {
 
     if (this.myForm.invalid) {
-      // console.log('quantity invalid');
-      // console.log(this.tokenForm);
+
       return;
 
     }
@@ -216,10 +199,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           return;
         });
       } else {
-        // console.log('id', this.cart.id);
         crt = cart;
         crt.push(this.cart);
-        // console.log('crt', crt);
         this.localStorage.setItem('cart', crt).subscribe(() => {
             this.inCart = true;
             this.addBreadcrumb();
@@ -243,7 +224,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
 
-  openModal(template: TemplateRef<any>, quantity) {
+  openModal(template: TemplateRef<any>) {
 
 
 
@@ -289,9 +270,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   setQuantity(e) {
-    // console.log('e', e);
     if (!(Number(e) === NaN)) {
-      // console.log('e Number', e);
       this.quantity = e;
     }
   }
@@ -319,7 +298,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   getOwner() {
     this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      // console.log('user', user);
       this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 
@@ -342,7 +320,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   maxQuantityAvaliableForUser(dispTotal, buyedUser, limitUser) {
     let max = 0;
-    // this.availability = dispTotal;
     if (dispTotal > limitUser) {
       max = limitUser - buyedUser;
     }

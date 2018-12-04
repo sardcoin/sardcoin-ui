@@ -1,4 +1,4 @@
-import {Component, TemplateRef, OnDestroy, OnInit, Input} from '@angular/core';
+import {Component, TemplateRef, OnDestroy, OnInit} from '@angular/core';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -75,12 +75,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   }
 
   formatState(state) { // TODO fixme
-    /*    switch (state) {
-          case 0:
-            return 'Active';
-          default:
-            return 'unknown';
-        }*/
     return 'Active';
   }
 

@@ -51,7 +51,6 @@ export class HeaderComponent {
 
   logout() {
     if (this.modalRef != null) {
-      // console.log('this.modalRef', this.modalRef);
 
       this.localStorage.removeItem('cart').subscribe(() => {
         this.actions.logoutUser();
@@ -70,10 +69,8 @@ export class HeaderComponent {
   }
 
   openModal(template: TemplateRef<any>) {
-    // console.log('this.userType', this.userType);
     if ( this.userType == 2 || this.userType == 0) {
       this.localStorage.getItem('cart').subscribe(cart => {
-        // console.log('cart', cart);
         if (cart !== null) {
           this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
         } else {

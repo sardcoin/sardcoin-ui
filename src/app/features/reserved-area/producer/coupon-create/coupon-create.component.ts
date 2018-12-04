@@ -35,16 +35,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   purchasable = 1;
 
   @ViewChild('datepicker') datepicker;
-  selectedDate: Date = new Date();
-  exampleOptions: FlatpickrOptions = {
-    defaultDate: null,
-    enableTime: true,
-    noCalendar: false,
-    clickOpens: true, // false for disable
-    allowInput: false,
-  };
 
-  theCheckbox = false;
+
   coupon: Coupon;
   couponPass: Coupon = null;
   dateFrom: Date;
@@ -73,7 +65,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
-    // this.couponService.currentMessage.subscribe(coupon => this.couponPass = coupon);
     const ownerId = parseInt(this.storeService.getId(), 10);
 
     this.date = this.formBuilder.group({
@@ -119,7 +110,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.dateFrom = new Date(this.couponForm.value.valid_from);
     this.dateUntil = new Date(this.couponForm.value.valid_until);
 
-    // console.log(this.dateUntil.getMilliseconds());
 
 
 
@@ -128,7 +118,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     // stop here if form is invalid
     if (this.couponForm.invalid) {
       console.log('coupon invalid');
-      console.log(this.marked);
       return;
 
     }
@@ -155,12 +144,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       this.couponService.register(this.coupon).pipe(first())
         .subscribe(
           data => {
-
-            // if ((i + 1) === quantityCoupon) {
             this.router.navigate(['/reserved-area/producer/list']);
             this.toastCreate();
 
-            // }
           }, error => {
             console.log(error);
           }
@@ -188,13 +174,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         register = this.couponService.register(this.coupon)
         .subscribe(
           data => {
-            // if ((i + 1) === quantityCoupon) {
               if ( i === this.couponForm.value.quantity - 1) {
                 this.router.navigate(['/reserved-area/producer/list']);
                 this.toastCreate();
               }
-
-            // }
           }, error => {
             console.log(error);
           }
@@ -223,13 +206,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    // console.log(data);
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+
   }
 
   toggleVisibilityExpiration(e) {
