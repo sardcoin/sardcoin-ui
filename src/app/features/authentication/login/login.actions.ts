@@ -61,8 +61,7 @@ export class LoginActions {
     this.storeLocal.removeId();
     this.storeLocal.removeType();
     this.storeLocal.removeUserNames();
-    // console.log('login.actions.passwordControl');
-    // this.eventManager.isUserLoggedIn.next(false);
+
 
   }
   loginUserSuccessPostPassword(user: User, token: string) {

@@ -55,25 +55,6 @@ export class RegisterFormProducerComponent implements OnInit {
 
   get f() { return this.registrationForm.controls; }
 
-  // selectChangeHandler (event: any) {
-  //   // this.selectedUser = event.target.value;
-  //
-  //   // if (this.selectedUser === '2') {
-  //   //    // console.log('sto nel set');
-  //   //   this.registrationForm.controls['company_name'].setValidators(Validators.required);
-  //   //   this.registrationForm.controls['company_name'].updateValueAndValidity();
-  //   //
-  //   //   this.registrationForm.controls['vat_number'].setValidators(Validators.required);
-  //   //   this.registrationForm.controls['vat_number'].updateValueAndValidity();
-  //   // } else {
-  //     // console.log('pulisco');
-  //     this.registrationForm.controls['company_name'].setValidators(null);
-  //     this.registrationForm.controls['company_name'].updateValueAndValidity();
-  //
-  //     this.registrationForm.controls['vat_number'].setValidators(null);
-  //     this.registrationForm.controls['vat_number'].updateValueAndValidity();
-  //   // }
-  // }
 
   onSubmit() {
     this.submitted = true;
@@ -89,15 +70,9 @@ export class RegisterFormProducerComponent implements OnInit {
     this.registrationForm.value.id = 0;
     this.registrationForm.value.checksum = 0;
 
-    // If the user is not a company, put the fanValues to null
-    // if (this.selectedUser !== '2') {
-    //   this.registrationForm.value.company_name = null;
-    //   this.registrationForm.value.vat_number = null;
-    // }
 
     delete this.registrationForm.value.r_password;
 
-    // console.log(this.registrationForm.value);
 
     this.loading = true;
 

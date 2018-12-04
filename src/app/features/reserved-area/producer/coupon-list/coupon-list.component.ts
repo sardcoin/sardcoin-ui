@@ -1,4 +1,4 @@
-import {Component, TemplateRef, OnDestroy, OnInit, Input} from '@angular/core';
+import {Component, TemplateRef, OnDestroy, OnInit} from '@angular/core';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -88,7 +88,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   imageUrl(path) {
     // return correct address and port backend plus name image
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {

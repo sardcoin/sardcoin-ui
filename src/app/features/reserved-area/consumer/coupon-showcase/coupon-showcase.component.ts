@@ -88,7 +88,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
-        // console.log('getDistinctAvailables', coupons);
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -97,7 +96,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             getCart = cart;
             for (let i = 0; i < getCart.length; i++) {
               for (const j of this.coupons) {
-                // console.log('j[1]', j.id);
                if (getCart[i].id === j.id) {
                   this.couponsCheckCart.push(j);
                  this.coupons = coupons;
@@ -114,7 +112,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   imageUrl(path) {
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
@@ -130,24 +128,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
       let count = 0;
       this.couponArray = coupon;
-      // console.log('this.couponArray', this.couponArray);
       if ( ! (this.couponArray === null)) {
         for (let i = 0; i < this.couponArray.length; i++) {
           if ((this.couponArray[i].id === cp.id)) {
-            // console.log('i.title', this.couponArray[i].title);
-            // console.log('i.description', this.couponArray[i].description);
-            // console.log('i.price', this.couponArray[i].price);
 
             count = this.couponArray[i].CouponTokens.length;
           }
 
         }
       }
-      // console.log('purchasable', cp.purchasable);
-      // console.log('couponPass', cp);
-      // console.log('count', count);
-      // console.log('quantity', cp.quantity);
-
 
 
         this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable == null ? cp.quantity : cp.purchasable );
@@ -193,17 +182,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   addToCart(coupon: Coupon) {
 
-    // console.log('quantity invalid', this.myForm.invalid);
 
     if (this.myForm.invalid) {
-      // console.log('quantity invalid');
-      // console.log(this.tokenForm);
+
       return;
 
     }
     const cpn = new Coupon();
     cpn.quantity = this.myForm.value.quantity;
-    cpn.purchasable = this.maxQuantity;
+    cpn.purchasable = this.maxQuantity; // passo quello che può comprare
     cpn.id = coupon.id;
     cpn.title = coupon.title;
     cpn.description = coupon.description;
@@ -228,7 +215,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
         }
 
-        // console.log('cpn', cpn);
     });
     this.isMax = false;
     this.modalRef.hide();
@@ -241,7 +227,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   inCart(coupon) {
 
     for (const i of this.couponsCheckCart) {
-      if (coupon.title === i.title) {
+      if (coupon.id === i.id) {
         return true;
       }
     }

@@ -30,12 +30,11 @@ export class AuthenticationService {
       headers: headers
     };
 
-    return this.http.post<any>('http://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
+    return this.http.post<any>(environment.protocol + '://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
       .pipe(map(response => {
 
         if (response['user'] && response['token']) {
           this.loginActions.loginUserSuccess(response['user'], response['token']);
-          // console.log('response in auth', response);
           return response;
         } else {
           this.loginActions.loginUserError();
@@ -56,21 +55,16 @@ export class AuthenticationService {
       headers: headers
     };
 
-    return this.http.post<any>('http://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
+    return this.http.post<any>(environment.protocol + '://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
       .pipe(map(response => {
 
         if (user && token) {
           this.loginActions.loginUserSuccessPostPassword(user, token);
-          // console.log('autentication.service user && token .passwordControl');
-          console.log('response in auth', response);
           return response;
         } else {
-          // console.log('autentication.service else .passwordControl');
-          console.log('response in auth', response);
           this.loginActions.loginUserSuccessPostPassword(user, token);
           return response;
         }}, error => {
-        // console.log('autentication.service error .passwordControl');
         this.loginActions.loginUserSuccessPostPassword(user, token);
           console.log('errorAutentication', error);
           console.log('Wrong password');

@@ -49,7 +49,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   imageUrl(path) {
 
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
@@ -78,13 +78,12 @@ export class CartShowComponent implements OnInit, OnDestroy {
         this.localStorage.getItem('cart').subscribe((crt) => {
 
           this.couponCart = crt;
-           // console.log('crt', crt);
           if (crt === null || crt.length === 0) {
             this.isEmpty = true;
           } else {
             this.isEmpty = false;
           }
-          if (this.couponCart != null || this.couponCart != undefined ) {
+          if (this.couponCart != null || this.couponCart !== undefined ) {
             for (let i = 0; i < this.couponCart.length; i++) {
               for (let j = 0; j < this.couponArray.length; j++) {
                 if (this.couponCart[i].id === this.couponArray[j].id) {
@@ -94,7 +93,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
               }
             }
           }
-          // console.log('cart with complete data', this.cartArray);
         });
       },
       error => console.log(error)
@@ -164,7 +162,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
       }
 
       this.addBreadcrumb();
-      // console.log('cart with complete data', this.cartArray);
     });
     this.modalRef.hide();
 
@@ -193,7 +190,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      // console.log('del quantity', this.cartArray);
     });
 
   }
@@ -222,7 +218,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
-      // console.log('del quantity', this.cartArray);
     });
 
   }

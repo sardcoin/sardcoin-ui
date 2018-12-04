@@ -5,7 +5,6 @@ import {AlertConfig} from 'ngx-bootstrap/alert';
 @Component({
   selector: 'app-feature-authentication-login',
   templateUrl: './login.component.html',
-  // styleUrls: ['./login.component.scss'],
   providers: [{ provide: AlertConfig, useFactory: getAlertConfig }],
   styles: [`
       :host {

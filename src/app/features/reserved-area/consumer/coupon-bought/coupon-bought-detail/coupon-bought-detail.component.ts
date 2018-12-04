@@ -17,11 +17,10 @@ import {UserService} from '../../../../../shared/_services/user.service';
   styleUrls: ['./coupon-bought-detail.component.scss']
 })
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
-  URLstring = 'http://' + environment.host + ':' + environment.port + '/';
+  URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   couponPass: any;
   cart = new Coupon();
-  quantity = 1;
   producer = null;
   constructor( private breadcrumbActions: BreadcrumbActions,
                private couponService: CouponService,
@@ -35,7 +34,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
-    // console.log('couponPass', this.couponPass)
     if (this.couponPass === null) {
       this.router.navigate(['/reserved-area/consumer/bought']);
       this.addBreadcrumb();
@@ -97,7 +95,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
 
   getOwner() {
     this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      // console.log('user', user);
         this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 

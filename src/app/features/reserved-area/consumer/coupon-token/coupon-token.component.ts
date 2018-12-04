@@ -1,16 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DateValidation} from '../../producer/coupon-create/validator/DateValidation.directive';
-import {ImageValidation} from '../../producer/coupon-create/validator/ImageValidation.directive.';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {QuantityCouponValidation} from '../../producer/coupon-create/validator/QuantityCouponValidation.directive';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {validate} from 'codelyzer/walkerFactory/walkerFn';
-import {BrowserQRCodeReader} from '@zxing/library';
+import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 
 @Component({
   selector: 'app-coupon-token',
@@ -23,6 +19,14 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   data: any;
   isScan = false;
 
+  @ViewChild('scanner')
+  scanner: ZXingScannerComponent;
+
+  hasCameras = false;
+  hasPermission: boolean;
+  qrResultString: string;
+  availableDevices: MediaDeviceInfo[];
+  selectedDevice: MediaDeviceInfo;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -34,6 +38,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.newCamera();
     this.tokenForm = this.formBuilder.group({
       token: [null, Validators.required]
     });
@@ -60,7 +65,6 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
        this.couponService.importOfflineCoupon(this.data).subscribe(
          (data) => {
-           // console.log('data', data);
            if (data !== null) {
              this.toastValidate();
              this.router.navigate(['/reserved-area/consumer/bought']);
@@ -73,7 +77,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
            this.toastError();
 
            console.log(error);
-           return
+           return;
          }
        );
 
@@ -105,29 +109,6 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
   scan() {
     this.isScan = true;
-    const codeReader = new BrowserQRCodeReader();
-
-    codeReader.getVideoInputDevices()
-      .then(videoInputDevices => {
-        videoInputDevices.forEach(
-          device => {
-            console.log(`${device.label}, ${device.deviceId}`);
-            const firstDeviceId = videoInputDevices[0].deviceId;
-
-            codeReader.decodeFromInputVideoDevice(firstDeviceId, 'video')
-              .then(result => {
-                console.log(result.getText());
-                this.tokenForm.controls.token.setValue((result.getText()));
-                this.isScan = false;
-                codeReader.reset();
-                this.qrCodeReadSuccess();
-              })
-              .catch(err => console.error(err));
-          }
-        );
-      })
-      .catch(error => console.error(error));
-
 
 
   }
@@ -136,5 +117,40 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   qrCodeReadSuccess() {
     this.toastr.success( 'Qr-code reader successfully');
   }
+
+  newCamera() {
+
+    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+      this.hasCameras = true;
+
+
+      this.availableDevices = devices;
+    });
+
+    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+    });
+
+    this.scanner.permissionResponse.subscribe((answer: boolean) => {
+      this.hasPermission = answer;
+      console.log('permission', this.hasPermission );
+    });
+
+  }
+
+  handleQrCodeResult(resultString: string) {
+    console.log('Result: ', resultString);
+    this.qrResultString = resultString;
+    this.tokenForm.controls.token.setValue(resultString);
+    this.qrCodeReadSuccess();
+    this.isScan = false;
+    this.selectedDevice = null;
+  }
+
+  onDeviceSelectChange(selectedValue: string) {
+    console.log('Selection changed: ', selectedValue);
+    this.selectedDevice = this.scanner.getDeviceById(selectedValue);
+  }
+
 
 }

@@ -17,8 +17,6 @@ import {CouponToken} from '../../../../shared/_models/CouponToken';
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
   coupons: any;
-  getAffordables: any;
-
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
@@ -58,14 +56,14 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
         }
         this.coupons = coupons;
-        //console.log('this.coupons', this.coupons);
+        // console.log('this.coupons', this.coupons);
       }, err => {
         console.log(err);
       });
   }
 
   imageUrl(path) {
-    return this._sanitizer.bypassSecurityTrustUrl('http://' + environment.host + ':' + environment.port + '/' + path);
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
   }
 
   formatPrice(price) {
