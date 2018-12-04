@@ -58,7 +58,7 @@
 
                 <div class="mt-2">
                   Progress:
-                  <div class="progress" style="">
+                  <div class="progress" style="width: 75%;">
                     <div class="progress-bar" role="progressbar"
                          [ngStyle]="{ 'width': uploader.progress + '%' }">
                     </div>
@@ -73,13 +73,6 @@
             </div> <!-- Image -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Price</label>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="freeCheck"
-                         [checked]="markedFree" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="freeCheck">Free</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input [readonly]="markedFree" type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
@@ -87,18 +80,17 @@
                   <div *ngIf="f.price.errors">Value required</div>
                 </div>
               </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="freeCheck"
+                         [checked]="markedFree" (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="freeCheck">Free</label>
+                </div>
+              </div>
             </div> <!-- Price -->
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Published From:</label>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
-                         [checked]="markedPrivate" (change)="toggleCheckbox($event)"
-                         data-md-icheck>
-                  <label class="custom-control-label" for="privateCheck">Private</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
@@ -107,6 +99,14 @@
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
                   <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
+                         [checked]="markedPrivate" (change)="toggleCheckbox($event)"
+                         data-md-icheck>
+                  <label class="custom-control-label" for="privateCheck">Private</label>
                 </div>
               </div>
             </div> <!-- Published From -->
@@ -125,13 +125,6 @@
             </div> <!-- Valid From -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valid Until:</label>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="unlimitedCheck"
-                         (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="unlimitedCheck">Unlimited</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input type="text"
                        [style.background]="bgColorCalendar"
@@ -145,22 +138,29 @@
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
                 </div>
               </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="unlimitedCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="unlimitedCheck">Unlimited</label>
+                </div>
+              </div>
             </div> <!-- Valid Until -->
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Constraints:</label>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="constraintsCheck"
-                         [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="constraintsCheck">None</label>
-                </div>
-              </div>
               <div class="col-sm-8">
                 <input [readonly]="markedConstraints" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="constraintsCheck"
+                         [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="constraintsCheck">None</label>
                 </div>
               </div>
             </div> <!-- Constraints -->
@@ -177,20 +177,18 @@
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
-
-              <div class="col-sm-4 col-lg-2 my-auto">
-                <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
-                          [checked]="markedQuantity" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="quantityCheck">No limit</label>
-                </div>
-              </div>
-
               <div  class="col-sm-4 col-lg-8">
                 <input  type="number" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
                   <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-lg-2 my-auto">
+                <div class="custom-control custom-checkbox">
+                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
+                          [checked]="markedQuantity" (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="quantityCheck">No limit</label>
                 </div>
               </div>
             </div> <!-- Purchasable -->

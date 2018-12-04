@@ -5,7 +5,7 @@ export class Coupon {
   title: string;
   description: string;
   image: string;
-  timestamp: string;
+  timestamp?:  Date | number;
   price: number;
   visible_from: Date | number;
   valid_from: Date | number;
@@ -22,7 +22,7 @@ export class Coupon {
               title?: string,
               description?: string,
               image?: string,
-              timestamp?: string,
+              timestamp?: Date | number,
               price?: number,
               valid_from?: Date | number,
               visible_from?: Date | number,

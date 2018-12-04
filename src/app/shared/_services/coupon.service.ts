@@ -54,7 +54,7 @@ export class CouponService {
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', this.formatUrl('delete'), {body: {id: cp}});
+    return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});
   }
 
   deleteAllCoupons() {
