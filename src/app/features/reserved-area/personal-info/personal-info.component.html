@@ -1,6 +1,6 @@
 <div class="form-inline mb-2">
 </div>
-
+<div *ngIf="user !== null">
 <form [formGroup]="updateRegistration" (ngSubmit)="onSubmit()">
 
   <div *ngIf="this.selectedUser === 0 || this.selectedUser === 1">
@@ -221,3 +221,4 @@
     <button  class="btn btn-block btn-success">Update Account</button>
   </div> <!-- Password and repeated password -->
 </form>
+</div>

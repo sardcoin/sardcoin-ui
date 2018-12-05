@@ -1,4 +1,5 @@
 <!--<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">-->
+<div *ngIf="user !== null">
   <form [formGroup]="paymentForm" class="col-sm-12">
 
   <div *ngIf="this.selectedUser === 1 || this.selectedUser === 0">
@@ -202,8 +203,8 @@
       </div>
     </ng-template>
    <!-- Password and repeated password -->
-</form>
-
+  </form>
+</div>
 <div class="modal-footer col-md-12">
   <button class="btn  btn-danger col-md-6" (click)="goToShowcase()">Go to shopping</button>
   <button class="btn  btn-success col-md-6" (click)="openModal(template)">Save change</button>
