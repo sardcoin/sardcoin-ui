@@ -48,7 +48,11 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     AlertModule.forRoot(),
     StoreModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      progressBar: true,
+
+    })
   ],
   declarations: [
     AppComponent,
