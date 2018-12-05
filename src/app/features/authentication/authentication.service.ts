@@ -17,7 +17,6 @@ export class AuthenticationService {
     private ngRedux: NgRedux<IAppState>,
     private loginActions: LoginActions,
     private localService: StoreService,
-
   ) {
   }
 
@@ -64,10 +63,11 @@ export class AuthenticationService {
         } else {
           this.loginActions.loginUserSuccessPostPassword(user, token);
           return response;
-        }}, error => {
+        }
+      }, error => {
         this.loginActions.loginUserSuccessPostPassword(user, token);
-          console.log('errorAutentication', error);
-          console.log('Wrong password');
+        console.log('errorAutentication', error);
+        console.log('Wrong password');
       }));
   }
 }

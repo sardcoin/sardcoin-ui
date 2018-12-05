@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
-import { LocalStorage } from '@ngx-pwa/local-storage';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 
 
@@ -46,11 +46,11 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               protected localStorage: LocalStorage,
               private formBuilder: FormBuilder) {
 
-        this.localStorage.getItem('cart').subscribe(cart => {
-          if (cart === null) {
-            this.localStorage.setItem('cart', []);
-          }
-        });
+    this.localStorage.getItem('cart').subscribe(cart => {
+      if (cart === null) {
+        this.localStorage.setItem('cart', []);
+      }
+    });
 
   }
 
@@ -60,6 +60,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
 
   }
+
   get f() {
     return this.myForm.controls;
   }
@@ -96,10 +97,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
             getCart = cart;
             for (let i = 0; i < getCart.length; i++) {
               for (const j of this.coupons) {
-               if (getCart[i].id === j.id) {
+                if (getCart[i].id === j.id) {
                   this.couponsCheckCart.push(j);
-                 this.coupons = coupons;
-               }
+                  this.coupons = coupons;
+                }
               }
             }
           }
@@ -128,7 +129,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
       let count = 0;
       this.couponArray = coupon;
-      if ( ! (this.couponArray === null)) {
+      if (!(this.couponArray === null)) {
         for (let i = 0; i < this.couponArray.length; i++) {
           if ((this.couponArray[i].id === cp.id)) {
 
@@ -139,7 +140,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       }
 
 
-        this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable == null ? cp.quantity : cp.purchasable );
+      this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable == null ? cp.quantity : cp.purchasable);
 
       if (this.maxQuantity < 1) {
         this.toastExcededBuy();
@@ -156,10 +157,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       }
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     });
-    }
+  }
 
   toastExcededBuy() {
-    this.toastr.error( 'Coupon exceded to buy!');
+    this.toastr.error('Coupon exceded to buy!');
 
   }
 
@@ -176,7 +177,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   toastCart() {
-    this.toastr.success( 'Coupon added to cart!');
+    this.toastr.success('Coupon added to cart!');
   }
 
 
@@ -203,17 +204,19 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     cpn.constraints = coupon.constraints;
     cpn.owner = coupon.owner;
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
-        if (cart === null) {
-          this.localStorage.setItem('cart', [cpn]).subscribe(() => {
-            this.loadCoupons();
-            return;
-          });
-        } else {
-            this.crt = cart;
-              this.crt.push(cpn);
-            this.localStorage.setItem('cart', this.crt).subscribe(() => {this.loadCoupons(); });
+      if (cart === null) {
+        this.localStorage.setItem('cart', [cpn]).subscribe(() => {
+          this.loadCoupons();
+          return;
+        });
+      } else {
+        this.crt = cart;
+        this.crt.push(cpn);
+        this.localStorage.setItem('cart', this.crt).subscribe(() => {
+          this.loadCoupons();
+        });
 
-        }
+      }
 
     });
     this.isMax = false;
@@ -234,6 +237,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     return false;
 
   }
+
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
 
@@ -241,7 +245,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   add() {
     this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
-    if ( this.myForm.value.quantity === this.maxQuantity) {
+    if (this.myForm.value.quantity === this.maxQuantity) {
       this.isMax = true;
     }
   }
@@ -260,8 +264,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       max = limitUser - quantityInCart;
     }
     if (dispTotal <= limitUser) {
-      if (limitUser - quantityInCart  >= dispTotal) {
-        max = dispTotal ;
+      if (limitUser - quantityInCart >= dispTotal) {
+        max = dispTotal;
       } else {
         max = limitUser - quantityInCart;
       }
