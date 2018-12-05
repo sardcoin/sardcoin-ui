@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FiscalCodeValidation} from '../../validators/fiscal-code-validator.directive';
 import {PasswordValidation} from '../../validators/password-validator.directive';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -23,37 +23,41 @@ export class RegisterFormProducerComponent implements OnInit {
   // selectedUser = 'editor';
   loading = false;
   submitted = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
     private ngRedux: NgRedux<IAppState>
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
-      first_name:   ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      last_name:    ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      birth_place:  ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      birth_date:   ['', Validators.required],
-      fiscal_code:  ['', Validators.compose([Validators.maxLength(16), Validators.required])],
-      email_paypal: [null , Validators.compose([ Validators.maxLength(50)])],
-      address:      ['', Validators.compose([Validators.maxLength(100), Validators.required])],
-      city:         ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip:          ['', Validators.compose([Validators.maxLength(5), Validators.required])],
-      province:     ['', Validators.compose([Validators.maxLength(2), Validators.required])],
-      username:     ['', Validators.compose([Validators.maxLength(20), Validators.required])],
-      email:        ['', Validators.required],
-      password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
-      r_password:   ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      first_name: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      last_name: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      birth_place: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      birth_date: ['', Validators.required],
+      fiscal_code: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
+      email_paypal: [null, Validators.compose([Validators.maxLength(50)])],
+      address: ['', Validators.compose([Validators.maxLength(100), Validators.required])],
+      city: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      zip: ['', Validators.compose([Validators.maxLength(5), Validators.required])],
+      province: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
+      username: ['', Validators.compose([Validators.maxLength(20), Validators.required])],
+      email: ['', Validators.required],
+      password: ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      r_password: ['', Validators.compose([Validators.minLength(10), Validators.required])],
       company_name: ['', Validators.required],
-      vat_number:   ['', Validators.required]
+      vat_number: ['', Validators.required]
     }, {
       validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
     });
   }
 
-  get f() { return this.registrationForm.controls; }
+  get f() {
+    return this.registrationForm.controls;
+  }
 
 
   onSubmit() {
@@ -80,7 +84,6 @@ export class RegisterFormProducerComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          // this.setSignedUp(this.registrationForm.value.username);
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;

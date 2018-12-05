@@ -20,7 +20,7 @@
                   <div *ngIf="f.title.errors">Title is required, Minimum 5 characters, Maximum 40 character</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Title -->
             <div class="form-group row">
               <label class="col-lg-2 col-sm-4 col-form-label">Description</label>
               <div class="col-lg-10 col-sm-8">
@@ -31,7 +31,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Description -->
 
             <div class="form-group row">
               <label class="col-lg-2 col-sm-4 col-form-label">Image</label>
@@ -70,29 +70,49 @@
                   <div>Image is required.</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Image -->
             <div class="form-group row">
               <label class="col-lg-2 col-sm-4 col-form-label">Price</label>
               <div class="col-lg-8 col-sm-4">
-                <input [readonly]="marked2" type="number" formControlName="price" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
+                <input type="number" formControlName="price" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.price.errors }" min="0" />
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                   <div *ngIf="f.price.errors">Value required.</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check2" data-md-icheck
-                         (change)="toggleVisibilityPrice($event)">
-                  <label class="custom-control-label" for="check2">Free</label>
+                  <input type="checkbox" class="custom-control-input" id="freeCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="freeCheck">Free</label>
                 </div>
               </div>
-            </div>
+            </div> <!-- Price -->
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Published From:</label>
+              <div class="col-sm-8">
+                <input style="background: white" type="text" mwlFlatpickr
+                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                       dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
+                       [style.background]="bgColorPrivate"
+                       [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+                <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
+                  <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="privateCheck">Private</label>
+                </div>
+              </div>
+            </div> <!-- Published From -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valid from</label>
-              <div class="col-sm-8 col-lg-10">
+              <div class="col-sm-8 col-lg-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="valid_from" class="form-control"
@@ -101,8 +121,7 @@
                   <div *ngIf=" f.valid_from.errors ">Date or time are incorrect.</div>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Valid From -->
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
               <div  class="col-sm-4 col-lg-8">
@@ -111,8 +130,12 @@
                 <!--<div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">-->
                 <!--<div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>-->
                 <!--</div>-->
-                <input  [ngStyle]="{'background': marked ? '#e4e7ea' : 'white' }"  type="text" mwlFlatpickr
-                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
+                <input type="text" mwlFlatpickr
+                       [style.background]="bgColorCalendar"
+                       [clickOpens]="true"
+                       [noCalendar]="false"
+                       [convertModelValue]="true"
+                       [enableTime]="true"
                        dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
@@ -121,18 +144,18 @@
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input formControlName="valid_until_empty" type="checkbox" class="custom-control-input" id="check1" data-md-icheck
-                         (change)="toggleVisibilityExpiration($event)">
-                  <label class="custom-control-label" for="check1">Never expires</label>
+                  <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty"
+                         class="custom-control-input" id="unlimitedCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="unlimitedCheck">Never expires</label>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Valid Until -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Place</label>
               <div class="col-sm-4 col-lg-8">
-                <input  [readonly]="marked3" type="text" formControlName="constraints" class="form-control"
+                <input  type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
                   <div *ngIf="f.constraints.errors">Value required</div>
@@ -140,28 +163,27 @@
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="check3" data-md-icheck
-                         (change)="toggleVisibilityPlace($event)">
-                  <label class="custom-control-label" for="check3">Everywhere</label>
+                  <input type="checkbox" class="custom-control-input" id="constraintsCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="constraintsCheck">Everywhere</label>
                 </div>
               </div>
-            </div>
-
+            </div> <!-- Place (constraints) -->
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Quantity</label>
-              <div class="col-sm-12 col-lg-10">
+              <div class="col-sm-12 col-lg-8">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" min="1" max="1"/>
                 <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
                   <div *ngIf="f.quantity.errors">Value required or incorrect</div>
                 </div>
               </div>
-            </div>
+            </div> <!-- Quantity -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
               <div  class="col-sm-4 col-lg-8">
-                <input  [readonly]="markedQuantity" type="text" formControlName="purchasable" class="form-control"
+                <input  type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
                   <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
@@ -169,33 +191,19 @@
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="checkQuantity" data-md-icheck
-                         (change)="toggleVisibilityQuatity($event)">
-                  <label class="custom-control-label" for="checkQuantity">No limit</label>
+                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
+                         (change)="toggleCheckbox($event)" data-md-icheck>
+                  <label class="custom-control-label" for="quantityCheck">No limit</label>
                 </div>
               </div>
-            </div>
-
-
-
-            <div class="form-group row">
-
-              <div class="col-sm-10 col-lg-8 my-auto">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="checkVisible" data-md-icheck
-                         (change)="toggleVisibility($event)">
-                  <label class="custom-control-label" for="checkVisible"> Not visible</label>
-
-                </div>
-              </div>
-            </div>
+            </div> <!-- Purchasable -->
 
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">Either Valid From or Valid Until contains a data
               already passed.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Expiration date must follow the first day of validity.
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Expiration date must be after the begin of validity.
             </div>
             <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
               Please upload an image before creating the coupon.
@@ -208,7 +216,6 @@
                 <button class="btn btn-block btn-success btn-create-coupon">Create</button>
               </p>
             </div>
-
 
           </form>
 

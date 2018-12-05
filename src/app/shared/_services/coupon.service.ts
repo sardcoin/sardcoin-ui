@@ -13,8 +13,9 @@ export class CouponService {
   couponChange: any = null;
   couponInfoUser: any = null;
   fromEditOrCopy = false;
-  private boolFormEdit = new BehaviorSubject(this.fromEditOrCopy);
-  private couponSource = new BehaviorSubject(this.couponChange);
+
+  private boolFormEdit = new BehaviorSubject<boolean>(this.fromEditOrCopy);
+  private couponSource = new BehaviorSubject<Coupon>(this.couponChange);
   private couponUser = new BehaviorSubject(this.couponInfoUser);
 
   currentMessage = this.couponSource.asObservable();
@@ -48,13 +49,12 @@ export class CouponService {
   }
 
   getProducerCoupons() {
-    return this.http.get<Coupon>(this.formatUrl('getProducerCoupons'));
+    return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
 
   }
 
   deleteCoupon(cp: number) {
-    return this.http.request('delete', this.formatUrl('delete'), {body: {id: cp}});
-
+    return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});
   }
 
   deleteAllCoupons() {
@@ -72,17 +72,14 @@ export class CouponService {
     this.boolFormEdit.next(fromEdit);
   }
 
-  editCoupon(cp: any) {
-    return this.http.request('put', this.formatUrl('update'), {body: cp});
+  editCoupon(coupon: Coupon) {
+    return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
   }
 
-  register(coupon: Coupon) {
+  create(coupon: Coupon) {
     return this.http.post(this.formatUrl('create'), coupon);
   }
 
-  // getAffordables() {
-  //   return this.http.get(environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/getAffordables');
-  // }
 
   buyCoupon(coupon_id: number) {
     return this.http.post(this.formatUrl('buyCoupon'), {coupon_id: coupon_id});
@@ -104,9 +101,8 @@ export class CouponService {
   }
 
 
-
   getTotalCoupons() {
-    return this.http.get('http://' + environment.host + ':' + environment.port + '/coupons/getAllCouponsStateOne');
+    return this.http.get(this.formatUrl('getAllCouponsStateOne'));
 
   }
 

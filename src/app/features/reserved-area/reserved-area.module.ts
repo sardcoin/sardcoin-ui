@@ -22,11 +22,6 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
     PaymentDetailsComponent,
-
-
-
-
-
   ],
   imports: [
     SharedModule,
@@ -36,10 +31,6 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     FeatureReservedAreaRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
-
-
-
-
   ],
   providers: [
     CouponService,
@@ -49,15 +40,11 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     BreadcrumbActions,
     UserService,
     BsModalService,
-
-
   ],
   exports: [
     FeatureReservedAreaComponent,
     PersonalInfoComponent,
     PaymentDetailsComponent,
-
-
   ]
 })
 

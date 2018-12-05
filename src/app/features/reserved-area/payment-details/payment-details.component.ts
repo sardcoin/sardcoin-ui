@@ -53,60 +53,65 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private formBuilder: FormBuilder) {
     this.paymentForm = this.formBuilder.group({
-      first_name:   ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      last_name:    ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      birth_place:  ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      birth_date:   ['', Validators.required],
-      fiscal_code:  ['', Validators.compose([Validators.maxLength(16), Validators.required])],
-      email_paypal: ['' , Validators.compose([ Validators.maxLength(50), Validators.required])],
-      address:      ['', Validators.compose([Validators.maxLength(100), Validators.required])],
-      city:         ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip:          ['', Validators.compose([Validators.maxLength(5), Validators.required])],
-      province:     ['', Validators.compose([Validators.maxLength(2), Validators.required])],
-      username:     ['', Validators.compose([Validators.maxLength(20), Validators.required])],
-      email:        ['', Validators.required],
-      password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
-      r_password:   ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      first_name: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      last_name: ['', Validators.compose([Validators.maxLength(40), Validators.required])],
+      birth_place: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      birth_date: ['', Validators.required],
+      fiscal_code: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
+      email_paypal: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      address: ['', Validators.compose([Validators.maxLength(100), Validators.required])],
+      city: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      zip: ['', Validators.compose([Validators.maxLength(5), Validators.required])],
+      province: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
+      username: ['', Validators.compose([Validators.maxLength(20), Validators.required])],
+      email: ['', Validators.required],
+      password: ['', Validators.compose([Validators.minLength(10), Validators.required])],
+      r_password: ['', Validators.compose([Validators.minLength(10), Validators.required])],
       company_name: [''],
-      vat_number:   ['']
+      vat_number: ['']
     }, {
       validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
     });
   }
 
   ngOnInit() {
-    this.userService.getUserById().subscribe( user => {
+    this.userService.getUserById().subscribe(user => {
       this.user = user;
       this.paymentForm = this.formBuilder.group({
-        first_name:   [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-        last_name:    [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-        birth_place:  [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
-        birth_date:   [this.user.birth_date, Validators.required],
-        fiscal_code:  [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
-        email_paypal: [this.user.email_paypal , Validators.compose([ Validators.maxLength(50), Validators.required])],
-        address:      [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
-        city:         [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
-        zip:          [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
-        province:     [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
-        username:     [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
-        email:        [this.user.email, Validators.required],
-        password:     [null],
-        r_password:   [null],
+        first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
+        last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
+        birth_place: [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
+        birth_date: [this.user.birth_date, Validators.required],
+        fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
+        email_paypal: [this.user.email_paypal, Validators.compose([Validators.maxLength(50), Validators.required])],
+        address: [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
+        city: [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
+        zip: [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
+        province: [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
+        username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
+        email: [this.user.email, Validators.required],
+        password: [null],
+        r_password: [null],
         company_name: [this.user.company_name],
-        vat_number:   [this.user.vat_number]
+        vat_number: [this.user.vat_number]
       }, {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
-      this.selectChangeHandler (this.user.user_type);
+      this.selectChangeHandler(this.user.user_type);
     });
     this.addBreadcrumb();
 
   }
 
-  get f() { return this.paymentForm.controls; }
-  get g() { return this.myForm.controls; }
+  get f() {
+    return this.paymentForm.controls;
+  }
 
-  selectChangeHandler (user_type) {
+  get g() {
+    return this.myForm.controls;
+  }
+
+  selectChangeHandler(user_type) {
     this.selectedUser = Number(user_type);
 
     if (this.selectedUser === 2) {
@@ -123,6 +128,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
       this.paymentForm.controls['vat_number'].updateValueAndValidity();
     }
   }
+
   onSubmit() {
     this.done = true;
     this.submitted = true;
@@ -161,19 +167,19 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.modalRef.hide();
         this.paymentForm.value.password = this.myForm.value.password;
-            this.userService.update(<User> this.paymentForm.value)
-              .pipe(first())
-              .subscribe(
-                up => {
-                  this.modalRef.hide();
-                  this.toastSuccessfull();
-                  this.router.navigate(['/reserved-area/payment_details']);
-                }, error1 => {
-                  this.loading = false;
-                  console.log('error1', error1);
-                  console.log('No update user');
-                }
-              );
+        this.userService.update(<User> this.paymentForm.value)
+          .pipe(first())
+          .subscribe(
+            up => {
+              this.modalRef.hide();
+              this.toastSuccessfull();
+              this.router.navigate(['/reserved-area/payment_details']);
+            }, error1 => {
+              this.loading = false;
+              console.log('error1', error1);
+              console.log('No update user');
+            }
+          );
       }, error => {
         this.loginActions.loginUserSuccess(this.paymentForm.value, token);
         this.successPassword = false;
@@ -187,14 +193,14 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.submitted = true;
     this.myForm = this.formBuilder.group({
       user: [this.user.username],
-      password: [ null , Validators.compose([Validators.required ])]
+      password: [null, Validators.compose([Validators.required])]
 
     });
 
     if (this.paymentForm.valid) {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     }
-    }
+  }
 
   goToShowcase() {
 
@@ -207,7 +213,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   }
 
   toastSuccessfull() {
-    this.toastr.success( 'Successful changes !!!');
+    this.toastr.success('Successful changes !!!');
   }
 
   ngOnDestroy(): void {
@@ -218,6 +224,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.deleteBreadcrumb();
 
   }
+
   addBreadcrumb() {
     this.bread = [] as Breadcrumb[];
 

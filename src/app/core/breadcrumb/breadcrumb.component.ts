@@ -6,7 +6,6 @@ import {Breadcrumb} from './Breadcrumb';
 import {IAppState} from '../../shared/store/model';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Router} from '@angular/router';
-import {importExpr} from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -21,10 +20,12 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
   isUserLoggedIn: boolean;
 
 
-  constructor(private globalEventService: GlobalEventsManagerService,
-              private ngRedux: NgRedux<IAppState>,
-              private router: Router,
-              protected localStorage: LocalStorage) {
+  constructor(
+    private globalEventService: GlobalEventsManagerService,
+    private ngRedux: NgRedux<IAppState>,
+    private router: Router,
+    protected localStorage: LocalStorage
+  ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
     });
@@ -32,7 +33,6 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
     this.breadcrumb$.subscribe(elements => {
       this.breadList = elements['list'];
       this.localStorage.getItem('cart').subscribe((data) => {
-
 
         if (data === null) {
           this.arrayCart = [];
@@ -61,21 +61,11 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
   }
 
   viewCart() {
-
     this.router.navigate(['/reserved-area/consumer/cart']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
-     {
-
-      console.log(
-        'Value change from',
-        changes.arrayCart,
-
-      );
-
-    }
+    console.log('Value change from', changes.arrayCart);
   }
 
 }

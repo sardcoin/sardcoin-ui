@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {AlertModule} from 'ngx-bootstrap/alert';
 import {UserService} from '../../shared/_services/user.service';
 import {AuthenticationService} from './authentication.service';
 import {LoginModule} from './login/login.module';

@@ -76,13 +76,10 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
                   this.router.navigate(['reserved-area/verifier']);
                   return;
                 } else {
-
                   this.router.navigate(['reserved-area']);
                   return;
-
                 }
               }
-
           },
           500);
       }, error => {
