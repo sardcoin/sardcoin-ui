@@ -1,4 +1,4 @@
-import {Injectable, NgModuleRef} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {NgRedux, select} from '@angular-redux/store';
@@ -15,7 +15,6 @@ export class IsAuthenticatedGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    const requiresLogin = route.data.requiresLogin || false;
 
     // Select the login item from the store
     return this.store.select('login').pipe(
