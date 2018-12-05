@@ -72,7 +72,7 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
 
             this.userType = this.storeLocal.getType();
               if (this.userType !== null) {
-                if (this.userType == 3) {
+                if (this.userType === 3) {
                   this.router.navigate(['reserved-area/verifier']);
                   return;
                 } else {

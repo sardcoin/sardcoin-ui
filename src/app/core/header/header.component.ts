@@ -1,13 +1,7 @@
-///<reference path="../../../../node_modules/rxjs/internal/operators/first.d.ts"/>
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {select} from '@angular-redux/store';
-import {Observable} from 'rxjs';
-import {LoginState} from '../../features/authentication/login/login.model';
-import {User} from '../../shared/_models/User';
+import {Component, TemplateRef} from '@angular/core';
 import {LoginActions} from '../../features/authentication/login/login.actions';
 import {StoreService} from '../../shared/_services/store.service';
 import {AuthenticationService} from '../../features/authentication/authentication.service';
-import {first, map} from 'rxjs/internal/operators';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
@@ -69,7 +63,7 @@ export class HeaderComponent {
   }
 
   openModal(template: TemplateRef<any>) {
-    if ( this.userType == 2 || this.userType == 0) {
+    if ( this.userType === 2 || this.userType === 0) { // TODO Fixme (what are 2 and 0?)
       this.localStorage.getItem('cart').subscribe(cart => {
         if (cart !== null) {
           this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});

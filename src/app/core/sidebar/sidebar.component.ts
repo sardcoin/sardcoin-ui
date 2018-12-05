@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {AuthenticationService} from '../../features/authentication/authentication.service';
 import {LoginActions} from '../../features/authentication/login/login.actions';
@@ -9,7 +9,7 @@ import {StoreService} from '../../shared/_services/store.service';
   templateUrl: './sidebar.component.html',
 })
 
-export class SidebarComponent{
+export class SidebarComponent {
   isUserLoggedIn = false;
   userType = null;
 

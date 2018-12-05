@@ -3,8 +3,8 @@ import {AbstractControl} from '@angular/forms';
 export class QuantityCouponValidation {
 
   static CheckQuantityCoupon(AC: AbstractControl) {
-    const quantityCoupon = parseInt(AC.get('quantity').value); // to get value in input tag
-    const quantityMaxBuyCoupon = parseInt(AC.get('purchasable').value); // to get value in input tag
+    const quantityCoupon = parseInt(AC.get('quantity').value, 10); // to get value in input tag
+    const quantityMaxBuyCoupon = parseInt(AC.get('purchasable').value, 10); // to get value in input tag
 
     try {
 

@@ -33,7 +33,7 @@ export class LoginActions {
     this.storeLocal.setToken(token);
     this.storeLocal.setId(user.id);
     this.storeLocal.setType(user.user_type);
-    this.storeLocal.setUserNames(user.first_name + " " + user.last_name);
+    this.storeLocal.setUserNames(user.first_name + ' ' + user.last_name);
 
   }
 
@@ -70,7 +70,7 @@ export class LoginActions {
     this.storeLocal.setToken(token);
     this.storeLocal.setId(user.id);
     this.storeLocal.setType(user.user_type);
-    this.storeLocal.setUserNames(user.first_name + " " + user.last_name);
+    this.storeLocal.setUserNames(user.first_name + ' ' + user.last_name);
     this.eventManager.isUserLoggedIn.next(true);
 
 
