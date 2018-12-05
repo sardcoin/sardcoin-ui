@@ -6,7 +6,6 @@ import {FeatureReservedAreaCouponListModule} from './coupon-list/coupon-list.mod
 import {FeatureReservedAreaCouponCreateModule} from './coupon-create/coupon-create.module';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
-import {CouponEditComponent} from './coupon-edit/coupon-edit.component';
 import {ProducerRoutingModule} from './producer.routing';
 import {FeatureReservedAreaProducerComponent} from './producer.component';
 import {FileUploadModule} from 'ng2-file-upload';
@@ -18,10 +17,6 @@ import {ReactiveFormsModule} from '@angular/forms';
   declarations: [
     FeatureReservedAreaProducerComponent,
     FeatureReservedAreaProducerCouponReportComponent,
-
-
-
-
   ],
   imports: [
     SharedModule,
@@ -34,14 +29,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     FileUploadModule,
-
-
   ],
   providers: [
     CouponService,
   ],
-
-
   exports: [
     FeatureReservedAreaProducerComponent
   ]

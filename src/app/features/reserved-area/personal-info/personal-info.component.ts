@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {StoreService} from '../../../shared/_services/store.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -17,7 +17,8 @@ import {first} from 'rxjs/internal/operators';
 @Component({
   selector: 'app-personal-info',
   templateUrl: './personal-info.component.html',
-  styleUrls: ['./personal-info.component.scss']
+  styleUrls: ['./personal-info.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PersonalInfoComponent implements OnInit, OnDestroy {
   bread = [] as Breadcrumb[];
@@ -59,10 +60,10 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         province:     [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username:     [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
         email:        [this.user.email, Validators.required],
-        password:     [null, Validators.compose([Validators.minLength(10), Validators.required])],
-        r_password:   [null, Validators.compose([Validators.minLength(10), Validators.required])],
+        password:     [null, Validators.compose([Validators.required])],
+        r_password:   [null, Validators.compose([Validators.required])],
         company_name: [this.user.company_name],
-        vat_number:   [this.user.vat_number]
+        vat_number:   [this.user.vat_number, Validators.compose([Validators.maxLength(11)])]
       }, {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
@@ -76,7 +77,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   selectChangeHandler (user_type) {
     this.selectedUser = Number(user_type);
 
-    if (this.selectedUser === 2) {
+    if (this.selectedUser !== 2) {
       this.updateRegistration.controls['company_name'].setValidators(Validators.required);
       this.updateRegistration.controls['company_name'].updateValueAndValidity();
 
@@ -102,33 +103,39 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     // Setting some fanValues to pass to the backend
     this.updateRegistration.value.user_type = this.selectedUser;
-    this.updateRegistration.value.id = 0;
-    this.updateRegistration.value.checksum = 0;
+
+    console.log(this.selectedUser);
 
     // If the user is not a company, put the fanValues to null
-    if (this.selectedUser !== 2) {
+    if (this.selectedUser === 2) {
       this.updateRegistration.value.company_name = null;
       this.updateRegistration.value.vat_number = null;
     }
 
     delete this.updateRegistration.value.r_password;
 
-
     this.loading = true;
 
+    console.log(this.updateRegistration.value);
+
     this.userService.update(<User> this.updateRegistration.value)
-      .pipe(first())
       .subscribe(
         data => {
 
-          this.toastSuccessfull();
-          this.router.navigate(['/reserved-area/personal_info']);
+          console.log(data);
+
+          if (data['status']) {
+            this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
+          } else {
+            this.toastr.success( 'Profile updated correctly!');
+          }
         }, error => {
-          this.loading = false;
           console.log(error);
-          console.log('User or email already exists');
+          this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
         }
       );
+
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
@@ -137,7 +144,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
-
   }
   addBreadcrumb() {
     this.bread = [] as Breadcrumb[];
@@ -149,8 +155,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.updateBreadcrumb(this.bread);
   }
 
-  toastSuccessfull() {
-    this.toastr.success( 'Successful changes !!!');
-  }
+
 
 }
