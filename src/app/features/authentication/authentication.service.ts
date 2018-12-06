@@ -44,32 +44,6 @@ export class AuthenticationService {
   logout() {
   }
 
-
-  passwordControl(credentials: Credentials, token: string, user: User) {
-
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Basic ' + btoa(credentials.username + ':' + credentials.password));
-
-    const httpOptions = {
-      headers: headers
-    };
-
-    return this.http.post<any>(environment.protocol + '://' + environment.host + ':' + environment.port + '/login', {}, httpOptions)
-      .pipe(map(response => {
-
-        if (user && token) {
-          this.loginActions.loginUserSuccessPostPassword(user, token);
-          return response;
-        } else {
-          this.loginActions.loginUserSuccessPostPassword(user, token);
-          return response;
-        }
-      }, error => {
-        this.loginActions.loginUserSuccessPostPassword(user, token);
-        console.log('errorAutentication', error);
-        console.log('Wrong password');
-      }));
-  }
 }
 
 
