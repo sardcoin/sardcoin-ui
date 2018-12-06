@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {StoreService} from '../../../shared/_services/store.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -12,7 +12,6 @@ import {select} from '@angular-redux/store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PasswordValidation} from '../../authentication/validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../authentication/validators/fiscal-code-validator.directive';
-import {first} from 'rxjs/internal/operators';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {LoginActions} from '../../authentication/login/login.actions';
 
