@@ -67,8 +67,8 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
 
     this.authenticationService.login(this.credentials)
       .pipe(first())
-      .subscribe(data => {
-        setTimeout((response) => {
+      .subscribe(() => {
+        setTimeout(() => {
 
             this.userType = this.storeLocal.getType();
               if (this.userType !== null) {
@@ -82,7 +82,7 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
               }
           },
           500);
-      }, error => {
+      }, () => {
         this.loading = false;
         this.failed = true;
       });
