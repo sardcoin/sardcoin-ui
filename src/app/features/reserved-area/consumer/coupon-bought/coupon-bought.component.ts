@@ -17,6 +17,7 @@ import {CouponToken} from '../../../../shared/_models/CouponToken';
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
   coupons: any;
+
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
@@ -52,9 +53,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   loadCoupons() {
     this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
-        for (const i of coupons) {
-
-        }
         this.coupons = coupons;
         // console.log('this.coupons', this.coupons);
       }, err => {
@@ -87,10 +85,8 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     cp.quantity = 0;
     cp.token = token;
 
-        this.couponService.setCoupon(coupon);
+    this.couponService.setCoupon(coupon);
 
-        this.router.navigate(['/reserved-area/consumer/bought/bought-details']);
-
-
+    this.router.navigate(['/reserved-area/consumer/bought/bought-details']);
   }
 }

@@ -5,14 +5,20 @@ import {Breadcrumb} from './Breadcrumb';
 
 export const BREADCRUMB_UPDATE = 'BREADCRUMB_UPDATE';
 export const BREADCRUMB_DELETE = 'BREADCRUMB_DELETE';
+export const BREADCRUMB_CART_LENGTH = 'BREADCRUMB_CART_LENGTH';
 
 @Injectable()
 export class BreadcrumbActions {
 
-  constructor(private ngRedux: NgRedux<IAppState>) {}
+  constructor(private ngRedux: NgRedux<IAppState>) {
+  }
 
   updateBreadcrumb(breadcrumb: Breadcrumb[]) {
     this.ngRedux.dispatch({type: BREADCRUMB_UPDATE, list: breadcrumb});
+  }
+
+  updateCartLength(length: number) {
+    this.ngRedux.dispatch({type: BREADCRUMB_CART_LENGTH, length: length});
   }
 
   deleteBreadcrumb() {

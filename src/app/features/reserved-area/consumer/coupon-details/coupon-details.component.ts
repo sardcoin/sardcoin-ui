@@ -37,7 +37,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   couponArray: any;
 
 
-
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
@@ -62,14 +61,14 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       if (this.couponPass === null) {
         this.router.navigate(['/reserved-area/consumer/showcase']);
         // this.addBreadcrumb();
-         } else {
+      } else {
         this.URLstring = this.URLstring + this.couponPass.image;
 
         this.couponService.getPurchasedCoupons().subscribe(cp => {
 
           let count = 0;
           this.couponArray = cp;
-          for ( let i = 0;  i < this.couponArray.length; i++) {
+          for (let i = 0; i < this.couponArray.length; i++) {
 
             if ((this.couponArray[i].id === this.couponPass.id)) {
 
@@ -81,38 +80,38 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
-                                                    count, this.couponPass.purchasable == null
-                                                    ? this.couponPass.quantity : this.couponPass.purchasable);
-        this.getOwner();
-        this.addBreadcrumb();
+            count, this.couponPass.purchasable == null
+              ? this.couponPass.quantity : this.couponPass.purchasable);
+          this.getOwner();
+          this.addBreadcrumb();
 
-        this.couponService.getAvailableCoupons()
-          .subscribe(coupons => {
-            this.couponsPurchased = coupons;
+          this.couponService.getAvailableCoupons()
+            .subscribe(coupons => {
+              this.couponsPurchased = coupons;
 
-            if (this.couponsPurchased !== null) {
-              for (const i of this.couponsPurchased) {
-                if (this.couponPass.id === i.id) {
-                  this.available = true;
-                  this.availability = i.quantity;
-                }
-              }
-            }
-            this.localStorage.getItem<any>('cart').subscribe((cart) => {
-              this.couponsCheckCart = cart;
-
-              if (this.couponsCheckCart !== null) {
-                for (const i of this.couponsCheckCart) {
+              if (this.couponsPurchased !== null) {
+                for (const i of this.couponsPurchased) {
                   if (this.couponPass.id === i.id) {
-                    this.inCart = true;
+                    this.available = true;
+                    this.availability = i.quantity;
                   }
                 }
               }
-            });
+              this.localStorage.getItem<any>('cart').subscribe((cart) => {
+                this.couponsCheckCart = cart;
+
+                if (this.couponsCheckCart !== null) {
+                  for (const i of this.couponsCheckCart) {
+                    if (this.couponPass.id === i.id) {
+                      this.inCart = true;
+                    }
+                  }
+                }
+              });
 
             }, err => {
-            console.log(err);
-          });
+              console.log(err);
+            });
 
         });
       }
@@ -130,7 +129,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase')); }
+    if (this.couponPass !== null) {
+      bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
+    }
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -174,22 +175,22 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       return;
 
     }
-      this.cart.id = this.couponPass.id;
-      this.cart.title = this.couponPass.title;
-      this.cart.description = this.couponPass.description;
-      this.cart.image = this.couponPass.image;
-      this.cart.timestamp = this.couponPass.timestamp;
-      this.cart.price = this.couponPass.price;
-      this.cart.valid_from = this.couponPass.valid_from;
-      this.cart.valid_until = this.couponPass.valid_until;
-      this.cart.visible_from = this.couponPass.visible_from;
-      this.cart.constraints = this.couponPass.constraints;
-      this.cart.owner = this.couponPass.owner;
-      this.cart.quantity = this.myForm.value.quantity;
-      this.cart.purchasable = this.maxQuantity;
+    this.cart.id = this.couponPass.id;
+    this.cart.title = this.couponPass.title;
+    this.cart.description = this.couponPass.description;
+    this.cart.image = this.couponPass.image;
+    this.cart.timestamp = this.couponPass.timestamp;
+    this.cart.price = this.couponPass.price;
+    this.cart.valid_from = this.couponPass.valid_from;
+    this.cart.valid_until = this.couponPass.valid_until;
+    this.cart.visible_from = this.couponPass.visible_from;
+    this.cart.constraints = this.couponPass.constraints;
+    this.cart.owner = this.couponPass.owner;
+    this.cart.quantity = this.myForm.value.quantity;
+    this.cart.purchasable = this.maxQuantity;
 
     let crt = [];
-      this.localStorage.getItem<any>('cart').subscribe((cart) => {
+    this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
       if (cart === null) {
         crt.push(this.cart);
@@ -202,10 +203,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         crt = cart;
         crt.push(this.cart);
         this.localStorage.setItem('cart', crt).subscribe(() => {
-            this.inCart = true;
-            this.addBreadcrumb();
-            return;
-          });
+          this.inCart = true;
+          this.addBreadcrumb();
+          return;
+        });
 
       }
       return;
@@ -214,7 +215,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
 
     this.toastCart();
-
 
 
   }
@@ -227,22 +227,20 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>) {
 
 
+    if (this.maxQuantity < 1) {
+      this.toastExcesBuy();
+      return;
+    }
 
+    this.myForm = this.formBuilder.group({
+      quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
 
-      if (this.maxQuantity < 1) {
-        this.toastExcesBuy();
-        return;
-      }
+    });
 
-      this.myForm = this.formBuilder.group({
-        quantity: [ 1 , Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required ])]
-
-      });
-
-      if (this.myForm.value.quantity === this.maxQuantity) {
-        this.isMax = true;
-      }
-      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    if (this.myForm.value.quantity === this.maxQuantity) {
+      this.isMax = true;
+    }
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
 
   }
 
@@ -261,11 +259,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   toastCart() {
-    this.toastr.success( 'Coupon added to cart!');
+    this.toastr.success('Coupon added to cart!');
   }
 
   toastExcesBuy() {
-    this.toastr.error( 'Coupon exceded to buy!');
+    this.toastr.error('Coupon exceded to buy!');
 
   }
 
@@ -306,7 +304,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   add() {
     this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
-    if ( this.myForm.value.quantity === this.maxQuantity) {
+    if (this.myForm.value.quantity === this.maxQuantity) {
       this.isMax = true;
     }
   }
@@ -324,8 +322,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       max = limitUser - buyedUser;
     }
     if (dispTotal <= limitUser) {
-      if (limitUser - buyedUser  >= dispTotal) {
-        max = dispTotal ;
+      if (limitUser - buyedUser >= dispTotal) {
+        max = dispTotal;
       } else {
         max = limitUser - buyedUser;
       }

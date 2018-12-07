@@ -89,6 +89,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
+
         this.localStorage.getItem('cart').subscribe(cart => {
           if (cart === null) {
             this.coupons = coupons;
@@ -104,9 +105,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               }
             }
           }
-          this.addBreadcrumb();
         });
-        // this.coupons = coupons;
       }, err => {
         console.log(err);
       });
@@ -177,18 +176,16 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   toastCart() {
-    this.toastr.success('Coupon added to cart!');
+    this.toastr.success('Coupon added to the cart!');
   }
 
 
   addToCart(coupon: Coupon) {
 
-
     if (this.myForm.invalid) {
-
       return;
-
     }
+
     const cpn = new Coupon();
     cpn.quantity = this.myForm.value.quantity;
     cpn.purchasable = this.maxQuantity; // passo quello che può comprare
@@ -215,14 +212,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
         this.localStorage.setItem('cart', this.crt).subscribe(() => {
           this.loadCoupons();
         });
-
       }
-
     });
     this.isMax = false;
     this.modalRef.hide();
 
     this.toastCart();
+
 
 
   }

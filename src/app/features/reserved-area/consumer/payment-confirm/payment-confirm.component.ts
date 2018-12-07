@@ -25,7 +25,7 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
   bread = [] as Breadcrumb[];
   totalAmount = 0;
   arrayTitle = [];
-  getAffordables: any;
+  availableCoupons: any;
 
 
   constructor(private _sanitizer: DomSanitizer,
@@ -40,9 +40,8 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
               ) {
 
     this.cartArray = this.localStorage.getItem('cart');
-    this.cartArray = this.localStorage.getItem('cart');
     this.userService.getUserById().subscribe( user => { this.user = user;
-      this.returnGetAffordables();
+      this.getAvailableCoupons();
       });
 
   }
@@ -70,7 +69,7 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
     this.bread.push(new Breadcrumb('Home', '/'));
     this.bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     this.bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    this.bread.push(new Breadcrumb('payment-confirm', '/reserved-area/consumer/cart-detail-payment'));
+    this.bread.push(new Breadcrumb('Checkout', '/reserved-area/consumer/checkout'));
 
     this.breadcrumbActions.updateBreadcrumb(this.bread);
   }
@@ -86,10 +85,11 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
   }
   buy(cartArray) {
 
-    for (const i of cartArray) {
-      let quantityBuy = 0;
-      for (const j of this.getAffordables) {
-        if (i.title === j.title) {
+    let quantityBuy = 0;
+
+    for (const i of cartArray) { // For each element in the cart
+      for (const j of this.availableCoupons) { // For each coupon available
+        if (i.title === j.title) { // If they got the same title
           if (quantityBuy < i.quantity) {
             quantityBuy++;
             this.couponService.buyCoupon(j.id)
@@ -120,10 +120,10 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy {
 
   }
 
-  returnGetAffordables() {
+  getAvailableCoupons() {
     this.couponService.getAvailableCoupons().subscribe(
       data => {
-        this.getAffordables = data;
+        this.availableCoupons = data;
       });
   }
 

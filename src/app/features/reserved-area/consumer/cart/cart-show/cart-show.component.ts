@@ -154,11 +154,12 @@ export class CartShowComponent implements OnInit, OnDestroy {
           }
         }
       }
+
+      this.breadcrumbActions.updateCartLength(this.cartArray.length);
+
       if (arr.length === 0) {
         this.localStorage.removeItem('cart').subscribe();
       }
-
-      this.addBreadcrumb();
     });
     this.modalRef.hide();
 
@@ -219,6 +220,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.breadcrumbActions.updateCartLength(this.cartArray.length);
   }
 
   maximumQuantity(id) {
@@ -237,7 +239,7 @@ export class CartShowComponent implements OnInit, OnDestroy {
 
   goToDetailPayment(cartArray) {
     this.localStorage.setItem('cart', cartArray).subscribe(() => {
-      this.router.navigate(['/reserved-area/consumer/cart-detail-payment']);
+      this.router.navigate(['/reserved-area/consumer/checkout']);
       this.decline();
 
     });

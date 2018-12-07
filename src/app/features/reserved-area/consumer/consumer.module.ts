@@ -41,11 +41,9 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
     CommonModule,
     QRCodeModule,
     ZXingScannerModule.forRoot()
-
   ],
   providers: [
     CouponService,
-
 
   ],
   exports: [

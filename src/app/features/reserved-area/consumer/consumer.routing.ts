@@ -37,7 +37,7 @@ import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-
         component: CartShowComponent
       },
       {
-        path: 'cart-detail-payment',
+        path: 'checkout',
         component: PaymentConfirmComponent
       },
       {
