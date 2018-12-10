@@ -38,8 +38,9 @@
 
             <div class="modal-footer">
               <!--<button type="button" class="btn btn-danger" (click)="decline()">No</button>-->
-              <!--<button type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>-->
-              <ngx-paypal class="btn btn-success" [config]="payPalConfig"></ngx-paypal>
+              <button type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>
+
+                <ngx-paypal  class="btn btn-success" [config]="payPalConfig"></ngx-paypal>
 
             </div>
           </ng-template>
