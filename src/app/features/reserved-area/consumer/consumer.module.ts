@@ -20,6 +20,7 @@ import { CouponBoughtDetailComponent } from './coupon-bought/coupon-bought-detai
 import {QRCodeModule} from 'angularx-qrcode';
 import { ProducerInfoCouponComponent } from './producer-info-coupon/producer-info-coupon.component';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
     ConsumerRoutingModule,
     CommonModule,
     QRCodeModule,
+    NgxPayPalModule,
     ZXingScannerModule.forRoot()
 
   ],
