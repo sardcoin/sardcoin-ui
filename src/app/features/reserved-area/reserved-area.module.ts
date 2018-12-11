@@ -8,10 +8,8 @@ import {CouponService} from '../../shared/_services/coupon.service';
 import {CommonModule} from '@angular/common';
 import {IsProducerGuard} from '../../shared/_guards/is-producer.guard';
 import {IsConsumerGuard} from '../../shared/_guards/is-consumer.guard';
-import {PersonalInfoComponent} from './personal-info/personal-info.component';
 import {UserService} from '../../shared/_services/user.service';
 import {BreadcrumbActions} from '../../core/breadcrumb/breadcrumb.actions';
-import {PaymentDetailsComponent} from './payment-details/payment-details.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -20,8 +18,6 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
 @NgModule({
   declarations: [
     FeatureReservedAreaComponent,
-    PersonalInfoComponent,
-    PaymentDetailsComponent,
   ],
   imports: [
     SharedModule,
@@ -43,8 +39,6 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
   ],
   exports: [
     FeatureReservedAreaComponent,
-    PersonalInfoComponent,
-    PaymentDetailsComponent,
   ]
 })
 

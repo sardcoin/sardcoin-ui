@@ -8,6 +8,9 @@ import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-coupon.component';
+import {PersonalInfoComponent} from '../personal-info/personal-info.component';
+import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
+import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
 
 /** App Components **/
 
@@ -44,7 +47,14 @@ import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-
         path: 'coupon-token',
         component: CouponTokenComponent
       },
-
+      {
+        path: 'personal-info',
+        component: PersonalInfoComponent,
+      },
+      {
+        path: 'payment-details',
+        component: PaymentDetailsComponent,
+      },
       {
         path: 'bought/bought-details',
         component: CouponBoughtDetailComponent

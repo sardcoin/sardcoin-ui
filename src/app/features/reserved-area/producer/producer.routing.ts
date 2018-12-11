@@ -4,6 +4,8 @@ import {FeatureReservedAreaCouponListComponent} from './coupon-list/coupon-list.
 import {FeatureReservedAreaCouponCreateComponent} from './coupon-create/coupon-create.component';
 import {CouponEditComponent} from './coupon-edit/coupon-edit.component';
 import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-report.component';
+import {PersonalInfoComponent} from '../personal-info/personal-info.component';
+import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
 
 /** App Components **/
 
@@ -21,7 +23,6 @@ import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-
         redirectTo: 'verifier',
         pathMatch: 'full'
       },
-
       {
         path: 'list',
         component: FeatureReservedAreaCouponListComponent
@@ -33,6 +34,14 @@ import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-
       {
         path: 'edit',
         component: CouponEditComponent
+      },
+      {
+        path: 'personal-info',
+        component: PersonalInfoComponent,
+      },
+      {
+        path: 'payment-details',
+        component: PaymentDetailsComponent,
       },
       {
         path: 'report',

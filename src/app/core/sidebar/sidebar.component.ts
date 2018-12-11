@@ -12,6 +12,7 @@ import {StoreService} from '../../shared/_services/store.service';
 export class SidebarComponent {
   isUserLoggedIn = false;
   userType = null;
+  userStringType = '';
 
   constructor(
     private actions: LoginActions,
@@ -25,7 +26,24 @@ export class SidebarComponent {
 
     this.globalEventService.userType.subscribe(value => {
       this.userType = value;
+
+      switch (this.userType) {
+        case '0': // admin
+          this.userStringType = 'admin';
+          return true;
+        case '1': // producer
+          this.userStringType = 'producer';
+          return true;
+        case '2': // consumer
+          this.userStringType = 'consumer';
+          return true;
+        case '3': // verifier
+          this.userStringType = 'verifier';
+          return true;
+      }
     });
+
+
   }
 
 }

@@ -25,21 +25,20 @@
 
           <ng-template #template>
             <div class="modal-header">
-              <h4 class="modal-title pull-left">Confirm paiment?</h4>
+              <h4 class="modal-title pull-left">Confirm payment?</h4>
               <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-              <p class="card-text col-form-label" >Go to Paypal</p>
-
+              <p class="card-text">Please confirm if you want to continue with the payment.</p>
             </div>
 
             <div class="modal-footer">
-              <!--<button type="button" class="btn btn-danger" (click)="decline()">No</button>-->
-              <button type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>
-                <ngx-paypal  class="btn btn-success" [config]="payPalConfig"></ngx-paypal>
+              <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
+              <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>
+                <ngx-paypal *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
             </div>
           </ng-template>
 

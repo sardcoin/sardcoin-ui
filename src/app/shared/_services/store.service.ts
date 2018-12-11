@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
+import {LocalStorage} from '@ngx-pwa/local-storage';
 
 @Injectable()
 export class StoreService {
 
-  constructor() {
+  constructor(private externalStorage: LocalStorage) {
 
   }
 
@@ -53,6 +54,18 @@ export class StoreService {
 
   removeUserNames() {
     localStorage.removeItem('us_usernames');
+  }
+
+  getCart() {
+    return this.externalStorage.getItem('cart');
+  }
+
+  setCart(cart) {
+    return this.externalStorage.setItem('cart', cart);
+  }
+
+  removeCart() {
+    return this.externalStorage.removeItem('cart');
   }
 
   clear() {

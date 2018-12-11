@@ -16,6 +16,8 @@ import {QRCodeModule} from 'angularx-qrcode';
 import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-coupon.component';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
+import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import {NgxPayPalModule} from 'ngx-paypal';
     SharedModule,
     CoreModule,
     ConsumerRoutingModule,
+    FeatureReservedAreaPaymentDetailsModule,
+    FeatureReservedAreaPersonalInfoModule,
     CommonModule,
     QRCodeModule,
     NgxPayPalModule,

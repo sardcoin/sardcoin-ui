@@ -13,6 +13,7 @@ import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {of} from 'rxjs';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
 import {CartItem} from '../../../../shared/_models/CartItem';
+import {Coupon} from '../../../../shared/_models/Coupon';
 
 @Component({
   selector: 'app-consumer-checkout',
@@ -27,7 +28,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   user: any;
   modalRef: BsModalRef;
   bread = [] as Breadcrumb[];
-  totalAmount = 10.00;
+  totalAmount = 0;
   arrayTitle = [];
   availableCoupons: any;
 
@@ -95,67 +96,59 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   }
 
-  buy(cartArray) {
+  buy() {
 
-    let quantityBuy = 0;
+    // let quantityBuy = 0;
+    /*    for (const i of this.cartArray) { // For each element in the cart
+          for (const j of this.availableCoupons) { // For each coupon available
+            if (i.title === j.title) { // If they got the same title
+              if (quantityBuy < i.quantity) {
+                quantityBuy++;
+                this.couponService.buyCoupons(j.id)
+                  .subscribe(data => {
+                    this.localStorage.removeItem('cart').subscribe(() => {
 
-    for (const i of cartArray) { // For each element in the cart
-      for (const j of this.availableCoupons) { // For each coupon available
-        if (i.title === j.title) { // If they got the same title
-          if (quantityBuy < i.quantity) {
-            quantityBuy++;
-            this.couponService.buyCoupons(j.id)
-              .subscribe(data => {
-                this.localStorage.removeItem('cart').subscribe(() => {
-
-                  this.router.navigate(['/reserved-area/consumer/bought']);
-                });
+                      this.router.navigate(['/reserved-area/consumer/bought']);
+                    });
 
 
-              }, err => {
-                console.log(err);
-              });
+                  }, err => {
+                    console.log(err);
+                  });
+              }
+            }
           }
+        }*/
+
+    const cartItems: CartItem[] = [];
+
+    console.log(this.cartArray);
+
+    this.cartArray.forEach((coupon: Coupon) => {
+      cartItems.push({
+        id: coupon.id,
+        quantity: coupon.quantity
+      });
+    });
+
+    this.couponService.buyCoupons(cartItems)
+      .subscribe(response => {
+
+        if(response['status']) {
+          this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
+        } else {
+          this.toastr.success('The order is successfully complete.', 'Order complete!');
         }
-      }
-    }
+        console.log(response);
+      }, err => {
+        this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
+        console.log(err);
+      });
 
-    console.log(cartArray);
-
-    const cartArr: CartItem[] = [];
-
-    cartArr.push({id: 15, quantity: 1});
-    // cartArr.push({id: 42, quantity: 2});
-
-    // const cartArr2: CartItem[] = [];
-
-    // cartArr2.push({id: 15, quantity: 1});
-    // cartArr2.push({id: 42, quantity: 1});
-
-    // console.log(cartArr2);
-
-    // this.couponService.buyCoupons(cartArr)
-    //   .subscribe(response => {
-    //     console.log(response);
-    //   }, err => {
-    //     console.log(err);
-    //   });
-
-    /*
-        this.couponService.buyCoupons(cartArr2)
-          .subscribe(response => {
-            console.log(response);
-          }, err => {
-            console.log(err);
-          });
-    */
-
-
-    // this.toastBuy();
-    this.decline();
+    this.closeModal();
   }
 
-  decline() {
+  closeModal() {
     this.modalRef.hide();
 
   }
@@ -200,6 +193,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         onPaymentComplete: (data, actions) => { // TODO chiamare il backend per verificare la transazione
           console.log('OnPaymentComplete, data', data);
           console.log('OnPaymentComplete, actions', actions);
+          this.buy();
         },
         onCancel: (data, actions) => {
           console.log('OnCancel');
