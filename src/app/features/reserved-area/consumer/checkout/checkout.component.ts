@@ -10,6 +10,8 @@ import {UserService} from '../../../../shared/_services/user.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {of} from 'rxjs';
+import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
 import {CartItem} from '../../../../shared/_models/CartItem';
 
 @Component({
@@ -19,12 +21,13 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 })
 export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rename in CHECKOUT
 
-
+  public payPalConfig?: PayPalConfig;
+  isReady = false;
   cartArray: any;
   user: any;
   modalRef: BsModalRef;
   bread = [] as Breadcrumb[];
-  totalAmount = 0;
+  totalAmount = 10.00;
   arrayTitle = [];
   availableCoupons: any;
 
@@ -49,9 +52,12 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rena
   }
 
   ngOnInit() {
+    console.log('Number(this.totalAmount.toFixed(2)) prima dell input', this.totalAmount);
+
     this.addBreadcrumb();
     this.localStorage.getItem('cart').subscribe(cart => {
       this.cartArray = cart;
+      console.log('this.cartArray', this.cartArray);
       for (const i of this.cartArray) {
         this.totalAmount += Number(i.price);
         this.arrayTitle.push(i.title);
@@ -59,6 +65,7 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rena
     });
     this.userService.getUserById().subscribe(user => {
       this.user = user;
+      this.initConfig();
     });
 
   }
@@ -92,26 +99,26 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rena
 
     let quantityBuy = 0;
 
-    /*    for (const i of cartArray) { // For each element in the cart
-          for (const j of this.availableCoupons) { // For each coupon available
-            if (i.title === j.title) { // If they got the same title
-              if (quantityBuy < i.quantity) {
-                quantityBuy++;
-                this.couponService.buyCoupon(j.id)
-                  .subscribe(data => {
-                    this.localStorage.removeItem('cart').subscribe(() => {
+    for (const i of cartArray) { // For each element in the cart
+      for (const j of this.availableCoupons) { // For each coupon available
+        if (i.title === j.title) { // If they got the same title
+          if (quantityBuy < i.quantity) {
+            quantityBuy++;
+            this.couponService.buyCoupons(j.id)
+              .subscribe(data => {
+                this.localStorage.removeItem('cart').subscribe(() => {
 
-                        this.router.navigate(['/reserved-area/consumer/bought']);
-                    });
+                  this.router.navigate(['/reserved-area/consumer/bought']);
+                });
 
 
-                  }, err => {
-                    console.log(err);
-                  });
-              }
-            }
+              }, err => {
+                console.log(err);
+              });
           }
-        } */
+        }
+      }
+    }
 
     console.log(cartArray);
 
@@ -134,15 +141,14 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rena
     //     console.log(err);
     //   });
 
-/*
-    this.couponService.buyCoupons(cartArr2)
-      .subscribe(response => {
-        console.log(response);
-      }, err => {
-        console.log(err);
-      });
-*/
-
+    /*
+        this.couponService.buyCoupons(cartArr2)
+          .subscribe(response => {
+            console.log(response);
+          }, err => {
+            console.log(err);
+          });
+    */
 
 
     // this.toastBuy();
@@ -170,5 +176,65 @@ export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rena
     this.toastr.success('Your purchase has successfully completed', 'Congratulations!');
 
   }
+
+  // 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R' sandboxId del componente
+  // ARhQLPVETgECFDXgvWgu4v8ULn4Lz-jEBCSehJR8h5QA_cHbzCvPDcyBNmHfC2ZU6JTggRnDK-73K97e sanboxId dell'app paypal mia
+  private initConfig(): void {
+    const totale = this.totalAmount;
+    console.log('totale', this.totalAmount);
+
+    this.payPalConfig = new PayPalConfig(
+      PayPalIntegrationType.ClientSideREST,
+      PayPalEnvironment.Sandbox,
+      {
+        commit: true,
+        client: {
+          sandbox:
+            'ARhQLPVETgECFDXgvWgu4v8ULn4Lz-jEBCSehJR8h5QA_cHbzCvPDcyBNmHfC2ZU6JTggRnDK-73K97e'
+        },
+        button: {
+          label: 'paypal',
+          layout: 'vertical'
+        },
+        onAuthorize: (data, actions) => {
+          console.log('Authorize');
+          return of(undefined);
+        },
+        onPaymentComplete: (data, actions) => { // TODO chiamare il backend per verificare la transazione
+          console.log('OnPaymentComplete, data', data);
+          console.log('OnPaymentComplete, actions', actions);
+        },
+        onCancel: (data, actions) => {
+          console.log('OnCancel');
+        },
+        onError: err => {
+          console.log('OnError');
+          console.log(err);
+        },
+        onClick: () => {
+          console.log('onClick');
+        },
+        validate: (actions) => {
+          console.log(actions);
+        },
+        experience: {
+          noShipping: true,
+          brandName: 'Angular PayPal'
+        },
+        transactions: [
+          {
+            amount: {
+              total: totale,
+              currency: 'EUR',
+
+            },
+
+          }
+        ],
+        note_to_payer: 'Contact us if you have troubles processing payment'
+      }
+    );
+  }
+
 
 }
