@@ -15,11 +15,11 @@ import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal
 import {CartItem} from '../../../../shared/_models/CartItem';
 
 @Component({
-  selector: 'app-payment-detail',
-  templateUrl: './payment-confirm.component.html',
-  styleUrls: ['./payment-confirm.component.scss']
+  selector: 'app-consumer-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss']
 })
-export class PaymentConfirmComponent implements OnInit, OnDestroy { // TODO rename in CHECKOUT
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   public payPalConfig?: PayPalConfig;
   isReady = false;
