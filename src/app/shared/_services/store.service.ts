@@ -8,56 +8,55 @@ export class StoreService {
   }
 
   setToken(token: string) {
-    localStorage.setItem('jwt', token);
+    localStorage.setItem('us_jwt', token);
   }
 
   getToken() {
-    return localStorage.getItem('jwt');
+    return localStorage.getItem('us_jwt');
   }
 
   removeToken() {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('us_jwt');
   }
 
   setId(id) {
-    localStorage.setItem('id', id);
+    localStorage.setItem('us_id', id);
   }
 
   getId() {
-    return localStorage.getItem('id');
+    return localStorage.getItem('us_id');
   }
 
   removeId() {
-    localStorage.removeItem('id');
+    localStorage.removeItem('us_id');
   }
 
   setType(type) {
-    localStorage.setItem('type', type);
+    localStorage.setItem('us_type', type);
   }
 
   getType() {
-    return localStorage.getItem('type');
+    return localStorage.getItem('us_type');
   }
 
   removeType() {
-    localStorage.removeItem('type');
+    localStorage.removeItem('us_type');
   }
 
   setUserNames(name: string) {
-    localStorage.setItem('usernames', name);
+    localStorage.setItem('us_usernames', name);
   }
 
   getUserNames() {
-    return localStorage.getItem('usernames');
+    return localStorage.getItem('us_usernames');
   }
 
   removeUserNames() {
-    localStorage.removeItem('usernames');
+    localStorage.removeItem('us_usernames');
   }
 
   clear() {
     localStorage.clear();
   }
-
 
 }

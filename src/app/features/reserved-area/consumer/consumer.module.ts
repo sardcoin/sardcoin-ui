@@ -8,7 +8,7 @@ import {ConsumerRoutingModule} from './consumer.routing';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
-import {CartShowComponent} from './cart/cart-show/cart-show.component';
+import {CartComponent} from './cart/cart.component';
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
@@ -23,7 +23,7 @@ import {NgxPayPalModule} from 'ngx-paypal';
     FeatureReservedAreaConsumerBoughtComponent,
     CouponDetailsComponent,
     FeatureReservedAreaConsumerShowcaseComponent,
-    CartShowComponent,
+    CartComponent,
     CheckoutComponent,
     CouponTokenComponent,
     CouponBoughtDetailComponent,

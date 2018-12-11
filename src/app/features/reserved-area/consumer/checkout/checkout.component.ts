@@ -174,11 +174,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   toastBuy() {
     this.toastr.success('Your purchase has successfully completed', 'Congratulations!');
-
   }
 
-  // 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R' sandboxId del componente
-  // ARhQLPVETgECFDXgvWgu4v8ULn4Lz-jEBCSehJR8h5QA_cHbzCvPDcyBNmHfC2ZU6JTggRnDK-73K97e sanboxId dell'app paypal mia
   private initConfig(): void {
     const totale = this.totalAmount;
     console.log('totale', this.totalAmount);

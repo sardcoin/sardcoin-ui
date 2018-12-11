@@ -1,27 +1,26 @@
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {environment} from '../../../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
-import {CouponService} from '../../../../../shared/_services/coupon.service';
+import {CouponService} from '../../../../shared/_services/coupon.service';
 import {LocalStorage} from '@ngx-pwa/local-storage';
-import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../../core/breadcrumb/breadcrumb.actions';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
-  selector: 'app-cart-show',
-  templateUrl: './cart-show.component.html',
-  styleUrls: ['./cart-show.component.scss']
+  selector: 'app-consumer-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss']
 })
-export class CartShowComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit, OnDestroy {
 
   couponArray: any;
   couponCart: any;
   cartArray = [];
   modalRef: BsModalRef;
-  getAvailableCoupons: any;
   isEmpty: boolean;
   bread = [] as Breadcrumb[];
 
@@ -33,7 +32,6 @@ export class CartShowComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
   ) {
-    this.returnGetAvailablesCoupons();
   }
 
   ngOnInit() {
@@ -57,43 +55,39 @@ export class CartShowComponent implements OnInit, OnDestroy {
     return '€ ' + price.toFixed(2);
   }
 
-  returnGetAvailablesCoupons() {
-    this.couponService.getAvailableCoupons().subscribe(
-      data => {
-        this.getAvailableCoupons = data;
-      });
-  }
-
-
   control() {
 
-    this.couponService.getAvailableCoupons().subscribe(
-      data => {
-        this.couponArray = data;
+    /*    this.couponService.getAvailableCoupons().subscribe(data => {
+            this.couponArray = data;
 
-        this.localStorage.getItem('cart').subscribe((crt) => {
+            this.localStorage.getItem('cart').subscribe((crt) => {
 
-          this.couponCart = crt;
+              this.couponCart = crt;
 
-          if (crt === null || crt.length === 0) {
-            this.isEmpty = true;
-          } else {
-            this.isEmpty = false;
-          }
-          if (this.couponCart != null || this.couponCart !== undefined) {
-            for (let i = 0; i < this.couponCart.length; i++) {
-              for (let j = 0; j < this.couponArray.length; j++) {
-                if (this.couponCart[i].id === this.couponArray[j].id) {
-                  this.couponArray[j].quantity = this.couponCart[i].quantity;
-                  this.cartArray.push(this.couponArray[j]);
+              if (crt === null || crt.length === 0) {
+                this.isEmpty = true;
+              } else {
+                this.isEmpty = false;
+              }
+              if (this.couponCart != null || this.couponCart !== undefined) {
+                for (let i = 0; i < this.couponCart.length; i++) {
+                  for (let j = 0; j < this.couponArray.length; j++) {
+                    if (this.couponCart[i].id === this.couponArray[j].id) {
+                      this.couponArray[j].quantity = this.couponCart[i].quantity;
+                      this.cartArray.push(this.couponArray[j]);
+                    }
+                  }
                 }
               }
-            }
-          }
-        });
-      },
-      error => console.log(error)
-    );
+            });
+          },
+          error => console.log(error)
+        );*/
+
+    this.localStorage.getItem('cart').subscribe(crt => {
+      this.couponCart = crt;
+      this.isEmpty = this.couponCart === null || this.couponCart.length === 0;
+    });
 
   }
 

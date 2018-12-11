@@ -3,7 +3,7 @@ import {RouterModule} from '@angular/router';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
-import {CartShowComponent} from './cart/cart-show/cart-show.component';
+import {CartComponent} from './cart/cart.component';
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
@@ -34,7 +34,7 @@ import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-
       },
       {
         path: 'cart',
-        component: CartShowComponent
+        component: CartComponent
       },
       {
         path: 'checkout',
