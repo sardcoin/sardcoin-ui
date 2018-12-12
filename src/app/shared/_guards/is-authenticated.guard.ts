@@ -13,6 +13,9 @@ export class IsAuthenticatedGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     // If the token exists, then the user is logged in and can carry on
+
+    // console.log('token: ' + this.localStore.getToken());
+
     if (this.localStore.getToken() != null) {
       this.eventEmitter.isUserLoggedIn.next(true);
       switch (this.localStore.getType()) {

@@ -5,7 +5,7 @@ import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {CartItem} from '../_models/CartItem';
+import {CartItem, PurchasedCoupon} from '../_models/CartItem';
 
 @Injectable()
 
@@ -31,7 +31,12 @@ export class CouponService {
   }
 
   getPurchasedCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
+    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCoupons'));
+  }
+
+
+  getPurchasedCouponsById(id: number) {
+    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCouponsById/' + id));
   }
 
   getAvailableCoupons() {

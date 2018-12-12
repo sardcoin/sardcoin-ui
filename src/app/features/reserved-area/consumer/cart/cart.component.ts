@@ -83,13 +83,13 @@ export class CartComponent implements OnInit, OnDestroy {
             });
           },
           error => console.log(error)
-        );*/
+        );
 
-    this.localStorage.getCart().subscribe(crt => {
+    this.localStorage.getCart().subscribe(crt => {  TODO fix
       this.cartArray = crt;
       this.isEmpty = this.cartArray === null || this.cartArray.length === 0;
     });
-
+   */
   }
 
   addBreadcrumb() {
@@ -126,7 +126,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-/*        const arr = [];
+        const arr = [];
         for (const i  of  this.cartArray) {
           if (i.id !== id) {
             arr.push(i);
@@ -137,7 +137,7 @@ export class CartComponent implements OnInit, OnDestroy {
         if (this.cartArray.length === 0) {
           this.isEmpty = true;
         }
-        this.localStorage.setCart(arr).subscribe(() => {
+        /*this.localStorage.setCart(arr).subscribe(() => { TODO fix
           this.cartArray = [];
           for (let i = 0; i < this.couponCart.length; i++) {
             for (let j = 0; j < this.couponArray.length; j++) {
@@ -153,13 +153,12 @@ export class CartComponent implements OnInit, OnDestroy {
           if (arr.length === 0) {
             this.localStorage.removeCart().subscribe();
           }
-        });
-        this.modalRef.hide();*/
+        });*/
+        this.modalRef.hide();
 
   }
 
   del(coupon: Coupon) {
-/*
         const arr = [];
         for (const i  of  this.cartArray) {
           if (i.id !== coupon.id) {
@@ -173,7 +172,7 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cartArray = arr;
         }
 
-        this.localStorage.setCart(this.cartArray).subscribe(() => {
+/*        this.localStorage.setCart(this.cartArray).subscribe(() => { TODO fix
           this.cartArray = [];
           for (let i = 0; i < this.couponCart.length; i++) {
             for (let j = 0; j < this.couponArray.length; j++) {
@@ -183,9 +182,7 @@ export class CartComponent implements OnInit, OnDestroy {
               }
             }
           }
-        });
-*/
-
+        });*/
   }
 
   add(coupon: Coupon) {
@@ -231,7 +228,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   goToDetailPayment(cartArray) {
-    this.localStorage.setCart(cartArray).subscribe(() => {});
+    // this.localStorage.setCart(cartArray).subscribe(() => {}); TODO fix
     this.closeModal();
     this.router.navigate(['/reserved-area/consumer/checkout']);
   }

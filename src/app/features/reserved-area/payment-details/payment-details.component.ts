@@ -138,6 +138,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
             this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
           } else {
             this.toastr.success('Please do the login again.', 'Profile updated correctly!');
+            this.loginActions.logoutUser();
           }
         }, error => {
           console.log(error);
@@ -147,7 +148,6 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
     this.loading = false;
     this.closeModal();
-    this.loginActions.logoutUser();
   }
 
   openModal(template: ElementRef) {

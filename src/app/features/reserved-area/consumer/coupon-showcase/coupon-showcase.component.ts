@@ -13,6 +13,7 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
+import {CartActions} from '../cart/redux-cart/cart.actions';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
               private _sanitizer: DomSanitizer,
               private modalService: BsModalService,
               private localStore: StoreService,
+              private cartActions: CartActions,
               private router: Router,
               private toastr: ToastrService,
               protected localStorage: LocalStorage,
@@ -124,10 +126,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   openModal(template: TemplateRef<any>, cp) {
-    this.couponService.getPurchasedCoupons().subscribe(coupon => {
+    this.couponService.getPurchasedCouponsById(cp.id).subscribe(purchased => { // TODO change this shit
 
-      let count = 0;
-      this.couponArray = coupon;
+      console.log(purchased);
+
+      const count = 0;
+      /*this.couponArray = coupon;
       if (!(this.couponArray === null)) {
         for (let i = 0; i < this.couponArray.length; i++) {
           if ((this.couponArray[i].id === cp.id)) {
@@ -136,15 +140,15 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
           }
 
         }
-      }
+      }*/
 
 
-      this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, count, cp.purchasable == null ? cp.quantity : cp.purchasable);
+      this.maxQuantity = this.maxQuantityAvaliableForUser(cp.quantity, purchased.bought, cp.purchasable == null ? cp.quantity : cp.purchasable); // TODO checkme
 
-      if (this.maxQuantity < 1) {
-        this.toastExcededBuy();
-        return;
-      }
+      // if (this.maxQuantity < 1) {
+      //  this.toastExcededBuy();
+      //  return;
+      // }
 
       this.myForm = this.formBuilder.group({
         quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
@@ -181,7 +185,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
 
   addToCart(coupon: Coupon) {
-
+/*
     if (this.myForm.invalid) {
       return;
     }
@@ -217,8 +221,18 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.isMax = false;
     this.modalRef.hide();
 
-    this.toastCart();
+    this.toastCart();*/
 
+
+
+    this.modalRef.hide();
+
+    const item: CartItem = {
+      id: coupon.id,
+      quantity: this.myForm.value.quantity
+    };
+
+    this.cartActions.addElement(item);
 
 
   }
@@ -258,8 +272,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     if (dispTotal > limitUser) {
       max = limitUser - quantityInCart;
-    }
-    if (dispTotal <= limitUser) {
+    } else {
       if (limitUser - quantityInCart >= dispTotal) {
         max = dispTotal;
       } else {

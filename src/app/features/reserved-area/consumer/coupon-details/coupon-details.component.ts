@@ -51,9 +51,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {
+  ngOnInit() { // TODO Fix details
 
-
+/*
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
@@ -64,10 +64,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       } else {
         this.URLstring = this.URLstring + this.couponPass.image;
 
-        this.couponService.getPurchasedCoupons().subscribe(cp => {
+        this.couponService.getPurchasedCouponsById(this.couponPass.id).subscribe(cp => {
 
           let count = 0;
-          this.couponArray = cp;
+          /!*this.couponArray = cp;
           for (let i = 0; i < this.couponArray.length; i++) {
 
             if ((this.couponArray[i].id === this.couponPass.id)) {
@@ -77,10 +77,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             }
 
           }
-
+*!/
 
           this.maxQuantity = this.maxQuantityAvaliableForUser(this.couponPass.quantity,
-            count, this.couponPass.purchasable == null
+            cp.bought, this.couponPass.purchasable == null
               ? this.couponPass.quantity : this.couponPass.purchasable);
           this.getOwner();
           this.addBreadcrumb();
@@ -116,7 +116,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         });
       }
 
-    });
+    });*/
   }
 
   ngOnDestroy(): void {
@@ -129,9 +129,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    if (this.couponPass !== null) {
-      bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
-    }
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -171,10 +168,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   addToCart(coupon: Coupon) {
 
     if (this.myForm.invalid) {
-
       return;
-
     }
+    /*
     this.cart.id = this.couponPass.id;
     this.cart.title = this.couponPass.title;
     this.cart.description = this.couponPass.description;
@@ -211,12 +207,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       }
       return;
     });
-    this.isMax = false;
+    this.isMax = false;*/
     this.modalRef.hide();
 
     this.toastCart();
-
-
   }
 
   get f() {
@@ -280,6 +274,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   inCartFunction(id) {
     let value: boolean;
+    value = true; // TODO Remove
+    /*
     this.localStorage.getItem<any>('cart').subscribe((cart) => {
       this.couponsCheckCart = cart;
 
@@ -291,6 +287,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       }
       value = false;
     });
+    */
     return value;
   }
 

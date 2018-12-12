@@ -33,6 +33,8 @@ import {StoreModule} from './shared/store/store.module';
 import {StoreService} from './shared/_services/store.service';
 import {GlobalEventsManagerService} from './shared/_services/global-event-manager.service';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {CartActions} from './features/reserved-area/consumer/cart/redux-cart/cart.actions';
+import {CouponService} from './shared/_services/coupon.service';
 
 @NgModule({
   imports: [
@@ -60,7 +62,10 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     // P500Component,
   ],
   providers: [
-    StoreService, GlobalEventsManagerService,
+    StoreService,
+    GlobalEventsManagerService,
+    CartActions,
+    CouponService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],

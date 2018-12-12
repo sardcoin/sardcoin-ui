@@ -18,6 +18,7 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
 import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
 import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
+import {CartActions} from './cart/redux-cart/cart.actions';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-i
   ],
   providers: [
     CouponService,
+    CartActions
   ],
   exports: [
     FeatureReservedAreaConsumerComponent,

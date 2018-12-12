@@ -3,4 +3,9 @@ export class CartItem  {
   quantity: number;
 }
 
+export interface PurchasedCoupon {
+  coupon_id: number;
+  bought: number;
+}
+
 export let Cart: CartItem[];

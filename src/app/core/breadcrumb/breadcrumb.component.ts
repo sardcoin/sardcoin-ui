@@ -33,9 +33,9 @@ export class BreadcrumbComponent implements OnInit {
       this.isUserLoggedIn = value;
     });
 
-    this.localStorage.getItem<CartItem[]>('cart').subscribe(cart => {
-      this.breadcrumbActions.updateCartLength(cart.length);
-    });
+    // this.localStorage.getItem<CartItem[]>('cart').subscribe(cart => {
+    //   this.breadcrumbActions.updateCartLength(cart.length);
+    // });
 
     this.breadcrumb$.subscribe(elements => {
       this.breadList = elements['list'];

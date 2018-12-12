@@ -1,17 +1,24 @@
-<div  *ngIf="user !== undefined && (cartArray !== null)" class="container">
+<div *ngIf="user !== undefined && (cartArray !== null)" class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card mx-12" style="padding: 5px">
         <div class="card-body p-4">
           <h3 class="card-title">Confirm payment</h3>
 
-          <p class="card-text"><label class="col-form-label col-md-4">Username:</label> <label class="data-user col-md-8">{{user.username}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">Email:</label><label class="data-user col-md-8"> {{user.email}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">First name:</label><label class=" data-user col-md-8"> {{user.first_name}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">Last name:</label><label class="data-user col-md-8"> {{user.last_name}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">Fiscal code:</label><label class=" data-user col-md-8"> {{user.fiscal_code}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">Total amount:</label><label class="data-user col-md-8"> {{totalAmount}}</label></p>
-          <p class="card-text"><label class="col-md-4 col-form-label">Account Paypal:</label><label class=" data-user col-md-8"> {{user.email_paypal}}</label></p>
+          <p class="card-text"><label class="col-form-label col-md-4">Username:</label> <label
+            class="data-user col-md-8">{{user.username}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Email:</label><label class="data-user col-md-8">
+            {{user.email}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">First name:</label><label
+            class=" data-user col-md-8"> {{user.first_name}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Last name:</label><label
+            class="data-user col-md-8"> {{user.last_name}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Fiscal code:</label><label
+            class=" data-user col-md-8"> {{user.fiscal_code}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Total amount:</label><label
+            class="data-user col-md-8"> {{totalAmount}}</label></p>
+          <p class="card-text"><label class="col-md-4 col-form-label">Account Paypal:</label><label
+            class=" data-user col-md-8"> {{user.email_paypal}}</label></p>
 
           <h5 class="card-text">Coupons to buy:</h5>
           <div *ngFor="let title of arrayTitle">
@@ -21,24 +28,24 @@
 
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to cart</button>
-          <button  class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Buy</button>
+          <button class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Buy</button>
 
           <ng-template #template>
             <div class="modal-header">
-              <h4 class="modal-title pull-left">Confirm payment?</h4>
+              <h4 class="modal-title pull-left">Pay order #236748227</h4> <!-- TODO: fix order number -->
               <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-              <p class="card-text">Please confirm if you want to continue with the payment.</p>
+              <p *ngIf="totalAmount !== 0" class="card-text">Click on the <b>payment method</b> you prefer, to finalize your purchase. After completing the payment, you will receive a confirmation message.</p>
+              <p *ngIf="totalAmount === 0" class="card-text">Your order is <b>free</b> of charge, you can skip the payment step. Would you confirm your purchase?</p>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
-              <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy(cartArray)">Yes</button>
-                <ngx-paypal *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
+              <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy(cartArray)">Confirm purchase (no payment)</button>
+              <ngx-paypal class="mx-auto" *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
             </div>
           </ng-template>
 

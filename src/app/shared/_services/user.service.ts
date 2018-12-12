@@ -9,16 +9,15 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   register(user: User) {
-    return this.http.post(environment.protocol + '://' + environment.host + ':' + environment.port + '/users/create', user);
+    return this.http.post(this.formatUrl('create'), user);
   }
 
   getUserById() {
-    return this.http.get(environment.protocol + '://' + environment.host + ':' + environment.port + '/users/getFromToken');
-
+    return this.http.get(this.formatUrl('getFromToken'));
   }
 
   update(user: User) {
-    return this.http.put(environment.protocol + '://' + environment.host + ':' + environment.port + '/users/update', user);
+    return this.http.put(this.formatUrl('update'), user);
 
   }
   getProducerFromId(id) {

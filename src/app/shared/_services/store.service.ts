@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LocalStorage} from '@ngx-pwa/local-storage';
+import {CartItem} from '../_models/CartItem';
 
 @Injectable()
 export class StoreService {
@@ -56,16 +57,16 @@ export class StoreService {
     localStorage.removeItem('us_usernames');
   }
 
-  getCart() {
-    return this.externalStorage.getItem('cart');
+  async getCart() {
+    return this.externalStorage.getItem('cart').toPromise();
   }
 
-  setCart(cart) {
-    return this.externalStorage.setItem('cart', cart);
+  setCart(cart: CartItem[]) {
+    this.externalStorage.setItem('cart', cart).subscribe(() => {});
   }
 
   removeCart() {
-    return this.externalStorage.removeItem('cart');
+    this.externalStorage.removeItem('cart').subscribe(() => {});
   }
 
   clear() {

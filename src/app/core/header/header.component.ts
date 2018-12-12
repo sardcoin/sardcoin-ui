@@ -38,16 +38,16 @@ export class HeaderComponent {
   }
 
   logout() {
-    if (this.modalRef != null) {
-      this.localStorage.removeItem('cart').subscribe(() => {
-        this.actions.logoutUser();
-        this.authService.logout();
-        this.modalRef.hide();
-      });
-    } else {
+    // if (this.modalRef != null) {
+    //   this.localStorage.removeItem('cart').subscribe(() => {
+    //     this.actions.logoutUser();
+    //     this.authService.logout();
+    //     this.modalRef.hide();
+    //   });
+    // } else {
       this.actions.logoutUser();
       this.authService.logout();
-    }
+    // }
   }
 
   decline() {
@@ -55,17 +55,17 @@ export class HeaderComponent {
   }
 
   openModal(template: TemplateRef<any>) {
-    if ( this.userType === 2 || this.userType === 0) { // TODO fix user types (what are 0 and 2??)
-      this.localStorage.getItem('cart').subscribe(cart => {
-        if (cart !== null) {
-          this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-        } else {
-          this.logout();
-        }
-      });
-    } else {
-      this.logout();
-    }
+    // if ( this.userType === 2 || this.userType === 0) { // TODO fix user types (what are 0 and 2??)
+    //   this.localStorage.getItem('cart').subscribe(cart => {
+    //     if (cart !== null) {
+    //       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    //     } else {
+    //       this.logout();
+    //     }
+    //   });
+    // } else {
+    //   this.logout();
+    // }
   }
 
 }
