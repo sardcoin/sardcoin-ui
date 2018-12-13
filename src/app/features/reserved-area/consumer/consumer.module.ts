@@ -13,7 +13,7 @@ import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {QRCodeModule} from 'angularx-qrcode';
-import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-coupon.component';
+import {ProducerInfoComponent} from './producer-info/producer-info.component';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
 import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
@@ -30,7 +30,7 @@ import {CartActions} from './cart/redux-cart/cart.actions';
     CheckoutComponent,
     CouponTokenComponent,
     CouponBoughtDetailComponent,
-    ProducerInfoCouponComponent,
+    ProducerInfoComponent,
   ],
   imports: [
     SharedModule,

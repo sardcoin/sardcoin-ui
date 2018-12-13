@@ -64,9 +64,9 @@
 </div>
 
 <div *ngIf="cart.length === 0" class="row">
-  <img class="col-sm-8 offset-sm-2 mx-auto img-fluid" src="assets/img/empty.png">
-  <button class="col-sm-5 btn btn-danger" (click)="retry()">Continue to shop</button>
-  <button class="col-sm-5 offset-sm-2 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
+  <div class="col-sm-12"><img class="mx-auto img-fluid" src="assets/img/empty.png"></div>
+  <button class="offset-sm-3 col-sm-4 btn btn-danger" (click)="retry()">Continue to shop</button>
+  <button class="col-sm-4 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
 </div>
 
 <ng-template #template_buy>

@@ -13,7 +13,7 @@ export class UserService {
   }
 
   getUserById() {
-    return this.http.get(this.formatUrl('getFromToken'));
+    return this.http.get<User>(this.formatUrl('getFromToken'));
   }
 
   update(user: User) {

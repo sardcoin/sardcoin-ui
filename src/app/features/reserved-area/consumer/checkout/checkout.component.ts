@@ -5,15 +5,17 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Router} from '@angular/router';
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {UserService} from '../../../../shared/_services/user.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
+import {select} from '@angular-redux/store';
+import {CartActions} from '../cart/redux-cart/cart.actions';
+import {environment} from '../../../../../environments/environment';
+import {User} from '../../../../shared/_models/User';
 
 @Component({
   selector: 'app-consumer-checkout',
@@ -22,123 +24,74 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
 
-  public payPalConfig?: PayPalConfig;
-  isReady = false;
-  cartArray: any;
-  user: any;
-  modalRef: BsModalRef;
-  bread = [] as Breadcrumb[];
-  totalAmount = 0;
-  arrayTitle = [];
-  availableCoupons: any;
+  @select() cart$: Observable<CartItem[]>;
 
+  cart: CartItem[];
+  coupons: Coupon[] = [];
+  user: User;
+  modalRef: BsModalRef;
+  totalAmount = 0;
+
+  public payPalConfig: PayPalConfig;
 
   constructor(private _sanitizer: DomSanitizer,
               private userService: UserService,
-              private localStorage: LocalStorage,
-              private localService: StoreService,
               private modalService: BsModalService,
               private router: Router,
+              private cartActions: CartActions,
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
               private couponService: CouponService
   ) {
-
-    this.cartArray = this.localStorage.getItem('cart');
-    this.userService.getUserById().subscribe(user => {
-      this.user = user;
-      this.getAvailableCoupons();
+    this.cart$.subscribe(elements => {
+      this.cart = elements['list'];
     });
+
 
   }
 
-  ngOnInit() {
-    console.log('Number(this.totalAmount.toFixed(2)) prima dell input', this.totalAmount);
-
+  async ngOnInit() {
     this.addBreadcrumb();
-    this.localStorage.getItem('cart').subscribe(cart => {
-      this.cartArray = cart;
-      console.log('this.cart', this.cartArray);
-      for (const i of this.cartArray) {
-        this.totalAmount += Number(i.price);
-        this.arrayTitle.push(i.title);
-      }
-    });
+
     this.userService.getUserById().subscribe(user => {
       this.user = user;
-      this.initConfig();
     });
 
+    await this.loadCart();
   }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  addBreadcrumb() {
-    this.bread = [] as Breadcrumb[];
+  async loadCart() {
+    this.cart.forEach(async element => {
 
-    this.bread.push(new Breadcrumb('Home', '/'));
-    this.bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    this.bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    this.bread.push(new Breadcrumb('Checkout', '/reserved-area/consumer/checkout'));
+      let elementToPush = await this.couponService.getCouponById(element.id).toPromise();
+      elementToPush.quantity = element.quantity;
 
-    this.breadcrumbActions.updateBreadcrumb(this.bread);
-  }
+      this.totalAmount += element.quantity * elementToPush.price;
 
-  removeBreadcrumb() {
-    this.breadcrumbActions.deleteBreadcrumb();
-
+      this.coupons.push(elementToPush);
+    });
   }
 
   openModal(template: TemplateRef<any>) {
+    this.initConfig();
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-
   }
 
   buy() {
-
-    // let quantityBuy = 0;
-    /*    for (const i of this.cart) { // For each element in the cart
-          for (const j of this.availableCoupons) { // For each coupon available
-            if (i.title === j.title) { // If they got the same title
-              if (quantityBuy < i.quantity) {
-                quantityBuy++;
-                this.couponService.buyCoupons(j.id)
-                  .subscribe(data => {
-                    this.localStorage.removeItem('cart').subscribe(() => {
-
-                      this.router.navigate(['/reserved-area/consumer/bought']);
-                    });
-
-
-                  }, err => {
-                    console.log(err);
-                  });
-              }
-            }
-          }
-        }*/
-
-    const cartItems: CartItem[] = [];
-
-    console.log(this.cartArray);
-
-    this.cartArray.forEach((coupon: Coupon) => {
-      cartItems.push({
-        id: coupon.id,
-        quantity: coupon.quantity
-      });
-    });
-
-    this.couponService.buyCoupons(cartItems)
-      .subscribe(response => {
+    this.couponService.buyCoupons(this.cart).subscribe(response => {
 
         if(response['status']) {
           this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
         } else {
+          this.cartActions.emptyCart();
           this.toastr.success('The order is successfully complete.', 'Order complete!');
+          this.router.navigate(['/reserved-area/consumer/bought']);
         }
+
         console.log(response);
       }, err => {
         this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
@@ -150,7 +103,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalRef.hide();
-
   }
 
   retry() {
@@ -158,20 +110,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   }
 
-  getAvailableCoupons() {
-    this.couponService.getAvailableCoupons().subscribe(
-      data => {
-        this.availableCoupons = data;
-      });
-  }
-
-  toastBuy() {
-    this.toastr.success('Your purchase has successfully completed', 'Congratulations!');
-  }
-
   private initConfig(): void {
-    const totale = this.totalAmount;
-    console.log('totale', this.totalAmount);
 
     this.payPalConfig = new PayPalConfig(
       PayPalIntegrationType.ClientSideREST,
@@ -215,9 +154,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         transactions: [
           {
             amount: {
-              total: totale,
+              total: this.totalAmount,
               currency: 'EUR',
-
             },
 
           }
@@ -227,5 +165,42 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     );
   }
 
+  addBreadcrumb() {
+    const bread = [] as Breadcrumb[];
+
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
+    bread.push(new Breadcrumb('Checkout', '/reserved-area/consumer/checkout'));
+
+    this.breadcrumbActions.updateBreadcrumb(bread);
+  }
+
+  removeBreadcrumb() {
+    this.breadcrumbActions.deleteBreadcrumb();
+  }
+
+  formatPrice(price) {
+    if (price === 0) {
+      return 'Free';
+    }
+
+    return '€ ' + price.toFixed(2);
+  }
+
+  formatUntil(inputDate) {
+    if (inputDate === null) {
+      return 'Unlimited';
+    }
+
+    const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
+    const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('Z') - 4);
+
+    return date + ' ' + time;
+  }
+
+  imageUrl(path) {
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
+  }
 
 }

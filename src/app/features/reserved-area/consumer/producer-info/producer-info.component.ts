@@ -3,14 +3,15 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {Router} from '@angular/router';
+import {User} from '../../../../shared/_models/User';
 
 @Component({
   selector: 'app-producer-info-coupon',
-  templateUrl: './producer-info-coupon.component.html',
-  styleUrls: ['./producer-info-coupon.component.scss']
+  templateUrl: './producer-info.component.html',
+  styleUrls: ['./producer-info.component.scss']
 })
-export class ProducerInfoCouponComponent implements OnInit, OnDestroy {
-  producerCoupon: any;
+export class ProducerInfoComponent implements OnInit, OnDestroy {
+  producerCoupon: User;
   couponPass: any;
 
   constructor(
@@ -22,11 +23,17 @@ export class ProducerInfoCouponComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.couponService.currentUserCoupon.subscribe(user => {
-      this.producerCoupon = user;
-      this.couponService.currentMessage.subscribe(coupon => {
-        this.couponPass = coupon;
+
+      if(user){
+        this.producerCoupon = user;
         this.addBreadcrumb();
-      });
+      } else {
+        this.router.navigate(['/reserved-area/consumer/showcase']);
+      }
+    });
+
+    this.couponService.currentMessage.subscribe(coupon => {
+      this.couponPass = coupon;
     });
 
   }
@@ -41,18 +48,17 @@ export class ProducerInfoCouponComponent implements OnInit, OnDestroy {
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
+    const username = this.producerCoupon.username.charAt(0).toUpperCase() + this.producerCoupon.username.slice(1);
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    if (this.couponPass !== null) {
-      bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase'));
-    }
+    bread.push(new Breadcrumb(username + ' info', '/reserved-area/consumer/producer-info'));
+
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
   retry() {
-
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 

@@ -98,7 +98,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success('', coupon.title + ' successfully added to the cart.');
+      this.toastr.success( coupon.title + ' successfully added to the cart.', 'Coupon added.');
     } else {
       this.toastr.error(coupon.title + ' cannot be added to the cart.', 'Error adding the coupon');
     }
