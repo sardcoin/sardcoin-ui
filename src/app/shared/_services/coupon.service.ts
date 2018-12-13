@@ -34,9 +34,12 @@ export class CouponService {
     return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCoupons'));
   }
 
-
   getPurchasedCouponsById(id: number) {
     return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCouponsById/' + id));
+  }
+
+  getCouponById(id: number){
+    return this.http.get<Coupon>(this.formatUrl('getById/' + id));
   }
 
   getAvailableCoupons() {
@@ -83,10 +86,8 @@ export class CouponService {
     return this.http.request('put', this.formatUrl('verifierCoupon'), {body: cp});
   }
 
-
   getTotalCoupons() {
     return this.http.get(this.formatUrl('getAllCouponsStateOne'));
-
   }
 
   private formatUrl(methodName) {

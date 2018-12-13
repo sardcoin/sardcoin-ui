@@ -1,5 +1,5 @@
-<div *ngIf="!(isEmpty)">
-  <table *ngIf="!(isEmpty)" class="table table-striped">
+<div *ngIf="cart.length > 0">
+  <table class="table table-striped">
     <thead>
     <tr>
       <th style="width: 40%">Title</th>
@@ -15,27 +15,17 @@
     </thead>
 
     <tbody>
-    <tr *ngFor="let coupon of cartArray">
-      <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-      </td>
-      <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
-      </td>
-      <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
+    <tr *ngFor="let coupon of coupons">
+      <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i></td>
+      <td><img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
       <td>{{formatPrice(coupon.price)}}</td>
       <td>{{coupon.quantity}}</td>
       <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
-
       <td>
-        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm" (click)="del(coupon)">-
-        </button>
+        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm" (click)="changeQuantity(coupon, false)">-</button>
       </td>
       <td>
-        <button [disabled]="coupon.quantity === maximumQuantity(coupon)" type="button" class="btn btn-primary btn-sm"
-                (click)="add(coupon)">+
-        </button>
+        <button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm" (click)="changeQuantity(coupon, true)">+</button>
       </td>
 
       <td>
@@ -53,12 +43,12 @@
           </div>
 
           <div class="modal-body">
-            Are you sure to delete this coupon on cart?
+            Do you really want to remove this coupon from the cart?
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
-            <button type="button" class="btn btn-success" (click)="onDelete(coupon.valueOf().id)">Yes</button>
+            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
           </div>
         </ng-template>
       </td>
@@ -68,12 +58,17 @@
 
   </table>
   <div class="card-body p-4">
-    <button *ngIf="!isEmpty" class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
-    <button *ngIf="!isEmpty" type="button" class="col-sm-5 offset-sm-2 btn btn-success"
-            (click)="openModal(template_buy)">Buy
-    </button>
+    <button class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
+    <button class="col-sm-5 offset-sm-2 btn btn-success" type="button" (click)="openModal(template_buy)">Buy</button>
   </div>
 </div>
+
+<div *ngIf="cart.length === 0" class="row">
+  <img class="col-sm-8 offset-sm-2 mx-auto img-fluid" src="assets/img/empty.png">
+  <button class="col-sm-5 btn btn-danger" (click)="retry()">Continue to shop</button>
+  <button class="col-sm-5 offset-sm-2 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
+</div>
+
 <ng-template #template_buy>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Buy</h4>
@@ -91,16 +86,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
     <button href="/reserved-area/consumer/cart-detail-payment" type="button" class="btn btn-success"
-            (click)="goToDetailPayment(cartArray)">Yes
+            (click)="goToDetailPayment(cart)">Yes
     </button>
   </div>
 </ng-template>
-
-<div *ngIf="isEmpty" class="row">
-  <img class="mx-auto" src="assets/img/empty.png">
-</div>
-
-<button *ngIf="isEmpty" class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
-<button *ngIf="isEmpty" type="button" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openBought()">Go to your
-  purchases
-</button>

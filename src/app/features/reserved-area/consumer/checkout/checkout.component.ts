@@ -58,7 +58,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.localStorage.getItem('cart').subscribe(cart => {
       this.cartArray = cart;
-      console.log('this.cartArray', this.cartArray);
+      console.log('this.cart', this.cartArray);
       for (const i of this.cartArray) {
         this.totalAmount += Number(i.price);
         this.arrayTitle.push(i.title);
@@ -99,7 +99,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   buy() {
 
     // let quantityBuy = 0;
-    /*    for (const i of this.cartArray) { // For each element in the cart
+    /*    for (const i of this.cart) { // For each element in the cart
           for (const j of this.availableCoupons) { // For each coupon available
             if (i.title === j.title) { // If they got the same title
               if (quantityBuy < i.quantity) {

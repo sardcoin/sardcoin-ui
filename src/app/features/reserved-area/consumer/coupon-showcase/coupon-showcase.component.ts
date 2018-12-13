@@ -15,7 +15,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 
-
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
   templateUrl: './coupon-showcase.component.html',
@@ -25,13 +24,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   coupons: any;
   modalRef: BsModalRef;
-  cart = new CartItem();
-  quantity = 1;
   maxQuantity = 1;
   isMax = false;
-  value: any;
   myForm: FormGroup;
-
 
   constructor(
     private couponService: CouponService,
@@ -52,17 +47,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.addBreadcrumb();
   }
 
-  get f() {
-    return this.myForm.controls;
-  }
-
-
   ngOnDestroy() {
     this.removeBreadcrumb();
   }
 
   loadCoupons() {
-    this.couponService.getAvailableCoupons() // TODO show only the coupon REALLY available for the user (check purchasable)
+    this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
       }, err => {
@@ -70,7 +60,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       });
   }
 
-  async openModal(template: TemplateRef<any>, coupon: Coupon) {
+  async openModal(template: TemplateRef<any>, coupon: Coupon) { // TODO Error message if you cannot add more coupons (ex. purchasable)
 
     this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
@@ -83,20 +73,21 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
+  get f() {
+    return this.myForm.controls;
+  }
+
   decline(): void {
     this.isMax = false;
     this.modalRef.hide();
   }
 
   details(coupon: any) {
-
     this.couponService.setCoupon(coupon);
-
     this.router.navigate(['/reserved-area/consumer/details']);
   }
 
   async addToCart(coupon: Coupon) {
-
     if (this.myForm.invalid) {
       return;
     }
@@ -106,7 +97,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       quantity: this.myForm.value.quantity
     };
 
-    if (this.cartActions.addElement(item)) {
+    if (await this.cartActions.addElement(item)) {
       this.toastr.success('', coupon.title + ' successfully added to the cart.');
     } else {
       this.toastr.error(coupon.title + ' cannot be added to the cart.', 'Error adding the coupon');
@@ -116,7 +107,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   inCart(coupon_id: number) {
-    return !!this.cartActions.isInCart(coupon_id);
+    return this.cartActions.isInCart(coupon_id) >= 0; // If true, the element exists and its index is been retrievd
   }
 
   viewCart() {

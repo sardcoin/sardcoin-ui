@@ -18,6 +18,12 @@ export function CartReducer(state: CartState = CART_INITIAL_STATE, action): Cart
     case CART_DEL_PROD:
       return Object.assign({}, state,{list: state.list.filter((item) => item.id !== action.id )});
 
+    case CART_CHANGE_QNT:
+      cartAux = state.list;
+      cartAux[action.index] = action.item;
+
+      return Object.assign({}, state,{list: cartAux});
+
     case CART_UPDATE:
       return Object.assign({}, state,{list: action.list});
 
