@@ -32,7 +32,7 @@ export class CartActions {
 
   initData() {
     this.storeService.getCart().then(cartStored => {
-      this.ngRedux.dispatch({type: CART_INIT, list: cartStored});
+      this.ngRedux.dispatch({type: CART_INIT, list: cartStored === null ? [] : cartStored});
     });
   }
 
@@ -74,6 +74,14 @@ export class CartActions {
     return false;
   }
 
+  async changeQuantity(newQuantityItem: CartItem) {
+    if(await this.deleteElement(newQuantityItem.id)) {
+      return await this.addElement(newQuantityItem);
+    }
+
+    return false;
+  }
+
   updateCart(cart: CartItem[]) {
     this.ngRedux.dispatch({type: CART_INIT, list: cart});
     this.storeService.setCart(cart);
@@ -84,8 +92,27 @@ export class CartActions {
     this.storeService.setCart([]);
   }
 
-  changeQuantity() {
+  isInCart(coupon_id: number){
+    return this.reduxCart.find((item: CartItem) => item.id === coupon_id);
+  }
 
+  async getQuantityAvailableForUser(coupon_id: number) {
+    let availableCoupons: Coupon[];
+    let purchasedCoupon: PurchasedCoupon;
+    let couponToCheck: Coupon;
+    let quantityAvailable: number;
+
+    try {
+      availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
+      purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
+      couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
+      quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity : couponToCheck.purchasable - purchasedCoupon.bought;
+    } catch (e) {
+      console.log(e);
+      console.log('Error retrieving available coupons on cart actions');
+    }
+
+    return quantityAvailable < 0 ? 0 : quantityAvailable;
   }
 
   private async addItemInCartStorage(item: CartItem) {

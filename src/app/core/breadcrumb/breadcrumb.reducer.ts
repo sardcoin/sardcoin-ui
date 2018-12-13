@@ -9,12 +9,6 @@ export function BreadcrumbReducer(state: BreadcrumbState = BREADCRUMB_INITIAL_ST
           list: action.list,
         });
 
-    case BREADCRUMB_CART_LENGTH:
-      return Object.assign({}, state,
-        {
-          cartLength: action.length
-        });
-
     case BREADCRUMB_DELETE:
       return Object.assign({}, state,
         {

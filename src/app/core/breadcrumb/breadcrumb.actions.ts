@@ -17,10 +17,6 @@ export class BreadcrumbActions {
     this.ngRedux.dispatch({type: BREADCRUMB_UPDATE, list: breadcrumb});
   }
 
-  updateCartLength(length: number) {
-    this.ngRedux.dispatch({type: BREADCRUMB_CART_LENGTH, length: length});
-  }
-
   deleteBreadcrumb() {
     this.ngRedux.dispatch({type: BREADCRUMB_DELETE});
   }

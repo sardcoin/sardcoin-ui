@@ -16,8 +16,9 @@ import {CartItem} from '../../shared/_models/CartItem';
 
 export class BreadcrumbComponent implements OnInit {
 
-  cartLength = 0;
+  cart: CartItem[];
   @select() breadcrumb$: Observable<Breadcrumb[]>;
+  @select() cart$: Observable<CartItem[]>;
   breadList = [];
   isUserLoggedIn: boolean;
 
@@ -33,14 +34,14 @@ export class BreadcrumbComponent implements OnInit {
       this.isUserLoggedIn = value;
     });
 
-    // this.localStorage.getItem<CartItem[]>('cart').subscribe(cart => {
-    //   this.breadcrumbActions.updateCartLength(cart.length);
-    // });
-
     this.breadcrumb$.subscribe(elements => {
       this.breadList = elements['list'];
-      this.cartLength = elements['cartLength'];
     });
+
+    this.cart$.subscribe(elements => {
+      this.cart = elements['list'];
+    })
+
   }
 
   ngOnInit(): void {
