@@ -21,7 +21,7 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 })
 
 export class CouponDetailsComponent implements OnInit, OnDestroy {
-  imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
+  imageURL: string;
   modalRef: BsModalRef;
   myForm: FormGroup;
   couponPass: Coupon;
@@ -55,7 +55,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
 
-        this.imageURL = this.imageURL + this.couponPass.image;
+        this.imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/' + this.couponPass.image;
 
         this.getOwner();
         this.addBreadcrumb();

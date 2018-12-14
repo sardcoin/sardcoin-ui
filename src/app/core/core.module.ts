@@ -26,7 +26,7 @@ import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
   providers: [
     LoginActions,
     BsModalService,
-    BreadcrumbActions
+    BreadcrumbActions,
     DataService
   ],
   exports: [
