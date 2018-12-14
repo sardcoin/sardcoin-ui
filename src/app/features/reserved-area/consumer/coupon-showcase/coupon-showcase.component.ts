@@ -73,7 +73,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     if(this.maxQuantity > 0) {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     } else {
-      this.toastr.error('You have already reached the maximum number of purchasable coupons of this type.', 'Coupon not available')
+      this.toastr.error('You already purchased the maximum number of this item for single user.', 'Coupon not available')
     }
   }
 
