@@ -92,6 +92,10 @@ export class CartComponent implements OnInit, OnDestroy {
     }
   }
 
+  emptyCart(){
+    this.cartActions.emptyCart();
+  }
+
   retry() {
     this.router.navigate(['/reserved-area/consumer/showcase']);
   }
@@ -101,7 +105,6 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   goToDetailPayment() {
-    this.closeModal();
     this.router.navigate(['/reserved-area/consumer/checkout']);
   }
 
