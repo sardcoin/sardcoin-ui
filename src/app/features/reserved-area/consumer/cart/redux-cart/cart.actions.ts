@@ -32,6 +32,9 @@ export class CartActions {
 
   initData() {
     this.storeService.getCart().then(cartStored => {
+      if(!cartStored) { // If the cart is null or undefined, it sets the storage space at []
+        this.storeService.setCart([]);
+      }
       this.ngRedux.dispatch({type: CART_INIT, list: cartStored === null ? [] : cartStored});
     });
   }

@@ -57,9 +57,11 @@
     </tbody>
 
   </table>
-  <div class="card-body p-4">
-    <button class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
-    <button class="col-sm-5 offset-sm-2 btn btn-success" type="button" (click)="openModal(template_buy)">Buy</button>
+  <div class="card-body p-0">
+    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()">Go to checkout</button>
+    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+    <button class="btn btn-lg btn-warning float-left">Empty cart</button>
+
   </div>
 </div>
 
@@ -68,25 +70,3 @@
   <button class="offset-sm-3 col-sm-4 btn btn-danger" (click)="retry()">Continue to shop</button>
   <button class="col-sm-4 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
 </div>
-
-<ng-template #template_buy>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Buy</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <p>Confirm buy the Coupons in the cart?</p>
-
-
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
-    <button href="/reserved-area/consumer/cart-detail-payment" type="button" class="btn btn-success"
-            (click)="goToDetailPayment(cart)">Yes
-    </button>
-  </div>
-</ng-template>
