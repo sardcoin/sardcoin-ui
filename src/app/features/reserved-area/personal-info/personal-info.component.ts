@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {StoreService} from '../../../shared/_services/store.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -12,7 +12,6 @@ import {select} from '@angular-redux/store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PasswordValidation} from '../../authentication/validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../authentication/validators/fiscal-code-validator.directive';
-import {first} from 'rxjs/internal/operators';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {LoginActions} from '../../authentication/login/login.actions';
 
@@ -139,6 +138,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
             this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
           } else {
             this.toastr.success('Please do the login again.', 'Profile updated correctly!');
+            this.loginActions.logoutUser();
           }
         }, error => {
           console.log(error);
@@ -148,7 +148,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.loading = false;
     this.closeModal();
-    this.loginActions.logoutUser();
   }
 
   openModal(template: ElementRef) {

@@ -1,0 +1,92 @@
+<div *ngIf="cart.length > 0">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th style="width: 40%">Title</th>
+      <th style="width: 10%">Image</th>
+      <th style="width: 10%">Price</th>
+      <th style="width: 10%">Quantity</th>
+      <th style="width: 10%">Valid until</th>
+      <th style="width: 5%"></th>
+      <th style="width: 5%"></th>
+      <th style="width: 5%"></th>
+      <th style="width: 5%"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let coupon of coupons">
+      <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i></td>
+      <td><img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
+      <td>{{formatPrice(coupon.price)}}</td>
+      <td>{{coupon.quantity}}</td>
+      <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+      <td>
+        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm" (click)="changeQuantity(coupon, false)">-</button>
+      </td>
+      <td>
+        <button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm" (click)="changeQuantity(coupon, true)">+</button>
+      </td>
+
+      <td>
+        <button type="button" class="btn btn-info" (click)="details(coupon)">Details</button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+
+        <ng-template #template>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Coupon delete</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            Do you really want to remove this coupon from the cart?
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
+            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
+          </div>
+        </ng-template>
+      </td>
+    </tr>
+
+    </tbody>
+
+  </table>
+  <div class="card-body p-4">
+    <button class="col-sm-5  btn btn-danger" (click)="retry()">Continue to shop</button>
+    <button class="col-sm-5 offset-sm-2 btn btn-success" type="button" (click)="openModal(template_buy)">Buy</button>
+  </div>
+</div>
+
+<div *ngIf="cart.length === 0" class="row">
+  <div class="col-sm-12"><img class="mx-auto img-fluid" src="assets/img/empty.png"></div>
+  <button class="offset-sm-3 col-sm-4 btn btn-danger" (click)="retry()">Continue to shop</button>
+  <button class="col-sm-4 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
+</div>
+
+<ng-template #template_buy>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Buy</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <p>Confirm buy the Coupons in the cart?</p>
+
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
+    <button href="/reserved-area/consumer/cart-detail-payment" type="button" class="btn btn-success"
+            (click)="goToDetailPayment(cart)">Yes
+    </button>
+  </div>
+</ng-template>

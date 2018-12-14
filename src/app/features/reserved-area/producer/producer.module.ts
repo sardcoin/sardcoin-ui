@@ -12,6 +12,8 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-report.component';
 import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
+import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
     FeatureReservedAreaCouponEditModule,
+    FeatureReservedAreaPaymentDetailsModule,
+    FeatureReservedAreaPersonalInfoModule,
     CommonModule,
     ReactiveFormsModule,
     FileUploadModule,

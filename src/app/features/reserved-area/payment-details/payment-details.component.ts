@@ -1,219 +1,174 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {StoreService} from '../../../shared/_services/store.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UserService} from '../../../shared/_services/user.service';
 import {ToastrService} from 'ngx-toastr';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
 import {Router} from '@angular/router';
+import {User} from '../../../shared/_models/User';
+import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {select} from '@angular-redux/store';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PasswordValidation} from '../../authentication/validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../authentication/validators/fiscal-code-validator.directive';
-import {first} from 'rxjs/internal/operators';
-import {User} from '../../../shared/_models/User';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {AuthenticationService} from '../../authentication/authentication.service';
-import {Credentials} from '../../authentication/login/login.model';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {LoginActions} from '../../authentication/login/login.actions';
 
 @Component({
   selector: 'app-payment-details',
   templateUrl: './payment-details.component.html',
-  styleUrls: ['./payment-details.component.scss']
+  styleUrls: ['./payment-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PaymentDetailsComponent implements OnInit, OnDestroy {
-  bread = [] as Breadcrumb[];
-  paymentForm: FormGroup;
   user: any = null;
   @select() username;
   @select() just_signed;
+
+  updateRegistration: FormGroup;
   selectedUser = 0;
   loading = false;
-  done = false;
-  successPassword = null;
   submitted = false;
-  myForm: FormGroup;
   modalRef: BsModalRef;
-  password: string;
-  credentials: Credentials;
 
+  @ViewChild('updateInfo') updateInfo: ElementRef;
 
-  constructor(private breadcrumbActions: BreadcrumbActions,
-              private _sanitizer: DomSanitizer,
-              private userService: UserService,
-              private localStorage: LocalStorage,
-              private localService: StoreService,
-              private modalService: BsModalService,
-              private router: Router,
-              private loginActions: LoginActions,
-              private authenticationService: AuthenticationService,
-              private toastr: ToastrService,
-              private formBuilder: FormBuilder) {
-
+  constructor(
+    private _sanitizer: DomSanitizer,
+    private userService: UserService,
+    private localStorage: LocalStorage,
+    private localService: StoreService,
+    private router: Router,
+    private modalService: BsModalService,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
+    private loginActions: LoginActions,
+    private breadcrumbActions: BreadcrumbActions,
+  ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.addBreadcrumb();
+
     this.userService.getUserById().subscribe(user => {
       this.user = user;
-      this.paymentForm = this.formBuilder.group({
+      this.updateRegistration = this.formBuilder.group({
         first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
         last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
         birth_place: [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
         birth_date: [this.user.birth_date, Validators.required],
         fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
-        email_paypal: [this.user.email_paypal, Validators.compose([Validators.maxLength(50), Validators.required])],
+        email_paypal: [this.user.email_paypal, Validators.compose([Validators.maxLength(50)])],
         address: [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
         city: [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
         zip: [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
         province: [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
         email: [this.user.email, Validators.required],
-        password: [null],
-        r_password: [null],
+        password: [null, Validators.compose([Validators.required])],
+        r_password: [null, Validators.compose([Validators.required])],
         company_name: [this.user.company_name],
-        vat_number: [this.user.vat_number]
+        vat_number: [this.user.vat_number, Validators.compose([Validators.maxLength(11)])]
       }, {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
       this.selectChangeHandler(this.user.user_type);
     });
-    this.addBreadcrumb();
-
-  }
-
-  get f() {
-    return this.paymentForm.controls;
-  }
-
-  get g() {
-    return this.myForm.controls;
-  }
-
-  selectChangeHandler(user_type) {
-    this.selectedUser = Number(user_type);
-
-    if (this.selectedUser === 2) {
-      this.paymentForm.controls['company_name'].setValidators(Validators.required);
-      this.paymentForm.controls['company_name'].updateValueAndValidity();
-
-      this.paymentForm.controls['vat_number'].setValidators(Validators.required);
-      this.paymentForm.controls['vat_number'].updateValueAndValidity();
-    } else {
-      this.paymentForm.controls['company_name'].setValidators(null);
-      this.paymentForm.controls['company_name'].updateValueAndValidity();
-
-      this.paymentForm.controls['vat_number'].setValidators(null);
-      this.paymentForm.controls['vat_number'].updateValueAndValidity();
-    }
-  }
-
-  onSubmit() {
-    this.done = true;
-    this.submitted = true;
-
-    // If the registration form is invalid, return
-    if (this.paymentForm.invalid) {
-      this.loading = false;
-      return;
-    }
-
-    // Setting some fanValues to pass to the backend
-    this.paymentForm.value.user_type = this.selectedUser;
-    this.paymentForm.value.id = 0;
-    this.paymentForm.value.checksum = 0;
-
-    // If the user is not a company, put the fanValues to null
-    if (this.selectedUser !== 2) {
-      this.paymentForm.value.company_name = null;
-      this.paymentForm.value.vat_number = null;
-    }
-
-    delete this.paymentForm.value.r_password;
-
-
-    this.loading = true;
-
-    this.credentials = {
-      username: this.user.username,
-      password: this.myForm.value.password
-    };
-
-    const token = this.localService.getToken();
-    this.loginActions.passwordControl();
-    this.authenticationService.passwordControl(this.credentials, token, this.paymentForm.value)
-      .pipe(first())
-      .subscribe(data => {
-        this.modalRef.hide();
-        this.paymentForm.value.password = this.myForm.value.password;
-        this.userService.update(<User> this.paymentForm.value)
-          .pipe(first())
-          .subscribe(
-            up => {
-              this.modalRef.hide();
-              this.toastSuccessfull();
-              this.router.navigate(['/reserved-area/payment_details']);
-            }, error1 => {
-              this.loading = false;
-              console.log('error1', error1);
-              console.log('No update user');
-            }
-          );
-      }, error => {
-        this.loginActions.loginUserSuccess(this.paymentForm.value, token);
-        this.successPassword = false;
-        console.log('error2', error);
-        console.log('Wrong password');
-      });
-
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.submitted = true;
-    this.myForm = this.formBuilder.group({
-      user: [this.user.username],
-      password: [null, Validators.compose([Validators.required])]
-
-    });
-
-    if (this.paymentForm.valid) {
-      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-    }
-  }
-
-  goToShowcase() {
-
-    this.router.navigate(['/reserved-area/consumer/showcase']);
-  }
-
-
-  decline(): void {
-    this.modalRef.hide();
-  }
-
-  toastSuccessfull() {
-    this.toastr.success('Successful changes !!!');
   }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  removeBreadcrumb() {
-    this.breadcrumbActions.deleteBreadcrumb();
+  get f() {
+    return this.updateRegistration.controls;
+  }
 
+  selectChangeHandler(user_type) {
+    this.selectedUser = Number(user_type);
+
+    if (this.selectedUser !== 2) {
+      this.updateRegistration.controls['company_name'].setValidators(Validators.required);
+      this.updateRegistration.controls['company_name'].updateValueAndValidity();
+
+      this.updateRegistration.controls['vat_number'].setValidators(Validators.required);
+      this.updateRegistration.controls['vat_number'].updateValueAndValidity();
+    } else {
+      this.updateRegistration.controls['company_name'].setValidators(null);
+      this.updateRegistration.controls['company_name'].updateValueAndValidity();
+
+      this.updateRegistration.controls['vat_number'].setValidators(null);
+      this.updateRegistration.controls['vat_number'].updateValueAndValidity();
+    }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // If the registration form is invalid, return
+    if (this.updateRegistration.invalid) {
+      this.loading = false;
+      return;
+    }
+
+    // Setting some fanValues to pass to the backend
+    this.updateRegistration.value.user_type = this.selectedUser;
+
+    // If the user is not a company, put the fanValues to null
+    if (this.selectedUser === 2) {
+      this.updateRegistration.value.company_name = null;
+      this.updateRegistration.value.vat_number = null;
+    }
+
+    delete this.updateRegistration.value.r_password;
+
+    this.loading = true;
+
+    this.openModal(this.updateInfo);
+  }
+
+  updateUser() {
+    const user = <User> this.updateRegistration.value;
+
+    this.userService.update(user)
+      .subscribe(
+        data => {
+          if (data['status']) {
+            this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
+          } else {
+            this.toastr.success('Please do the login again.', 'Profile updated correctly!');
+            this.loginActions.logoutUser();
+          }
+        }, error => {
+          console.log(error);
+          this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
+        }
+      );
+
+    this.loading = false;
+    this.closeModal();
+  }
+
+  openModal(template: ElementRef) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  }
+
+  closeModal(): void {
+    this.modalRef.hide();
   }
 
   addBreadcrumb() {
-    this.bread = [] as Breadcrumb[];
+    const bread = [] as Breadcrumb[];
 
-    this.bread.push(new Breadcrumb('Home', '/'));
-    this.bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    this.bread.push(new Breadcrumb('Payment Details', '/reserved-area/payment_details'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Personal Info', '/reserved-area/personal_info'));
 
-    this.breadcrumbActions.updateBreadcrumb(this.bread);
+    this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
+  removeBreadcrumb() {
+    this.breadcrumbActions.deleteBreadcrumb();
+  }
 }

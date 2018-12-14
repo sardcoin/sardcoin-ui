@@ -6,16 +6,19 @@ import {Breadcrumb} from './Breadcrumb';
 import {IAppState} from '../../shared/store/model';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Router} from '@angular/router';
+import {BreadcrumbActions} from './breadcrumb.actions';
+import {CartItem} from '../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-core-breadcrumb',
   templateUrl: './breadcrumb.component.html',
 })
 
-export class BreadcrumbComponent implements OnInit, OnChanges {
+export class BreadcrumbComponent implements OnInit {
 
-  @Input() arrayCart = [];
+  cart: CartItem[];
   @select() breadcrumb$: Observable<Breadcrumb[]>;
+  @select() cart$: Observable<CartItem[]>;
   breadList = [];
   isUserLoggedIn: boolean;
 
@@ -23,6 +26,7 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
   constructor(
     private globalEventService: GlobalEventsManagerService,
     private ngRedux: NgRedux<IAppState>,
+    private breadcrumbActions: BreadcrumbActions,
     private router: Router,
     protected localStorage: LocalStorage
   ) {
@@ -32,40 +36,19 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
 
     this.breadcrumb$.subscribe(elements => {
       this.breadList = elements['list'];
-      this.localStorage.getItem('cart').subscribe((data) => {
-
-        if (data === null) {
-          this.arrayCart = [];
-          return;
-        } else {
-          this.arrayCart = data;
-          return;
-        }
-      });
     });
+
+    this.cart$.subscribe(elements => {
+      this.cart = elements['list'];
+    })
+
   }
 
   ngOnInit(): void {
-
-    this.localStorage.getItem('cart').subscribe((data) => {
-
-      if (data === null) {
-        this.arrayCart = [];
-        return;
-      } else {
-        this.arrayCart = data;
-        return;
-      }
-    });
-
   }
 
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Value change from', changes.arrayCart);
   }
 
 }

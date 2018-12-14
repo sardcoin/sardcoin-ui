@@ -5,6 +5,7 @@ import {StoreService} from './store.service';
 import {BehaviorSubject, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {CartItem, PurchasedCoupon} from '../_models/CartItem';
 
 @Injectable()
 
@@ -29,35 +30,28 @@ export class CouponService {
   ) {
   }
 
-  getCoupon() {
-  }
-
-  getAllCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getAllByUser'));
-  }
-
   getPurchasedCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
+    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCoupons'));
+  }
+
+  getPurchasedCouponsById(id: number) {
+    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCouponsById/' + id));
+  }
+
+  getCouponById(id: number){
+    return this.http.get<Coupon>(this.formatUrl('getById/' + id));
   }
 
   getAvailableCoupons() {
     return this.http.get<Coupon[]>(this.formatUrl('getAvailableCoupons'));
   }
 
-  getCreatedCoupons() {
-    return this.http.get(this.formatUrl('getCreatedCoupons'));
-  }
-
   getProducerCoupons() {
     return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
-
   }
 
   deleteCoupon(cp: number) {
     return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});
-  }
-
-  deleteAllCoupons() {
   }
 
   setCoupon(cp: Coupon) {
@@ -80,16 +74,8 @@ export class CouponService {
     return this.http.post(this.formatUrl('create'), coupon);
   }
 
-
-  buyCoupon(coupon_id: number) {
-    return this.http.post(this.formatUrl('buyCoupon'), {coupon_id: coupon_id});
-  }
-
-  getCouponsCreatedFromTitleDescriptionPrice(cp: any) {
-    const cpEasy = encodeURIComponent(cp.title.toString()) + '/' + encodeURIComponent(cp.description != null ? cp.description.toString() : null) +
-      '/' + encodeURIComponent(Number(cp.price).toFixed(2).toString());
-
-    return this.http.get<JSON>(environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/getCouponsCreatedFromTitleDescriptionPrice/' + cpEasy);
+  buyCoupons(cart: CartItem[]) {
+    return this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
   }
 
   importOfflineCoupon(cp: any) {
@@ -100,10 +86,8 @@ export class CouponService {
     return this.http.request('put', this.formatUrl('verifierCoupon'), {body: cp});
   }
 
-
   getTotalCoupons() {
     return this.http.get(this.formatUrl('getAllCouponsStateOne'));
-
   }
 
   private formatUrl(methodName) {

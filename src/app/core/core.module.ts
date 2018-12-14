@@ -9,6 +9,7 @@ import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {DataService} from './DataService';
+import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {DataService} from './DataService';
   providers: [
     LoginActions,
     BsModalService,
+    BreadcrumbActions
     DataService
   ],
   exports: [

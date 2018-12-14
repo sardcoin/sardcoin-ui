@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    if ( this.userType == 2 || this.userType == 0) {
+    if ( this.userType === 2 || this.userType === 0) { // TODO fix user types (what are 0 and 2??)
       this.localStorage.getItem('cart').subscribe(cart => {
         if (cart !== null) {
           this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});

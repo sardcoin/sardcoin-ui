@@ -5,5 +5,5 @@ export interface BreadcrumbState {
 }
 
 export const BREADCRUMB_INITIAL_STATE: BreadcrumbState = {
-  list: []
+  list: [],
 };

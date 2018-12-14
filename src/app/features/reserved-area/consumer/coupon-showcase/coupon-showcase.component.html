@@ -8,12 +8,12 @@
           <p class="card-text">{{coupon.description}}</p>
         </div>
         <div  class="card-footer">
-          <button [disabled] = "inCart(coupon)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon)">Add to cart</button>
+          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon)">Add to cart</button>
           <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
         </div>
 
         <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
-        <div class="coupon-cart" *ngIf="inCart(coupon)" (click)="viewCart()">
+        <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
           <i class="fas fa-cart-arrow-down" ></i>
         </div>
 
@@ -37,7 +37,8 @@
                         type="number" min="1" max="{{coupon.quantity}}" />
                         <!--(input)="putQuantity($event.target.value, coupon.quantity )"-->
 
-                <button class="col-sm-1 button-add-del small inline-button-input  " [disabled]="myForm.value.quantity === 1"  style="color: red; margin:0.5%;"  (click)="del()">-</button ><button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"  style="color: green; margin:0.5%;" (click)="add()">+</button>
+                <button class="col-sm-1 button-add-del small inline-button-input  " [disabled]="myForm.value.quantity === 1"  style="color: red; margin:0.5%;"  (click)="del()">-</button >
+                <button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"  style="color: green; margin:0.5%;" (click)="add()">+</button>
 
                 <div >
                 <div style="color: #bd0a0d;
@@ -47,13 +48,11 @@
             </form>
 
 
-
-
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon)">Yes</button>
+            <button type="button" class="btn btn-danger" (click)="decline()">Cancel</button>
+            <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon)">Add</button>
           </div>
         </ng-template>
         <!--<button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart-->

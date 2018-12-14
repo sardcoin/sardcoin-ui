@@ -52,23 +52,4 @@ export class LoginActions {
 
     this.router.navigate(['/authentication/login']);
   }
-
-  passwordControl() {
-    this.ngRedux.dispatch({ type: LOGOUT_USER });
-
-    this.storeLocal.removeToken();
-    this.storeLocal.removeId();
-    this.storeLocal.removeType();
-    this.storeLocal.removeUserNames();
-  }
-
-  loginUserSuccessPostPassword(user: User, token: string) {
-    this.ngRedux.dispatch({ type: LOGIN_USER_SUCCESS, user: user, token: token });
-
-    this.storeLocal.setToken(token);
-    this.storeLocal.setId(user.id);
-    this.storeLocal.setType(user.user_type);
-    this.storeLocal.setUserNames(user.first_name + ' ' + user.last_name);
-    this.eventManager.isUserLoggedIn.next(true);
-  }
 }

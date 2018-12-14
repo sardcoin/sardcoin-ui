@@ -2,20 +2,32 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card mx-4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap" >
+        <img class="card-img-top crop centered-and-cropped" src="{{imageURL}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title">{{couponPass.title}}</h3>
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
-          <div class="coupon-cart" *ngIf="inCart" (click)="viewCart()">
-            <i class="fas fa-cart-arrow-down" ></i>
+          <div class="coupon-cart cursor-pointer" *ngIf="inCart(couponPass.id)" (click)="viewCart()">
+            <i class="fas fa-cart-arrow-down"></i>
           </div>
           <p class="card-text">{{couponPass.description}}</p>
-          <p *ngIf="availability > 10" class="card-text"> Availability:  <i style="color:#19ff26"> Available</i> </p>
-          <p *ngIf="availability > 4 && availability < 10" class="card-text"> Availability: <i style="color:#ffd51c"> Available, in exhaustion</i></p>
-          <p *ngIf="availability > 0 && availability < 5" class="card-text"> Availability: <i style="color:#FF0000"> Only {{availability}} units available </i></p>
-          <p *ngIf="availability < 1" class="card-text"> Availability: <i style="color:rgba(55,87,85,0.15)"> Not available</i></p>
+
+          <p *ngIf="couponPass.quantity > 10" class="card-text">
+            <i style="color:#19ff26">In stock</i>
+          </p>
+
+          <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text">
+            <i style="color:#ffd51c">Running out</i>
+          </p>
+
+          <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
+            <i style="color:#FF0000">
+              Only {{couponPass.quantity}} unit{{couponPass.quantity === 1 ? '' : 's'}} available
+            </i>
+          </p>
+          <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)"> Out of stock</i></p>
+
           <p class="card-text">
-            <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
+            <i class="fas fa-fw  fa-clock text-secondary"></i> Validity: {{formatUntil(couponPass.valid_until)}}
 
             <br/>
 
@@ -26,16 +38,18 @@
 
           <div class="card-text">
             <span *ngIf="couponPass.owner">
-                    <p class="card-text"  >Producer:
-                      <i style="color:#19ff26" routerLink="/reserved-area/consumer/producer-info-coupon" class="text-info">{{producer === null? null : producer.username}}</i > </p>
+                    <p class="card-text">Sold by:
+                      <i style="color:#19ff26" [routerLink]="['/reserved-area/consumer/producer-info']"
+                         class="text-info cursor-pointer">{{producer === null ? null : producer.username}}</i> </p>
             </span>
           </div>
           <br/>
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to shopping</button>
-          <button *ngIf="!inCart && available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
-          <button [disabled] = "!available" *ngIf="!inCart && !available" class="col-sm-5 offset-sm-2 btn btn-success" (click)="openModal(template)">Add to cart</button>
-          <button *ngIf="inCart" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
+          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0" class="col-sm-5 offset-sm-2 btn btn-success"
+                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">Add to cart
+          </button>
+          <button *ngIf="inCart(couponPass.id)" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
 
           <ng-template #template>
 
@@ -48,18 +62,26 @@
 
             <div class="modal-body">
               <form [formGroup]="myForm">
-                <label style="color: #999999;"  class="col-sm-12"> You are adding  <label class="text-info"> {{couponPass.title}}</label> to cart.  </label>
+                <label style="color: #999999;" class="col-sm-12"> You are adding <label class="text-info">
+                  {{couponPass.title}}</label> to cart. </label>
 
                 <div class="form-group col-sm-12">
-                  <label style="color: #999999;"  class="col-sm-7">Choose the quantity: <label class="text-info" > ({{maxQuantity}} available)</label></label>
-                  <input  formControlName="quantity"
-                          class="col-sm-2 small inline-button-input"
-                          type="number" min="1" max="{{couponPass.quantity}}" />
-                  <button class="col-sm-1 button-add-del small inline-button-input  " [disabled]="myForm.value.quantity === 1"  style="color: red; margin:0.5%;"  (click)="del()">-</button ><button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"  style="color: green; margin:0.5%;" (click)="add()">+</button>
+                  <label style="color: #999999;" class="col-sm-7">Choose the quantity: <label class="text-info">
+                    ({{couponPass.max_quantity}} available)</label></label>
+                  <input formControlName="quantity"
+                         class="col-sm-2 small inline-button-input"
+                         type="number" min="1" max="{{couponPass.max_quantity}}"/>
+                  <button class="col-sm-1 button-add-del small inline-button-input  "
+                          [disabled]="myForm.value.quantity === 1" style="color: red; margin:0.5%;" (click)="del()">-
+                  </button>
+                  <button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"
+                          style="color: green; margin:0.5%;" (click)="add()">+
+                  </button>
 
-                  <div >
+                  <div>
                     <div style="color: #bd0a0d;
-                            text-align: center"  *ngIf="f.quantity.errors">Insert a valid quantity!</div>
+                            text-align: center" *ngIf="f.quantity.errors">Insert a valid quantity!
+                    </div>
                   </div>
                 </div>
               </form>
@@ -68,8 +90,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-              <button type="button" class="btn btn-success" (click)="addToCart(couponPass.id)">Yes</button>
+              <button type="button" class="btn btn-danger" (click)="closeModal()">Cancel</button>
+              <button type="button" class="btn btn-success" (click)="addToCart(couponPass)">Add</button>
             </div>
           </ng-template>
         </div>

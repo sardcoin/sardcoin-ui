@@ -3,11 +3,13 @@ import {RouterModule} from '@angular/router';
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
 import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon-bought.component';
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
-import {CartShowComponent} from './cart/cart-show/cart-show.component';
-import {PaymentConfirmComponent} from './payment-confirm/payment-confirm.component';
+import {CartComponent} from './cart/cart.component';
+import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
-import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-coupon.component';
+import {ProducerInfoComponent} from './producer-info/producer-info.component';
+import {PersonalInfoComponent} from '../personal-info/personal-info.component';
+import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
 
 /** App Components **/
 
@@ -25,35 +27,41 @@ import {ProducerInfoCouponComponent} from './producer-info-coupon/producer-info-
         component: FeatureReservedAreaConsumerShowcaseComponent
       },
       {
-        path: 'bought',
-        component: FeatureReservedAreaConsumerBoughtComponent
-      },
-      {
         path: 'details',
         component: CouponDetailsComponent
       },
       {
         path: 'cart',
-        component: CartShowComponent
+        component: CartComponent
       },
       {
-        path: 'cart-detail-payment',
-        component: PaymentConfirmComponent
+        path: 'checkout',
+        component: CheckoutComponent
       },
       {
         path: 'coupon-token',
         component: CouponTokenComponent
       },
-
       {
-        path: 'bought/bought-details',
-        component: CouponBoughtDetailComponent
+        path: 'personal-info',
+        component: PersonalInfoComponent,
       },
       {
-        path: 'producer-info-coupon',
-        component: ProducerInfoCouponComponent
+        path: 'payment-details',
+        component: PaymentDetailsComponent,
+      },
+      {
+        path: 'producer-info',
+        component: ProducerInfoComponent
+      },
+      {
+        path: 'bought',
+        component: FeatureReservedAreaConsumerBoughtComponent
+      },
+      {
+        path: 'bought/details',
+        component: CouponBoughtDetailComponent
       }
-
     ])
   ],
   exports: [RouterModule]

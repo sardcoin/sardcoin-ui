@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit{
   userType = null;
   message: string;
   sidebarClass: string = "sidebar-expanded d-none d-md-block col-1-5"; //default value
+  userStringType = '';
 
   constructor(
     private actions: LoginActions,
@@ -30,7 +31,24 @@ export class SidebarComponent implements OnInit{
 
     this.globalEventService.userType.subscribe(value => {
       this.userType = value;
+
+      switch (this.userType) {
+        case '0': // admin
+          this.userStringType = 'admin';
+          return true;
+        case '1': // producer
+          this.userStringType = 'producer';
+          return true;
+        case '2': // consumer
+          this.userStringType = 'consumer';
+          return true;
+        case '3': // verifier
+          this.userStringType = 'verifier';
+          return true;
+      }
     });
+
+
   }
 
   ngOnInit() {

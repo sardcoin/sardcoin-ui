@@ -13,6 +13,7 @@ export class Coupon {
   purchasable: number;
   constraints: string;
   quantity?: number;
+  max_quantity?: number;
   owner?: number;
   CouponTokens?: CouponToken[];
   token?: CouponToken;

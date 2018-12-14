@@ -12,6 +12,8 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const tkn = this.localStorage.getToken();
 
+    // console.log('tkn: ' + tkn);
+
     if (tkn !== null) {
       const headers = request.headers
         .set('Content-Type', 'application/json')

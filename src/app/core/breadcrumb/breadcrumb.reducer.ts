@@ -1,6 +1,5 @@
-import {BREADCRUMB_UPDATE, BREADCRUMB_DELETE} from './breadcrumb.actions';
+import {BREADCRUMB_UPDATE, BREADCRUMB_DELETE, BREADCRUMB_CART_LENGTH} from './breadcrumb.actions';
 import {BreadcrumbState, BREADCRUMB_INITIAL_STATE} from './breadcrumb.model';
-
 
 export function BreadcrumbReducer(state: BreadcrumbState = BREADCRUMB_INITIAL_STATE, action): BreadcrumbState {
   switch (action.type) {
