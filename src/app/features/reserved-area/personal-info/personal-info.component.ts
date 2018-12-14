@@ -8,7 +8,6 @@ import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
 import {Router} from '@angular/router';
 import {User} from '../../../shared/_models/User';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
-import {select} from '@angular-redux/store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PasswordValidation} from '../../authentication/validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../authentication/validators/fiscal-code-validator.directive';
@@ -23,8 +22,6 @@ import {LoginActions} from '../../authentication/login/login.actions';
 })
 export class PersonalInfoComponent implements OnInit, OnDestroy {
   user: any = null;
-  @select() username;
-  @select() just_signed;
 
   updateRegistration: FormGroup;
   selectedUser = 0;
@@ -37,7 +34,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   constructor(
     private _sanitizer: DomSanitizer,
     private userService: UserService,
-    private localStorage: LocalStorage,
     private localService: StoreService,
     private router: Router,
     private modalService: BsModalService,
@@ -160,10 +156,14 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
+    const type = Number(this.localService.getType());
+    const userType = type === 1 ? 'producer/' : 'consumer/';
+    const userLabel = type === 1 ? 'Producer' : 'Consumer';
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Personal Info', '/reserved-area/personal_info'));
+    bread.push(new Breadcrumb(userLabel, '/reserved-area/' + userType));
+    bread.push(new Breadcrumb('Personal Info', '/reserved-area/' + userType + 'personal-info'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

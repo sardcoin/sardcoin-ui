@@ -66,8 +66,7 @@
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()">Go to checkout
     </button>
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
-    <button class="btn btn-lg btn-warning text-white float-left" (click)="emptyCart()">Empty cart</button>
-
+    <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i class="fas fa-trash"></i> Empty cart</button>
   </div>
 </div>
 
@@ -79,3 +78,23 @@
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
   </div>
 </div>
+
+<ng-template #emptyCartTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Confirm to empty the cart</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <p>Are you really sure to empty your cart? This operation is not reversable.</p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
+    <button href="/reserved-area/consumer/cart-detail-payment" type="button" class="btn btn-success"
+            (click)="emptyCart()">Yes
+    </button>
+  </div>
+</ng-template>

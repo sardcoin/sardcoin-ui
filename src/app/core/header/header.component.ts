@@ -18,6 +18,7 @@ export class HeaderComponent {
   username: string;
   modalRef: BsModalRef = null;
   userType = null;
+  userStringType: string;
   cart = null;
 
   constructor(
@@ -33,6 +34,21 @@ export class HeaderComponent {
       this.username = this.localStore.getUserNames();
       this.globalEventService.userType.subscribe(type => {
         this.userType = type;
+
+        switch (this.userType) {
+          case '0': // admin
+            this.userStringType = 'admin';
+            return true;
+          case '1': // producer
+            this.userStringType = 'producer';
+            return true;
+          case '2': // consumer
+            this.userStringType = 'consumer';
+            return true;
+          case '3': // verifier
+            this.userStringType = 'verifier';
+            return true;
+        }
       });
     });
   }
