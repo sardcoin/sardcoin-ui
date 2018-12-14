@@ -34,7 +34,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    protected localStorage: LocalStorage,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private cartActions: CartActions
@@ -43,7 +42,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-
     this.couponService.currentMessage.subscribe(async coupon => {
       this.couponPass = coupon;
 
@@ -55,7 +53,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
 
-        this.imageURL = this.imageURL + this.couponPass.image;
+        // this.imageURL = this.imageURL + this.couponPass.image;
 
         this.getOwner();
         this.addBreadcrumb();
@@ -67,20 +65,20 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.removeBreadcrumb();
   }
 
-  async addToCart(coupon: Coupon) {
+  async addToCart() {
     if (this.myForm.invalid) {
       return;
     }
 
     const item: CartItem = {
-      id: coupon.id,
+      id: this.couponPass.id,
       quantity: this.myForm.value.quantity
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success('', coupon.title + ' successfully added to the cart.');
+      this.toastr.success('', this.couponPass.title + ' successfully added to the cart.');
     } else {
-      this.toastr.error(coupon.title + ' cannot be added to the cart.', 'Error adding the coupon');
+      this.toastr.error(this.couponPass.title + ' cannot be added to the cart.', 'Error adding the coupon');
     }
 
     this.modalRef.hide();
