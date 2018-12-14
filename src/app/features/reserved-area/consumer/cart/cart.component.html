@@ -16,16 +16,21 @@
 
     <tbody>
     <tr *ngFor="let coupon of coupons">
-      <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i></td>
+      <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+      </td>
       <td><img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
       <td>{{formatPrice(coupon.price)}}</td>
       <td>{{coupon.quantity}}</td>
       <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
       <td>
-        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm" (click)="changeQuantity(coupon, false)">-</button>
+        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm"
+                (click)="changeQuantity(coupon, false)">-
+        </button>
       </td>
       <td>
-        <button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm" (click)="changeQuantity(coupon, true)">+</button>
+        <button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm"
+                (click)="changeQuantity(coupon, true)">+
+        </button>
       </td>
 
       <td>
@@ -58,15 +63,19 @@
 
   </table>
   <div class="card-body p-0">
-    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()">Go to checkout</button>
+    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()">Go to checkout
+    </button>
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
-    <button class="btn btn-lg btn-warning float-left">Empty cart</button>
+    <button class="btn btn-lg btn-warning text-white float-left" (click)="emptyCart()">Empty cart</button>
 
   </div>
 </div>
 
 <div *ngIf="cart.length === 0" class="row">
-  <div class="col-sm-12"><img class="mx-auto img-fluid" src="assets/img/empty.png"></div>
-  <button class="offset-sm-3 col-sm-4 btn btn-danger" (click)="retry()">Continue to shop</button>
-  <button class="col-sm-4 btn btn-success" type="button" (click)="openBought()">Go to your purchases</button>
+  <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
+  <div class="col-sm-12">
+    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">Go to your purchases
+    </button>
+    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+  </div>
 </div>
