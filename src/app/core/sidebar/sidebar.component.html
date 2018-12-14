@@ -1,4 +1,8 @@
-<div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-1-5" *ngIf="isUserLoggedIn">
+<div *ngIf="message === 'viewSidebar' || message === null">
+<div  id="sidebar-container"  [class]= "sidebarClass" *ngIf="isUserLoggedIn">
+
+  <!--<div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-1-5 " *ngIf="isUserLoggedIn">   original-->
+
   <ul class="list-group sticky-top sticky-offset">
     <!-- Separator with title -->
     <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
@@ -21,7 +25,7 @@
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
         <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">My coupons</span>
+          <span  class="menu-collapsed">My coupons</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
           <span class="menu-collapsed">Add new coupon</span>
@@ -35,13 +39,13 @@
 
       <div *ngIf="this.userType == '2' || this.userType == '0'">
         <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Shopping</span>
+          <span  class="menu-collapsed">Shopping</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">My purchases</span>
+          <span  class="menu-collapsed">My purchases</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Get Coupon by Token</span>
+          <span  class="menu-collapsed">Get Coupon by Token</span>
         </a>
 
       </div>
@@ -102,4 +106,5 @@
   </ul>
   <!-- List Group END-->
   <!--</div>-->
+</div>
 </div>
