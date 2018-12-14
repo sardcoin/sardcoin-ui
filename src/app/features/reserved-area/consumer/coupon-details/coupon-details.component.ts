@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -7,7 +7,6 @@ import {Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../shared/_services/user.service';
@@ -17,11 +16,12 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 @Component({
   selector: 'app-coupon-details',
   templateUrl: './coupon-details.component.html',
-  styleUrls: ['./coupon-details.component.scss']
+  styleUrls: ['./coupon-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class CouponDetailsComponent implements OnInit, OnDestroy {
-  imageURL: string;
+  imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
   couponPass: Coupon;
@@ -34,7 +34,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    protected localStorage: LocalStorage,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private cartActions: CartActions
@@ -43,7 +42,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-
     this.couponService.currentMessage.subscribe(async coupon => {
       this.couponPass = coupon;
 
@@ -55,8 +53,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
 
-        this.imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/' + this.couponPass.image;
-
         this.getOwner();
         this.addBreadcrumb();
       }
@@ -67,20 +63,20 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.removeBreadcrumb();
   }
 
-  async addToCart(coupon: Coupon) {
+  async addToCart() {
     if (this.myForm.invalid) {
       return;
     }
 
     const item: CartItem = {
-      id: coupon.id,
+      id: this.couponPass.id,
       quantity: this.myForm.value.quantity
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success('', coupon.title + ' successfully added to the cart.');
+      this.toastr.success('', this.couponPass.title + ' successfully added to the cart.');
     } else {
-      this.toastr.error(coupon.title + ' cannot be added to the cart.', 'Error adding the coupon');
+      this.toastr.error(this.couponPass.title + ' cannot be added to the cart.', 'Error adding the coupon');
     }
 
     this.modalRef.hide();

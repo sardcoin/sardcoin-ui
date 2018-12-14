@@ -18,26 +18,31 @@
     <tr *ngFor="let coupon of coupons">
       <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
       </td>
-      <td><img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
+      <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
       <td>{{formatPrice(coupon.price)}}</td>
       <td>{{coupon.quantity}}</td>
       <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
       <td>
-        <button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm"
-                (click)="changeQuantity(coupon, false)">-
+        <button class="btn btn-secondary" (click)="changeQuantity(coupon, false)" [disabled]="coupon.quantity === 1">
+          <i class="fas fa-minus text-white"></i>
         </button>
+
+        <!--<button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm"-->
+                <!--(click)="changeQuantity(coupon, false)">- -->
+        <!--</button>-->
       </td>
       <td>
-        <button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm"
-                (click)="changeQuantity(coupon, true)">+
-        </button>
+        <button class="btn btn-primary" (click)="changeQuantity(coupon, true)" [disabled]="coupon.quantity === coupon.max_quantity"><i class="fas fa-plus text-white"></i></button>
+        <!--<button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm"-->
+                <!--(click)="changeQuantity(coupon, true)">+-->
+        <!--</button>-->
       </td>
 
       <td>
-        <button type="button" class="btn btn-info" (click)="details(coupon)">Details</button>
+        <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Details</button>
       </td>
       <td>
-        <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i> Delete</button>
 
         <ng-template #template>
           <div class="modal-header">

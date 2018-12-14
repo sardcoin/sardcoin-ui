@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
@@ -22,7 +21,8 @@ import {CartActions} from '../cart/redux-cart/cart.actions';
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
-  coupons: any;
+  coupons: Coupon[];
+  modalCoupon: Coupon;
   modalRef: BsModalRef;
   maxQuantity = 1;
   isMax = false;
@@ -37,7 +37,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private cartActions: CartActions,
     private router: Router,
     private toastr: ToastrService,
-    protected localStorage: LocalStorage,
     private formBuilder: FormBuilder
   ) {
   }
@@ -62,6 +61,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) { // TODO Error message if you cannot add more coupons (ex. purchasable)
 
+    this.modalCoupon = coupon;
+
     this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
     this.myForm = this.formBuilder.group({
@@ -73,7 +74,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     if(this.maxQuantity > 0) {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     } else {
-      this.toastr.error('You have already reached the maximum number of purchasable coupons of this type.', 'Coupon not available')
+      this.toastr.error('You already purchased the maximum number of this item for single user.', 'Coupon not available')
     }
   }
 
