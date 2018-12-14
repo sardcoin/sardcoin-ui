@@ -87,6 +87,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
     this.couponService.setCoupon(coupon);
 
-    this.router.navigate(['/reserved-area/consumer/bought/bought-details']);
+    this.router.navigate(['/reserved-area/consumer/bought/details']);
   }
 }

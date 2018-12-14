@@ -9,7 +9,6 @@ import {CouponTokenComponent} from './coupon-token/coupon-token.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {ProducerInfoComponent} from './producer-info/producer-info.component';
 import {PersonalInfoComponent} from '../personal-info/personal-info.component';
-import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
 import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
 
 /** App Components **/
@@ -26,10 +25,6 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
       {
         path: 'showcase',
         component: FeatureReservedAreaConsumerShowcaseComponent
-      },
-      {
-        path: 'bought',
-        component: FeatureReservedAreaConsumerBoughtComponent
       },
       {
         path: 'details',
@@ -56,14 +51,17 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
         component: PaymentDetailsComponent,
       },
       {
-        path: 'bought/bought-details',
-        component: CouponBoughtDetailComponent
-      },
-      {
         path: 'producer-info',
         component: ProducerInfoComponent
+      },
+      {
+        path: 'bought',
+        component: FeatureReservedAreaConsumerBoughtComponent
+      },
+      {
+        path: 'bought/details',
+        component: CouponBoughtDetailComponent
       }
-
     ])
   ],
   exports: [RouterModule]

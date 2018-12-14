@@ -21,7 +21,7 @@
 
           <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
             <i style="color:#FF0000">
-              Only {{couponPass.quantity}} units available
+              Only {{couponPass.quantity}} unit{{couponPass.quantity === 1 ? '' : 's'}} available
             </i>
           </p>
           <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)"> Out of stock</i></p>
@@ -38,8 +38,8 @@
 
           <div class="card-text">
             <span *ngIf="couponPass.owner">
-                    <p class="card-text">Producer:
-                      <i style="color:#19ff26" routerLink="/reserved-area/consumer/producer-info"
+                    <p class="card-text">Sold by:
+                      <i style="color:#19ff26" [routerLink]="['/reserved-area/consumer/producer-info']"
                          class="text-info cursor-pointer">{{producer === null ? null : producer.username}}</i> </p>
             </span>
           </div>

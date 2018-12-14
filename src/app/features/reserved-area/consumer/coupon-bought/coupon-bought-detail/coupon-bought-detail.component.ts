@@ -19,29 +19,30 @@ import {UserService} from '../../../../../shared/_services/user.service';
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
-  couponPass: any;
+  couponPass: Coupon;
   cart = new Coupon();
   producer = null;
-  constructor( private breadcrumbActions: BreadcrumbActions,
-               private couponService: CouponService,
-               private router: Router,
-               private modalService: BsModalService,
-               private toastr: ToastrService,
-               private userService: UserService,
-               protected localStorage: LocalStorage) { }
+
+  constructor(private breadcrumbActions: BreadcrumbActions,
+              private couponService: CouponService,
+              private router: Router,
+              private modalService: BsModalService,
+              private toastr: ToastrService,
+              private userService: UserService,
+              protected localStorage: LocalStorage) {
+  }
 
   ngOnInit() {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
-    if (this.couponPass === null) {
-      this.router.navigate(['/reserved-area/consumer/bought']);
-      this.addBreadcrumb();
-    } else {
-      this.URLstring = this.URLstring + this.couponPass.image;
-      this.addBreadcrumb();
-      this.getOwner();
-    }
+      if (this.couponPass === null) {
+        this.router.navigate(['/reserved-area/consumer/bought']);
+      } else {
+        this.URLstring = this.URLstring + this.couponPass.image;
+        this.addBreadcrumb();
+        this.getOwner();
+      }
     });
   }
 
@@ -56,7 +57,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought'));
-    if ( this.couponPass !== null) { bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/showcase')); }
+    bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
+
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
@@ -95,7 +97,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
 
   getOwner() {
     this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-        this.producer = user;
+      this.producer = user;
       this.couponService.setUserCoupon(this.producer);
 
     });

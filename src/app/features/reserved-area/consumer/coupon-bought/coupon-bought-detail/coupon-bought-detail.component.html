@@ -2,22 +2,22 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card mx-4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap" >
+        <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title">{{couponPass.title}}</h3>
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
           <p class="card-text">{{couponPass.description}}</p>
-        <div class="card-text">
-          <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
+          <div class="card-text">
+            <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
             <div class="col-6">
               <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="200" [level]="'M'"></qrcode>
             </div>
-        </div>
+          </div>
           <p class="card-text">
             <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
           </p>
-        <br/>
+          <br/>
           <div class="card-text">
             <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
@@ -26,8 +26,7 @@
           <br/>
           <div class="card-text">
             <span *ngIf="couponPass.owner">
-                    <a  >Producer:
-                      <b routerLink="/reserved-area/consumer/producer-info-coupon" class="text-info">{{producer === null? null : producer.username}}</b > </a>
+              <p>Sold by: <b [routerLink]="['/reserved-area/consumer/producer-info']" class="text-info">{{producer === null? null : producer.username}}</b> </p>
             </span>
           </div>
           <br/>
@@ -35,10 +34,10 @@
             <button class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
           </div>
         </div>
-        </div>
-    </div>
       </div>
-
-
     </div>
+  </div>
+
+
+</div>
 
