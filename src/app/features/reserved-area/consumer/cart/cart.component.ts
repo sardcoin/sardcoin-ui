@@ -94,6 +94,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   emptyCart(){
     this.cartActions.emptyCart();
+    this.closeModal();
   }
 
   retry() {

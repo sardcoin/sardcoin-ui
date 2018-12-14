@@ -70,7 +70,11 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     this.isMax = this.myForm.value.quantity === this.maxQuantity;
 
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    if(this.maxQuantity > 0) {
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    } else {
+      this.toastr.error('You have already reached the maximum number of purchasable coupons of this type.', 'Coupon not available')
+    }
   }
 
   get f() {

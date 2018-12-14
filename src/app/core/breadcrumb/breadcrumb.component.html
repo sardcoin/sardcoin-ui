@@ -7,7 +7,7 @@
     </li>
     <div *ngIf="breadList.length > 2 && breadList[2].label.includes('Consumer')"  class="ml-auto cursor-pointer" (click)="viewCart()" style="margin-right:21px">
       <a *ngIf="cart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
-      <a routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0">There are <b class="text-info">{{cart.length}} items</b> in your cart. Checkout now! </a>
+      <a routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0">There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now! </a>
       <i routerLink="/reserved-area/consumer/cart" style="font-size: 1.5em !important;" class="fas fa-shopping-cart" ></i>
     </div>
   </ol>
