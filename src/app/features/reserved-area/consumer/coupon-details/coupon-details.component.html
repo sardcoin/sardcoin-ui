@@ -11,13 +11,9 @@
           </div>
           <p class="card-text">{{couponPass.description}}</p>
 
-          <p *ngIf="couponPass.quantity > 10" class="card-text">
-            <i style="color:#19ff26">In stock</i>
-          </p>
+          <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#19ff26">In stock</i></p>
 
-          <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text">
-            <i style="color:#ffd51c">Running out</i>
-          </p>
+          <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Running out</i></p>
 
           <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
             <i style="color:#FF0000">
@@ -28,7 +24,6 @@
 
           <p class="card-text">
             <i class="fas fa-fw  fa-clock text-secondary"></i> Validity: {{formatUntil(couponPass.valid_until)}}
-
             <br/>
 
             <span *ngIf="couponPass.constraints">
@@ -58,42 +53,35 @@
 </div>
 
 <ng-template #template>
-
   <div class="modal-header">
-    <h4 class="text-info modal-title pull-left">Add to shopping cart</h4>
+    <h4 class="modal-title pull-left">Add "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) + '...' : couponPass.title}}" to shopping cart</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="myForm">
-      <label style="color: #999999;" class="col-sm-12"> You are adding <label class="text-info">
-        {{couponPass.title}}</label> to cart. </label>
+    <form [formGroup]="myForm" class="container">
+      <!--<label class="row">You are adding <i class="text-info">{{' ' + modalCoupon.title + ' '}}</i> to the cart. </label>-->
+      <div class="form-group row">
+        <label class="col-sm-7 my-auto" style="font-size: 16px;">Choose the quantity:<i class="text-info">
+          ({{couponPass.max_quantity}} available)</i></label>
 
-      <div class="form-group col-sm-12">
-        <label style="color: #999999;" class="col-sm-7">Choose the quantity: <label class="text-info">
-          ({{couponPass.max_quantity}} available)</label></label>
-        <input formControlName="quantity"
-               class="col-sm-2 small inline-button-input"
-               type="number" min="1" max="{{couponPass.max_quantity}}"/>
-        <button class="col-sm-1 button-add-del small inline-button-input  "
-                [disabled]="myForm.value.quantity === 1" style="color: red; margin:0.5%;" (click)="del()">-
-        </button>
-        <button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"
-                style="color: green; margin:0.5%;" (click)="add()">+
-        </button>
+        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
+               max="{{couponPass.max_quantity}}"/>
 
-        <div>
-          <div style="color: #bd0a0d;
-                            text-align: center" *ngIf="f.quantity.errors">Insert a valid quantity!</div>
-        </div>
+        <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
+          <i class="fas fa-minus text-white"></i>
+        </button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+
+        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Insert a valid quantity!</div>
       </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <!--<button type="button" class="btn btn-danger" (click)="closeModal()">Cancel</button>-->
+    <button type="button" class="btn btn-danger" (click)="closeModal()">Cancel</button>
     <button type="button" class="btn btn-success" (click)="addToCart()">Add</button>
   </div>
 </ng-template>

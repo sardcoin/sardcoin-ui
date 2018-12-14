@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -18,7 +18,8 @@ import {CartActions} from './redux-cart/cart.actions';
 @Component({
   selector: 'app-consumer-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  styleUrls: ['./cart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CartComponent implements OnInit, OnDestroy {
 
@@ -90,7 +91,7 @@ export class CartComponent implements OnInit, OnDestroy {
       index = this.coupons.findIndex((element) => element.id === coupon.id);
       this.coupons[index].quantity = newQuantity;
     }
-  }
+  } /* If increment is true, then an add of quantity in the cart is performed, else a deletion is performed */
 
   emptyCart(){
     this.cartActions.emptyCart();

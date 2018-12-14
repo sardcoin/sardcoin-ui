@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -7,7 +7,6 @@ import {Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../shared/_services/user.service';
@@ -17,7 +16,8 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 @Component({
   selector: 'app-coupon-details',
   templateUrl: './coupon-details.component.html',
-  styleUrls: ['./coupon-details.component.scss']
+  styleUrls: ['./coupon-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class CouponDetailsComponent implements OnInit, OnDestroy {
@@ -52,8 +52,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         if(!this.couponPass.max_quantity) {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
-
-        // this.imageURL = this.imageURL + this.couponPass.image;
 
         this.getOwner();
         this.addBreadcrumb();

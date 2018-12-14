@@ -1,68 +1,58 @@
-<!--<div class="card-block">-->
-  <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
-      <div class="card">
-        <img class="card-img-top crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{coupon.title}}</h5>
-          <p class="card-text">{{coupon.description}}</p>
-        </div>
-        <div  class="card-footer">
-          <button [disabled] = "inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" (click)="openModal(template, coupon)">Add to cart</button>
-          <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
-        </div>
-
-        <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
-        <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
-          <i class="fas fa-cart-arrow-down" ></i>
-        </div>
-
-        <ng-template #template>
-          <div class="modal-header">
-            <h4 class="text-info modal-title pull-left">Add to shopping cart</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body">
-            <form [formGroup]="myForm" >
-              <label style="color: #999999;"  class=" col-sm-12"> You are adding  <label class="text-info"> {{coupon.title}}</label> to cart.  </label>
-              <div class="form-group col-sm-12">
-
-                <label style="color: #999999;"  class=" col-sm-7">Choose the quantity: <label class="text-info" > ({{maxQuantity}} available)</label></label>
-
-                <input  formControlName="quantity"
-                        class="col-sm-2 small inline-button-input"
-                        type="number" min="1" max="{{coupon.quantity}}" />
-                        <!--(input)="putQuantity($event.target.value, coupon.quantity )"-->
-
-                <button class="col-sm-1 button-add-del small inline-button-input  " [disabled]="myForm.value.quantity === 1"  style="color: red; margin:0.5%;"  (click)="del()">-</button >
-                <button class="col-sm-1 button-add-del small inline-button-input" [disabled]="isMax"  style="color: green; margin:0.5%;" (click)="add()">+</button>
-
-                <div >
-                <div style="color: #bd0a0d;
-                            text-align: center"  *ngIf="f.quantity.errors">Insert a valid quantity!</div>
-                </div>
-              </div>
-            </form>
-
-
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="decline()">Cancel</button>
-            <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success" (click)="addToCart(coupon)">Add</button>
-          </div>
-        </ng-template>
-        <!--<button style="color: #53993b; font-size: 15px;" *ngIf="inCart(coupon.id)" (click)="viewCart()" > in the cart-->
-          <!--<i class="fas fa-cart-arrow-down" ></i>-->
-        <!--</button>-->
+<div class="row">
+  <div class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
+    <div class="card">
+      <img class="card-img-top crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{coupon.title}}</h5>
+        <p class="card-text">{{coupon.description}}</p>
       </div>
-
-
+      <div class="card-footer">
+        <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1"
+                (click)="openModal(template, coupon)">Add to cart
+        </button>
+        <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
+      </div>
+      <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
+      <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
+        <i class="fas fa-cart-arrow-down"></i>
+      </div>
     </div>
   </div>
-<!--</div>-->
+</div>
 
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add "{{modalCoupon.title.length > 20 ? modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" to shopping cart</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="myForm" class="container">
+      <!--<label class="row">You are adding <i class="text-info">{{' ' + modalCoupon.title + ' '}}</i> to the cart. </label>-->
+      <div class="form-group row">
+        <label class="col-sm-7 my-auto" style="font-size: 16px;">Choose the quantity:<i class="text-info">
+          ({{maxQuantity}} available)</i></label>
+
+        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
+               max="{{modalCoupon.quantity}}"/>
+
+        <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
+          <i class="fas fa-minus text-white"></i>
+        </button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+
+        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Insert a valid quantity!</div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="decline()">Cancel</button>
+    <button [disabled]="inCart(modalCoupon.id)" type="button" class="btn btn-success" (click)="addToCart(modalCoupon)">
+      Add
+    </button>
+  </div>
+</ng-template>
 
