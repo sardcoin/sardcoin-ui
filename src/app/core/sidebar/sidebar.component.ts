@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
   userStringType = '';
   hide = false;
-
+  desktopMode = true;
   constructor(
     private actions: LoginActions,
     private localStore: StoreService,
@@ -55,14 +55,14 @@ export class SidebarComponent implements OnInit {
     this.isHide();
 
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
-    this.data.currentMessage.subscribe(message => this.hide = message);
+    this.data.hideSource.subscribe(message => this.hide = message);
 
   }
 
 
   hideSideBar() {
 
-    this.data.changeMessage(true);
+    this.data.changeHide(true);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -75,10 +75,16 @@ export class SidebarComponent implements OnInit {
     const innerWidth = window.innerWidth;
     if (innerWidth < 720) {
       this.hide = true;
-      this.data.changeMessage(true);
+      this.desktopMode = false;
+      this.data.changeHide(true);
+      this.data.changeView(false);
+
     } else {
+      this.desktopMode = true;
       this.hide = false;
-      this.data.changeMessage(false);
+      this.data.changeHide(false);
+      this.data.changeView(true);
+
     }
     // console.log(this.hide, this.hide);
     // console.log('innerWidth', innerWidth);

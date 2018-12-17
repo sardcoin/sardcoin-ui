@@ -89,17 +89,17 @@ export class HeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.data.currentMessage.subscribe(message => this.hide = message);
+    this.data.hideSource.subscribe(message => this.hide = message);
 
   }
 
   showSideBar() {
 
     if (this.hide === true) {
-      this.data.changeMessage(false);
+      this.data.changeHide(false);
 
     } else {
-      this.data.changeMessage(true);
+      this.data.changeHide(true);
 
     }
     // console.log('this.message', this.message);

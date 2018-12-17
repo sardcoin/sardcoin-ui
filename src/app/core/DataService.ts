@@ -4,17 +4,15 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class DataService {
 
-  private messageSource = new BehaviorSubject(null);
-  currentMessage = this.messageSource.asObservable();
-  private messageClass = new BehaviorSubject(null);
-  currentClass = this.messageClass.asObservable();
+  public hideSource = new BehaviorSubject<boolean>(null);
+  private desktopMode = new BehaviorSubject<boolean>(null);
   constructor() { }
 
-  changeMessage(message: boolean) {
-    this.messageSource.next(message);
+  changeHide(message: boolean) {
+    this.hideSource.next(message);
   }
-  changeClass(cls: boolean) {
-    this.messageClass.next(cls);
+  changeView(cls: boolean) {
+    this.desktopMode.next(cls);
   }
 
 
