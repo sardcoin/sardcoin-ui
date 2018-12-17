@@ -1,5 +1,5 @@
-<div *ngIf="message === 'viewSidebar' || message === null">
-<div  id="sidebar-container"  [class]= "sidebarClass" *ngIf="isUserLoggedIn">
+<div *ngIf="!hide " >
+<div  id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
 
   <!--<div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-1-5 " *ngIf="isUserLoggedIn">   original-->
 
@@ -24,35 +24,35 @@
     <div id="submenu1" class="collapse sidebar-submenu">
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
-        <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span  class="menu-collapsed">My coupons</span>
+        <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed ">My coupons</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Add new coupon</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Add new coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Reports</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Reports</span>
         </a>
 
 
       </div>
 
       <div *ngIf="this.userType == '2' || this.userType == '0'">
-        <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
-          <span  class="menu-collapsed">Shopping</span>
+        <a  [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Shopping</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-          <span  class="menu-collapsed">My purchases</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">My purchases</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
-          <span  class="menu-collapsed">Get Coupon by Token</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Get Coupon by Token</span>
         </a>
 
       </div>
 
       <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
         <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Verifier page</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Verifier page</span>
         </a>
 
       </div>
@@ -67,23 +67,23 @@
          class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-start align-items-center">
           <span class="fa fa-user fa-fw mr-3"></span>
-          <span class="menu-collapsed">Account</span>
+          <span  class="menu-collapsed">Account</span>
           <span class="fas fa-plus ml-auto"></span>
         </div>
       </a>
     <!-- Submenu content -->
       <div id="submenu2" class="collapse sidebar-submenu">
         <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Personal info</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Personal info</span>
         </a>
         <a class="list-group-item list-group-item-action text-secondary">
-          <span class="menu-collapsed">Settings</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Settings</span>
         </a>
         <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Payment details</span>
+          <span (click)="data.changeMessage(!hide)" class="menu-collapsed">Payment details</span>
         </a>
         <a class="list-group-item list-group-item-action text-secondary">
-          <span class="menu-collapsed">Receipts</span>
+          <span (click)="message = 'hide'" class="menu-collapsed">Receipts</span>
         </a>
       </div>
     </div>
@@ -107,4 +107,5 @@
   <!-- List Group END-->
   <!--</div>-->
 </div>
+<!--</div>-->
 </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {AuthenticationService} from '../../features/authentication/authentication.service';
 import {LoginActions} from '../../features/authentication/login/login.actions';
@@ -11,19 +11,20 @@ import {DataService} from '../DataService';
   styleUrls: ['./sidebar.component.css']
 })
 
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit {
   isUserLoggedIn = false;
   userType = null;
-  message: string;
-  sidebarClass: string = "sidebar-expanded d-none d-md-block col-1-5"; //default value
+  message: boolean;
+  sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
   userStringType = '';
+  hide = false;
 
   constructor(
     private actions: LoginActions,
     private localStore: StoreService,
     private authService: AuthenticationService,
     private globalEventService: GlobalEventsManagerService,
-    private data: DataService
+    public data: DataService
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -52,16 +53,36 @@ export class SidebarComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.sidebarClass = "sidebar-expanded d-none d-md-block col-1-5";
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.currentClass.subscribe(message => {
-      if(message == null) {
-        this.sidebarClass = "sidebar-expanded d-none d-md-block col-1-5";
+    this.isHide();
 
-      } else {
-        this.sidebarClass = message;
-      }});
+    this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
+    this.data.currentMessage.subscribe(message => this.hide = message);
 
+  }
+
+
+  hideSideBar() {
+
+    this.data.changeMessage(true);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isHide();
+
+  }
+
+  isHide() {
+    const innerWidth = window.innerWidth;
+    if (innerWidth < 720) {
+      this.hide = true;
+      this.data.changeMessage(true);
+    } else {
+      this.hide = false;
+      this.data.changeMessage(false);
+    }
+    console.log(this.hide, this.hide);
+    console.log('innerWidth', innerWidth);
 
   }
 

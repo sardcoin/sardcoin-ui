@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {HostListener, Injectable} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -10,11 +10,12 @@ export class DataService {
   currentClass = this.messageClass.asObservable();
   constructor() { }
 
-  changeMessage(message: string) {
+  changeMessage(message: boolean) {
     this.messageSource.next(message);
   }
-  changeClass(cls: string) {
+  changeClass(cls: boolean) {
     this.messageClass.next(cls);
   }
+
 
 }

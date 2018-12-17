@@ -21,9 +21,8 @@ export class HeaderComponent implements OnInit {
   userType = null;
   userStringType: string;
   cart = null;
-  message: string;
+  hide: boolean;
   image: string;
-  cls: string;
 
   constructor(
     private actions: LoginActions,
@@ -90,22 +89,21 @@ export class HeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.currentClass.subscribe(message => this.cls = message);
+    this.data.currentMessage.subscribe(message => this.hide = message);
 
   }
 
   showSideBar() {
-    if (this.message === 'viewSidebar') {
-      this.data.changeMessage('noSmart');
-      this.data.changeClass('sidebar-expanded');
+
+    if (this.hide === true) {
+      this.data.changeMessage(false);
 
     } else {
-      this.data.changeMessage('viewSidebar');
-      this.data.changeClass('sidebar-expanded ');
+      this.data.changeMessage(true);
 
-      this.image = 'assets/img/brand/sardcoin-logo.png';
     }
+    // console.log('this.message', this.message);
+
   }
 
 }
