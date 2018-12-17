@@ -14,7 +14,6 @@ import {DataService} from '../DataService';
 export class SidebarComponent implements OnInit {
   isUserLoggedIn = false;
   userType = null;
-  message: boolean;
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
   userStringType = '';
   hide = false;
@@ -81,8 +80,8 @@ export class SidebarComponent implements OnInit {
       this.hide = false;
       this.data.changeMessage(false);
     }
-    console.log(this.hide, this.hide);
-    console.log('innerWidth', innerWidth);
+    // console.log(this.hide, this.hide);
+    // console.log('innerWidth', innerWidth);
 
   }
 
