@@ -10,7 +10,9 @@ import {LocalStorage} from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-core-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+
 })
 
 export class HeaderComponent implements OnInit {
@@ -23,7 +25,7 @@ export class HeaderComponent implements OnInit {
   cart = null;
   hide: boolean;
   image: string;
-
+  isDesktop: boolean;
   constructor(
     private actions: LoginActions,
     private localStore: StoreService,
@@ -89,6 +91,7 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => this.hide = message);
+    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
 
   }
 

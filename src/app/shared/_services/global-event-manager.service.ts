@@ -6,7 +6,7 @@ export class GlobalEventsManagerService {
   public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public userType: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   public hideSource = new BehaviorSubject<boolean>(null);
-  private desktopMode = new BehaviorSubject<boolean>(null);
+  public desktopMode = new BehaviorSubject<boolean>(null);
 
 
   changeHide(hide: boolean) {
