@@ -8,7 +8,6 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
-import {DataService} from './DataService';
 import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
 
 @NgModule({
@@ -27,7 +26,6 @@ import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
     LoginActions,
     BsModalService,
     BreadcrumbActions,
-    DataService
   ],
   exports: [
     HeaderComponent,

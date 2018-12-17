@@ -6,7 +6,7 @@ import {GlobalEventsManagerService} from '../../shared/_services/global-event-ma
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {LocalStorage} from '@ngx-pwa/local-storage';
-import {DataService} from '../DataService';
+
 
 @Component({
   selector: 'app-core-header',
@@ -31,7 +31,6 @@ export class HeaderComponent implements OnInit {
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
     protected localStorage: LocalStorage,
-    private data: DataService,
 
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
@@ -89,17 +88,17 @@ export class HeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.data.hideSource.subscribe(message => this.hide = message);
+    this.globalEventService.hideSource.subscribe(message => this.hide = message);
 
   }
 
   showSideBar() {
 
     if (this.hide === true) {
-      this.data.changeHide(false);
+      this.globalEventService.changeHide(false);
 
     } else {
-      this.data.changeHide(true);
+      this.globalEventService.changeHide(true);
 
     }
     // console.log('this.message', this.message);

@@ -3,7 +3,6 @@ import {GlobalEventsManagerService} from '../../shared/_services/global-event-ma
 import {AuthenticationService} from '../../features/authentication/authentication.service';
 import {LoginActions} from '../../features/authentication/login/login.actions';
 import {StoreService} from '../../shared/_services/store.service';
-import {DataService} from '../DataService';
 
 @Component({
   selector: 'app-core-sidebar',
@@ -22,8 +21,8 @@ export class SidebarComponent implements OnInit {
     private actions: LoginActions,
     private localStore: StoreService,
     private authService: AuthenticationService,
-    private globalEventService: GlobalEventsManagerService,
-    public data: DataService
+    public globalEventService: GlobalEventsManagerService,
+
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -55,14 +54,14 @@ export class SidebarComponent implements OnInit {
     this.isHide();
 
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
-    this.data.hideSource.subscribe(message => this.hide = message);
+    this.globalEventService.hideSource.subscribe(message => this.hide = message);
 
   }
 
 
   hideSideBar() {
 
-    this.data.changeHide(true);
+    this.globalEventService.changeHide(true);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -76,14 +75,14 @@ export class SidebarComponent implements OnInit {
     if (innerWidth < 720) {
       this.hide = true;
       this.desktopMode = false;
-      this.data.changeHide(true);
-      this.data.changeView(false);
+      this.globalEventService.changeHide(true);
+      this.globalEventService.changeView(false);
 
     } else {
       this.desktopMode = true;
       this.hide = false;
-      this.data.changeHide(false);
-      this.data.changeView(true);
+      this.globalEventService.changeHide(false);
+      this.globalEventService.changeView(true);
 
     }
     // console.log(this.hide, this.hide);

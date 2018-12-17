@@ -25,13 +25,13 @@
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
         <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed ">My coupons</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed ">My coupons</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Add new coupon</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Add new coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Reports</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Reports</span>
         </a>
 
 
@@ -39,20 +39,20 @@
 
       <div *ngIf="this.userType == '2' || this.userType == '0'">
         <a  [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Shopping</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Shopping</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">My purchases</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">My purchases</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Get Coupon by Token</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Get Coupon by Token</span>
         </a>
 
       </div>
 
       <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
         <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Verifier page</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Verifier page</span>
         </a>
 
       </div>
@@ -74,16 +74,16 @@
     <!-- Submenu content -->
       <div id="submenu2" class="collapse sidebar-submenu">
         <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Personal info</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Personal info</span>
         </a>
         <a class="list-group-item list-group-item-action text-secondary">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Settings</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Settings</span>
         </a>
         <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
-          <span (click)="data.changeHide(!hide)" class="menu-collapsed">Payment details</span>
+          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Payment details</span>
         </a>
         <a class="list-group-item list-group-item-action text-secondary">
-          <span (click)="data.changeHide(!hide)"  class="menu-collapsed">Receipts</span>
+          <span (click)="globalEventService.changeHide(!hide)"  class="menu-collapsed">Receipts</span>
         </a>
       </div>
     </div>
