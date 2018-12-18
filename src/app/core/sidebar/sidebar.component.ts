@@ -55,6 +55,9 @@ export class SidebarComponent implements OnInit {
 
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
     this.globalEventService.hideSource.subscribe(message => this.hide = message);
+    this.globalEventService.desktopMode.subscribe(message => this.desktopMode = message);
+    console.log('this.desktopMode', this.desktopMode);
+    console.log('this.hide', this.hide);
 
   }
 
