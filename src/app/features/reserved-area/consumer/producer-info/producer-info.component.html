@@ -1,35 +1,26 @@
-<div class="form-inline mb-2">
-</div>
-<div *ngIf="couponPass !== null" class="container">
+<div class="container-fluid mb-0" *ngIf="user !== null">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card mx-4" style="padding: 5px">
-        <div class="card-body p-4">
-          <h6 style="text-align:center;" class="card-title text-info">Details producer of the {{couponPass.title}} coupon</h6>
-<div >
+    <div class="col-lg-6 col-xl-6">
+      <div class="card">
+        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
+          <img src="assets/img/avatars/1.jpg" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
+          <h6 class="display-4" style="float:left; font-size:30pt;">{{producer.company_name}} - {{producer.first_name +
+            ' ' + producer.last_name}}</h6>
+        </div>
+        <div class="p-4">
+          <h4>Address</h4>
+          <p class="ml-2">
+            {{producer.address}}<br/>
+            {{producer.zip + ' - ' + producer.city + ' (' + producer.province + ')'}}
+          </p>
 
-  <div *ngIf=" producerCoupon.user_type == 2">
-    <p class="mb-3 col-md-6 ">
-      <p>Company name: <i type="text"> {{producerCoupon.company_name}}</i> </p>
-      <p>Vat Number: <i type="text"> {{producerCoupon.vat_number}}</i> </p>
-
-  </div>
-
-  <div >
-    <p class="mb-3 col-md-6 ">
-    <p class="text-info col-md-8 offset-md-2 ">Username: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.username}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">First name: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.first_name}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">Last name: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.last_name}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">Province: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.province}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">Address: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.address}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">Zip code: <i  style="color: #999999;" class="card-text" type="text"> {{producerCoupon.zip}}</i> </p>
-    <p class="text-info col-md-8 offset-md-2">City: <i style="color: #999999;" class="card-text" type="text"> {{producerCoupon.city}}</i> </p>
-  </div>
-  <div style="text-align:center;">
-  <button class=" btn btn-danger btn-retry" (click)="retry()">Back to Shopping</button>
-  </div>
-  </div>
+          <h4>Email Contact</h4>
+          <p class="ml-2"><a href="mailto:{{producer.email}}">{{producer.email}}</a></p>
+          <div>
+            <button class="btn btn-danger float-right" (click)="retry()">Back to Shopping</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </div>
+</div>

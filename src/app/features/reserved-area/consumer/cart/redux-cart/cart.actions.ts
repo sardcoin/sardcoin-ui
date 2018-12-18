@@ -100,6 +100,10 @@ export class CartActions {
     return this.reduxCart.findIndex((item: CartItem) => item.id === coupon_id);
   }
 
+  isCartEmpty(){
+    return !!this.reduxCart;
+  }
+
   async getQuantityAvailableForUser(coupon_id: number) {
     let availableCoupons: Coupon[];
     let purchasedCoupon: PurchasedCoupon;

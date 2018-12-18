@@ -1,3 +1,5 @@
+// TODO Refactor
+
 .alert-registration {
   position: fixed;
   bottom: 70px;
@@ -129,6 +131,16 @@ app-core-header .navbar {
   height: 56px;
 }
 
+.cart-div:hover {
+  a {
+    text-decoration: none;
+  }
+
+  b.text-info {
+    color: #bd0a0d!important;
+  }
+}
+
 .col-1-5 {
   -ms-flex: 0 0 12.5%;
   flex: 0 0 12.5%;
@@ -233,8 +245,17 @@ table {
   cursor: pointer;
 }
 
+.btn.disabled, .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5!important;
+}
+
 .cart-crop {
   width: 100%;
   height: 70px;
   overflow: hidden !important;
+}
+
+.btn-info{
+  //background-color: black;
 }

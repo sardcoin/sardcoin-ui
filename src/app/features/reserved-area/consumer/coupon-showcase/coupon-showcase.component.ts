@@ -59,10 +59,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       });
   }
 
-  async openModal(template: TemplateRef<any>, coupon: Coupon) { // TODO Error message if you cannot add more coupons (ex. purchasable)
-
+  async openModal(template: TemplateRef<any>, coupon: Coupon) {
     this.modalCoupon = coupon;
-
     this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
     this.myForm = this.formBuilder.group({
