@@ -5,7 +5,6 @@ import {AuthenticationService} from '../../features/authentication/authenticatio
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {LocalStorage} from '@ngx-pwa/local-storage';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 
 @Component({
@@ -29,7 +28,6 @@ export class HeaderComponent {
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
-    protected localStorage: LocalStorage,
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -38,8 +36,6 @@ export class HeaderComponent {
 
     this.globalEventService.userType.subscribe(type => {
       this.userType = Number(type);
-
-      console.log(type);
 
       switch (this.userType) {
         case '0': // admin
