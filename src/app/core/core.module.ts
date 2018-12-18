@@ -9,6 +9,7 @@ import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
+import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
   ],
   providers: [
     LoginActions,
+    CartActions,
     BsModalService,
     BreadcrumbActions
   ],

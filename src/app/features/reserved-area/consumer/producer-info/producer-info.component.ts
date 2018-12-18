@@ -26,6 +26,7 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
 
       if(user){
         this.producerCoupon = user;
+        console.log(user);
         this.addBreadcrumb();
       } else {
         this.router.navigate(['/reserved-area/consumer/showcase']);

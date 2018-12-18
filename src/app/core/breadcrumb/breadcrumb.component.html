@@ -5,7 +5,7 @@
       <a *ngIf="item !== 'undefined'" [routerLink]="[item.url]">{{item.label}}</a>
 
     </li>
-    <div *ngIf="breadList.length > 2 && breadList[2].label.includes('Consumer')" class="ml-auto my-auto cursor-pointer" (click)="viewCart()" style="margin-right:21px">
+    <div *ngIf="breadList.length > 2 && breadList[2].label.includes('Consumer')" class="ml-auto my-auto cursor-pointer cart-div" (click)="viewCart()" style="margin-right:21px">
       <a *ngIf="cart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
       <a class="text-dark" routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0">
         There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!

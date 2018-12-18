@@ -1,3 +1,5 @@
+// TODO Refactor
+
 .alert-registration {
   position: fixed;
   bottom: 70px;
@@ -127,6 +129,16 @@ app-core-sidebar {
 
 app-core-header .navbar {
   height: 56px;
+}
+
+.cart-div:hover {
+  a {
+    text-decoration: none;
+  }
+
+  b.text-info {
+    color: #bd0a0d!important;
+  }
 }
 
 .col-1-5 {

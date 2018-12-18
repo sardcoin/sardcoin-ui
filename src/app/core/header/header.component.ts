@@ -6,6 +6,7 @@ import {GlobalEventsManagerService} from '../../shared/_services/global-event-ma
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {LocalStorage} from '@ngx-pwa/local-storage';
+import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 
 @Component({
   selector: 'app-core-header',
@@ -25,6 +26,7 @@ export class HeaderComponent {
     private actions: LoginActions,
     private localStore: StoreService,
     private authService: AuthenticationService,
+    private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
     protected localStorage: LocalStorage,
@@ -32,38 +34,38 @@ export class HeaderComponent {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
       this.username = this.localStore.getUserNames();
-      this.globalEventService.userType.subscribe(type => {
-        this.userType = type;
+    });
 
-        switch (this.userType) {
-          case '0': // admin
-            this.userStringType = 'admin';
-            return true;
-          case '1': // producer
-            this.userStringType = 'producer';
-            return true;
-          case '2': // consumer
-            this.userStringType = 'consumer';
-            return true;
-          case '3': // verifier
-            this.userStringType = 'verifier';
-            return true;
-        }
-      });
+    this.globalEventService.userType.subscribe(type => {
+      this.userType = Number(type);
+
+      console.log(type);
+
+      switch (this.userType) {
+        case '0': // admin
+          this.userStringType = 'admin';
+          return true;
+        case '1': // producer
+          this.userStringType = 'producer';
+          return true;
+        case '2': // consumer
+          this.userStringType = 'consumer';
+          return true;
+        case '3': // verifier
+          this.userStringType = 'verifier';
+          return true;
+      }
     });
   }
 
   logout() {
-    if (this.modalRef != null) {
-      this.localStorage.removeItem('cart').subscribe(() => {
-        this.actions.logoutUser();
-        this.authService.logout();
-        this.modalRef.hide();
-      });
-    } else {
-      this.actions.logoutUser();
-      this.authService.logout();
+    if (this.userType === 2) { // If the user is a consumer
+      this.cartActions.emptyCart();
+      this.modalRef.hide();
     }
+
+    this.actions.logoutUser();
+    this.authService.logout();
   }
 
   decline() {
@@ -71,16 +73,10 @@ export class HeaderComponent {
   }
 
   openModal(template: TemplateRef<any>) {
-    if ( this.userType === 2 || this.userType === 0) { // TODO fix user types (what are 0 and 2??)
-      this.localStorage.getItem('cart').subscribe(cart => {
-        if (cart !== null) {
-          this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-        } else {
-          this.logout();
-        }
-      });
-    } else {
+    if (this.userType !== 2) { // If the user is not a consumer
       this.logout();
+    } else {
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     }
   }
 
