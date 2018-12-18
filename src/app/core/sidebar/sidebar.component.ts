@@ -72,7 +72,7 @@ export class SidebarComponent implements OnInit {
 
   isHide() {
     const innerWidth = window.innerWidth;
-    if (innerWidth < 720) {
+    if (innerWidth < 768) {
       this.hide = true;
       this.desktopMode = false;
       this.globalEventService.changeHide(true);

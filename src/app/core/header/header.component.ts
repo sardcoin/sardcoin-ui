@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   userType = null;
   userStringType: string;
   cart = null;
-  hide: boolean;
+  isHide: boolean;
   image: string;
   isDesktop: boolean;
   constructor(
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>) { // TODO Controllare il nuovo carrello
     if ( this.userType === 2 || this.userType === 0) { // TODO fix user types (what are 0 and 2??)
       this.localStorage.getItem('cart').subscribe(cart => {
         if (cart !== null) {
@@ -90,14 +90,14 @@ export class HeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.globalEventService.hideSource.subscribe(message => this.hide = message);
+    this.globalEventService.hideSource.subscribe(message => this.isHide = message);
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
 
   }
 
   showSideBar() {
 
-    if (this.hide === true) {
+    if (this.isHide === true) {
       this.globalEventService.changeHide(false);
 
     } else {
