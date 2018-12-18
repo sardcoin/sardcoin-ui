@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
     <div class="card">
-      <img class="card-img-top crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
+      <img class="card-img-top crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{coupon.title}}</h5>
         <p class="card-text">{{coupon.description}}</p>
       </div>
       <div class="card-footer">
-        <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1"
-                (click)="openModal(template, coupon)">Add to cart
+        <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ? 'Item already added: go to the cart to change the quantity.' : ''}}"
+                (click)="openModal(template, coupon)"><i class="fas fa-plus-circle"></i> Add to cart
         </button>
-        <button type="button" class="btn btn-info text-white float-right" (click)="details(coupon)">Details</button>
+        <button type="button" class="btn btn-primary text-white float-right" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Details</button>
       </div>
       <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
       <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
@@ -22,7 +22,7 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Add "{{modalCoupon.title.length > 20 ? modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" to shopping cart</h4>
+    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>Add "{{modalCoupon.title.length > 20 ? modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" to the cart</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -30,7 +30,6 @@
 
   <div class="modal-body">
     <form [formGroup]="myForm" class="container">
-      <!--<label class="row">You are adding <i class="text-info">{{' ' + modalCoupon.title + ' '}}</i> to the cart. </label>-->
       <div class="form-group row">
         <label class="col-sm-7 my-auto" style="font-size: 16px;">Choose the quantity:<i class="text-info">
           ({{maxQuantity}} available)</i></label>

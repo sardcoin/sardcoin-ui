@@ -4,23 +4,30 @@
       <div class="card mx-4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
-          <h3 class="card-title">{{couponPass.title}}</h3>
+          <h3 class="card-title mb-0">{{couponPass.title}}</h3>
+          <p *ngIf="couponPass.owner">by
+              <i [routerLink]="['/reserved-area/consumer/producer-info']"
+                 class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
+          </p>
+
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
           <div class="coupon-cart cursor-pointer" *ngIf="inCart(couponPass.id)" (click)="viewCart()">
             <i class="fas fa-cart-arrow-down"></i>
           </div>
-          <p class="card-text">{{couponPass.description}}</p>
 
-          <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#19ff26">In stock</i></p>
+          <p class="card-text mt-3">{{couponPass.description}}</p>
+          <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#19ff26">In stock.</i></p>
 
-          <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Running out</i></p>
+          <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Running
+            out.</i></p>
 
           <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
             <i style="color:#FF0000">
-              Only {{couponPass.quantity}} unit{{couponPass.quantity === 1 ? '' : 's'}} available
+              Only {{couponPass.quantity}} unit{{couponPass.quantity === 1 ? '' : 's'}} available.
             </i>
           </p>
-          <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)"> Out of stock</i></p>
+          <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)"> Out of stock.</i>
+          </p>
 
           <p class="card-text">
             <i class="fas fa-fw  fa-clock text-secondary"></i> Validity: {{formatUntil(couponPass.valid_until)}}
@@ -28,23 +35,25 @@
 
             <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+              <iframe class="mt-3"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3091.0785202160364!2d9.111545815754384!3d39.218382379522275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12e7340f412794ab%3A0x693bd5cde2c7fb08!2sCoccodi+il+dolce+e+il+salato!5e0!3m2!1sit!2sit!4v1545147546370"
+                      width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
             </span>
           </p>
 
-          <div class="card-text">
-            <span *ngIf="couponPass.owner">
-                    <p class="card-text">Sold by:
-                      <i style="color:#19ff26" [routerLink]="['/reserved-area/consumer/producer-info']"
-                         class="text-info cursor-pointer">{{producer === null ? null : producer.username}}</i> </p>
-            </span>
-          </div>
+          <!--<div class="card-text">-->
+          <!--</div>-->
           <br/>
 
           <button class="col-sm-5 btn btn-danger" (click)="retry()">Go back to shopping</button>
-          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0" class="col-sm-5 offset-sm-2 btn btn-success"
-                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">Add to cart
+          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
+                  class="col-sm-5 offset-sm-2 btn btn-success"
+                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
+            Add to cart
           </button>
-          <button *ngIf="inCart(couponPass.id)" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to cart</button>
+          <button *ngIf="inCart(couponPass.id)" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to
+            cart
+          </button>
         </div>
 
       </div>
@@ -54,7 +63,8 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Add "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) + '...' : couponPass.title}}" to shopping cart</h4>
+    <h4 class="modal-title pull-left">Add "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) + '...' :
+      couponPass.title}}" to shopping cart</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -73,7 +83,8 @@
         <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
           <i class="fas fa-minus text-white"></i>
         </button>
-        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i
+          class="fas fa-plus text-white"></i></button>
 
         <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Insert a valid quantity!</div>
       </div>

@@ -11,7 +11,7 @@ import {User} from '../../../../shared/_models/User';
   styleUrls: ['./producer-info.component.scss']
 })
 export class ProducerInfoComponent implements OnInit, OnDestroy {
-  producerCoupon: User;
+  producer: User;
   couponPass: any;
 
   constructor(
@@ -25,7 +25,7 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
     this.couponService.currentUserCoupon.subscribe(user => {
 
       if(user){
-        this.producerCoupon = user;
+        this.producer = user;
         console.log(user);
         this.addBreadcrumb();
       } else {
@@ -49,7 +49,7 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
-    const username = this.producerCoupon.username.charAt(0).toUpperCase() + this.producerCoupon.username.slice(1);
+    const username = this.producer.username.charAt(0).toUpperCase() + this.producer.username.slice(1);
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));

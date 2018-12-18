@@ -245,8 +245,17 @@ table {
   cursor: pointer;
 }
 
+.btn.disabled, .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5!important;
+}
+
 .cart-crop {
   width: 100%;
   height: 70px;
   overflow: hidden !important;
+}
+
+.btn-info{
+  //background-color: black;
 }
