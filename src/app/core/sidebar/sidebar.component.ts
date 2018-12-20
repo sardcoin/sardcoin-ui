@@ -17,12 +17,9 @@ export class SidebarComponent implements OnInit {
   userStringType = '';
   hide = false;
   desktopMode = true;
-  constructor(
-    private actions: LoginActions,
-    private localStore: StoreService,
-    private authService: AuthenticationService,
-    public globalEventService: GlobalEventsManagerService,
 
+  constructor(
+    private globalEventService: GlobalEventsManagerService,
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -46,37 +43,30 @@ export class SidebarComponent implements OnInit {
           return true;
       }
     });
-
-
   }
 
   ngOnInit() {
     this.isHide();
 
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
+
     this.globalEventService.hideSource.subscribe(message => {
       this.hide = message
-      // console.log('this.hide', this.hide);
     });
+
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
-      // console.log('this.desktopMode', this.desktopMode);
-
     });
-
-
   }
 
 
-  hideSideBar() {
-
-    this.globalEventService.changeHide(true);
+  hideSideBar(value: boolean) {
+    this.globalEventService.changeHide(value);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isHide();
-
   }
 
   isHide() {
@@ -94,8 +84,6 @@ export class SidebarComponent implements OnInit {
       this.globalEventService.changeView(true);
 
     }
-    // console.log(this.hide, this.hide);
-    // console.log('innerWidth', innerWidth);
 
   }
 

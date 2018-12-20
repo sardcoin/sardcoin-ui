@@ -2,7 +2,6 @@
   <ol   class="breadcrumb border border-info border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode">
       <li *ngFor="let item of breadList" class="breadcrumb-item">
-
         <a [routerLink]="[item.url]">{{item.label}}</a>
       </li>
     </ng-container>

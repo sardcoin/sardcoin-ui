@@ -89,16 +89,10 @@ export class HeaderComponent implements OnInit {
   showSideBar() {
 
     if (this.isHide === true) {
-      // console.log('this.isHide', this.isHide)
       this.globalEventService.changeHide(false);
-
     } else {
-      // console.log('this.isHide', this.isHide)
       this.globalEventService.changeHide(true);
-
     }
-    // console.log('this.message', this.message);
-
   }
 
 }

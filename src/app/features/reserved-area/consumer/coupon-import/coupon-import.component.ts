@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
-import {StoreService} from '../../../../shared/_services/store.service';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {ToastrService} from 'ngx-toastr';
@@ -31,7 +30,6 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
-    public storeService: StoreService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
@@ -134,13 +132,11 @@ export class CouponImportComponent implements OnInit, OnDestroy {
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
-      // console.log('permission', this.hasPermission);
     });
 
   }
 
   handleQrCodeResult(resultString: string) {
-    // console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
@@ -149,7 +145,6 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   }
 
   onDeviceSelectChange(selectedValue: string) {
-    // console.log('Selection changed: ', selectedValue);
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
   }
 

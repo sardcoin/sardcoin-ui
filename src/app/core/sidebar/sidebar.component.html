@@ -1,111 +1,97 @@
 <div *ngIf="!hide || desktopMode " >
-<div  id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
+  <div  id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
 
-  <!--<div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-1-5 " *ngIf="isUserLoggedIn">   original-->
+    <ul class="list-group sticky-top sticky-offset">
+      <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
+        <small class="font-weight-bold">MENU</small>
+      </li>
 
-  <ul class="list-group sticky-top sticky-offset">
-    <!-- Separator with title -->
-    <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
-      <small class="font-weight-bold">MENU</small>
-    </li>
-    <!-- /END Separator -->
-    <!-- Menu with submenu -->
-    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
-       class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-start align-items-center">
-        <span class="fas fa-archway mr-3"></span>
-        <span class="menu-collapsed">Contents</span>
-        <span class="fas fa-plus ml-auto"></span>
-      </div>
-    </a>
-
-    <!!-- Submenu content -->
-
-    <div id="submenu1" class="collapse sidebar-submenu">
-
-      <div *ngIf="this.userType == '1' || this.userType == '0'">
-        <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed ">My coupons</span>
-        </a>
-        <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Add new coupon</span>
-        </a>
-        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Reports</span>
-        </a>
-
-
-      </div>
-
-      <div *ngIf="this.userType == '2' || this.userType == '0'">
-        <a  [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Shopping</span>
-        </a>
-        <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">My purchases</span>
-        </a>
-        <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item list-group-item-action text-white">
-          <span class="menu-collapsed">Import Coupon</span>
-        <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Get Coupon by Token</span>
-        </a>
-
-      </div>
-
-      <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-        <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Verifier page</span>
-        </a>
-
-      </div>
-
-      <a class="list-group-item list-group-item-action text-secondary">
-        <span class="menu-collapsed">Other to Add</span>
-      </a>
-
-    </div>
-    <div *ngIf="this.userType != '3'">
-      <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+      <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
          class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-start align-items-center">
-          <span class="fa fa-user fa-fw mr-3"></span>
-          <span  class="menu-collapsed">Account</span>
+          <span class="fas fa-archway mr-3"></span>
+          <span class="menu-collapsed">Contents</span>
           <span class="fas fa-plus ml-auto"></span>
         </div>
       </a>
-    <!-- Submenu content -->
-      <div id="submenu2" class="collapse sidebar-submenu">
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Personal info</span>
-        </a>
+
+      <div id="submenu1" class="collapse sidebar-submenu">
+
+        <div *ngIf="this.userType == '1' || this.userType == '0'">
+          <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed ">My coupons</span>
+          </a>
+          <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Add new coupon</span>
+          </a>
+          <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Reports</span>
+          </a>
+        </div>
+
+        <div *ngIf="this.userType == '2' || this.userType == '0'">
+          <a  [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Shopping</span>
+          </a>
+          <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">My purchases</span>
+          </a>
+          <a [routerLink]="['/reserved-area/consumer/coupon-token']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Get Coupon by Token</span>
+          </a>
+        </div>
+
+        <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
+          <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Verifier page</span>
+          </a>
+        </div>
+
         <a class="list-group-item list-group-item-action text-secondary">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Settings</span>
-        </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
-          <span (click)="globalEventService.changeHide(!hide)" class="menu-collapsed">Payment details</span>
-        </a>
-        <a class="list-group-item list-group-item-action text-secondary">
-          <span (click)="globalEventService.changeHide(!hide)"  class="menu-collapsed">Receipts</span>
+          <span class="menu-collapsed">Other to Add</span>
         </a>
       </div>
-    </div>
-    <!-- Separator without title -->
-    <li class="list-group-item sidebar-separator menu-collapsed"></li>
-    <!-- /END Separator -->
-    <a class="list-group-item list-group-item-action">
-      <div class="d-flex w-100 justify-content-start align-items-center">
-        <span class="fa fa-question fa-fw mr-3"></span>
-        <span class="menu-collapsed text-secondary">Help</span>
+
+      <div *ngIf="this.userType != '3'">
+        <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+           class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-user fa-fw mr-3"></span>
+            <span  class="menu-collapsed">Account</span>
+            <span class="fas fa-plus ml-auto"></span>
+          </div>
+        </a>
+        <!-- Submenu content -->
+        <div id="submenu2" class="collapse sidebar-submenu">
+          <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Personal info</span>
+          </a>
+          <a class="list-group-item list-group-item-action text-secondary">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Settings</span>
+          </a>
+          <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Payment details</span>
+          </a>
+          <a class="list-group-item list-group-item-action text-secondary">
+            <span (click)="hideSideBar(!hide)"  class="menu-collapsed">Receipts</span>
+          </a>
+        </div>
       </div>
-    </a>
-    <a data-toggle="sidebar-collapse"
-       class="list-group-item list-group-item-action d-flex align-items-center">
-      <div class="d-flex w-100 justify-content-start align-items-center">
-        <span id="collapse-icon" class="fa fa-arrow-left fa-fw mr-3"></span>
-        <span id="collapse-text" class="menu-collapsed text-secondary">Collapse</span>
-      </div>
-    </a>
-  </ul>
-  <!-- List Group END-->
+      <li class="list-group-item sidebar-separator menu-collapsed"></li>
+      <a class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-question fa-fw mr-3"></span>
+          <span class="menu-collapsed text-secondary">Help</span>
+        </div>
+      </a>
+      <a data-toggle="sidebar-collapse"
+         class="list-group-item list-group-item-action d-flex align-items-center">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span id="collapse-icon" class="fa fa-arrow-left fa-fw mr-3"></span>
+          <span id="collapse-text" class="menu-collapsed text-secondary">Collapse</span>
+        </div>
+      </a>
+    </ul>
+  </div>
 </div>
-</div>
+
