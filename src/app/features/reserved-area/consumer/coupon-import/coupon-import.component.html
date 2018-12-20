@@ -13,8 +13,8 @@
 
           <form [formGroup]="tokenForm" (ngSubmit)="import()">
             <div class="form-group row">
-              <label class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col-form-label">Insert token</label>
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2">
+              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Insert token</label>
+              <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
                 <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
@@ -22,11 +22,13 @@
                 </div>
               </div>
 
-              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 text-center">
+              <div class="col-lg-2 col-md-2 col-sm-2 text-center">
                 <h5>or</h5>
               </div>
 
-              <div class="col-xl-2 col-lg-2 col-md-3 col-sm-2 offset-xl-0 offset-md-1 mt-xl-0 mt-lg-0">
+              <div class="w-100 d-lg-none d-md-block d-none"></div> <!-- It forces the button Scan to go in a new row with the md view -->
+
+              <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
                 <button class="btn btn-primary" (click)="scan()">Scan from QR code</button>
               </div>
 
@@ -56,8 +58,9 @@
                              (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
             </div>
 
-            <button class="btn btn-lg btn-success float-right"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
-
+            <div class="col-md-12 text-sm-right text-center p-0">
+              <button class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
+            </div>
           </form>
         </div>
 
