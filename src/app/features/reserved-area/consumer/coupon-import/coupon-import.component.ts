@@ -43,7 +43,6 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     });
 
     this.addBreadcrumb();
-
   }
 
   ngOnDestroy() {
