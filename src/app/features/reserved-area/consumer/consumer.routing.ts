@@ -5,7 +5,7 @@ import {FeatureReservedAreaConsumerBoughtComponent} from './coupon-bought/coupon
 import {CouponDetailsComponent} from './coupon-details/coupon-details.component';
 import {CartComponent} from './cart/cart.component';
 import {CheckoutComponent} from './checkout/checkout.component';
-import {CouponTokenComponent} from './coupon-token/coupon-token.component';
+import {CouponImportComponent} from './coupon-import/coupon-import.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {ProducerInfoComponent} from './producer-info/producer-info.component';
 import {PersonalInfoComponent} from '../personal-info/personal-info.component';
@@ -39,8 +39,8 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
         component: CheckoutComponent
       },
       {
-        path: 'coupon-token',
-        component: CouponTokenComponent
+        path: 'coupon-import',
+        component: CouponImportComponent
       },
       {
         path: 'personal-info',

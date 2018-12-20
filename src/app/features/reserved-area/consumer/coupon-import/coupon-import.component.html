@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-8 col-lg-10 col-md-12">
+      <div class="card">
+        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
+          <!--<img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>-->
+          <i class="fas fa-file-import fa-3x mr-4 text-primary"></i>
+          <h6 class="display-4 d-inline-block" style="font-size:30pt;">Import coupon</h6>
+        </div>
+        <div class="card-body px-5 pt-4">
+          <p class="text-justify" style="font-size: 16px;">In this page, you can import a coupon received just either adding its code or
+            scanning its QR Code.</p>
+
+          <form [formGroup]="tokenForm" (ngSubmit)="import()">
+            <div class="form-group row">
+              <label class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col-form-label">Insert token</label>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2">
+                <input type="text" formControlName="token" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
+                <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
+                  <div *ngIf="f.token.errors">Insert a valid token!</div>
+                </div>
+              </div>
+
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 text-center">
+                <h5>or</h5>
+              </div>
+
+              <div class="col-xl-2 col-lg-2 col-md-3 col-sm-2 offset-xl-0 offset-md-1 mt-xl-0 mt-lg-0">
+                <button class="btn btn-primary" (click)="scan()">Scan from QR code</button>
+              </div>
+
+            </div>
+
+
+            <div class="row">
+
+              <div class="col-xl-8 col-sm-8">
+                <div *ngIf="isScan">
+                  <div *ngIf="availableDevices">
+                    <select (change)="onDeviceSelectChange($event.target.value)">
+                      <option value="" [selected]="!selectedDevice">Select Device</option>
+                      <option *ngFor="let device of availableDevices" [value]="device.deviceId"
+                              [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <zxing-scanner #scanner class="test-class" start="true" [device]="selectedDevice"
+                             (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+            </div>
+
+            <button class="btn btn-lg btn-success float-right"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
+
+          </form>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+

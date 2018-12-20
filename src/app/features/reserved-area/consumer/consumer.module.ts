@@ -10,7 +10,7 @@ import {CouponDetailsComponent} from './coupon-details/coupon-details.component'
 import {FeatureReservedAreaConsumerShowcaseComponent} from './coupon-showcase/coupon-showcase.component';
 import {CartComponent} from './cart/cart.component';
 import {CheckoutComponent} from './checkout/checkout.component';
-import {CouponTokenComponent} from './coupon-token/coupon-token.component';
+import {CouponImportComponent} from './coupon-import/coupon-import.component';
 import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/coupon-bought-detail.component';
 import {QRCodeModule} from 'angularx-qrcode';
 import {ProducerInfoComponent} from './producer-info/producer-info.component';
@@ -28,7 +28,7 @@ import {CartActions} from './cart/redux-cart/cart.actions';
     FeatureReservedAreaConsumerShowcaseComponent,
     CartComponent,
     CheckoutComponent,
-    CouponTokenComponent,
+    CouponImportComponent,
     CouponBoughtDetailComponent,
     ProducerInfoComponent,
   ],

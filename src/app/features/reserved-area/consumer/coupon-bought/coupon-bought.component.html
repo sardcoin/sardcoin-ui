@@ -1,39 +1,35 @@
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th style="width: 40%">Title</th>
-    <th style="width: 10%">Image</th>
-    <th style="width: 10%">Price</th>
-    <th style="width: 20%">State</th>
-    <th style="width: 10%"></th>
-    <th style="width: 10%"></th>
-  </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-10">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">State</th>
+        <th></th>
+      </tr>
+      </thead>
 
-  <tbody class="col-sm-12" *ngFor="let coupon of coupons">
-  <tr *ngFor="let token of coupon.CouponTokens " >
+      <tbody class="col-sm-12" *ngFor="let coupon of coupons">
+      <tr *ngFor="let token of coupon.CouponTokens " >
 
-    <td >
-      <span style="width: 40%; font-size: 17px;">{{coupon.title}}</span> <br/>
-      <i style="width: 10%; color: #999; font-size: 15px;">{{coupon.description}}</i>
-    </td>
-    <td>
-      <img  class=" img-thumbnail crop centered-and-cropped"   [src]="imageUrl(coupon.image)" alt="Card image cap">
-    </td>
-    <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
-    <td  style="width: 10%;">{{formatPrice(coupon.price)}}</td>
-    <td  *ngIf="token.verifier === null" style="width: 20%; color: green">{{formatState(token.verifier)}}</td>
-    <td *ngIf="token.verifier !== null" style="width: 20%; color: red">{{formatState(token.verifier)}}</td>
+        <td>
+          <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+          <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        </td>
+        <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" style="max-width: 150px;" alt="Card image cap"></td>
+        <td>{{formatPrice(coupon.price)}}</td>
+        <td [ngStyle]="{color: token.verifier ? 'green' : 'red'}">{{formatState(token.verifier)}}</td>
 
+        <td>
+          <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">Details</button>
+        </td>
 
-    <td style="width: 10%;">
-      <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white float-right">Details</button>
-    </td>
+      </tr>
+      </tbody>
 
-    <td style="width: 20%;"></td>
-
-  </tr>
-  </tbody>
-
-</table>
+    </table>
+  </div>
+</div>
 

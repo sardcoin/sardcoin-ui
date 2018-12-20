@@ -168,9 +168,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
+    // bread.push(new Breadcrumb('Home', '/'));
+    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('Checkout', '/reserved-area/consumer/checkout'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);

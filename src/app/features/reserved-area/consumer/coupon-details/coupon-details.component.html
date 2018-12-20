@@ -41,19 +41,14 @@
             </span>
           </p>
 
-          <!--<div class="card-text">-->
-          <!--</div>-->
-          <br/>
-
-          <button class="col-sm-5 btn btn-danger" (click)="retry()">Go back to shopping</button>
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                  class="col-sm-5 offset-sm-2 btn btn-success"
+                  class="btn btn-lg btn-success float-right"
                   [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
             Add to cart
           </button>
-          <button *ngIf="inCart(couponPass.id)" class="col-sm-5 offset-sm-2 btn btn-success" (click)="viewCart()">Go to
-            cart
-          </button>
+          <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i> Go to cart</button>
+          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+
         </div>
 
       </div>

@@ -10,10 +10,10 @@ import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 
 @Component({
   selector: 'app-coupon-token',
-  templateUrl: './coupon-token.component.html',
-  styleUrls: ['./coupon-token.component.scss']
+  templateUrl: './coupon-import.component.html',
+  styleUrls: ['./coupon-import.component.scss']
 })
-export class CouponTokenComponent implements OnInit, OnDestroy {
+export class CouponImportComponent implements OnInit, OnDestroy {
   tokenForm: FormGroup;
   submitted = false;
   data: any;
@@ -88,10 +88,10 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Validate Coupons', '/reserved-area/consumer/coupon-token/'));
+    // bread.push(new Breadcrumb('Home', '/'));
+    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
+    bread.push(new Breadcrumb('Import Coupon', '/reserved-area/consumer/coupon-import/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
