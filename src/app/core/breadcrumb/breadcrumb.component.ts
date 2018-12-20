@@ -12,6 +12,7 @@ import {CartItem} from '../../shared/_models/CartItem';
 @Component({
   selector: 'app-core-breadcrumb',
   templateUrl: './breadcrumb.component.html',
+  // styleUrls: ['./breadcrumb.component.css'],
 })
 
 export class BreadcrumbComponent implements OnInit {
@@ -21,7 +22,7 @@ export class BreadcrumbComponent implements OnInit {
   @select() cart$: Observable<CartItem[]>;
   breadList = [];
   isUserLoggedIn: boolean;
-
+  desktopMode = true;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -40,15 +41,31 @@ export class BreadcrumbComponent implements OnInit {
 
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
-    })
+    });
+
 
   }
 
   ngOnInit(): void {
+
+    this.globalEventService.desktopMode.subscribe(message => {
+      this.desktopMode = message
+      console.log('this.desktopMode bread', this.desktopMode);
+
+    });
   }
 
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
+  }
+
+  navigateTo(value) {
+    console.log('null', value);
+
+    if (value) {
+      console.log('router', value);
+      this.router.navigate([value]);
+    }
   }
 
 }
