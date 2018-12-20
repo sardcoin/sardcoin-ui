@@ -1,4 +1,4 @@
-import {Component, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {LoginActions} from '../../features/authentication/login/login.actions';
 import {StoreService} from '../../shared/_services/store.service';
 import {AuthenticationService} from '../../features/authentication/authentication.service';
@@ -7,12 +7,15 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 
+
 @Component({
   selector: 'app-core-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   isUserLoggedIn = false;
   username: string;
@@ -20,7 +23,9 @@ export class HeaderComponent {
   userType = null;
   userStringType: string;
   cart = null;
-
+  isHide: boolean;
+  image: string;
+  isDesktop: boolean;
   constructor(
     private actions: LoginActions,
     private localStore: StoreService,
@@ -74,6 +79,26 @@ export class HeaderComponent {
     } else {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     }
+  }
+  ngOnInit() {
+    this.globalEventService.hideSource.subscribe(message => this.isHide = message);
+    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
+
+  }
+
+  showSideBar() {
+
+    if (this.isHide === true) {
+      // console.log('this.isHide', this.isHide)
+      this.globalEventService.changeHide(false);
+
+    } else {
+      // console.log('this.isHide', this.isHide)
+      this.globalEventService.changeHide(true);
+
+    }
+    // console.log('this.message', this.message);
+
   }
 
 }

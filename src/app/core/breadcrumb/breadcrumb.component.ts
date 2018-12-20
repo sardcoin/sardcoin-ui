@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {NgRedux, select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
@@ -21,6 +21,7 @@ export class BreadcrumbComponent {
   breadList = [];
   isUserLoggedIn: boolean;
   url: string;
+  desktopMode = true;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -30,6 +31,10 @@ export class BreadcrumbComponent {
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
+    });
+
+    this.globalEventService.desktopMode.subscribe(message => {
+      this.desktopMode = message
     });
 
     this.breadcrumb$.subscribe(elements => {
@@ -45,6 +50,12 @@ export class BreadcrumbComponent {
 
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
+  }
+
+  navigateTo(value) {
+    if (value) {
+      this.router.navigate([value]);
+    }
   }
 
 }

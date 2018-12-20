@@ -92,7 +92,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.router.navigate(['/reserved-area/consumer/bought']);
         }
 
-        console.log(response);
+        // console.log(response);
       }, err => {
         this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
         console.log(err);

@@ -27,7 +27,7 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
     LoginActions,
     CartActions,
     BsModalService,
-    BreadcrumbActions
+    BreadcrumbActions,
   ],
   exports: [
     HeaderComponent,
