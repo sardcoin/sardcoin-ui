@@ -134,13 +134,13 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
-      console.log('permission', this.hasPermission);
+      // console.log('permission', this.hasPermission);
     });
 
   }
 
   handleQrCodeResult(resultString: string) {
-    console.log('Result: ', resultString);
+    // console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
@@ -149,7 +149,7 @@ export class CouponTokenComponent implements OnInit, OnDestroy {
   }
 
   onDeviceSelectChange(selectedValue: string) {
-    console.log('Selection changed: ', selectedValue);
+    // console.log('Selection changed: ', selectedValue);
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
   }
 

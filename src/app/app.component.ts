@@ -6,7 +6,6 @@ import {CartActions} from './features/reserved-area/consumer/cart/redux-cart/car
   // tslint:disable-next-line
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
-  // templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   constructor( private router: Router, private cartActions: CartActions) { }

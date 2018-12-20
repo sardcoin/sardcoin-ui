@@ -50,7 +50,7 @@ export class BreadcrumbComponent implements OnInit {
 
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
-      console.log('this.desktopMode bread', this.desktopMode);
+      // console.log('this.desktopMode bread', this.desktopMode);
 
     });
   }
@@ -60,10 +60,10 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   navigateTo(value) {
-    console.log('null', value);
+    // console.log('null', value);
 
     if (value) {
-      console.log('router', value);
+      //console.log('router', value);
       this.router.navigate([value]);
     }
   }
