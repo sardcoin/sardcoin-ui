@@ -67,7 +67,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async loadCart() {
     this.cart.forEach(async element => {
 
-      let elementToPush = await this.couponService.getCouponById(element.id).toPromise();
+      const elementToPush = await this.couponService.getCouponById(element.id).toPromise();
       elementToPush.quantity = element.quantity;
 
       this.totalAmount += element.quantity * elementToPush.price;
