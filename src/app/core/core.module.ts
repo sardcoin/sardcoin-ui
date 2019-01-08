@@ -10,6 +10,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
 import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/cart.actions';
+import {GooglePlacesDirective} from './map/google-places.directive';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
     FooterComponent,
     SidebarComponent,
     BreadcrumbComponent,
+    GooglePlacesDirective
   ],
   imports: [
     RouterModule,
@@ -34,6 +36,7 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
     FooterComponent,
     SidebarComponent,
     BreadcrumbComponent,
+    GooglePlacesDirective
   ]
 })
 

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -44,7 +44,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     private storeService: StoreService,
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
   }
 
@@ -69,9 +69,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
-
   }
-
 
   ngOnDestroy() {
     this.removeBreadcrumb();
@@ -187,6 +185,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         }
         break;
     }
+  }
+
+  setAddress(addressObtained) {
+    this.couponForm.get('constraints').setValue(addressObtained);
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
