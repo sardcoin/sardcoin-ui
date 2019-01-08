@@ -6,8 +6,8 @@
         <div class="card-body p-4">
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
           <p *ngIf="couponPass.owner">by
-              <i [routerLink]="['/reserved-area/consumer/producer-info']"
-                 class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
+            <i [routerLink]="['/reserved-area/consumer/producer-info']"
+               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
           </p>
 
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
@@ -35,17 +35,21 @@
 
             <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
-              <iframe class="mt-3"
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3091.0785202160364!2d9.111545815754384!3d39.218382379522275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12e7340f412794ab%3A0x693bd5cde2c7fb08!2sCoccodi+il+dolce+e+il+salato!5e0!3m2!1sit!2sit!4v1545147546370"
-                      width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+              <img class="d-block mt-3" alt="{{couponPass.constraints}} map"
+                src="{{'https://maps.googleapis.com/maps/api/staticmap?size=400x400&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
+              >
             </span>
           </p>
 
-          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0" class="btn btn-lg btn-success float-right ml-2"
+          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
+                  class="btn btn-lg btn-success float-right ml-2"
                   [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
             Add to cart
           </button>
-          <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i> Go to cart</button>
+          <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i
+            class="fas fa-shopping-cart"></i> Go to cart
+          </button>
           <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
 
         </div>

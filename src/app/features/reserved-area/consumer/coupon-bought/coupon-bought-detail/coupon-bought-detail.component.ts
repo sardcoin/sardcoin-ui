@@ -16,7 +16,7 @@ import {UserService} from '../../../../../shared/_services/user.service';
   templateUrl: './coupon-bought-detail.component.html',
   styleUrls: ['./coupon-bought-detail.component.scss']
 })
-export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
+export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
   URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   couponPass: Coupon;
@@ -53,10 +53,10 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
+    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
+    // bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
+    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought/'));
     bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);

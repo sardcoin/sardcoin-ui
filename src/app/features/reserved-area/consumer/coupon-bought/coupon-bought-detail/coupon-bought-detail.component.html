@@ -21,6 +21,10 @@
           <div class="card-text">
             <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+
+              <img class="d-block mt-3" alt="{{couponPass.constraints}} map"
+                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=400x400&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
+              >
             </span>
           </div>
           <br/>
