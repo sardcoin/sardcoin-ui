@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   user: User;
   modalRef: BsModalRef;
   totalAmount = 0;
+  idTransaction: string = null;
 
   public payPalConfig: PayPalConfig;
 
@@ -45,6 +46,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
+      console.log('this.cart', this.cart);
     });
 
 
@@ -81,10 +83,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
-  buy() {
-    this.couponService.buyCoupons(this.cart).subscribe(response => {
+  buy(paymentID) {
+    this.couponService.buyCoupons(this.cart, paymentID).subscribe(response => {
 
-        if(response['status']) {
+        if (response['status']) {
           this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
         } else {
           this.cartActions.emptyCart();
@@ -131,8 +133,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         },
         onPaymentComplete: (data, actions) => { // TODO chiamare il backend per verificare la transazione
           console.log('OnPaymentComplete, data', data);
+          const paymentID = data.paymentID;
+
           console.log('OnPaymentComplete, actions', actions);
-          this.buy();
+          this.buy(paymentID);
         },
         onCancel: (data, actions) => {
           console.log('OnCancel');
