@@ -32,7 +32,7 @@ export class CartActions {
 
   initData() {
     this.storeService.getCart().then(cartStored => {
-      if(!cartStored) { // If the cart is null or undefined, it sets the storage space at []
+      if (!cartStored) { // If the cart is null or undefined, it sets the storage space at []
         this.storeService.setCart([]);
       }
       this.ngRedux.dispatch({type: CART_INIT, list: cartStored === null ? [] : cartStored});
@@ -59,7 +59,7 @@ export class CartActions {
     if (isValid) {
       const index = this.isInCart(item.id);
 
-      if(index >= 0) { // If the coupon already exists, it updates the quantity in the cart
+      if (index >= 0) { // If the coupon already exists, it updates the quantity in the cart
         this.ngRedux.dispatch({type: CART_CHANGE_QNT, index: index, item: item});
         await this.updateItemInCartStorage(item);
         return true;
@@ -100,7 +100,7 @@ export class CartActions {
     return this.reduxCart.findIndex((item: CartItem) => item.id === coupon_id);
   }
 
-  isCartEmpty(){
+  isCartEmpty() {
     return !!this.reduxCart;
   }
 
@@ -124,13 +124,13 @@ export class CartActions {
   }
 
   private async addItemInCartStorage(item: CartItem) {
-    let newCart = await this.storeService.getCart();
+    const newCart = await this.storeService.getCart();
     newCart.push(item);
     this.storeService.setCart(newCart);
   }
 
   private async updateItemInCartStorage(item: CartItem) {
-    let newCart: CartItem[] = await this.storeService.getCart();
+    const newCart: CartItem[] = await this.storeService.getCart();
     const index = newCart.findIndex((element) => element.id === item.id);
     newCart[index] = item;
 
@@ -147,5 +147,9 @@ export class CartActions {
     return purchasable === null
       ? (availableQuantity >= quantityToAdd)
       : ((availableQuantity >= quantityToAdd) && (bought + quantityToAdd <= purchasable));
+  }
+
+  getQuantityCart() {
+    return this.reduxCart.length;
   }
 }

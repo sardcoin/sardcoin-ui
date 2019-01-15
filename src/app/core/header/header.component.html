@@ -4,27 +4,31 @@
 
 <!--*********per desktop********************-->
 
-
-<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top">
+<div class="fixed-top">
+<nav class="navbar navbar-expand-md navbar-light bg-white ">
   <button  type="button" id="sidebarCollapse" class="navbar-toggler " (click)="showSideBar()">
     <span class="navbar-toggler-icon"></span>
   </button>
 
     <img  *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo.png" class="left">
-    <img  *ngIf="!isDesktop" src="assets/img/brand/sardcoin-logo-small.png" class="center" >
+    <div *ngIf="!isDesktop" class="left col-4 ">
+      <img   src="assets/img/brand/sardcoin-logo.png" style="width:100%;height: 100%; padding-bottom: 0px"  >
+    </div>
 
 
 
-  <!--<img *ngIf="isUserLoggedIn" style="padding: 0px; max-width: 45px !important; height: auto"-->
-       <!--class="nav-link navbar-toggler col-2" type="button" data-toggle="collapse"-->
-       <!--data-target="#navbarNavDropdown"-->
-       <!--data-toggle="dropdown" href="#" role="button" aria-haspopup="true"-->
-       <!--aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"-->
-       <!--src="assets/img/avatars/8.jpg" alt="{{username}}">-->
+  <div class="right" id="navbarNavDropdown">
+    <div style="float: left">
+      <ng-container  *ngIf="!isDesktop">
+        <button style="font-size : 2em;  " (click)="viewCart()"
+              type="button" class="btn-transparent ml-auto ">
+        <span   class="fas fa-shopping-cart text-warning">
+          <a style=" font-size : 0.5em; text-decoration-style: solid" class="text-danger">{{quantityCart()}}</a></span>
+        </button>
+     </ng-container>
+    </div>
+    <div style="float: right"   *ngIf="!isUserLoggedIn">
 
-  <div align="right" class="right" id="navbarNavDropdown">
-
-    <div *ngIf="!isUserLoggedIn">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/authentication/login']">Login</a>
@@ -35,7 +39,7 @@
       </ul>
     </div>
 
-    <div  *ngIf="isUserLoggedIn" >
+    <div style="float: right" *ngIf="isUserLoggedIn" >
       <ul class="nav navbar-nav ">
         <li class="nav-item dropdown">
 
@@ -60,7 +64,9 @@
     </div>
   </div>
 </nav>
+  <app-core-breadcrumb *ngIf="isDesktop" style="padding-top: 10%;"></app-core-breadcrumb>
 
+</div>
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Logout</h4>

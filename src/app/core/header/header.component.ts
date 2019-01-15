@@ -6,6 +6,7 @@ import {GlobalEventsManagerService} from '../../shared/_services/global-event-ma
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
   isDesktop: boolean;
   constructor(
     private actions: LoginActions,
+    private router: Router,
     private localStore: StoreService,
     private authService: AuthenticationService,
     private cartActions: CartActions,
@@ -94,5 +96,15 @@ export class HeaderComponent implements OnInit {
       this.globalEventService.changeHide(true);
     }
   }
+
+  viewCart() {
+    this.router.navigate(['/reserved-area/consumer/cart']);
+  }
+
+  quantityCart() {
+
+    return this.cartActions.getQuantityCart();
+  }
+
 
 }
