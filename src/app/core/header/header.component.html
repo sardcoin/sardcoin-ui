@@ -19,7 +19,7 @@
 
   <div class="right" id="navbarNavDropdown">
     <div style="float: left">
-      <ng-container  *ngIf="!isDesktop">
+      <ng-container  *ngIf="!isDesktop && userType == 2">
         <button style="font-size : 2em;  " (click)="viewCart()"
               type="button" class="btn-transparent ml-auto ">
         <span   class="fas fa-shopping-cart text-warning">

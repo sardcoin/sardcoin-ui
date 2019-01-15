@@ -1,11 +1,11 @@
-<div class="row">
+<div  class="table-responsive">
   <div class="col-md-10">
     <table class="table table-striped">
       <thead>
       <tr>
         <th scope="col">Title</th>
-        <th scope="col">Image</th>
-        <th scope="col">Price</th>
+        <th *ngIf="isDesktop" scope="col">Image</th>
+        <th *ngIf="isDesktop" scope="col">Price</th>
         <th scope="col">State</th>
         <th></th>
       </tr>
@@ -16,14 +16,16 @@
 
         <td>
           <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-          <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+          <i *ngIf="isDesktop" style="color: #999; font-size: 15px;">{{coupon.description}}</i>
         </td>
-        <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" style="max-width: 150px;" alt="Card image cap"></td>
-        <td>{{formatPrice(coupon.price)}}</td>
+        <td *ngIf="isDesktop"><img class="img-thumbnail" [src]="imageUrl(coupon.image)" style="max-width: 150px;" alt="Card image cap"></td>
+        <td *ngIf="isDesktop" >{{formatPrice(coupon.price)}}</td>
         <td [ngStyle]="{color: token.verifier ? 'green' : 'red'}">{{formatState(token.verifier)}}</td>
 
         <td>
-          <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">Details</button>
+          <button *ngIf="isDesktop" type="button" (click)="details(coupon, token)" class="btn btn-info text-white">Details</button>
+          <button *ngIf="!isDesktop" type="button" (click)="details(coupon, token)" class="btn btn-info text-white"><i class="fas fa-info-circle"></i></button>
+
         </td>
 
       </tr>
@@ -33,3 +35,33 @@
   </div>
 </div>
 
+<!--<div *ngIf="!isDesktop" class="table-responsive">-->
+  <!--<div class="col-md-10">-->
+    <!--<table class="table table-striped">-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<th scope="col">Title</th>-->
+        <!--<th scope="col">State</th>-->
+        <!--<th></th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+
+      <!--<tbody class="col-sm-12" *ngFor="let coupon of coupons">-->
+      <!--<tr *ngFor="let token of coupon.CouponTokens " >-->
+
+        <!--<td>-->
+          <!--<span style="font-size: 17px;">{{coupon.title}}</span> <br/>-->
+
+        <!--</td>-->
+        <!--<td [ngStyle]="{color: token.verifier ? 'green' : 'red'}">{{formatState(token.verifier)}}</td>-->
+
+        <!--<td>-->
+          <!--<button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">Details</button>-->
+        <!--</td>-->
+
+      <!--</tr>-->
+      <!--</tbody>-->
+
+    <!--</table>-->
+  <!--</div>-->
+<!--</div>-->
