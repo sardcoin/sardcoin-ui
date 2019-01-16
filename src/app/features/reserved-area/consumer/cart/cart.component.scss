@@ -1,3 +1,25 @@
 .btn-outline-dark {
   background: white;
 }
+
+
+
+
+
+
+.truncate {
+  width: 90%;
+  float: right;
+}
+
+
+
+.crop {
+  width: 100px;
+  height: 100px;
+  overflow: hidden !important;
+}
+
+.centered-and-cropped {
+  object-fit: cover
+}
