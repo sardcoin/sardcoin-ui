@@ -12,6 +12,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../shared/_services/user.service';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {CartItem} from '../../../../shared/_models/CartItem';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -27,6 +28,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   couponPass: Coupon;
   isMax = false;
   producer = null;
+  desktopMode: boolean;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -36,7 +38,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private cartActions: CartActions
+    private cartActions: CartActions,
+    private globalEventService: GlobalEventsManagerService,
+
   ) {
 
   }
@@ -53,6 +57,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
 
+        this.globalEventService.desktopMode.subscribe(message => {
+          this.desktopMode = message;
+        });
         this.getOwner();
         this.addBreadcrumb();
       }

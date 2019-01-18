@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 import {UserService} from '../../../../../shared/_services/user.service';
+import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -22,6 +23,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   couponPass: Coupon;
   cart = new Coupon();
   producer = null;
+  desktopMode: boolean;
 
   constructor(private breadcrumbActions: BreadcrumbActions,
               private couponService: CouponService,
@@ -29,7 +31,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
               private modalService: BsModalService,
               private toastr: ToastrService,
               private userService: UserService,
-              protected localStorage: LocalStorage) {
+              protected localStorage: LocalStorage,
+              private globalEventService: GlobalEventsManagerService,
+  ) {
   }
 
   ngOnInit() {
@@ -43,6 +47,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
         this.addBreadcrumb();
         this.getOwner();
       }
+      this.globalEventService.desktopMode.subscribe(message => {
+        this.desktopMode = message;
+      });
     });
   }
 

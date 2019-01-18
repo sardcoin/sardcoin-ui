@@ -40,14 +40,25 @@
                       width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
             </span>
           </p>
+          <div *ngIf="desktopMode">
+            <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
+                    class="btn btn-lg btn-success float-right"
+                    [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
+              Add to cart
+            </button>
+            <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i> Go to cart</button>
+            <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+          </div>
 
-          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                  class="btn btn-lg btn-success float-right"
-                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
-            Add to cart
-          </button>
-          <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i> Go to cart</button>
-          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+          <div *ngIf="!desktopMode">
+            <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
+                    class="btn btn-lg btn-success float-right ml-2"
+                    [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
+              <i class="fas fa-cart-plus"></i>
+            </button>
+            <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i></button>
+            <button class="btn btn-lg btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket"></i></button>
+          </div>
 
         </div>
 

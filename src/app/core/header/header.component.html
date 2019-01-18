@@ -8,18 +8,20 @@
 
 <!--*********per desktop********************-->
 
-<div class="fixed-top ">
+<div  class="fixed-top ">
   <nav class="fixed-top "class="navbar navbar-expand-md navbar-light bg-white ">
-    <button class="fixed-top " *ngIf="isUserLoggedIn" type="button" id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)">
+    <button class="fixed-top " *ngIf="isUserLoggedIn" type="button"
+            id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div style="padding-top: 2em" class="fixed-top">
-      <ul  class="nav navbar-nav ">
+    <div style="padding-top: 2em" class="fixed-top ">
+      <ul  class="nav navbar-nav">
         <li style="position: absolute; padding-left: -1em; padding-top: 2em" class="nav-item ">
 
 
-          <div *ngIf="hide" style="background-color: white" >
-            <div (click)="clickEvent(null)" class="dropdown-header text-center">
+          <div class="border" *ngIf="hide" style="background-color: white" >
+            <div (click)="clickEvent(null)" class="dropdown-header">
+              <span  class="fa fa-arrow-left fa-fw mr-3"></span>
               <strong  class="text-capitalize">Menu</strong>
             </div>
             <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"

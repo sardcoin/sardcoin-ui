@@ -11,7 +11,7 @@
           <div class="card-text">
             <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
             <div class="col-6">
-              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="200" [level]="'M'"></qrcode>
+              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="150" [level]="'M'"></qrcode>
             </div>
           </div>
           <p class="card-text">
@@ -31,7 +31,9 @@
           </div>
           <br/>
           <div style="text-align:center;">
-            <button class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
+            <button *ngIf="desktopMode" class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
+            <button *ngIf="!desktopMode" class=" btn btn-danger btn-retry-small" (click)="retry()">My Purchases</button>
+
           </div>
         </div>
       </div>

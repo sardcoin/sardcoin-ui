@@ -86,7 +86,7 @@
 <!--// device mobile-->
 
 
-<div *ngIf="!isDesktop">
+<div style="position: relative" *ngIf="!isDesktop">
   <div *ngIf="cart.length > 0">
     <div *ngFor="let coupon of coupons" >
       <div style="background-color: snow" class="card flex-row flex-wrap">
@@ -108,12 +108,12 @@
         <div class="card-footer w-100 text-muted">
           <button  class="btn btn-secondary" (click)="changeQuantity(coupon, false)" [disabled]="coupon.quantity === 1">
             <i  class="fas fa-minus text-white"></i></button>
-          <a style="padding-right: 0.4em; padding-left: 0.4em">
+          <a  style="font-size: 1.5em; padding-right: 0.4em; padding-left: 0.4em">
           {{coupon.quantity}}
           </a>
           <button class="btn btn-primary" (click)="changeQuantity(coupon, true)"
             [disabled]="coupon.quantity === coupon.max_quantity"><i class="fas fa-plus text-white"></i></button>
-          <div style="float: right">
+          <div style="font-size: 2em;float: right">
           {{formatPrice(coupon.price)}}
           </div>
         </div>
