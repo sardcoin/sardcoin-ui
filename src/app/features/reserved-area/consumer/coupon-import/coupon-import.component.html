@@ -35,14 +35,14 @@
             </div>
 
 
-            <div class="row">
 
-              <div class="col-xl-8 col-sm-8">
+
+              <div style="padding-bottom: 1em" class="col">
                 <div *ngIf="isScan">
                   <div *ngIf="availableDevices">
-                    <select (change)="onDeviceSelectChange($event.target.value)">
-                      <option value="" [selected]="!selectedDevice">Select Device</option>
-                      <option *ngFor="let device of availableDevices" [value]="device.deviceId"
+                    <select class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" (change)="onDeviceSelectChange($event.target.value)">
+                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" value="" [selected]="!selectedDevice">Select Device</option>
+                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" *ngFor="let device of availableDevices" [value]="device.deviceId"
                               [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label
                         }}
                       </option>
@@ -51,11 +51,14 @@
                 </div>
 
               </div>
-            </div>
+
 
             <div class="row">
-              <zxing-scanner #scanner class="test-class" start="true" [device]="selectedDevice"
-                             (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+              <zxing-scanner
+                #scanner style="padding-bottom: 1em" class="test-class" start="true" [device]="selectedDevice"
+                (scanSuccess)="handleQrCodeResult($event)">
+
+              </zxing-scanner>
             </div>
 
             <div class="col-md-12 text-sm-right text-center p-0">
@@ -71,4 +74,3 @@
 
   </div>
 </div>
-

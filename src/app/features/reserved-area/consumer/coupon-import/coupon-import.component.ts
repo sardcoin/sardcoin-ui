@@ -34,6 +34,8 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
   ) {
+
+
   }
 
   ngOnInit() {

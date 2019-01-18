@@ -7,6 +7,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {Router} from '@angular/router';
+import { Directive, HostBinding, HostListener } from '@angular/core';
 
 
 @Component({
@@ -16,7 +17,12 @@ import {Router} from '@angular/router';
 
 })
 
+
+
+
+
 export class HeaderComponent implements OnInit {
+
 
   isUserLoggedIn = false;
   username: string;
@@ -25,8 +31,13 @@ export class HeaderComponent implements OnInit {
   userStringType: string;
   cart = null;
   isHide: boolean;
+  hide = false;
   image: string;
   isDesktop: boolean;
+  navbarCollapsed = true;
+  public _opened = false;
+
+
   constructor(
     private actions: LoginActions,
     private router: Router,
@@ -39,26 +50,27 @@ export class HeaderComponent implements OnInit {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
       this.username = this.localStore.getUserNames();
-    });
+      this.globalEventService.userType.subscribe(val => {
+        this.userType = val;
 
-    this.globalEventService.userType.subscribe(type => {
-      this.userType = Number(type);
-
-      switch (this.userType) {
-        case '0': // admin
-          this.userStringType = 'admin';
-          return true;
-        case '1': // producer
-          this.userStringType = 'producer';
-          return true;
-        case '2': // consumer
+        switch (this.userType) {
+          case '0': // admin
+            this.userStringType = 'admin';
+            return true;
+          case '1': // producer
+            this.userStringType = 'producer';
+            return true;
+          case '2': // consumer
           this.userStringType = 'consumer';
           return true;
-        case '3': // verifier
-          this.userStringType = 'verifier';
-          return true;
-      }
+          case '3': // verifier
+            this.userStringType = 'verifier';
+            return true;
+        }
+      });
     });
+
+
   }
 
   logout() {
@@ -88,15 +100,13 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  showSideBar() {
+  clickEvent(link?: string ) {
 
-    if (this.isHide === true) {
-      this.globalEventService.changeHide(false);
-    } else {
-      this.globalEventService.changeHide(true);
+   this.hide = !this.hide;
+   if (link != null) {
+     this.router.navigate([link]);
     }
-  }
-
+   }
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
   }
@@ -105,6 +115,4 @@ export class HeaderComponent implements OnInit {
 
     return this.cartActions.getQuantityCart();
   }
-
-
 }

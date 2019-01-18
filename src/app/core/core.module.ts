@@ -21,7 +21,7 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
   imports: [
     RouterModule,
     SharedModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers: [
     LoginActions,
