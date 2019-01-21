@@ -11,6 +11,7 @@ import {CartItem} from '../../shared/_models/CartItem';
 @Component({
   selector: 'app-core-breadcrumb',
   templateUrl: './breadcrumb.component.html',
+  styleUrls: ['./breadcrumb.component.css'],
 })
 
 export class BreadcrumbComponent {
