@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   userStringType: string;
   cart = null;
   isHide: boolean;
-  hide = false;
+  hide = true;
   image: string;
   isDesktop: boolean;
   navbarCollapsed = true;
@@ -101,9 +101,11 @@ export class HeaderComponent implements OnInit {
   }
 
   clickEvent(link?: string ) {
+    console.log('this.hide prima', this.hide)
+    this.hide = !this.hide;
+    console.log('this.hide dopo', this.hide)
 
-   this.hide = !this.hide;
-   if (link != null) {
+    if (link != null) {
      this.router.navigate([link]);
     }
    }

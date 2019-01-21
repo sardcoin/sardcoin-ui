@@ -1,7 +1,7 @@
 <div *ngIf="couponPass !== null" class="container">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card mx-4" style="padding: 5px">
+    <div >
+      <div class="card" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title">{{couponPass.title}}</h3>
@@ -11,7 +11,7 @@
           <div class="card-text">
             <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
             <div class="col-6">
-              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="150" [level]="'M'"></qrcode>
+              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="200" [level]="'M'"></qrcode>
             </div>
           </div>
           <p class="card-text">
