@@ -1,5 +1,5 @@
 <div class="row">
-  <div  class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
+  <div class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
     <div class="card">
       <img class="card-img-top crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
       <div class="card-body">
@@ -55,3 +55,8 @@
   </div>
 </ng-template>
 
+<!--<button [ngStyle]="{'display': getQuantityCart() > 0 ? 'block' : 'none'}" style="font-size : 3em; padding-bottom: 5px !important " (click)="viewCart()"-->
+        <!--type="button" class="btn-transparent ml-auto ">-->
+      <!--<span   class="cart-bottom fas fa-shopping-cart text-warning">-->
+        <!--<a  style=" font-size : 0.7em; text-decoration-style: solid" class="text">{{getQuantityCart()}}</a></span>-->
+<!--</button>-->

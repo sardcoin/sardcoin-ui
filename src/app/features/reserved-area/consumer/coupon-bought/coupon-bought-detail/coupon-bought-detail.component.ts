@@ -6,6 +6,7 @@ import {CouponService} from '../../../../../shared/_services/coupon.service';
 import {Router} from '@angular/router';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 import {UserService} from '../../../../../shared/_services/user.service';
+import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -18,12 +19,14 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   couponPass: Coupon;
   cart = new Coupon();
   producer = null;
+  desktopMode: boolean;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private userService: UserService,
+    private globalEventService: GlobalEventsManagerService,
   ) {
   }
 
@@ -36,6 +39,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
         this.addBreadcrumb();
         this.getOwner();
       }
+      this.globalEventService.desktopMode.subscribe(message => {
+        this.desktopMode = message;
+      });
     });
   }
 

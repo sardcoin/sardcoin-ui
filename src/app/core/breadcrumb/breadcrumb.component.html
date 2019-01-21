@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb" class="" *ngIf="isUserLoggedIn">
+<nav style="padding-bottom: 7em" aria-label="breadcrumb"  *ngIf="isUserLoggedIn">
   <ol   class="breadcrumb border border-info border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode">
       <li *ngFor="let item of breadList" class="breadcrumb-item">
@@ -29,12 +29,5 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!desktopMode">
-      <button style="font-size : 2em; padding-bottom: 5px !important " (click)="viewCart()"
-              type="button" class="btn-transparent ml-auto ">
-      <span   class="fas fa-shopping-cart text-warning">
-        <a style=" font-size : 0.5em; text-decoration-style: solid" class="text-danger">{{cart.length}}</a></span>
-      </button>
-    </ng-container>
   </ol>
 </nav>

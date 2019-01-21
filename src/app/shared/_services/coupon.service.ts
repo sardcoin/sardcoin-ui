@@ -74,8 +74,8 @@ export class CouponService {
     return this.http.post(this.formatUrl('create'), coupon);
   }
 
-  buyCoupons(cart: CartItem[]) {
-    return this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
+  buyCoupons(cart: CartItem[], paymentID: string) {
+    return this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart, payment_id: paymentID});
   }
 
   importOfflineCoupon(cp: any) {

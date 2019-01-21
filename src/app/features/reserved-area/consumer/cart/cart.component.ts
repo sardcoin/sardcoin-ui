@@ -14,6 +14,7 @@ import {CartItem} from '../../../../shared/_models/CartItem';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {CartActions} from './redux-cart/cart.actions';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-consumer-cart',
@@ -28,6 +29,7 @@ export class CartComponent implements OnInit, OnDestroy {
   coupons: Coupon[] = [];
   cart: CartItem[];
   modalRef: BsModalRef;
+  isDesktop: boolean;
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -37,7 +39,9 @@ export class CartComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastr: ToastrService,
     private breadcrumbActions: BreadcrumbActions,
-    private cartActions: CartActions
+    private cartActions: CartActions,
+    private globalEventService: GlobalEventsManagerService,
+
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
@@ -46,6 +50,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.addBreadcrumb();
+    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
     await this.loadCart();
   }
 

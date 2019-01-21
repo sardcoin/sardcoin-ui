@@ -7,6 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CouponToken} from '../../../../shared/_models/CouponToken';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -17,16 +18,21 @@ import {CouponToken} from '../../../../shared/_models/CouponToken';
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
   coupons: any;
+  isDesktop: boolean;
 
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private globalEventService: GlobalEventsManagerService,
+
   ) {
   }
 
   ngOnInit(): void {
+    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
+    console.log('isDesktop', this.isDesktop)
     this.addBreadcrumb();
     this.loadCoupons();
   }

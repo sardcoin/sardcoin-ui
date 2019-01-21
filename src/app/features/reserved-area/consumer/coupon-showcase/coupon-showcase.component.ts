@@ -153,4 +153,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
+
+
+  getQuantityCart() {
+    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart())
+    return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
+  }
 }

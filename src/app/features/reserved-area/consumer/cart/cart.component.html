@@ -1,48 +1,46 @@
-<div *ngIf="cart.length > 0">
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th style="width: 40%">Title</th>
-      <th style="width: 10%">Image</th>
-      <th style="width: 10%">Price</th>
-      <th style="width: 10%">Quantity</th>
-      <th style="width: 10%">Valid until</th>
-      <th style="width: 5%"></th>
-      <th style="width: 5%"></th>
-      <th style="width: 5%"></th>
-      <th style="width: 5%"></th>
-    </tr>
-    </thead>
 
-    <tbody>
-    <tr *ngFor="let coupon of coupons">
-      <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-      </td>
-      <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
-      <td>{{formatPrice(coupon.price)}}</td>
-      <td>{{coupon.quantity}}</td>
-      <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
-      <td>
-        <button class="btn btn-secondary" (click)="changeQuantity(coupon, false)" [disabled]="coupon.quantity === 1">
-          <i class="fas fa-minus text-white"></i>
-        </button>
+<div *ngIf="isDesktop">
+  <div *ngIf="cart.length > 0">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th style="width: 40%">Title</th>
+        <th style="width: 10%">Image</th>
+        <th style="width: 10%">Price</th>
+        <th style="width: 10%">Quantity</th>
+        <th style="width: 10%">Valid until</th>
+        <th style="width: 5%"></th>
+        <th style="width: 5%"></th>
+        <th style="width: 5%"></th>
+        <th style="width: 5%"></th>
+      </tr>
+      </thead>
 
-        <!--<button [disabled]="coupon.quantity === 1" type="button" class="btn btn-danger btn-sm"-->
-                <!--(click)="changeQuantity(coupon, false)">- -->
-        <!--</button>-->
-      </td>
-      <td>
-        <button class="btn btn-primary" (click)="changeQuantity(coupon, true)" [disabled]="coupon.quantity === coupon.max_quantity"><i class="fas fa-plus text-white"></i></button>
-        <!--<button [disabled]="coupon.quantity === coupon.max_quantity" type="button" class="btn btn-primary btn-sm"-->
-                <!--(click)="changeQuantity(coupon, true)">+-->
-        <!--</button>-->
-      </td>
+      <tbody>
+      <tr *ngFor="let coupon of coupons">
+        <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        </td>
+        <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
+        <td>{{formatPrice(coupon.price)}}</td>
+        <td>{{coupon.quantity}}</td>
+        <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="changeQuantity(coupon, false)" [disabled]="coupon.quantity === 1">
+            <i class="fas fa-minus text-white"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="changeQuantity(coupon, true)" [disabled]="coupon.quantity === coupon.max_quantity"><i class="fas fa-plus text-white"></i></button>
+        </td>
 
-      <td>
-        <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Details</button>
-      </td>
-      <td>
-        <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i> Delete</button>
+        <td>
+          <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Details</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i> Delete</button>
+
+
+        </td>
 
         <ng-template #template>
           <div class="modal-header">
@@ -61,28 +59,106 @@
             <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
           </div>
         </ng-template>
-      </td>
-    </tr>
+      </tr>
 
-    </tbody>
 
-  </table>
-  <div class="card-body p-0">
-    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i class="fas fa-euro-sign mr-2"></i>Go to checkout
-    </button>
-    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
-    <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i class="fas fa-trash"></i> Empty cart</button>
+
+      </tbody>
+
+    </table>
+    <div class="card-body p-0">
+      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i class="fas fa-euro-sign mr-2"></i>Go to checkout
+      </button>
+      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+      <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i class="fas fa-trash"></i> Empty cart</button>
+    </div>
+  </div>
+  <div *ngIf="cart.length === 0" class="row">
+    <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
+    <div class="col-sm-12">
+      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">Go to your purchases
+      </button>
+      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+    </div>
   </div>
 </div>
 
-<div *ngIf="cart.length === 0" class="row">
-  <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
-  <div class="col-sm-12">
-    <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">Go to your purchases
-    </button>
-    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
+<!--// device mobile-->
+
+
+<div style="position: relative" *ngIf="!isDesktop">
+  <div *ngIf="cart.length > 0">
+    <div *ngFor="let coupon of coupons" >
+      <div style="background-color: snow" class="card flex-row flex-wrap">
+        <div  style="background-color:snow" class="card-header border-0 col-4">
+          <img class="crop-cart centered-and-cropped-cart" [src]="imageUrl(coupon.image)" alt="">
+        </div>
+        <div class="col-8" style="padding-bottom: 1em; padding-top: 1em" >
+          <h5 class="card-text truncate ">{{coupon.title}}</h5>
+          <p class="card-text truncate ">{{coupon.description}}</p>
+          <div style="float: right">
+            <a   href="#">
+              <button  type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i class="fas fa-info-circle"></i></button>
+            </a>
+            <a style="padding-left: 1em" >
+              <button  type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i></button>
+            </a>
+          </div>
+        </div>
+        <div class="card-footer w-100 text-muted">
+          <button  class="btn btn-secondary" (click)="changeQuantity(coupon, false)" [disabled]="coupon.quantity === 1">
+            <i  class="fas fa-minus text-white"></i></button>
+          <a  style="font-size: 1.5em; padding-right: 0.4em; padding-left: 0.4em">
+          {{coupon.quantity}}
+          </a>
+          <button class="btn btn-primary" (click)="changeQuantity(coupon, true)"
+            [disabled]="coupon.quantity === coupon.max_quantity"><i class="fas fa-plus text-white"></i></button>
+          <div style="font-size: 2em;float: right">
+          {{formatPrice(coupon.price)}}
+          </div>
+        </div>
+      </div>
+
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Coupon delete</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Do you really want to remove this coupon from the cart?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
+          <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
+        </div>
+      </ng-template>
+
+
+
+
+    </div>
+    <div style="padding-bottom: 5em">
+      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i class="fas fa-euro-sign mr-2"></i>
+      </button>
+      <button class="btn btn-lg btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket"></i></button>
+      <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i class="fas fa-trash"></i></button>
+    </div>
   </div>
+  <div *ngIf="cart.length === 0" class="row">
+    <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
+    <div class="col-sm-12">
+      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">My purchases
+      </button>
+      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go to shopping</button>
+    </div>
+  </div>
+
 </div>
+
 
 <ng-template #emptyCartTemplate>
   <div class="modal-header">
@@ -103,3 +179,6 @@
     </button>
   </div>
 </ng-template>
+
+
+
