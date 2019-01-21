@@ -6,6 +6,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {ToastrService} from 'ngx-toastr';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-coupon-token',
@@ -26,18 +27,25 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   qrResultString: string;
   availableDevices: MediaDeviceInfo[];
   selectedDevice: MediaDeviceInfo;
-
+  desktopMode: boolean;
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private globalEventService: GlobalEventsManagerService,
+
   ) {
+
+
   }
 
   ngOnInit() {
     this.newCamera();
+    this.globalEventService.desktopMode.subscribe(message => {
+      this.desktopMode = message
+    });
     this.tokenForm = this.formBuilder.group({
       token: [null, Validators.required]
     });

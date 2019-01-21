@@ -23,7 +23,7 @@ import {GooglePlacesDirective} from './map/google-places.directive';
   imports: [
     RouterModule,
     SharedModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers: [
     LoginActions,
