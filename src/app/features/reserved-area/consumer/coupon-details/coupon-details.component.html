@@ -42,7 +42,7 @@
           </p>
           <div *ngIf="desktopMode">
             <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                    class="btn btn-lg btn-success float-right"
+                    class="btn btn-lg btn-success float-right ml-2"
                     [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
               Add to cart
             </button>
