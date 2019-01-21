@@ -170,7 +170,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {environment} from '../../../../../../environments/environment';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {Coupon} from '../../../../../shared/_models/Coupon';
@@ -15,35 +15,31 @@ import {GlobalEventsManagerService} from '../../../../../shared/_services/global
 @Component({
   selector: 'app-coupon-bought-detail',
   templateUrl: './coupon-bought-detail.component.html',
-  styleUrls: ['./coupon-bought-detail.component.scss']
+  styleUrls: ['./coupon-bought-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
-  URLstring = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
-  modalRef: BsModalRef;
+export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
+  imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   couponPass: Coupon;
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
 
-  constructor(private breadcrumbActions: BreadcrumbActions,
-              private couponService: CouponService,
-              private router: Router,
-              private modalService: BsModalService,
-              private toastr: ToastrService,
-              private userService: UserService,
-              protected localStorage: LocalStorage,
-              private globalEventService: GlobalEventsManagerService,
+  constructor(
+    private breadcrumbActions: BreadcrumbActions,
+    private couponService: CouponService,
+    private router: Router,
+    private userService: UserService,
+    private globalEventService: GlobalEventsManagerService,
   ) {
   }
 
   ngOnInit() {
     this.couponService.currentMessage.subscribe(coupon => {
-      this.couponPass = coupon;
-
-      if (this.couponPass === null) {
+      if (coupon === null) {
         this.router.navigate(['/reserved-area/consumer/bought']);
       } else {
-        this.URLstring = this.URLstring + this.couponPass.image;
+        this.couponPass = coupon;
         this.addBreadcrumb();
         this.getOwner();
       }
@@ -60,10 +56,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Consumer', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
+    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought/'));
     bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
@@ -74,24 +68,17 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy {
   }
 
   formatPrice(price) {
-    if (price === 0) {
-      return 'Free';
-    }
-    return '€ ' + price.toFixed(2);
+    return price === 0 ? 'Free' : '€ ' + price.toFixed(2);
   }
 
   formatUntil(until) {
-    if (until === null) {
-      return 'Unlimited';
-    }
-
-    return this.formatFrom(until);
+    return until ? this.formatDate(until) : 'Unlimited';
   }
 
 
-  formatFrom(dataFrom) {
-    const date = dataFrom.toString().substring(0, dataFrom.indexOf('T'));
-    const time = dataFrom.toString().substring(dataFrom.indexOf('T') + 1, dataFrom.indexOf('Z'));
+  formatDate(inptuDate) {
+    const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
+    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('Z'));
     return 'Date: ' + date + ' Time: ' + time;
   }
 
