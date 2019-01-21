@@ -1,18 +1,16 @@
-<div *ngIf="couponPass !== null" class="container">
+<!--<div *ngIf="couponPass !== null" class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card mx-4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap">
+        <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title">{{couponPass.title}}</h3>
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
           <p class="card-text">{{couponPass.description}}</p>
           <div class="card-text">
-            <i style="color: #20a8d8" class="col-6">QR-Code coupon</i>
-            <div class="col-6">
-              <qrcode class="col-6" [qrdata]="couponPass.token.token" [size]="200" [level]="'M'"></qrcode>
-            </div>
+            <i class="text-info">Coupon redeem code</i>
+            <qrcode [qrdata]="couponPass.token.token" [level]="'M'"></qrcode>
           </div>
           <p class="card-text">
             <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
@@ -22,8 +20,8 @@
             <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
 
-              <img class="d-block mt-3" alt="{{couponPass.constraints}} map"
-                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=400x400&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
+              <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
+                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
               >
             </span>
           </div>
@@ -43,5 +41,42 @@
   </div>
 
 
-</div>
+</div>-->
 
+<div *ngIf="couponPass !== null" class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card mx-4" style="padding: 5px">
+        <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
+        <div class="card-body p-4">
+          <h3 class="card-title mb-0">{{couponPass.title}}</h3>
+          <p *ngIf="couponPass.owner">by
+            <i [routerLink]="['/reserved-area/consumer/producer-info']"
+               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
+          </p>
+
+          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
+
+          <p class="card-text mt-3">{{couponPass.description}}</p>
+
+          <p class="card-text">
+            <i class="fas fa-fw  fa-clock text-secondary"></i> Validity: {{formatUntil(couponPass.valid_until)}}
+            <br/>
+
+            <span *ngIf="couponPass.constraints">
+              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+
+              <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
+                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
+              >
+            </span>
+          </p>
+
+          <button class="btn btn-danger btn-retry float-right" (click)="retry()">Back to My Purchases</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

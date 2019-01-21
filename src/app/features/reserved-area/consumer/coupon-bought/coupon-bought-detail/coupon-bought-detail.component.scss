@@ -15,3 +15,9 @@
 .centered-and-cropped {
   object-fit: cover
 }
+
+qrcode img {
+  max-width: 100%;
+  height: auto;
+  max-height: 100px;
+}
