@@ -1,34 +1,9 @@
 
-body {
-  background-color: red;
-}
-
-.grid {
-  display: grid;
-  align-items: center;
-  height: 100vh;
-}
-
-.small {
-  font-size: 10px;
-}
-
-.drop-container {
-}
-hover .drop {
-  display: block;
-}
 
 
-.drop {
-  display: none;
-  position: absolute;
-  top: 20px;
-  left: 8px;
-}
-a {
-  display: block;
-  padding: 8px 16px;
-
+@media screen and (max-width: 768px) {
+  .padding-breadcrumb-mobile {
+    padding-bottom: 7em;
+  }
 }
 

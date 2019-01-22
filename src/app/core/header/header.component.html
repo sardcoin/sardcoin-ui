@@ -113,7 +113,7 @@
 
     <div class="right" id="navbarNavDropdown">
       <div style="float: left">
-        <ng-container *ngIf="!isDesktop && userType == 2">
+        <ng-container  *ngIf="!isDesktop && userType == 2 && isUserLoggedIn">
           <button style="font-size : 2em;  " (click)="viewCart()"
                   type="button" class="btn-transparent ml-auto ">
         <span class="fas fa-shopping-cart text-warning">
@@ -127,8 +127,8 @@
           <!--<li class="nav-item">-->
           <!--<a class="nav-link" [routerLink]="['/authentication/login']">Login</a>-->
           <!--</li>-->
-          <li class="nav-item">
-            <a type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Sign Up</a>
+          <li class="col-6 text-right">
+            <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Sign Up</button>
           </li>
         </ul>
       </div>

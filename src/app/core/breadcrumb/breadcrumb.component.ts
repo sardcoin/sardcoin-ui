@@ -11,6 +11,7 @@ import {CartItem} from '../../shared/_models/CartItem';
 @Component({
   selector: 'app-core-breadcrumb',
   templateUrl: './breadcrumb.component.html',
+  styleUrls: ['./breadcrumb.component.css'],
 })
 
 export class BreadcrumbComponent {
@@ -22,6 +23,7 @@ export class BreadcrumbComponent {
   isUserLoggedIn: boolean;
   url: string;
   desktopMode = true;
+  usetType: number = null;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -31,6 +33,7 @@ export class BreadcrumbComponent {
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
+      this.usetType = Number(this.globalEventService.userType.getValue());
     });
 
     this.globalEventService.desktopMode.subscribe(message => {
