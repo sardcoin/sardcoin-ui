@@ -16,8 +16,6 @@ p {
   line-height: 1.4;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  /*overflow: hidden;*/
-  /*text-overflow: ellipsis;*/
 }
 
 h5 {
@@ -29,9 +27,14 @@ h5 {
   line-height: 1.4;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  /*overflow: hidden;*/
-  /*text-overflow: ellipsis;*/
+}
 
+.dropdown-menu {
+  min-width: 0!important;
+}
+
+.fas, .far{
+  font-size: 1.3em;
 }
 
 
