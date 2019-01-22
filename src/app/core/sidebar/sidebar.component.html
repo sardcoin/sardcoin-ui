@@ -1,5 +1,5 @@
 <!--<div style="padding-top: 20%" *ngIf="!hide || desktopMode " >-->
-<div *ngIf="desktopMode " >
+<div class="padding-header" *ngIf="desktopMode " >
   <div  id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
 
     <ul class="list-group sticky-top sticky-offset">
@@ -7,16 +7,16 @@
         <small class="font-weight-bold">MENU</small>
       </li>
 
-      <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
+      <a   aria-expanded="false"
          class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-start align-items-center">
           <span class="fas fa-archway mr-3"></span>
           <span class="menu-collapsed">Contents</span>
-          <span class="fas fa-plus ml-auto"></span>
+
         </div>
       </a>
 
-      <div id="submenu1" class="collapse sidebar-submenu">
+      <div  class="  align-items-start padding-left-sidebar-item" aria-expanded="false">
 
         <div *ngIf="this.userType == '1' || this.userType == '0'">
           <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
@@ -54,16 +54,15 @@
       </div>
 
       <div *ngIf="this.userType != '3'">
-        <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+        <a  data-toggle="collapse" aria-expanded="false"
            class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-user fa-fw mr-3"></span>
             <span  class="menu-collapsed">Account</span>
-            <span class="fas fa-plus ml-auto"></span>
           </div>
         </a>
         <!-- Submenu content -->
-        <div id="submenu2" class="collapse sidebar-submenu">
+        <div  class="padding-left-sidebar-item align-items-start">
           <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Personal info</span>
           </a>
