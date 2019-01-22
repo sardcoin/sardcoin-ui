@@ -22,71 +22,62 @@
               <strong class="text-capitalize">Menu</strong>
             </div>
             <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
-               href="#submenu1" data-toggle="collapse" aria-expanded="false">
+                data-toggle="collapse" aria-expanded="false">
               <strong class="text-capitalize"> <i class="fa fa-box"></i> Contents </strong></a>
-            <div id="submenu1" class=" collapse sidebar-submenu">
+            <div  class=" align-items-start">
 
-              <div *ngIf="this.userType == '1' || this.userType == '0'">
-                <a class="list-group-item list-group-item-action ">
+              <div  *ngIf="this.userType == '1' || this.userType == '0'">
+                <a  class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">My coupons</span>
                 </a>
-                <a class="list-group-item list-group-item-action">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent('/reserved-area/producer/create')"
                         class="menu-collapsed">Add new coupon</span>
                 </a>
-                <a class="list-group-item list-group-item-action">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
                 </a>
               </div>
 
               <div *ngIf="this.userType == '2' || this.userType == '0'">
-                <a class="list-group-item list-group-item-action ">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent('/reserved-area/consumer/showcase')" class="menu-collapsed">Shopping</span>
                 </a>
-                <a class="list-group-item list-group-item-action ">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                   <span (click)="clickEvent('/reserved-area/consumer/bought')"
                         class="menu-collapsed">My purchases</span>
                 </a>
-                <a class="list-group-item list-group-item-action ">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                   <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Get Coupon by Token</span>
                 </a>
               </div>
 
-              <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-                <a class="list-group-item list-group-item-action ">
+              <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item" >
                   <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Verifier page</span>
                 </a>
               </div>
 
-              <a class="list-group-item list-group-item-action text-secondary">
-                <span class="menu-collapsed">Other to Add</span>
-              </a>
             </div>
             <div *ngIf="this.userType != '3'">
               <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
-                 href="#submenu2" data-toggle="collapse" aria-expanded="false">
+                  data-toggle="collapse" aria-expanded="false">
                 <strong class="text-capitalize"><i class="fa fa-user"></i> Account </strong></a>
 
               <!-- Submenu content -->
-              <div id="submenu2" class="collapse sidebar-submenu">
-                <a class="list-group-item list-group-item-action ">
-                  <span (click)="clickEvent('/reserved-area/' + userStringType +'/personal-info')"
-                        class="menu-collapsed">Personal info</span>
-                </a>
-                <a class="list-group-item list-group-item-action text-secondary">
-                  <span (click)="clickEvent(null)" class="menu-collapsed">Settings</span>
-                </a>
-                <a class="list-group-item list-group-item-action ">
+              <div  class="align-items-start">
+
+                <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
                         class="menu-collapsed">Payment details</span>
                 </a>
-                <a class="list-group-item list-group-item-action text-secondary">
+                <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
                   <span (click)="clickEvent(null)" class="menu-collapsed">Receipts</span>
                 </a>
               </div>
             </div>
 
-            <a class="list-group-item list-group-item-action">
+            <a class="list-group-item list-group-item-action ">
               <div class="d-flex w-100 justify-content-start align-items-center">
                 <span class="fa fa-question fa-fw mr-3"></span>
                 <span class="menu-collapsed text-secondary">Help</span>
@@ -94,13 +85,7 @@
             </a>
 
 
-            <a (click)="clickEvent(null)" data-toggle="sidebar-collapse"
-               class="list-group-item list-group-item-action d-flex align-items-center">
-              <div class="d-flex w-100 justify-content-start align-items-center">
-                <span id="collapse-icon" class="fa fa-arrow-left fa-fw mr-3"></span>
-                <strong id="collapse-text" class="menu-collapsed">Collapse</strong>
-              </div>
-            </a>
+
           </div>
         </li>
       </ul>
