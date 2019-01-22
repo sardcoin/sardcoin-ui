@@ -1,4 +1,4 @@
-<div class="d-none d-xl-block">
+<div class="d-none d-md-none d-xl-block">
   <table class="table table-striped">
     <thead>
     <tr>
@@ -30,13 +30,16 @@
 
 
       <td>
-        <button type="button" class="btn btn-secondary bg-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copy</button>
+        <button type="button" class="btn btn-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copy</button>
       </td>
       <td>
-        <button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>
+        <button type="button" class="btn btn-info text-white" (click)="onEdit(coupon)"><i class="fas fa-edit"></i> Edit
+        </button>
       </td>
       <td>
-        <button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash-alt"></i>
+          Delete
+        </button>
 
         <ng-template #template>
           <div class="modal-header">
@@ -61,7 +64,7 @@
     </tbody>
   </table>
 </div> <!-- XL TABLE -->
-<div class="d-none d-lg-block d-xl-none">
+<div class="d-none d-md-none d-lg-block d-xl-none">
   <table class="table table-striped">
     <thead>
     <tr>
@@ -70,8 +73,8 @@
       <th style="width: 10%">Price</th>
       <th style="width: 10%">State</th>
       <th style="width: 10%">Unities</th>
-      <th style="width: 5%">Sold</th>
-      <th style="width: 15%"></th>
+      <th style="width: 5%;">Sold</th>
+      <th style="width: 15%;"></th>
     </tr>
     </thead>
 
@@ -84,47 +87,25 @@
       <td>
         <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
       </td>
-      <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
       <td>{{formatPrice(coupon.price)}}</td>
       <td>{{formatState(0)}}</td>
       <td>{{coupon.quantity}}</td>
       <td>{{coupon.buyed}}</td>
 
-
       <td>
-        <!--<button type="button" class="btn btn-secondary" (click)="onCopy(coupon)">Copy</button>-->
-      <!--</td>-->
-      <!--<td>-->
-        <!--<button type="button" class="btn btn-info" (click)="onEdit(coupon)">Edit</button>-->
-      <!--</td>-->
-      <!--<td>-->
-        <!--<button type="button" class="btn btn-danger" (click)="openModal(template)">Delete</button>-->
-
-        <!--<ng-template #template>-->
-          <!--<div class="modal-header">-->
-            <!--<h4 class="modal-title pull-left">Coupon delete</h4>-->
-            <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-              <!--<span aria-hidden="true">&times;</span>-->
-            <!--</button>-->
-          <!--</div>-->
-
-          <!--<div class="modal-body">-->
-            <!--Are you sure to delete this coupon? This operation is not reversable!-->
-          <!--</div>-->
-
-          <!--<div class="modal-footer">-->
-            <!--<button type="button" class="btn btn-danger" (click)="decline()">No</button>-->
-            <!--<button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>-->
-          <!--</div>-->
-        <!--</ng-template>-->
         <div class="btn-group" dropdown>
-          <button id="action-button" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="action-button">
+          <button id="action-button" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                  aria-controls="action-button">
             Action <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="action-button">
-            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i class="far fa-copy text-primary"></i> Copy</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i> Edit</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i class="fas fa-trash-alt text-danger"></i> Delete</a></li>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+              aria-labelledby="action-button">
+            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
+              class="far fa-copy text-primary"></i> Copy</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+              Edit</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i
+              class="fas fa-trash-alt text-danger"></i> Delete</a></li>
           </ul>
         </div>
       </td>
@@ -152,20 +133,26 @@
         <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
       </td>
       <td class="d-lg-block d-none">
-        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(coupon.image)" alt="Card image cap">
+        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(coupon.image)"
+             alt="Card image cap">
       </td>
       <td>{{formatPrice(coupon.price)}}</td>
       <td>{{formatState(0)}}</td>
       <td>{{coupon.buyed}}/{{coupon.quantity}}</td>
       <td>
         <div class="btn-group" dropdown>
-          <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="action-button-2">
+          <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                  aria-controls="action-button-2">
             Action <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="action-button-2">
-            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i class="far fa-copy text-primary"></i> Copy</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i> Edit</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i class="fas fa-trash-alt text-danger"></i> Delete</a></li>
+          <ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+              aria-labelledby="action-button-2">
+            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
+              class="far fa-copy text-primary"></i> Copy</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
+              class="fas fa-edit text-primary"></i> Edit</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i
+              class="fas fa-trash-alt text-primary"></i> Delete</a></li>
           </ul>
         </div>
       </td>
@@ -174,5 +161,28 @@
     </tbody>
   </table>
 </div> <!-- MD TABLE -->
-
-
+<div class="d-block d-md-none mb-5">
+  <div *ngIf="couponArray && couponArray.length > 0">
+    <div *ngFor="let coupon of couponArray" style="background-color: snow" class="card flex-row flex-wrap">
+      <div style="background-color:snow" class="card-header border-0 col-4">
+        <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+      </div>
+      <div class="col-8" style="padding-bottom: 1em; padding-top: 1em">
+        <h5 class="card-text truncate ">{{coupon.title}}</h5>
+        <p class="card-text truncate ">{{coupon.description}}</p>
+      </div>
+      <div class="card-footer w-100">
+        <div class="float-left">
+          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
+          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+        <div class="float-right card-price">
+          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- SM CARD -->
