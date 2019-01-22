@@ -14,8 +14,8 @@
       </option>
     </select>
 
-    <ng-container *ngIf="desktopMode">
-      <div *ngIf="url.includes('consumer')" class="ml-auto my-auto cursor-pointer cart-div" (click)="viewCart()" style="margin-right:21px">
+    <ng-container *ngIf="desktopMode && cart.length > 0">
+      <div  class="ml-auto my-auto cursor-pointer cart-div" (click)="viewCart()" style="margin-right:21px">
         <a *ngIf="cart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
         <a class="text-dark" routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0 && desktopMode">
           There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!

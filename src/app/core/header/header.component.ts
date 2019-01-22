@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    if (this.userType === 2) { // If the user is a consumer
+    if (this.userType == 2) { // If the user is a consumer
       this.cartActions.emptyCart();
       this.modalRef.hide();
     }
@@ -88,7 +88,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    if (this.userType !== 2) { // If the user is not a consumer
+    if (this.userType != 2) { // If the user is not a consumer
       this.logout();
     } else {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});

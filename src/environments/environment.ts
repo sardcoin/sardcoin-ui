@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  host: 'localhost', // localhost 192.168.1.38 my home Cagliari
-  port: 8080, // set 443 for push or 3308 for local
+  host: '192.168.43.104', // localhost 192.168.43.104 my xiaomi
+  port: 8080,
   protocol: 'http'
 };
