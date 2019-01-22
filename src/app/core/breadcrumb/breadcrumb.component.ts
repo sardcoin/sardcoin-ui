@@ -23,6 +23,7 @@ export class BreadcrumbComponent {
   isUserLoggedIn: boolean;
   url: string;
   desktopMode = true;
+  usetType: number = null;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -32,6 +33,7 @@ export class BreadcrumbComponent {
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
+      this.usetType = Number(this.globalEventService.userType.getValue());
     });
 
     this.globalEventService.desktopMode.subscribe(message => {

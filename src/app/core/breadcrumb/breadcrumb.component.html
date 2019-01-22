@@ -1,6 +1,6 @@
 <nav class="padding-breadcrumb-mobile" aria-label="breadcrumb"  *ngIf="isUserLoggedIn">
   <ol   class="breadcrumb border border-info border-left-0 border-right-0">
-    <ng-container *ngIf="desktopMode">
+    <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">
         <a [routerLink]="[item.url]">{{item.label}}</a>
       </li>
@@ -14,7 +14,7 @@
       </option>
     </select>
 
-    <ng-container *ngIf="desktopMode && cart.length > 0">
+    <ng-container *ngIf="desktopMode && usetType == 2">
       <div  class="ml-auto my-auto cursor-pointer cart-div" (click)="viewCart()" style="margin-right:21px">
         <a *ngIf="cart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
         <a class="text-dark" routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0 && desktopMode">
