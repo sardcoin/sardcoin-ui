@@ -31,3 +31,8 @@
 .border-menu {
   border: none;
 }
+
+.position-menu-small {
+
+  position: absolute;
+}

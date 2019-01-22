@@ -11,13 +11,13 @@
           <p class="text-justify" style="font-size: 16px;">In this page, you can import a coupon received just either adding its code or
             scanning its QR Code.</p>
 
-          <form [formGroup]="tokenForm" (ngSubmit)="import()">
+          <form [formGroup]="tokenForm" >
             <div class="form-group row">
               <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Insert token</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
-                <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
+                <div *ngIf="submitted && f.token.errors " class="invalid-feedback">
                   <div *ngIf="f.token.errors">Insert a valid token!</div>
                 </div>
               </div>
@@ -62,11 +62,11 @@
             </div>
 
             <div class="col-md-12 text-sm-right text-center p-0">
-              <button *ngIf="desktopMode" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
+              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
 
             </div>
             <div class="center text-center ">
-              <button *ngIf="!desktopMode" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add coupon</button>
+              <button *ngIf="!desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add coupon</button>
 
             </div>
           </form>
