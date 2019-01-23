@@ -63,8 +63,11 @@ app-core-sidebar {
   }
 
   #main-content .container-fluid {
-    margin-bottom: 0;
-    margin-top: 5em;
+
+  }
+  #main-content .container-fluid-header {
+    padding-top: 5em;
+    padding-bottom: 6em;
   }
 }
 
@@ -280,7 +283,8 @@ table {
 @media screen and (min-width: 768px) {
   #main-container {
 
-    padding-top: 7em;
-
+    padding-top: 9em;
+    padding-left: 5em;
+    padding-right: 5em;
   }
 }
