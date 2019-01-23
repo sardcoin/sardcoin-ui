@@ -25,7 +25,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
-  couponPass: Coupon;
+  couponPass: Coupon = null;
   isMax = false;
   producer = null;
   desktopMode: boolean;
@@ -62,9 +62,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
         this.globalEventService.desktopMode.subscribe(message => {
           this.desktopMode = message;
+          this.setClass();
         });
         this.getOwner();
-        this.setClass();
         this.addBreadcrumb();
       }
     });
@@ -187,7 +187,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
 
   setClass() {
-    console.log(innerWidth)
     if (!this.desktopMode) {
       this.classRow = 'row';
       this.classDiv = '';
