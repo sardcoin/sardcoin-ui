@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  host: '192.168.43.104', // localhost 192.168.43.104 my xiaomi
+  host: 'localhost', // localhost 192.168.43.104 my xiaomi
   port: 8080,
   protocol: 'http'
 };
