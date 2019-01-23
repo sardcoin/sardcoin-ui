@@ -32,7 +32,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
   ngOnInit(): void {
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
-    console.log('isDesktop', this.isDesktop)
     this.addBreadcrumb();
     this.loadCoupons();
   }
@@ -44,8 +43,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    // bread.push(new Breadcrumb('Home', '/'));
-    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought'));
 
@@ -60,7 +57,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
-        // console.log('this.coupons', this.coupons);
       }, err => {
         console.log(err);
       });
@@ -81,7 +77,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     if (state !== null) {
       return 'Consumed';
     } else {
-      return 'Not consumed';
+      return 'Riscattabile';
     }
   }
 
