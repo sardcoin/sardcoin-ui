@@ -16,10 +16,13 @@ import {GlobalEventsManagerService} from '../../../../../shared/_services/global
 })
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
-  couponPass: Coupon;
+  couponPass: Coupon = null;
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
+  classRow: string;
+  classDiv: string;
+  classMx4: string;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -31,16 +34,20 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   }
 
   ngOnInit() {
+
     this.couponService.currentMessage.subscribe(coupon => {
       if (coupon === null) {
         this.router.navigate(['/reserved-area/consumer/bought']);
       } else {
         this.couponPass = coupon;
         this.addBreadcrumb();
+
         this.getOwner();
       }
       this.globalEventService.desktopMode.subscribe(message => {
         this.desktopMode = message;
+        this.setClass();
+
       });
     });
   }
@@ -87,6 +94,24 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
       this.producer = user;
       this.couponService.setUserCoupon(this.producer);
     });
+  }
+
+
+  setClass() {
+    console.log(this.desktopMode);
+    if (!this.desktopMode) {
+      this.classRow = 'row';
+      this.classDiv = '';
+      this.classMx4 = 'card';
+
+
+    } else {
+      this.classRow = 'row';
+      this.classDiv = 'col-md-8 offset-md-2';
+      this.classMx4 = 'card mx-4';
+
+    }
+
   }
 
 }

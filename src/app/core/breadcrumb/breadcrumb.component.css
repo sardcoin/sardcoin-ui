@@ -5,5 +5,16 @@
   .padding-breadcrumb-mobile {
     padding-bottom: 7em;
   }
+
+
 }
 
+@media screen and (min-width: 768px) {
+
+  .fixed-desktop{
+
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+  }
+}

@@ -1,57 +1,9 @@
-<!--<div *ngIf="couponPass !== null" class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card mx-4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
-    <div >
-      <div class="card" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{URLstring}}" alt="Card image cap">
-        <div class="card-body p-4">
-          <h3 class="card-title">{{couponPass.title}}</h3>
-          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
-          <p class="card-text">{{couponPass.description}}</p>
-          <div class="card-text">
-            <i class="text-info">Coupon redeem code</i>
-            <qrcode [qrdata]="couponPass.token.token" [level]="'M'"></qrcode>
-          </div>
-          <p class="card-text">
-            <i class="fas fa-fw  fa-clock text-secondary"></i> {{formatUntil(couponPass.valid_until)}}
-          </p>
-          <br/>
-          <div class="card-text">
-            <span *ngIf="couponPass.constraints">
-              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
-
-              <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
-                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
-              >
-            </span>
-          </div>
-          <br/>
-          <div class="card-text">
-            <span *ngIf="couponPass.owner">
-              <p>Sold by: <b [routerLink]="['/reserved-area/consumer/producer-info']" class="text-info">{{producer === null? null : producer.username}}</b> </p>
-            </span>
-          </div>
-          <br/>
-          <div style="text-align:center;">
-            <button *ngIf="desktopMode" class=" btn btn-danger btn-retry" (click)="retry()">Back to My Purchases</button>
-            <button *ngIf="!desktopMode" class=" btn btn-danger btn-retry-small" (click)="retry()">My Purchases</button>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-</div>-->
 
 <div *ngIf="couponPass !== null" class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card mx-4" style="padding: 5px">
+  <div [class]="classRow">
+    <div [class]="classDiv">
+      <div [class]="classMx4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>

@@ -1,7 +1,7 @@
-<div *ngIf="couponPass !== null" class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card mx-4" style="padding: 5px">
+<div *ngIf="couponPass !== null  " class="container">
+  <div [class]="classRow">
+    <div [class]="classDiv">
+      <div [class]="classMx4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
@@ -55,10 +55,10 @@
             <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
                     class="btn btn-lg btn-success float-right ml-2"
                     [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
-              <i class="fas fa-cart-plus"></i>
+              <i class="fas fa-cart-plus"> Add</i>
             </button>
-            <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"></i></button>
-            <button class="btn btn-lg btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket"></i></button>
+            <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i class="fas fa-shopping-cart"> Cart</i></button>
+            <button class="btn btn-lg btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket"> Shopping</i></button>
           </div>
 
         </div>

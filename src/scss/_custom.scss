@@ -64,6 +64,7 @@ app-core-sidebar {
 
   #main-content .container-fluid {
     margin-bottom: 0;
+    margin-top: 5em;
   }
 }
 
@@ -273,4 +274,12 @@ table {
 
 .btn-info{
   //background-color: black;
+}
+
+
+@media screen and (min-width: 768px) {
+  #main-container {
+
+    margin-top: 5em;
+  }
 }

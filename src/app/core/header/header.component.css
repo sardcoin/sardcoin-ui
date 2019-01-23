@@ -19,3 +19,17 @@
   min-width: 90px;
 }
 
+.padding-left-sidebar-mobile-item {
+
+  padding-left: 2.6em;
+}
+
+
+.border-menu {
+  border: none;
+}
+
+.position-menu-small {
+
+  position: absolute;
+}

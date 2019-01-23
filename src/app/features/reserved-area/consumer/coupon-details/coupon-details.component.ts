@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -25,10 +25,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
-  couponPass: Coupon;
+  couponPass: Coupon = null;
   isMax = false;
   producer = null;
   desktopMode: boolean;
+  classRow: string;
+  classDiv: string;
+  classMx4: string;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -59,6 +62,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
         this.globalEventService.desktopMode.subscribe(message => {
           this.desktopMode = message;
+          this.setClass();
         });
         this.getOwner();
         this.addBreadcrumb();
@@ -178,5 +182,23 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
+  }
+
+
+
+  setClass() {
+    if (!this.desktopMode) {
+      this.classRow = 'row';
+      this.classDiv = '';
+      this.classMx4 = 'card';
+
+
+    } else {
+      this.classRow = 'row';
+      this.classDiv = 'col-md-8 offset-md-2';
+      this.classMx4 = 'card mx-4';
+
+    }
+
   }
 }

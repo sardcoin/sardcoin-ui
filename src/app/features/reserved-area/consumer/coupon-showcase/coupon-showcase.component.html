@@ -1,6 +1,6 @@
-<div class="row">
-  <div class="col-md-4 col-sm-6" *ngFor="let coupon of coupons">
-    <div class="card">
+<div style="margin-bottom: 20em" class="row">
+  <div style="margin-bottom: 2em" class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12" *ngFor="let coupon of coupons">
+    <div  class="card ">
       <img class="card-img-top crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{coupon.title}}</h5>
@@ -8,7 +8,7 @@
       </div>
       <div class="card-footer">
         <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ? 'Item already added: go to the cart to change the quantity.' : ''}}"
-                (click)="openModal(template, coupon)"><i class="fas fa-plus-circle"></i> Add to cart
+                (click)="openModal(template, coupon)"><i class="fas fa-cart-plus"></i> Add
         </button>
         <button type="button" class="btn btn-primary text-white float-right" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Details</button>
       </div>
