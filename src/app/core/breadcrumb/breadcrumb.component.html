@@ -6,9 +6,7 @@
       </li>
     </ng-container>
     <select style="height: 3em;"  class="custom-select mb-2 mr-sm-2 mb-sm-0 col-5" *ngIf="!desktopMode" (change)="navigateTo($event.target.value)">
-      <option >
-        <a selected>Choose...</a>
-      </option>
+      <option ><a selected>Choose...</a></option>
       <option *ngFor="let item of breadList" value= '{{item.url}}'>
         <a *ngIf="item !== 'undefined'">{{item.label}}</a>
       </option>

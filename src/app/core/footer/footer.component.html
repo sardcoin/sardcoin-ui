@@ -1,5 +1,5 @@
 <footer class="footer">
-  <div class="container-fluid">
+  <div *ngIf="isDesktop" class="container-fluid">
     <div class="float-left">
       <span><a href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</span>
     </div>
@@ -10,6 +10,19 @@
           Dipartimento di Matematica e Informatica
         </a>
       </span>
+    </div>
+  </div>
+
+  <div *ngIf="!isDesktop" class="container-fluid text-center">
+    <div class="col-12">
+      <p style="max-height: 20px" class="mb-0"><a href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</p>
+    </div>
+    <div class="col-12">
+      <p style="max-height: 40px;">Powered by
+        <a href="https://www.unica.it/unica/it/dip_matinfo.page" target="_blank">
+          Dipartimento di Matematica e Informatica
+        </a>
+      </p>
     </div>
   </div>
 </footer>
