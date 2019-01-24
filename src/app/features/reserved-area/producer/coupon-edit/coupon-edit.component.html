@@ -1,217 +1,218 @@
-<div *ngIf="couponPass !== null" class="container">
-  <div class="row">
-    <div class="col-md-10 offset-1">
-      <div class="card mx-4">
-        <div class="card-body p-4">
-          <h1 class="text-center">{{fromEdit ? 'Edit' : 'Create'}}</h1>
-          <h4 class="text-muted text-center">{{fromEdit ? 'Edit ' : 'Create '}} Coupon</h4>
+<div *ngIf="couponPass !== null" class="row">
+  <div class="col-md-10 col-12 offset-md-1">
+    <div class="card mx-3">
+      <div class="card-body p-4">
+        <h1 class="text-center">{{fromEdit ? 'Edit' : 'Create'}}</h1>
+        <h4 class="text-muted text-center">{{fromEdit ? 'Edit ' : 'Create '}} Coupon</h4>
 
-          <form [formGroup]="couponForm" (ngSubmit)="saveChange()">
+        <form [formGroup]="couponForm" (ngSubmit)="saveChange()">
 
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Title</label>
-              <div class="col-sm-10">
-                <input type="text" formControlName="title" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
-                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                  <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>
-                </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="title" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+              <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors">Title is required, Maximum 40 character</div>
               </div>
-            </div> <!-- Title -->
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Description:</label>
-              <div class="col-sm-10">
+            </div>
+          </div> <!-- Title -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description:</label>
+            <div class="col-sm-10">
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
+              <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors">Description is required, Maximum 200 character</div>
+              </div>
+            </div>
+          </div> <!-- Description -->
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Image</label>
+            <div class="col-sm-10">
+              <div id="yourImage">
+                <img src="{{imageURL}}">
+              </div>
+
+              <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+                     [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
+
+              <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">
+                <div>
+                  <button type="button" class="btn btn-success btn-sm ml-1"
+                          (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="glyphicon glyphicon-upload"></span> Upload
+                  </button>
+                  <button type="button" class="btn btn-warning btn-sm ml-1"
+                          (click)="item.cancel()" [disabled]="!item.isUploading">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm ml-1"
+                          (click)="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                  </button>
                 </div>
               </div>
-            </div> <!-- Description -->
 
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Image</label>
-              <div class="col-sm-10">
-                <div id="yourImage">
-                  <img src="{{imageURL}}">
-                </div>
-
-                <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
-                       [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
-
-                <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">
-                  <div>
-                    <button type="button" class="btn btn-success btn-sm ml-1"
-                            (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                      <span class="glyphicon glyphicon-upload"></span> Upload
-                    </button>
-                    <button type="button" class="btn btn-warning btn-sm ml-1"
-                            (click)="item.cancel()" [disabled]="!item.isUploading">
-                      <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm ml-1"
-                            (click)="item.remove()">
-                      <span class="glyphicon glyphicon-trash"></span> Remove
-                    </button>
+              <div class="mt-2">
+                Progress:
+                <div class="progress" style="width: 75%;">
+                  <div class="progress-bar" role="progressbar"
+                       [ngStyle]="{ 'width': uploader.progress + '%' }">
                   </div>
                 </div>
+              </div>
 
-                <div class="mt-2">
-                  Progress:
-                  <div class="progress" style="width: 75%;">
-                    <div class="progress-bar" role="progressbar"
-                         [ngStyle]="{ 'width': uploader.progress + '%' }">
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
-                  <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Image is required</div>
-                </div>
+              <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
+                <!--<div *ngIf="f.image.errors">Image is required</div>-->
+                <div>Image is required</div>
               </div>
-            </div> <!-- Image -->
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Price</label>
-              <div class="col-sm-8">
-                <input [readonly]="markedFree" type="number" formControlName="price" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
-                <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
-                  <div *ngIf="f.price.errors">Value required</div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="freeCheck"
-                         [checked]="markedFree" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="freeCheck">Free</label>
-                </div>
-              </div>
-            </div> <!-- Price -->
-
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Published From:</label>
-              <div class="col-sm-8">
-                <input style="background: white" type="text" mwlFlatpickr
-                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
-                       dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
-                       [style.background]="bgColorPrivate"
-                       [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
-                <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
-                         [checked]="markedPrivate" (change)="toggleCheckbox($event)"
-                         data-md-icheck>
-                  <label class="custom-control-label" for="privateCheck">Private</label>
-                </div>
-              </div>
-            </div> <!-- Published From -->
-
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Valid From:</label>
-              <div class="col-sm-10">
-                <input style="background: white" type="text" mwlFlatpickr
-                       [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
-                       dateFormat="Y-m-d H:i" formControlName="valid_from" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
-                <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
-                </div>
-              </div>
-            </div> <!-- Valid From -->
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Valid Until:</label>
-              <div class="col-sm-8">
-                <input type="text"
-                       [style.background]="bgColorCalendar"
-                       [noCalendar]="false"
-                       [convertModelValue]="true"
-                       [enableTime]="true"
-                       dateFormat="Y-m-d H:i" formControlName="valid_until" class="form-control"
-                       [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }" mwlFlatpickr/>
-                <!--[ngStyle]="{'background': markedUnlimited ? '#e4e7ea' : 'white' }"-->
-                <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
-                  <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty" class="custom-control-input" id="unlimitedCheck"
-                         (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="unlimitedCheck">Unlimited</label>
-                </div>
-              </div>
-            </div> <!-- Valid Until -->
-
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Constraints:</label>
-              <div class="col-sm-8">
-                <input [readonly]="markedConstraints" type="text" formControlName="constraints" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
-                <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
-                  <div *ngIf="f.constraints.errors">Value required</div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="constraintsCheck"
-                         [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="constraintsCheck">None</label>
-                </div>
-              </div>
-            </div> <!-- Constraints -->
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Quantity</label>
-              <div class="col-sm-10">
-                <input type="number" formControlName="quantity" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"/>
-                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
-                  <div *ngIf="f.quantity.errors">Value required or incorrect</div>
-                </div>
-              </div>
-            </div> <!-- Quantity -->
-
-            <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
-              <div  class="col-sm-4 col-lg-8">
-                <input  type="number" formControlName="purchasable" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
-                <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
-                  <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
-                </div>
-              </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
-                <div class="custom-control custom-checkbox">
-                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
-                          [checked]="markedQuantity" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="quantityCheck">No limit</label>
-                </div>
-              </div>
-            </div> <!-- Purchasable -->
-
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_from.errors?.MatchDate">The date inserted in Valid From is already past!
             </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until is lower than Data From
+          </div> <!-- Image -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Price</label>
+            <div class="col-sm-8">
+              <input [readonly]="markedFree" type="number" formControlName="price" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
+              <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                <div *ngIf="f.price.errors">Value required</div>
+              </div>
             </div>
+            <div class="col-sm-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="freeCheck"
+                       [checked]="markedFree" (change)="toggleCheckbox($event)" data-md-icheck>
+                <label class="custom-control-label" for="freeCheck">Free</label>
+              </div>
+            </div>
+          </div> <!-- Price -->
 
-            <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
-            <!--Please upload an image before create the coupon.-->
-            <!--</div>-->
-            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
-              Quantity incorrect.
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Published From:</label>
+            <div class="col-sm-8">
+              <input style="background: white" type="text" mwlFlatpickr
+                     [clickOpens]="true" [noCalendar]="false" [convertModelValue]="true" [enableTime]="true"
+                     dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
+                     [style.background]="bgColorPrivate"
+                     [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+              <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
+                <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
+              </div>
             </div>
-            <div class="form group">
-              <p><button class="btn btn-block btn-success">{{fromEdit ? 'Save change' : 'Create coupon'}}</button></p>
+            <div class="col-sm-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
+                       [checked]="markedPrivate" (change)="toggleCheckbox($event)"
+                       data-md-icheck>
+                <label class="custom-control-label" for="privateCheck">Private</label>
+              </div>
             </div>
+          </div> <!-- Published From -->
 
-          </form>
-        </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Valid From:</label>
+            <div class="col-sm-10">
+              <input style="background: white" type="text" mwlFlatpickr
+                     [clickOpens]="true" [noCalendar]="false" [convertModelValue]="true" [enableTime]="true"
+                     dateFormat="Y-m-d H:i" formControlName="valid_from" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
+              <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
+                <div *ngIf=" f.valid_from.errors ">Date or time is incorrect</div>
+              </div>
+            </div>
+          </div> <!-- Valid From -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Valid Until:</label>
+            <div class="col-sm-8">
+              <input type="text"
+                     [style.background]="bgColorCalendar"
+                     [noCalendar]="false"
+                     [convertModelValue]="true"
+                     [enableTime]="true"
+                     dateFormat="Y-m-d H:i" formControlName="valid_until" class="form-control"
+                     [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }" mwlFlatpickr/>
+              <!--[ngStyle]="{'background': markedUnlimited ? '#e4e7ea' : 'white' }"-->
+              <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
+                <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty"
+                       class="custom-control-input" id="unlimitedCheck"
+                       (change)="toggleCheckbox($event)" data-md-icheck>
+                <label class="custom-control-label" for="unlimitedCheck">Unlimited</label>
+              </div>
+            </div>
+          </div> <!-- Valid Until -->
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Constraints:</label>
+            <div class="col-sm-8">
+              <input [readonly]="markedConstraints" type="text" formControlName="constraints" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
+              <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
+                <div *ngIf="f.constraints.errors">Value required</div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="constraintsCheck"
+                       [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
+                <label class="custom-control-label" for="constraintsCheck">None</label>
+              </div>
+            </div>
+          </div> <!-- Constraints -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Quantity</label>
+            <div class="col-sm-10">
+              <input type="number" formControlName="quantity" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"/>
+              <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                <div *ngIf="f.quantity.errors">Value required or incorrect</div>
+              </div>
+            </div>
+          </div> <!-- Quantity -->
+
+          <div class="form-group row">
+            <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
+            <div class="col-sm-4 col-lg-8">
+              <input type="number" formControlName="purchasable" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
+              <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
+                <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created</div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-lg-2 my-auto">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="quantityCheck"
+                       [checked]="markedQuantity" (change)="toggleCheckbox($event)" data-md-icheck>
+                <label class="custom-control-label" for="quantityCheck">No limit</label>
+              </div>
+            </div>
+          </div> <!-- Purchasable -->
+
+          <div class="alert alert-danger col-md-12"
+               *ngIf="submitted && f.valid_from.errors?.MatchDate">The date inserted in Valid From is already past!
+          </div>
+          <div class="alert alert-danger col-md-12"
+               *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Data Until is lower than Data From
+          </div>
+
+          <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
+          <!--Please upload an image before create the coupon.-->
+          <!--</div>-->
+          <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
+            Quantity incorrect.
+          </div>
+          <div class="form group">
+            <p>
+              <button class="btn btn-block btn-success">{{fromEdit ? 'Save change' : 'Create coupon'}}</button>
+            </p>
+          </div>
+
+        </form>
       </div>
     </div>
   </div>

@@ -40,9 +40,9 @@ h5 {
 .card-price {
   background-color: #4dbd74;
   border-radius: 0.25rem;
-  font-size: 1.25em;
+  font-size: 15px;
   font-weight: bold;
-  min-width: 115px;
+  min-width: 99px;
   height: auto;
   padding: 5px 10px;
   color: white;
@@ -51,4 +51,17 @@ h5 {
 
 #main-container {
   padding-top: 0!important;
+}
+
+.card-footer div > .btn {
+  font-size: 13px;
+  padding: 0.4em 0.7em;
+}
+.card-footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.card-header.col-4.border-0.pr-0 {
+  padding-left: 15px;
 }

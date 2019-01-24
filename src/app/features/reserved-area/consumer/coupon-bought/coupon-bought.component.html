@@ -78,7 +78,7 @@
       <tr *ngFor="let token of coupon.CouponTokens ">
         <td>
           <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-          <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+          <i style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
         </td>
         <td [ngStyle]="{color: token.verifier ? 'red' : '#24cc32'}" class="text-uppercase td-state"><b>{{formatState(token.verifier)}}</b></td>
         <td class="text-center">

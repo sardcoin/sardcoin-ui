@@ -4,6 +4,7 @@ import {GlobalEventsManagerService} from '../../shared/_services/global-event-ma
 @Component({
   selector: 'app-core-footer',
   templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss']
 })
 
 export class FooterComponent  {
