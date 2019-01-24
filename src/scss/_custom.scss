@@ -29,11 +29,8 @@ body {
   top: 56px;
 }
 
-#main-content .container-fluid {
+#main-content > .container-fluid {
   margin-bottom: 60px;
-}
-
-#main-content .container-fluid {
   min-height: calc(100% - 56px - 54px);
 }
 
@@ -62,12 +59,9 @@ app-core-sidebar {
     padding: 0 28px 40px 28px;
   }
 
-  #main-content .container-fluid {
-
-  }
-  #main-content .container-fluid-header {
-    padding-top: 5em;
-    padding-bottom: 6em;
+  #main-content > .container-fluid {
+    margin-bottom: 0;
+    margin-top: 5em;
   }
 }
 
@@ -283,8 +277,6 @@ table {
 @media screen and (min-width: 768px) {
   #main-container {
 
-    padding-top: 9em;
-    padding-left: 5em;
-    padding-right: 5em;
+    margin-top: 5em;
   }
 }
