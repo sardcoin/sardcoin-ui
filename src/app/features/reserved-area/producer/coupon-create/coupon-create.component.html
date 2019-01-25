@@ -4,37 +4,37 @@
       <div class="card">
         <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
             <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
-            <h6 class="display-4" style="float:left; font-size:30pt;">Add new coupon</h6>
+            <h6 class="display-4" style="float:left; font-size:30pt;">Aggiungi un Coupon</h6>
         </div>
 
         <div class="card-body p-5">
           <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Title</label>
+              <label class="col-lg-2 col-sm-4 col-form-label">Titolo</label>
               <div class="col-lg-10 col-sm-8">
                 <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-loadCart"-->
 
                 <input type="text" formControlName="title" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                  <div *ngIf="f.title.errors">Title is required, Minimum 5 characters, Maximum 40 character</div>
+                  <div *ngIf="f.title.errors">Titolo obbligatorio, da 5 a 40 caratteri</div>
                 </div>
               </div>
             </div> <!-- Title -->
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Description</label>
+              <label class="col-lg-2 col-sm-4 col-form-label">Descrizione</label>
               <div class="col-lg-10 col-sm-8">
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Description requires minimum 5 characters, maximum 255 character.
+                  <div *ngIf="f.description.errors">La descrizione deve essere tra 5 e 255 caratteri.
                   </div>
                 </div>
               </div>
             </div> <!-- Description -->
 
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Image</label>
+              <label class="col-lg-2 col-sm-4 col-form-label">Immagine</label>
               <div class="col-lg-10 col-sm-8">
 
                 <input  type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
@@ -48,11 +48,11 @@
                     </button>
                     <button type="button" class="btn btn-warning btn-sm ml-1 btn-secondary"
                             (click)="item.cancel()" [disabled]="!item.isUploading">
-                      <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                      <span class="glyphicon glyphicon-ban-circle"></span> Annulla
                     </button>
                     <button type="button" class="btn btn-danger btn-sm ml-1 btn-secondary"
                             (click)="item.remove()">
-                      <span class="glyphicon glyphicon-trash"></span> Remove
+                      <span class="glyphicon glyphicon-trash"></span> Rimuovi
                     </button>
                   </div>
                 </div>
@@ -67,30 +67,30 @@
 
                 <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
                   <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Image is required.</div>
+                  <div>Immagine obbligatoria.</div>
                 </div>
               </div>
             </div> <!-- Image -->
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Price</label>
+              <label class="col-lg-2 col-sm-4 col-form-label">Prezzo</label>
               <div class="col-lg-8 col-sm-4">
                 <input type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }" min="0" />
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
-                  <div *ngIf="f.price.errors">Value required.</div>
+                  <div *ngIf="f.price.errors">Prezzo obbligatorio.</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="freeCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="freeCheck">Free</label>
+                  <label class="custom-control-label" for="freeCheck">Gratis</label>
                 </div>
               </div>
             </div> <!-- Price -->
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Published From:</label>
+              <label class="col-sm-2 col-form-label">Visibile da: </label>
               <div class="col-sm-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
@@ -98,38 +98,33 @@
                        [style.background]="bgColorPrivate"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.published_from.errors ">Date or time is incorrect</div>
+                  <div *ngIf=" f.published_from.errors ">Data non valida</div>
                 </div>
               </div>
               <div class="col-sm-2">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="privateCheck">Private</label>
+                  <label class="custom-control-label" for="privateCheck">Privato</label>
                 </div>
               </div>
             </div> <!-- Published From -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Valid from</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Valido da</label>
               <div class="col-sm-8 col-lg-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="valid_from" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.valid_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.valid_from.errors ">Date or time are incorrect.</div>
+                  <div *ngIf=" f.valid_from.errors ">Data non valida</div>
                 </div>
               </div>
             </div> <!-- Valid From -->
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Valid until</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Scadenza</label>
               <div  class="col-sm-4 col-lg-8">
-                <!--<ng2-flatpickr  #datepicker style="background: transparent;"  [config]="exampleOptions" formControlName="valid_until" class="form-loadCart"-->
-                <!--[ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"></ng2-flatpickr>-->
-                <!--<div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">-->
-                <!--<div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>-->
-                <!--</div>-->
                 <input type="text" mwlFlatpickr
                        [style.background]="bgColorCalendar"
                        [clickOpens]="true"
@@ -139,7 +134,7 @@
                        dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
-                  <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Date or time is incorrect</div>
+                  <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Data non valida</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
@@ -147,75 +142,74 @@
                   <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty"
                          class="custom-control-input" id="unlimitedCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="unlimitedCheck">Never expires</label>
+                  <label class="custom-control-label" for="unlimitedCheck">Senza scadenza</label>
                 </div>
               </div>
             </div> <!-- Valid Until -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Place</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Luogo</label>
               <div class="col-sm-4 col-lg-8">
                 <input google-place type="text" formControlName="constraints" class="form-control" placeholder="Type to search.."
                   [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"
                        (onSelect)="setAddress($event)"/>
                 <!-- Displaying the contents of the address object received from our event emitter -->
                 <div *ngIf="submitted && f.constraints.errors" class="invalid-feedback">
-                  <div *ngIf="f.constraints.errors">Value required</div>
+                  <div *ngIf="f.constraints.errors">Campo richiesto</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="constraintsCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="constraintsCheck">Everywhere</label>
+                  <label class="custom-control-label" for="constraintsCheck">Ovunque</label>
                 </div>
               </div>
             </div> <!-- Place (constraints) -->
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Quantity</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Quantità</label>
               <div class="col-sm-12 col-lg-8">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" min="1" max="1"/>
                 <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
-                  <div *ngIf="f.quantity.errors">Value required or incorrect</div>
+                  <div *ngIf="f.quantity.errors">Valore richiesto o incorretto</div>
                 </div>
               </div>
             </div> <!-- Quantity -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Max buyable by single user</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Acquisto massimo per User</label>
               <div  class="col-sm-4 col-lg-8">
                 <input  type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
-                  <div *ngIf="f.purchasable.errors">This value must be less than or equal to the quantity created </div>
+                  <div *ngIf="f.purchasable.errors">Questo valore deve essere inferiore o uguale alla quantità creata</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input  type="checkbox" class="custom-control-input" id="quantityCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="quantityCheck">No limit</label>
+                  <label class="custom-control-label" for="quantityCheck">Senza limiti</label>
                 </div>
               </div>
             </div> <!-- Purchasable -->
 
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_from.errors?.MatchDate">Either Valid From or Valid Until contains a data
-              already passed.
+                 *ngIf="submitted && f.valid_from.errors?.MatchDate">Errore sulle date
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">Expiration date must be after the begin of validity.
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">La data di scadenza deve essere maggiore della validità.
             </div>
             <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
-              Please upload an image before creating the coupon.
+              Carica immagine
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.quantity.errors?.MatchQuantity">Incorrect quantity.
+                 *ngIf="submitted && f.quantity.errors?.MatchQuantity">Quantità non corretta.
             </div>
             <div class="form group">
               <p>
-                <button class="btn btn-block btn-success btn-create-coupon">Create</button>
+                <button class="btn btn-block btn-success btn-create-coupon">Crea</button>
               </p>
             </div>
 

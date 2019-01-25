@@ -24,19 +24,19 @@
               </div>
               <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
                   data-toggle="collapse" aria-expanded="false">
-                <strong class="text-capitalize"> <i class="fa fa-box"></i> Contents </strong></a>
+                <strong class="text-capitalize"> <i class="fa fa-box"></i> Contenuti </strong></a>
               <div  class=" align-items-start">
 
                 <div  *ngIf="this.userType == '1' || this.userType == '0'">
                   <a  class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">My coupons</span>
+                    <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">I miei Coupons</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/producer/create')"
-                          class="menu-collapsed">Add new coupon</span>
+                          class="menu-collapsed">Aggiungi un Coupon</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
+                    <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Resoconto</span>
                   </a>
                 </div>
 
@@ -46,16 +46,16 @@
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                     <span (click)="clickEvent('/reserved-area/consumer/bought')"
-                          class="menu-collapsed">My purchases</span>
+                          class="menu-collapsed">I miei Acquisti</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Get Coupon by Token</span>
+                    <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Acquisisci Coupon</span>
                   </a>
                 </div>
 
                 <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item" >
-                    <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Verifier page</span>
+                    <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Pagina del Verificatore</span>
                   </a>
                 </div>
 
@@ -63,17 +63,17 @@
               <div *ngIf="this.userType != '3'">
                 <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
                     data-toggle="collapse" aria-expanded="false">
-                  <strong class="text-capitalize"><i class="fa fa-user"></i> Account </strong></a>
+                  <strong class="text-capitalize"><i class="fa fa-user"></i> Il mio profilo </strong></a>
 
                 <!-- Submenu content -->
                 <div  class="align-items-start">
 
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
-                          class="menu-collapsed">Payment details</span>
+                          class="menu-collapsed">Dettaglio Pagamenti</span>
                   </a>
                   <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent(null)" class="menu-collapsed">Receipts</span>
+                    <span (click)="clickEvent(null)" class="menu-collapsed">Ricevute</span>
                   </a>
                 </div>
               </div>
@@ -81,7 +81,7 @@
               <a class="list-group-item list-group-item-action ">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                   <span class="fa fa-question fa-fw mr-3"></span>
-                  <span class="menu-collapsed text-secondary">Help</span>
+                  <span class="menu-collapsed text-secondary">Aiuto</span>
                 </div>
               </a>
 
@@ -115,7 +115,7 @@
           <!--<a class="nav-link" [routerLink]="['/authentication/login']">Login</a>-->
           <!--</li>-->
           <li class="col-6 text-right">
-            <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Sign Up</button>
+            <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Registrati</button>
           </li>
         </ul>
       </div>
@@ -126,21 +126,21 @@
           <li class="nav-item dropdown">
 
             <a aria-haspopup="true" aria-expanded="false"  href="menu_small" role="button" class="nav-link btn-group " data-toggle="dropdown" >
-              <i *ngIf="isDesktop">Welcome back, <b>{{username}}</b>!</i>
+              <i *ngIf="isDesktop">Benvenuto, <b>{{username}}</b>!</i>
               <!--<i class="fa fa-2x fa-user-tie"></i>-->
               <img class="img-avatar" src="assets/img/avatars/8.jpg" alt="{{username}}">
             </a>
             <div id="menu_small"  class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
               <div class="dropdown-header text-center">
-                <strong class="text-capitalize ">Settings</strong>
+                <strong class="text-capitalize ">Impostazioni</strong>
               </div>
               <a class="dropdown-item"
                  [routerLink]="['/reserved-area/' + userStringType +'/personal-info']">
-                <i class="fa fa-user"></i> Profile</a>
+                <i class="fa fa-user"></i> Il mio profilo</a>
               <a class="dropdown-item menu-collapsed text-secondary ">
-                <i class="fa fa-wrench"></i> Settings</a>
+                <i class="fa fa-wrench"></i> Impostazioni</a>
               <a class="dropdown-item " (click)="openModal(template)">
-                <i class="fa fa-lock"></i> Logout</a>
+                <i class="fa fa-lock"></i> Esci</a>
             </div>
           </li>
         </ul>
@@ -150,19 +150,19 @@
 </div>
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Logout</h4>
+    <h4 class="modal-title pull-left">Esci</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <p>After the logout, you will lose your cart.</p>
+    <p>Se Esci, perderai il contenuto del carrello.</p>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
-    <button type="button" class="btn btn-success" (click)="decline()">Go back</button>
+    <button type="button" class="btn btn-danger" (click)="logout()">Esci</button>
+    <button type="button" class="btn btn-success" (click)="decline()">Annulla</button>
   </div>
 </ng-template>
 

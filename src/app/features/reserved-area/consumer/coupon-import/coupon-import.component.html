@@ -5,31 +5,30 @@
         <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
           <!--<img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>-->
           <i class="fas fa-file-import fa-3x mr-4 text-primary"></i>
-          <h6 class="display-4 d-inline-block" style="font-size:30pt;">Import coupon</h6>
+          <h6 class="display-4 d-inline-block" style="font-size:30pt;">Importa coupon</h6>
         </div>
         <div class="card-body px-5 pt-4">
-          <p class="text-justify" style="font-size: 16px;">In this page, you can import a coupon received just either adding its code or
-            scanning its QR Code.</p>
+          <p class="text-justify" style="font-size: 16px;">In questa pagina, puoi importare un coupon ricevuto aggiungendo il suo codice o scansionando il suo codice QR.</p>
 
           <form [formGroup]="tokenForm" >
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Insert token</label>
+              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il Token</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
                 <div *ngIf="submitted && f.token.errors " class="invalid-feedback">
-                  <div *ngIf="f.token.errors">Insert a valid token!</div>
+                  <div *ngIf="f.token.errors">Inserisci un Token valido!</div>
                 </div>
               </div>
 
               <div class="col-lg-2 col-md-2 col-sm-2 text-center">
-                <h5>or</h5>
+                <h5>o</h5>
               </div>
 
               <div class="w-100 d-lg-none d-md-block d-none"></div> <!-- It forces the button Scan to go in a new row with the md view -->
 
               <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
-                <button class="btn btn-primary" (click)="scan()">Scan from QR code</button>
+                <button class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
               </div>
 
             </div>
@@ -41,7 +40,7 @@
                 <div *ngIf="isScan">
                   <div *ngIf="availableDevices">
                     <select class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" (change)="onDeviceSelectChange($event.target.value)">
-                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" value="" [selected]="!selectedDevice">Select Device</option>
+                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" value="" [selected]="!selectedDevice">Seleziona</option>
                       <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" *ngFor="let device of availableDevices" [value]="device.deviceId"
                               [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label
                         }}
@@ -62,11 +61,11 @@
             </div>
 
             <div class="col-md-12 text-sm-right text-center p-0">
-              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add to your purchases</button>
+              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Aggiungi ai tuoi acquisti</button>
 
             </div>
             <div class="center text-center ">
-              <button *ngIf="!desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Add coupon</button>
+              <button *ngIf="!desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Importa</button>
 
             </div>
           </form>

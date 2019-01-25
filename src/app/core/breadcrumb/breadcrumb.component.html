@@ -6,7 +6,7 @@
       </li>
     </ng-container>
     <select style="height: 3em;"  class="custom-select mb-2 mr-sm-2 mb-sm-0 col-5" *ngIf="!desktopMode" (change)="navigateTo($event.target.value)">
-      <option ><a selected>Choose...</a></option>
+      <option ><a selected>Seleziona...</a></option>
       <option *ngFor="let item of breadList" value= '{{item.url}}'>
         <a *ngIf="item !== 'undefined'">{{item.label}}</a>
       </option>
@@ -14,9 +14,12 @@
 
     <ng-container class="col-8" *ngIf="desktopMode && usetType == 2">
       <div  class="ml-auto my-auto cursor-pointer cart-div" (click)="viewCart()" style="margin-right:18em">
-        <a *ngIf="cart.length === 0">Your cart <b class="text-info">is empty</b>! </a>
+        <a *ngIf="cart.length === 0">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
         <a class="text-dark" routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0 && desktopMode">
-          There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!
+
+           {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ? 'Coupon' : 'Coupons'}}</b> nel tuo Carrello. Accedi!
+          <!-- english version--!>
+          <!--There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!-->
           <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
         </a>
 

@@ -4,19 +4,19 @@
       <div class="card">
         <div class="card-header" style="background:#e0e0e0">
           <i class="fas fa-money-bill-wave fa-4x float-left"></i>
-          <h6 class="display-4" style="font-size:30pt;">Order summary</h6>
+          <h6 class="display-4" style="font-size:30pt;">Riepilogo dell'ordine</h6>
         </div>
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
-            <h2 class="card-text">Cart items</h2>
+            <h2 class="card-text">Coupons nel Carrello</h2>
             <table class="table table-striped">
               <thead>
               <tr>
-                <th style="width: 40%">Title</th>
-                <th style="width: 10%">Image</th>
-                <th style="width: 10%">Price</th>
-                <th style="width: 10%">Quantity</th>
-                <th style="width: 10%">Valid until</th>
+                <th style="width: 40%">Titolo</th>
+                <th style="width: 10%">Immagine</th>
+                <th style="width: 10%">Prezzo</th>
+                <th style="width: 10%">Quantità</th>
+                <th style="width: 10%">Scadenza</th>
               </tr>
               </thead>
 
@@ -35,18 +35,18 @@
 
             </table>
             <div class="float-right">
-              <h4>Total amount: {{totalAmount}}</h4>
+              <h4>Importo totale: {{totalAmount}}</h4>
             </div>
 
-            <h2 class="card-text mt-5">Your informations</h2>
+            <h2 class="card-text mt-5">I tuoi dati</h2>
 
-            <p><b>Name: </b>{{user.first_name + ' ' + user.last_name}}</p>
-            <p><b>Fiscal Code: </b>{{user.fiscal_code}}</p>
-            <p><b>Paypal account: </b>{{user.email_paypal}}</p>
+            <p><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+            <p><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+            <p><b>Account Paypal: </b>{{user.email_paypal}}</p>
           </div>
 
-          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Confirm and pay</button>
-          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to cart</button>
+          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Conferma e paga</button>
+          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna al Carrello</button>
         </div>
 
       </div>
@@ -57,28 +57,26 @@
 </div>
 
 <div *ngIf="cart.length === 0">
-  <h2>Before to make the checkout, please add some product to the cart.</h2>
-  <button class="col-sm-5 btn btn-danger" (click)="retry()">Back to cart</button>
+  <h2>Prima di fare il checkout, si prega di aggiungere alcuni prodotti al carrello.</h2>
+  <button class="col-sm-5 btn btn-danger" (click)="retry()">Ritorna al Carrello</button>
 </div>
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Pay order #236748227</h4> <!-- TODO: fix order number -->
+    <h4 class="modal-title pull-left">Pagamento Numero #236748227</h4> <!-- TODO: fix order number -->
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <p *ngIf="totalAmount !== 0" class="card-text">Click on the <b>payment method</b> you prefer, to finalize
-      your purchase. After completing the payment, you will receive a confirmation message.</p>
-    <p *ngIf="totalAmount === 0" class="card-text">Your order is <b>free</b> of charge, you can skip the payment
-      step. Would you confirm your purchase?</p>
+    <p *ngIf="totalAmount !== 0" class="card-text">Seleziona <b>metodo di pagamento</b> preferito, per finalizzare il tuo acquisto.
+      Dopo aver completato il pagamento, riceverai un messaggio di conferma.</p>
+    <p *ngIf="totalAmount === 0" class="card-text">Il tuo ordine è <b>Gratis!</b>, puoi saltare la fase di pagamento. Vuoi confermare il tuo acquisto?</p>
   </div>
 
   <div class="modal-footer">
-    <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy()">Confirm
-      purchase (no payment)
+    <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy()">Conferma acquisto (senza pagare)
     </button>
     <ngx-paypal class="mx-auto" *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
   </div>
