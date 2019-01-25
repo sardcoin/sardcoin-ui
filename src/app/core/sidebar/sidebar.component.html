@@ -25,9 +25,9 @@
           <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Add new coupon</span>
           </a>
-          <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
+<!--          <a class="list-group-item list-group-item-action text-white text-secondary"> &lt;!&ndash;[routerLink]="['/reserved-area/producer/report']" &ndash;&gt;
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Reports</span>
-          </a>
+          </a>-->
         </div>
 
         <div *ngIf="this.userType == '2' || this.userType == '0'">
@@ -48,8 +48,8 @@
           </a>
         </div>
 
-        <a class="list-group-item list-group-item-action text-secondary">
-          <span class="menu-collapsed">Other to Add</span>
+        <a class="list-group-item list-group-item-action">
+          <span class="menu-collapsed text-secondary">Other to Add</span>
         </a>
       </div>
 
@@ -65,9 +65,6 @@
         <div  class="padding-left-sidebar-item align-items-start">
           <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Personal info</span>
-          </a>
-          <a class="list-group-item list-group-item-action text-secondary">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Settings</span>
           </a>
           <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Payment details</span>

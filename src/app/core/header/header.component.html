@@ -15,8 +15,6 @@
       <div id="menu"  class=" border-menu fixed-top dropdown-menu">
         <ul class="nav navbar-nav">
           <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
-
-
             <div class="border" style="background-color: white">
               <div (click)="clickEvent(null)" class="dropdown-header">
                 <span class="fa fa-arrow-left fa-fw mr-3"></span>
@@ -35,9 +33,9 @@
                     <span (click)="clickEvent('/reserved-area/producer/create')"
                           class="menu-collapsed">Add new coupon</span>
                   </a>
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+<!--                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
-                  </a>
+                  </a>-->
                 </div>
 
                 <div *ngIf="this.userType == '2' || this.userType == '0'">
