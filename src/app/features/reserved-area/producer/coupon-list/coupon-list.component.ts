@@ -19,6 +19,7 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
 
   modalRef: BsModalRef;
+  modalCoupon: Coupon;
   couponArray: any;
 
   constructor(private modalService: BsModalService,
@@ -52,7 +53,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.deleteCoupon(coupon.id).subscribe((data) => {
 
       if (data['deleted']) {
-        this.toastr.success('Coupon deleted.', 'Success');
+        this.toastr.success('', 'Coupon deleted!');
         this.control();
       }
     }, error => {
@@ -108,7 +109,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     );
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, coupon: Coupon) {
+    this.modalCoupon = coupon;
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 

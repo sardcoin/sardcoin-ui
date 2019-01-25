@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit {
   userType = null;
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
   userStringType = '';
+
   hide = false;
   desktopMode = true;
 
@@ -46,8 +47,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isHide();
-
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
 
     this.globalEventService.hideSource.subscribe(message => {
@@ -62,29 +61,6 @@ export class SidebarComponent implements OnInit {
 
   hideSideBar(value: boolean) {
     this.globalEventService.changeHide(value);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.isHide();
-  }
-
-  isHide() {
-    const innerWidth = window.innerWidth;
-    if (innerWidth < 768) {
-      this.hide = true;
-      this.desktopMode = false;
-      this.globalEventService.changeHide(true);
-      this.globalEventService.changeView(false);
-
-    } else {
-      this.desktopMode = true;
-      this.hide = false;
-      this.globalEventService.changeHide(false);
-      this.globalEventService.changeView(true);
-
-    }
-
   }
 
 }
