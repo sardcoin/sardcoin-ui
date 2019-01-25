@@ -1,6 +1,6 @@
 <app-core-header></app-core-header>
 <div class="row" id="body-row">
-  <app-core-sidebar *ngIf="desktopMode"></app-core-sidebar>
+  <app-core-sidebar *ngIf="desktopMode && userLogged"></app-core-sidebar>
 
   <div class="px-0" id="main-content">
     <app-core-breadcrumb ></app-core-breadcrumb>

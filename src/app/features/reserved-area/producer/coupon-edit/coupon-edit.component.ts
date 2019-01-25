@@ -167,9 +167,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Producer', '/reserved-area/producer/'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/producer/'));
     bread.push(new Breadcrumb('My Coupons', '/reserved-area/producer/list/'));
     bread.push(new Breadcrumb('Edit ' + this.couponPass.title, '/reserved-area/producer/edit/'));
 
