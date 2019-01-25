@@ -1,7 +1,7 @@
-<div *ngIf="couponPass !== null  " class="container">
-  <div [class]="classRow">
-    <div [class]="classDiv">
-      <div [class]="classMx4" style="padding: 5px">
+<div *ngIf="couponPass !== null  ">
+  <div  class="row">
+    <div  class=" " >
+      <div  class="card mx-4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
