@@ -1,4 +1,4 @@
-<div style="margin-bottom: 20em" class="row">
+<div class="row">
   <div style="margin-bottom: 2em" class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12" *ngFor="let coupon of coupons">
     <div  class="card ">
       <img class="card-img-top crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
@@ -20,7 +20,6 @@
     </div>
   </div>
 </div>
-
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>Aggiungi "{{modalCoupon.title.length > 20 ?
@@ -56,9 +55,3 @@
     </button>
   </div>
 </ng-template>
-
-<!--<button [ngStyle]="{'display': getQuantityCart() > 0 ? 'block' : 'none'}" style="font-size : 3em; padding-bottom: 5px !important " (click)="viewCart()"-->
-        <!--type="button" class="btn-transparent ml-auto ">-->
-      <!--<span   class="cart-bottom fas fa-shopping-cart text-warning">-->
-        <!--<a  style=" font-size : 0.7em; text-decoration-style: solid" class="text">{{getQuantityCart()}}</a></span>-->
-<!--</button>-->

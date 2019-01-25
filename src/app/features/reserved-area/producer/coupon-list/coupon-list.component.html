@@ -30,10 +30,10 @@
 
 
       <td>
-        <button type="button" class="btn btn-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copia</button>
+        <button type="button" class="btn btn-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copy</button>
       </td>
       <td>
-        <button type="button" class="btn btn-info text-white" (click)="onEdit(coupon)"><i class="fas fa-edit"></i> Modifica
+        <button type="button" class="btn btn-info text-white" (click)="onEdit(coupon)"><i class="fas fa-edit"></i> Edit
         </button>
       </td>
       <td>
@@ -43,19 +43,19 @@
 
         <ng-template #template>
           <div class="modal-header">
-            <h4 class="modal-title pull-left">Elimina il Coupon</h4>
+            <h4 class="modal-title pull-left">Coupon delete</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            Sei sicuro di cancellare questo coupon? Questa operazione è irreversibile!
+            Are you sure to delete this coupon? This operation is not reversable!
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Si</button>
+            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
           </div>
         </ng-template>
       </td>
@@ -96,16 +96,16 @@
         <div class="btn-group" dropdown>
           <button id="action-button" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                   aria-controls="action-button">
-            Azioni <span class="caret"></span>
+            Action <span class="caret"></span>
           </button>
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
-              class="far fa-copy text-primary"></i> Copia</a></li>
+              class="far fa-copy text-primary"></i> Copy</a></li>
             <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i
-              class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
+              class="fas fa-trash-alt text-danger"></i> Delete</a></li>
           </ul>
         </div>
       </td>
@@ -143,15 +143,15 @@
         <div class="btn-group" dropdown>
           <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                   aria-controls="action-button-2">
-            Azioni <span class="caret"></span>
+            Action <span class="caret"></span>
           </button>
           <ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
               aria-labelledby="action-button-2">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
-              class="far fa-copy text-primary"></i> Copia</a></li>
+              class="far fa-copy text-primary"></i> Copy</a></li>
             <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
               class="fas fa-edit text-primary"></i> Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
               class="fas fa-trash-alt text-primary"></i> Elimina</a></li>
           </ul>
         </div>
@@ -164,11 +164,13 @@
 <div class="d-block d-md-none mb-5">
   <div *ngIf="couponArray && couponArray.length > 0">
     <div *ngFor="let coupon of couponArray" style="background-color: snow" class="card flex-row flex-wrap">
-      <div style="background-color:snow" class="card-header border-0 col-4">
+      <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
         <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
       </div>
-      <div class="col-8" style="padding-bottom: 1em; padding-top: 1em">
+      <div class="col-8 card-header border-0" style="background-color: snow;">
         <h5 class="card-text truncate ">{{coupon.title}}</h5>
+      </div>
+      <div class="col-12 mb-1 text-justify">
         <p class="card-text truncate ">{{coupon.description}}</p>
       </div>
       <div class="card-footer w-100">
@@ -176,7 +178,7 @@
           <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
           <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash-alt"></i>
+          <button type="button" class="btn btn-danger" (click)="openModal(template, coupon)"><i class="fas fa-trash-alt"></i>
           </button>
         </div>
         <div class="float-right card-price">
@@ -186,3 +188,21 @@
     </div>
   </div>
 </div> <!-- SM CARD -->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Coupon delete</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    Sei sicuro di cancellare questo coupon? Questa operazione è irreversibile!
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+    <button type="button" class="btn btn-success" (click)="onDelete(modalCoupon)">Yes</button>
+  </div>
+</ng-template>
