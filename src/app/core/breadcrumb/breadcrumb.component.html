@@ -18,7 +18,7 @@
         <a class="text-dark" routerLink="/reserved-area/consumer/cart" *ngIf="cart.length > 0 && desktopMode">
 
            {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ? 'Coupon' : 'Coupons'}}</b> nel tuo Carrello. Accedi!
-          <!-- english version--!>
+          <!-- english version -->
           <!--There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!-->
           <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
         </a>
