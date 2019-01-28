@@ -156,7 +156,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   handleQrCodeResult(resultString: string) {
-    // console.log('Result: ', resultString);
+    console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls['token'].setValue(resultString);
     this.qrCodeReadSuccess();
