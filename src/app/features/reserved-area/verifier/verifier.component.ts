@@ -7,6 +7,7 @@ import {CouponService} from '../../../shared/_services/coupon.service';
 import {StoreService} from '../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
+import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-verifier',
@@ -27,11 +28,13 @@ export class VerifierComponent implements OnInit, OnDestroy {
   qrResultString: string;
   availableDevices: MediaDeviceInfo[];
   selectedDevice: MediaDeviceInfo;
+  desktopMode: boolean;
 
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
     public storeService: StoreService,
+    private globalEventService: GlobalEventsManagerService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
@@ -45,6 +48,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.addBreadcrumb();
 
+    this.globalEventService.desktopMode.subscribe(message => {
+      this.desktopMode = message;
+    });
+
   }
 
   ngOnDestroy() {
@@ -55,7 +62,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  verifier() {
+  verifier() { // TODO to check
     this.submitted = true;
 
     this.couponService.getTotalCoupons().subscribe(coupons => {

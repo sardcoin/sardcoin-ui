@@ -13,8 +13,7 @@
 
           <form [formGroup]="tokenForm">
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il
-                Token</label>
+              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il Token</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
@@ -28,7 +27,6 @@
               </div>
 
               <div class="w-100 d-lg-none d-md-block d-none"></div>
-              <!-- It forces the button Scan to go in a new row with the md view -->
 
               <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
                 <button class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>

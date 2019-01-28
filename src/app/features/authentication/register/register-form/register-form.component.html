@@ -1,7 +1,7 @@
-
 <div class="form-inline mb-2">
-  <a >
-    <a [routerLink]="['../register-producer']" type="text/html" class="small active mt-3">Sei un'azienda e vuoi pubblicare coupon su Sardcoin? Registrati qui!</a>
+  <a>
+    <a [routerLink]="['../register-producer']" type="text/html" class="small active mt-3">Sei un'azienda e vuoi
+      pubblicare coupon su Sardcoin? Registrati qui!</a>
   </a>
 </div>
 
@@ -197,7 +197,12 @@
     <div class="alert alert-danger col-md-12"
          *ngIf="submitted && f.r_password.errors?.MatchPassword">La password non corrisponde
     </div>
-
-    <button [disabled]="loading" class="btn btn-block btn-success">Crea un Account</button>
   </div> <!-- Password and repeated password -->
+
+  <div class="text-center">
+    <a [routerLink]="['/authentication/login']" class="mr-2">
+      <button class="btn btn-danger"><i class="fas fa-arrow-circle-left"></i> Torna al login</button>
+    </a>
+    <button [disabled]="loading" class="btn btn-success">Crea un Account</button>
+  </div>
 </form>

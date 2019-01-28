@@ -137,12 +137,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.couponService.create(coupon)
       .subscribe(data => {
 
-        if (data['created']) {
+        // if (data['created']) {
           this.toastr.success('', 'Coupon cloned successfully!');
           this.router.navigate(['/reserved-area/producer/list']);
-        } else {
-          this.toastr.error('An error occurred while creating the coupon', 'Error on creating');
-        }
+        // } else {
+        //   this.toastr.error('An error occurred while creating the coupon', 'Error on creating');
+        // }
       }, err => {
         console.log(err);
         this.toastr.error('An error occurred while creating the coupon', 'Error on update');
@@ -152,12 +152,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   editCoupon(coupon: Coupon) {
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        if (data['status']) {
-          this.toastr.error('An error occurred while updating the coupon', 'Error on update');
-        } else {
+        // if (data['status']) {
+        //   this.toastr.error('An error occurred while updating the coupon', 'Error on update');
+        // } else {
           this.toastr.success('', 'Coupon edited successfully!');
           this.router.navigate(['/reserved-area/producer/list']);
-        }
+        // }
       }, err => {
         console.log(err);
         this.toastr.error('An error occurred while updating the coupon', 'Error on update');
