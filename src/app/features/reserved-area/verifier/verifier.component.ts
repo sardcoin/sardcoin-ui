@@ -8,6 +8,7 @@ import {StoreService} from '../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
+import {Result} from '@zxing/library';
 
 @Component({
   selector: 'app-verifier',
@@ -29,6 +30,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
   availableDevices: MediaDeviceInfo[];
   selectedDevice: MediaDeviceInfo;
   desktopMode: boolean;
+
+  qrResult;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -145,6 +148,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
     this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
       console.error('Errore fotocamera.');
     });
+
+    this.scanner.scanComplete.subscribe((result: Result) => {this.qrResult = result; console.log(result)});
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
