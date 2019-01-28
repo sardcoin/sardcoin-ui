@@ -72,9 +72,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Producer', '/reserved-area/producer/'));
-    bread.push(new Breadcrumb('My coupons', '/reserved-area/producer/list/'));
+    bread.push(new Breadcrumb('I miei coupon', '/reserved-area/producer/list/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

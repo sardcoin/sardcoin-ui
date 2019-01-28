@@ -44,7 +44,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought'));
+    bread.push(new Breadcrumb('I miei acquisti', '/reserved-area/consumer/bought'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

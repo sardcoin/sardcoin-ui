@@ -144,7 +144,7 @@ export class CartComponent implements OnInit, OnDestroy {
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Cart', '/reserved-area/consumer/cart'));
+    bread.push(new Breadcrumb('Carrello', '/reserved-area/consumer/cart'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

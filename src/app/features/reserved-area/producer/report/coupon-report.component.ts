@@ -25,9 +25,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Producer', '/reserved-area/producer'));
-    bread.push(new Breadcrumb('Statistics', '/reserved-area/producer/report'));
+    bread.push(new Breadcrumb('Ricevute', '/reserved-area/producer/report'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -93,10 +93,8 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    // bread.push(new Breadcrumb('Home', '/'));
-    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Import Coupon', '/reserved-area/consumer/coupon-import/'));
+    bread.push(new Breadcrumb('Importa coupon', '/reserved-area/consumer/coupon-import/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
