@@ -1,5 +1,3 @@
-
-
 <div *ngIf="couponPass !== null" class="container">
   <div [class]="classRow">
     <div [class]="classDiv">
@@ -9,7 +7,7 @@
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
           <p *ngIf="couponPass.owner">di
             <i [routerLink]="['/reserved-area/consumer/producer-info']"
-               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
+               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.company_name}}</i>
           </p>
 
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
@@ -25,13 +23,13 @@
 
               <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
                    src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' +
-                    couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
-              >
+                    couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
             </span>
           </p>
 
-          <button *ngIf="desktopMode" class=" btn btn-danger btn-retry" (click)="retry()">I miei Acquisti</button>
-          <button *ngIf="!desktopMode" class=" btn btn-danger btn-retry-small" (click)="retry()">I miei Acquisti</button>
+          <qrcode class="col-6" [qrdata]="couponPass.token" [size]="200" [level]="'M'"></qrcode>
+
+          <button class="btn btn-danger btn-retry" (click)="retry()">I miei acquisti</button>
 
         </div>
 

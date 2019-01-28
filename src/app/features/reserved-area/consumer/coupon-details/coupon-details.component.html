@@ -7,7 +7,7 @@
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
           <p *ngIf="couponPass.owner">di
               <i [routerLink]="['/reserved-area/consumer/producer-info']"
-                 class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.username}}</i>
+                 class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.name + ' ' + producer.last_name }}</i>
           </p>
 
           <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>

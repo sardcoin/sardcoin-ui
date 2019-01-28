@@ -98,7 +98,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
 
   setClass() {
-    console.log(this.desktopMode);
     if (!this.desktopMode) {
       this.classRow = 'row';
       this.classDiv = '';
