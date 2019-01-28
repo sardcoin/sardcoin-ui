@@ -98,9 +98,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
         }
       }
     }, error1 => {
-      this.toastError()
-
-      ;
+      this.toastError();
       console.log(error1);
     });
   }
@@ -108,8 +106,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Verifier', '/reserved-area/verifier/'));
+    bread.push(new Breadcrumb('Area riservata', '/reserved-area/'));
+    bread.push(new Breadcrumb('Vidimatore', '/reserved-area/verifier/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -119,11 +117,11 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   toastValidate() {
-    this.toastr.success( 'Coupon verificato con successo!');
+    this.toastr.success( 'Coupon valido e vidimato con successo!', 'Coupon valido');
   }
 
   toastError() {
-    this.toastr.error( 'Coupon non valido!');
+    this.toastr.error( 'Coupon non valido o scaduto.', 'Coupon non valido!');
   }
 
   scan() {
@@ -131,7 +129,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   qrCodeReadSuccess() {
-    this.toastr.success( 'Qr-code letto correttamente!');
+    this.toastr.success( 'QR code acquisito correttamente!');
   }
 
 
@@ -156,7 +154,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.log('Result: ', resultString);
+    console.log(resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls['token'].setValue(resultString);
     this.qrCodeReadSuccess();
