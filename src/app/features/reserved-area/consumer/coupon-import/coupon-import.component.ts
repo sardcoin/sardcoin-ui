@@ -26,7 +26,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   hasPermission: boolean;
   qrResultString: string;
   availableDevices: MediaDeviceInfo[];
-  selectedDevice: MediaDeviceInfo;
+  selectedDevice: MediaDeviceInfo = null;
   desktopMode: boolean;
   constructor(
     public formBuilder: FormBuilder,

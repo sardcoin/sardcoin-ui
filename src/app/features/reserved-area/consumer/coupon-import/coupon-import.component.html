@@ -8,11 +8,13 @@
           <h6 class="display-4 d-inline-block" style="font-size:30pt;">Importa coupon</h6>
         </div>
         <div class="card-body px-5 pt-4">
-          <p class="text-justify" style="font-size: 16px;">In questa pagina, puoi importare un coupon ricevuto aggiungendo il suo codice o scansionando il suo codice QR.</p>
+          <p class="text-justify" style="font-size: 16px;">In questa pagina, puoi importare un coupon ricevuto
+            aggiungendo il suo codice o scansionando il suo codice QR.</p>
 
-          <form [formGroup]="tokenForm" >
+          <form [formGroup]="tokenForm">
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il Token</label>
+              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il
+                Token</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
@@ -22,10 +24,11 @@
               </div>
 
               <div class="col-lg-2 col-md-2 col-sm-2 text-center">
-                <h5>oppure </h5>
+                <h5>oppure</h5>
               </div>
 
-              <div class="w-100 d-lg-none d-md-block d-none"></div> <!-- It forces the button Scan to go in a new row with the md view -->
+              <div class="w-100 d-lg-none d-md-block d-none"></div>
+              <!-- It forces the button Scan to go in a new row with the md view -->
 
               <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
                 <button class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
@@ -33,26 +36,29 @@
 
             </div>
 
-
-
-
-              <div style="padding-bottom: 1em" class="col">
-                <div *ngIf="isScan">
-                  <div *ngIf="availableDevices">
-                    <select class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" (change)="onDeviceSelectChange($event.target.value)">
-                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" value="" [selected]="!selectedDevice">Seleziona</option>
-                      <option class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center" *ngFor="let device of availableDevices" [value]="device.deviceId"
-                              [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label
-                        }}
-                      </option>
-                    </select>
-                  </div>
+            <div style="padding-bottom: 1em" class="col">
+              <div *ngIf="isScan">
+                <div *ngIf="availableDevices">
+                  <select
+                    class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
+                    (change)="onDeviceSelectChange($event.target.value)">
+                    <option
+                      class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
+                      value="" [selected]="!selectedDevice">Seleziona
+                    </option>
+                    <option
+                      class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
+                      *ngFor="let device of availableDevices" [value]="device.deviceId"
+                      [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label }}
+                    </option>
+                  </select>
                 </div>
-
               </div>
+            </div>
 
 
-            <div class="row bg-secondary mb-4">
+            <div class="mb-4 rounded container d-flex align-items-center justify-content-center" style="background-color: #eee;">
+              <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
               <zxing-scanner
                 #scanner style="padding-bottom: 1em" class="test-class" start="true" [device]="selectedDevice"
                 (scanSuccess)="handleQrCodeResult($event)">
@@ -60,20 +66,18 @@
             </div>
 
             <div class="col-md-12 text-sm-right text-center p-0">
-              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Aggiungi ai tuoi acquisti</button>
-
+              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i
+                class="fas fa-plus-circle mr-3"></i>Aggiungi ai tuoi acquisti
+              </button>
             </div>
             <div class="center text-center ">
-              <button *ngIf="!desktopMode" (click)="import()" class="btn btn-lg btn-success"><i class="fas fa-plus-circle mr-3"></i>Importa</button>
-
+              <button *ngIf="!desktopMode" (click)="import()" class="btn btn-lg btn-success"><i
+                class="fas fa-plus-circle mr-3"></i>Importa
+              </button>
             </div>
           </form>
         </div>
-
       </div>
-
-
     </div>
-
   </div>
 </div>
