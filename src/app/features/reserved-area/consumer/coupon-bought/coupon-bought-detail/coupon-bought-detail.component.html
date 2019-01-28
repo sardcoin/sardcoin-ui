@@ -1,5 +1,5 @@
-<div *ngIf="couponPass !== null" class="container">
-  <div [class]="classRow">
+<div *ngIf="couponPass !== null" class="container-fluid">
+  <!--<div class="row">-->
     <div [class]="classDiv">
       <div [class]="classMx4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
@@ -27,13 +27,30 @@
             </span>
           </p>
 
-          <qrcode class="col-6" [qrdata]="couponPass.token" [size]="200" [level]="'M'"></qrcode>
-
+          <button class="btn btn-success btn-retry" (click)="openModal(qrModal)">Utilizza Coupon</button>
           <button class="btn btn-danger btn-retry" (click)="retry()">I miei acquisti</button>
 
         </div>
 
       </div>
     </div>
-  </div>
+  <!--</div>-->
 </div>
+
+<ng-template #qrModal>
+  <!--<div class="modal-header">-->
+    <!--<h4 class="modal-title pull-left">Riscatta coupon</h4>-->
+  <!--</div>-->
+
+  <div class="modal-body text-center">
+    <button type="button" class="close pull-right mb-4" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <!--<p>Per utilizzare il coupon, mostra il QR Code qui sotto al verificatore:</p>-->
+    <qrcode class="d-table mx-auto" [qrdata]="couponPass.token" [size]="qrSize" [level]="'L'"></qrcode>
+  </div>
+
+  <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-danger" (click)="modalRef.hide()">Chiudi</button>-->
+  <!--</div>-->
+</ng-template>

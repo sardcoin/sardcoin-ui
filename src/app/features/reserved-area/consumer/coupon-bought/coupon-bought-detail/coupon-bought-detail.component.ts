@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {environment} from '../../../../../../environments/environment';
 import {Coupon} from '../../../../../shared/_models/Coupon';
 import {BreadcrumbActions} from '../../../../../core/breadcrumb/breadcrumb.actions';
@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 import {UserService} from '../../../../../shared/_services/user.service';
 import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -20,15 +21,18 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
-  classRow: string;
   classDiv: string;
   classMx4: string;
+  qrSize: number;
+
+  modalRef: BsModalRef;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private userService: UserService,
+    private modalService: BsModalService,
     private globalEventService: GlobalEventsManagerService,
   ) {
   }
@@ -99,18 +103,18 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
   setClass() {
     if (!this.desktopMode) {
-      this.classRow = 'row';
       this.classDiv = '';
       this.classMx4 = 'card';
-
-
+      this.qrSize = 500;
     } else {
-      this.classRow = 'row';
       this.classDiv = 'col-md-8 offset-md-2';
       this.classMx4 = 'card mx-4';
-
+      this.qrSize = 300;
     }
+  }
 
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
 }
