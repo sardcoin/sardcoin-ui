@@ -8,7 +8,7 @@
           <h6 class="display-4 d-inline-block" style="font-size:30pt;">Importa coupon</h6>
         </div>
         <div class="card-body px-5 pt-4">
-          <p class="text-justify" style="font-size: 16px;">In questa pagina, puoi importare un coupon ricevuto
+          <p class="text-justify" style="font-size: 16px;">In questa pagina puoi importare un coupon ricevuto
             aggiungendo il suo codice o scansionando il suo codice QR.</p>
 
           <form [formGroup]="tokenForm">
@@ -57,10 +57,10 @@
             </div>
 
 
-            <div class="mb-4 rounded container d-flex align-items-center justify-content-center" style="background-color: #eee;">
-              <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
+            <div class="col-sm-6 mb-4 rounded container d-flex align-items-center justify-content-center bg-hover" style="background-color: #eee;">
+              <div *ngIf="!selectedDevice" (click)="scan()" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
               <zxing-scanner
-                #scanner style="padding-bottom: 1em" class="test-class" start="true" [device]="selectedDevice"
+                #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
                 (scanSuccess)="handleQrCodeResult($event)">
               </zxing-scanner>
             </div>

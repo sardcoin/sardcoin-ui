@@ -100,11 +100,7 @@ export class HeaderComponent implements OnInit {
   }
 
   clickEvent(link?: string ) {
-    console.log('this.hide prima', this.hide)
-    this.hide = !this.hide;
-    console.log('this.hide dopo', this.hide)
-
-    if (link != null) {
+    if (link) {
      this.router.navigate([link]);
     }
    }
