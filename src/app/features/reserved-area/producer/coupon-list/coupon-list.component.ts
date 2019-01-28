@@ -53,19 +53,19 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.deleteCoupon(coupon.id).subscribe((data) => {
 
       if (data['deleted']) {
-        this.toastr.success('', 'Coupon deleted!');
+        this.toastr.success('', 'Coupon eliminato!');
         this.control();
       }
     }, error => {
       console.log(error);
-      this.toastr.error('Some error occured while deleting the coupon.', 'Error');
+      this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
     });
 
     this.modalRef.hide();
   }
 
   formatState(state) { // TODO fixme
-    return 'Active';
+    return 'Attivo';
   }
 
   addBreadcrumb() {
@@ -94,7 +94,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   formatPrice(price) {
     if (price === 0) {
-      return 'Free';
+      return 'Gratis';
     }
 
     return '€ ' + price.toFixed(2);

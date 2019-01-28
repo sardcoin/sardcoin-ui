@@ -109,14 +109,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       .subscribe(data => {
 
         if (data['created']) {
-          this.toastr.success('', 'Coupon created successfully!');
+          this.toastr.success('', 'Coupon creato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
         } else {
-          this.toastr.error('An error occurred while creating the coupon', 'Error on creating');
+          this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         }
       }, err => {
         console.log(err);
-        this.toastr.error('An error occurred while creating the coupon', 'Error on creating');
+        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
 
