@@ -84,9 +84,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success('', this.couponPass.title + ' successfully added to the cart.');
+      this.toastr.success('', this.couponPass.title + ' aggiunto al carrello.');
     } else {
-      this.toastr.error(this.couponPass.title + ' cannot be added to the cart.', 'Error adding the coupon');
+      this.toastr.error(this.couponPass.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
     }
 
     this.modalRef.hide();
@@ -100,7 +100,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>) {
 
     if (this.couponPass.max_quantity === 0) {
-      this.toastr.error('You either have already reached the maximum quantity purchasable for this coupon or it is out of stock.', 'Cannot add the coupon');
+      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non aggiunto');
       return;
     }
 

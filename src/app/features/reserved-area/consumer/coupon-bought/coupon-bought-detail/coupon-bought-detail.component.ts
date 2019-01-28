@@ -71,11 +71,11 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   }
 
   formatPrice(price) {
-    return price === 0 ? 'Free' : '€ ' + price.toFixed(2);
+    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
   }
 
   formatUntil(until) {
-    return until ? this.formatDate(until) : 'Unlimited';
+    return until ? this.formatDate(until) : 'Illimitato';
   }
 
 

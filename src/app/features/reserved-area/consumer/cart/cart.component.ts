@@ -74,10 +74,10 @@ export class CartComponent implements OnInit, OnDestroy {
   async onDelete(coupon: Coupon) {
 
     if (await this.cartActions.deleteElement(coupon.id)) {
-      this.toastr.success(coupon.title + ' has been removed.', 'Coupon removed');
+      this.toastr.success(coupon.title + ' è stato eliminato.', 'Coupon eliminato');
       this.coupons = this.coupons.filter((element) => element.id !== coupon.id);
     } else {
-      this.toastr.error(coupon.title + ' cannot be removed.', 'Error on removing');
+      this.toastr.error(coupon.title + 'non è stato eliminato.', 'Errore di eliminazione');
     }
 
     this.modalRef.hide();

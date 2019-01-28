@@ -72,7 +72,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     if(this.maxQuantity > 0) {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     } else {
-      this.toastr.error('You already purchased the maximum number of this item for single user.', 'Coupon not available')
+      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile')
     }
   }
 
@@ -101,9 +101,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success( coupon.title + ' successfully added to the cart.', 'Coupon added.');
+      this.toastr.success( coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
     } else {
-      this.toastr.error(coupon.title + ' cannot be added to the cart.', 'Error adding the coupon');
+      this.toastr.error(coupon.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
     }
 
     this.modalRef.hide();

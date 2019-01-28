@@ -87,16 +87,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.couponService.buyCoupons(this.cart, paymentID).subscribe(response => {
 
         if (response['status']) {
-          this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
+          this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
         } else {
           this.cartActions.emptyCart();
-          this.toastr.success('The order is successfully complete.', 'Order complete!');
+          this.toastr.success('Ordine eseguito con sucesso.', 'Ordine completato!');
           this.router.navigate(['/reserved-area/consumer/bought']);
         }
 
         // console.log(response);
       }, err => {
-        this.toastr.error('An error occurred during the finalizing of the order.', 'Error on purchase!');
+        this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
         console.log(err);
       });
 

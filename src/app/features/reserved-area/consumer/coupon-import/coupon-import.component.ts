@@ -106,11 +106,11 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   }
 
   toastValidate() {
-    this.toastr.success('Coupon validated successfully');
+    this.toastr.success('Coupon importato con sucesso!');
   }
 
   toastError() {
-    this.toastr.error('Coupon invalid!');
+    this.toastr.error('Coupon non valido!');
   }
 
   scan() {
@@ -121,7 +121,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
 
 
   qrCodeReadSuccess() {
-    this.toastr.success('Qr-code reader successfully');
+    this.toastr.success('Qr-code letto correttamente!');
   }
 
   newCamera() {
@@ -134,7 +134,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     });
 
     this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+      console.error('Errore fotocamera.');
     });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {

@@ -131,14 +131,14 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           if (data['status']) {
-            this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
+            this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo', 'Errore di aggiornamento');
           } else {
-            this.toastr.success('Please do the login again.', 'Profile updated correctly!');
+            this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con sucesso!');
             this.loginActions.logoutUser();
           }
         }, error => {
           console.log(error);
-          this.toastr.error('An error occurred while updating the profile informations', 'Error on update');
+          this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo', 'Errore di aggiornamento');
         }
       );
 

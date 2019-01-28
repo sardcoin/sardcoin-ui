@@ -68,14 +68,14 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
   formatPrice(price) {
     if (price === 0) {
-      return 'Free';
+      return 'Gratis';
     }
     return '€ ' + price.toFixed(2);
   }
 
   formatState(state) {
     if (state !== null) {
-      return 'Consumed';
+      return 'Consumato';
     } else {
       return 'Riscattabile';
     }
