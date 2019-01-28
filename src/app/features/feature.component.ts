@@ -9,6 +9,7 @@ export class FeatureComponent{
 
   desktopMode: boolean;
   userLogged: boolean;
+  loginData;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -17,9 +18,7 @@ export class FeatureComponent{
       this.desktopMode = message
     });
 
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.userLogged = value;
-    });
+    this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
 
     this.isHide();
   }

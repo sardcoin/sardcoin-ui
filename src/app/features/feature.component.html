@@ -1,8 +1,8 @@
 <app-core-header></app-core-header>
 <div class="row" id="body-row">
-  <app-core-sidebar *ngIf="desktopMode && userLogged"></app-core-sidebar>
+  <app-core-sidebar *ngIf="desktopMode && (loginData | async)"></app-core-sidebar>
 
-  <div class="px-0" id="main-content">
+  <div class="px-0" id="main-content" [ngStyle]="{'margin-left': ((loginData | async) && desktopMode) ? '230px' : '0'}">
     <app-core-breadcrumb ></app-core-breadcrumb>
     <div id="main-container"> <!-- levato container-fluid -->
       <router-outlet></router-outlet>
@@ -11,4 +11,3 @@
     <app-core-footer></app-core-footer>
   </div>
 </div>
-

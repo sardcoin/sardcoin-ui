@@ -75,14 +75,6 @@
       class="fas fa-trash"></i> Svuota il Carrello
     </button>
   </div>
-  <div *ngIf="cart.length === 0" class="row">
-    <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
-    <div class="col-sm-12">
-      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">Vai ai tuoi acquisti
-      </button>
-      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
-    </div>
-  </div>
 </div><!-- XL + LG VIEW -->
 <div class="d-none d-md-block d-lg-none" *ngIf="cart.length > 0">
   <table class="table table-striped">
@@ -135,8 +127,6 @@
         </div>
       </ng-template>
     </tr>
-
-
     </tbody>
 
   </table>
@@ -148,14 +138,6 @@
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
       class="fas fa-trash"></i> Svuota il Carrello
     </button>
-  </div>
-  <div *ngIf="cart.length === 0" class="row">
-    <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
-    <div class="col-sm-12">
-      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">Vai ai tuoi acquisti
-      </button>
-      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
-    </div>
   </div>
 </div> <!-- MD VIEW -->
 <div class="d-block d-md-none">
@@ -224,16 +206,19 @@
         <i class="fas fa-trash"></i></button>
     </div>
   </div>
-  <div *ngIf="cart.length === 0" class="row">
-    <div class="col-sm-12"><img class="mx-auto d-block img-fluid" src="assets/img/empty.png"></div>
-    <div class="col-sm-12">
-      <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="openBought()">I miei Acquisti
-      </button>
-      <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
-    </div>
-  </div>
-
 </div> <!-- SM VIEW -->
+
+<div *ngIf="cart.length === 0" class="container-fluid">
+  <div class="col-sm-12 text-center">
+    <img class="img-fluid" src="assets/img/empty.png">
+    <h3 class="display-3" style="font-size: 2rem;">Il carrello è vuoto!</h3>
+  </div>
+  <div class="col-sm-12 mt-4 text-center">
+    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">Vai ai tuoi acquisti
+    </button>
+    <button class="btn btn-lg btn-primary" (click)="retry()">Vai allo shopping</button>
+  </div>
+</div>
 
 <ng-template #emptyCartTemplate>
   <div class="modal-header">
