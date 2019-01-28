@@ -54,7 +54,8 @@
             </div>
           </div>
           <div class="form-group row">
-            <zxing-scanner  #scanner class="test-class" start="true" [device]="selectedDevice" (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+            <zxing-scanner  #scanner class="test-class" start="true" [device]="selectedDevice"
+                            (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
 
           </div>
         </div>
