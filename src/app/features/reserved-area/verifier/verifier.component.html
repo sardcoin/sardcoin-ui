@@ -9,7 +9,7 @@
         <div class="card-body p-5">
           <form [formGroup]="tokenForm" (ngSubmit)="verifier()">
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il token</label>
+              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il codice</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
                 <input type="text" formControlName="token" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
@@ -61,12 +61,12 @@
 
             <div class="col-md-12 text-center p-0">
               <button *ngIf="desktopMode" class="btn btn-lg btn-success"><i
-                class="fas fa-plus-circle mr-3"></i>Verifica
+                class="fas fa-plus-circle mr-3"></i>Vidima
               </button>
             </div>
             <div class="center text-center ">
               <button *ngIf="!desktopMode" class="btn btn-lg btn-success"><i
-                class="fas fa-plus-circle mr-3"></i>Verifica
+                class="fas fa-plus-circle mr-3"></i>Vidima
               </button>
             </div>
           </form>
