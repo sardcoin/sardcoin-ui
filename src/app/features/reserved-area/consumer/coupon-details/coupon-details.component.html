@@ -1,5 +1,5 @@
 <div *ngIf="couponPass !== null  ">
-  <div class="col-lg-6 col-md-10 col-sm-12 pl-md-0">
+  <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
     <div class="card mx-4" style="padding: 5px">
       <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
       <div class="card-body p-4">
@@ -16,21 +16,16 @@
         </div>
 
         <p class="card-text mt-3">{{couponPass.description}}</p>
-        <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#19ff26">Disponibile.</i></p>
+        <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
 
-        <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Sta
-          finendo.</i></p>
+        <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Bassa disponibilità</i></p>
 
         <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
           <i style="color:#FF0000">
-
-            Solo {{couponPass.quantity}} disponibil{{couponPass.quantity === 1 ? 'e' : 'i'}} .
-
-            <!--english version-->
-            <!--Only {{couponPass.quantity}} unit{{couponPass.quantity === 1 ? '' : 's'}} available.-->
+            Solo {{couponPass.quantity}} disponibil{{couponPass.quantity === 1 ? 'e' : 'i'}}
           </i>
         </p>
-        <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)"> Terminati</i>
+        <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)">Esauriti</i>
         </p>
 
         <p class="card-text">

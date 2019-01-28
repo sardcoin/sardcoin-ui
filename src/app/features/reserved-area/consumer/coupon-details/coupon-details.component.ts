@@ -154,7 +154,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   formatUntil(inputDate) {
     if (inputDate === null) {
-      return 'Illimitato';
+      return 'senza scadenza';
     }
 
     const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
