@@ -7,7 +7,7 @@
           <h6 class="display-4" style="float:left; font-size:30pt;">Vidima coupon</h6>
         </div>
         <div class="card-body p-5">
-          <form [formGroup]="tokenForm" (ngSubmit)="verifier()">
+          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
             <div class="form-group row">
               <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci token:</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
@@ -70,7 +70,7 @@
               </button>
             </div>
           </form>
-<!--          <form [formGroup]="tokenForm" (ngSubmit)="verifier()">
+<!--          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
             <div class="form-group row">
               <label class="col-lg-4 col-sm-4 col-form-label">Inserisci il Token</label>
               <div class="col-lg-4 col-sm-4">

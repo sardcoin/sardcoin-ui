@@ -42,6 +42,6 @@
       <span aria-hidden="true">&times;</span>
     </button>
     <h3 class="mb-3">Codice coupon: {{couponPass.token.token}}</h3>
-    <qrcode class="d-table mx-auto" [qrdata]="couponPass.token" [size]="qrSize" [level]="'L'"></qrcode>
+    <qrcode class="d-table mx-auto" [qrdata]="couponPass.token.token" [size]="qrSize" [level]="'L'"></qrcode>
   </div>
 </ng-template>
