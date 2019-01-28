@@ -161,7 +161,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     const userLabel = type === 1 ? 'Producer' : 'Consumer';
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
-    bread.push(new Breadcrumb('Personal Info', '/reserved-area/' + userType + 'personal-info'));
+    bread.push(new Breadcrumb('Informazioni Personali', '/reserved-area/' + userType + 'personal-info'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
