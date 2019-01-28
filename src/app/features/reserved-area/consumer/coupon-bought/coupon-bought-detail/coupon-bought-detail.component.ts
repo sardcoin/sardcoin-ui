@@ -63,8 +63,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('My Purchases', '/reserved-area/consumer/bought/'));
-    bread.push(new Breadcrumb( 'dettagli ' + this.couponPass.title , '/reserved-area/consumer/bought/details'));
+    bread.push(new Breadcrumb('I miei acquisti', '/reserved-area/consumer/bought/'));
+    bread.push(new Breadcrumb( this.couponPass.title , '/reserved-area/consumer/bought/details'));
     // english version
     // bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
 
