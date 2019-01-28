@@ -51,8 +51,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
-      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255)])],
-      image: [this.imagePath],
+      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+      image: [this.imagePath, Validators.required ],
       price: [0, Validators.required],
       published_from: [new Date()],
       valid_from: [new Date(), Validators.required],
@@ -83,7 +83,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.submitted = true;
 
     // It stops here if form is invalid
-    if (this.couponForm.invalid) {
+    if (this.couponForm.invalid || this.imagePath == null) {
       return;
     }
 
@@ -105,6 +105,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   addCoupon(coupon: Coupon) {
 
+    console.log('image', this.imagePath);
     this.couponService.create(coupon)
       .subscribe(data => {
 

@@ -27,7 +27,7 @@
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">La descrizione deve essere tra 5 e 255 caratteri.
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 255 caratteri.
                   </div>
                 </div>
               </div>
@@ -206,6 +206,14 @@
             </div>
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.quantity.errors?.MatchQuantity">Quantità non corretta.
+            </div>
+            <div *ngIf="submitted && f.image.errors" class="alert alert-danger col-md-12">
+              <!--<div *ngIf="f.image.errors">Image is required</div>-->
+              <div>Immagine obbligatoria.</div>
+            </div>
+            <div *ngIf="submitted && imagePath == null" class="alert alert-danger col-md-12">
+              <!--<div *ngIf="f.image.errors">Image is required</div>-->
+              <div>Caricare l'immagine correttamente.</div>
             </div>
             <div class="form group">
               <p>
