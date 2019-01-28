@@ -4,26 +4,22 @@
 
     <ul class="list-group sticky-top sticky-offset">
       <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
-        <small class="font-weight-bold">MENU</small>
+        <small class="font-weight-bold text-uppercase">Menu</small>
       </li>
 
-      <a aria-expanded="false"
-         class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-start align-items-center">
-          <span class="fas fa-archway mr-3"></span>
-          <span class="menu-collapsed">Contenuti</span>
-
-        </div>
-      </a>
+      <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
+        <span class="fas fa-archway mr-3"></span>
+        <span class="menu-collapsed">Contenuti</span>
+      </li>
 
       <div  class="  align-items-start padding-left-sidebar-item" aria-expanded="false">
 
         <div *ngIf="this.userType == '1' || this.userType == '0'">
           <a  [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed ">I miei Coupons</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed ">I miei coupon</span>
           </a>
           <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Aggiungi un Coupon</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Aggiungi coupon</span>
           </a>
 <!--          <a class="list-group-item list-group-item-action text-white text-secondary"> &lt;!&ndash;[routerLink]="['/reserved-area/producer/report']" &ndash;&gt;
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Reports</span>
@@ -35,16 +31,16 @@
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Shopping</span>
           </a>
           <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">I miei Acquisti</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">I miei acquisti</span>
           </a>
           <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Importa Coupon</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Importa coupon</span>
           </a>
         </div>
 
         <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
           <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Pagina del Verificatore</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Redimi coupon</span>
           </a>
         </div>
 
@@ -54,20 +50,17 @@
       </div>
 
       <div *ngIf="this.userType != '3'">
-        <a  data-toggle="collapse" aria-expanded="false"
-           class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-start align-items-center">
-            <span class="fa fa-user fa-fw mr-3"></span>
-            <span  class="menu-collapsed">Il mio profilo</span>
-          </div>
-        </a>
+        <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
+          <span class="fa fa-user fa-fw mr-3"></span>
+          <span  class="menu-collapsed">Il mio profilo</span>
+        </li>
         <!-- Submenu content -->
         <div  class="padding-left-sidebar-item align-items-start">
           <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
             <span (click)="hideSideBar(!hide)" class="menu-collapsed">Informazioni personali</span>
           </a>
           <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
-            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Dettaglio Pagamenti</span>
+            <span (click)="hideSideBar(!hide)" class="menu-collapsed">Dettaglio pagamenti</span>
           </a>
           <a class="list-group-item list-group-item-action text-secondary">
             <span (click)="hideSideBar(!hide)"  class="menu-collapsed">Ricevute</span>

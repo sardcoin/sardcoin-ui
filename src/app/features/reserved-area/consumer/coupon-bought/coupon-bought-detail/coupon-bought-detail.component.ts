@@ -21,7 +21,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
-  classDiv: string;
   classMx4: string;
   qrSize: number;
 
@@ -103,11 +102,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
   setClass() {
     if (!this.desktopMode) {
-      this.classDiv = '';
       this.classMx4 = 'card';
       this.qrSize = 500;
     } else {
-      this.classDiv = 'col-md-8 offset-md-2';
       this.classMx4 = 'card mx-4';
       this.qrSize = 300;
     }

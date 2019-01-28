@@ -57,8 +57,8 @@
             </div>
 
 
-            <div class="col-sm-6 mb-4 rounded container d-flex align-items-center justify-content-center bg-hover" style="background-color: #eee;">
-              <div *ngIf="!selectedDevice" (click)="scan()" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
+            <div class="col-sm-6 mb-4 rounded container d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
+              <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
               <zxing-scanner
                 #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
                 (scanSuccess)="handleQrCodeResult($event)">

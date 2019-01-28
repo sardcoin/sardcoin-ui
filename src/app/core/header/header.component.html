@@ -22,16 +22,16 @@
               </div>
               <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
                   data-toggle="collapse" aria-expanded="false">
-                <strong class="text-capitalize"> <i class="fa fa-box"></i> Contenuti </strong></a>
+                <strong class="text-capitalize"> <i class="fa fa-box"></i>Contenuti </strong></a>
               <div  class=" align-items-start">
 
                 <div  *ngIf="this.userType == '1' || this.userType == '0'">
                   <a  class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">I miei Coupons</span>
+                    <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">I miei coupon</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/producer/create')"
-                          class="menu-collapsed">Aggiungi un Coupon</span>
+                          class="menu-collapsed">Aggiungi un coupon</span>
                   </a>
 <!--                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
@@ -47,13 +47,13 @@
                           class="menu-collapsed">I miei Acquisti</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Acquisisci Coupon</span>
+                    <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Importa coupon</span>
                   </a>
                 </div>
 
                 <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item" >
-                    <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Pagina del Verificatore</span>
+                    <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Redimi coupon</span>
                   </a>
                 </div>
 
@@ -68,7 +68,7 @@
 
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
-                          class="menu-collapsed">Dettaglio Pagamenti</span>
+                          class="menu-collapsed">Dettaglio pagamenti</span>
                   </a>
                   <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent(null)" class="menu-collapsed">Ricevute</span>

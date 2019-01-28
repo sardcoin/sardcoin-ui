@@ -1,6 +1,6 @@
-<div *ngIf="couponPass !== null" class="container-fluid">
+<div *ngIf="couponPass !== null" class="container-fluid px-0">
   <!--<div class="row">-->
-    <div [class]="classDiv">
+    <div class="col-lg-8 col-md-10 col-sm-12 pl-md-0">
       <div [class]="classMx4" style="padding: 5px">
         <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
@@ -15,7 +15,7 @@
           <p class="card-text mt-3">{{couponPass.description}}</p>
 
           <p class="card-text">
-            <i class="fas fa-fw  fa-clock text-secondary"></i> Validità:  {{formatUntil(couponPass.valid_until)}}
+            <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
             <br/>
 
             <span *ngIf="couponPass.constraints">
@@ -27,9 +27,8 @@
             </span>
           </p>
 
-          <button class="btn btn-success btn-retry" (click)="openModal(qrModal)">Utilizza Coupon</button>
-          <button class="btn btn-danger btn-retry" (click)="retry()">I miei acquisti</button>
-
+          <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I miei acquisti</button>
+          <button class="btn btn-success btn-retry" (click)="openModal(qrModal)">Utilizza</button>
         </div>
 
       </div>
@@ -38,19 +37,10 @@
 </div>
 
 <ng-template #qrModal>
-  <!--<div class="modal-header">-->
-    <!--<h4 class="modal-title pull-left">Riscatta coupon</h4>-->
-  <!--</div>-->
-
   <div class="modal-body text-center">
     <button type="button" class="close pull-right mb-4" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <!--<p>Per utilizzare il coupon, mostra il QR Code qui sotto al verificatore:</p>-->
     <qrcode class="d-table mx-auto" [qrdata]="couponPass.token" [size]="qrSize" [level]="'L'"></qrcode>
   </div>
-
-  <!--<div class="modal-footer">-->
-    <!--<button type="button" class="btn btn-danger" (click)="modalRef.hide()">Chiudi</button>-->
-  <!--</div>-->
 </ng-template>
