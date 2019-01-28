@@ -133,7 +133,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   formatPrice(price) {
     if (price === 0) {
-      return 'Free';
+      return 'Gratis';
     }
 
     return '€ ' + price.toFixed(2);

@@ -133,7 +133,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
           if (data['status']) {
             this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo', 'Errore di aggiornamento');
           } else {
-            this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con sucesso!');
+            this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con successo!');
             this.loginActions.logoutUser();
           }
         }, error => {
@@ -161,7 +161,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     const userLabel = type === 1 ? 'Producer' : 'Consumer';
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
-    bread.push(new Breadcrumb('Personal Info', '/reserved-area/' + userType + 'personal-info'));
+    bread.push(new Breadcrumb('Informazioni Personali', '/reserved-area/' + userType + 'personal-info'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

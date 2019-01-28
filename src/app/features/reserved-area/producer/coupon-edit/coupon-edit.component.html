@@ -24,7 +24,7 @@
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">La descrizione deve essere tra 5 e 255 caratteri</div>
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 255 caratteri</div>
                 </div>
               </div>
             </div> <!-- Description -->
@@ -36,7 +36,7 @@
                   <img src="{{imageURL}}">
                 </div>
 
-                <input type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+                <input  type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
 
                 <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">

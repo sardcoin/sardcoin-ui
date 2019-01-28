@@ -137,7 +137,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
           if (data['status']) {
             this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo.', 'Errore di aggiornamento');
           } else {
-            this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con sucesso!');
+            this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con successo!');
             this.loginActions.logoutUser();
           }
         }, error => {
@@ -162,7 +162,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
-    bread.push(new Breadcrumb('Payment Details', '/reserved-area/payment-details'));
+    bread.push(new Breadcrumb('Dettaglio Pagamenti', '/reserved-area/payment-details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

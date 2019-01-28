@@ -78,8 +78,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5)])],
-      image: [],
+      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
+      image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty: [this.markedUnlimited],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
@@ -138,14 +138,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         // if (data['created']) {
-          this.toastr.success('', 'Coupon cloned successfully!');
+          this.toastr.success('', 'Coupon creato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
         // } else {
-        //   this.toastr.error('An error occurred while creating the coupon', 'Error on creating');
+        //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
       }, err => {
         console.log(err);
-        this.toastr.error('An error occurred while creating the coupon', 'Error on update');
+        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
 
@@ -153,14 +153,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
         // if (data['status']) {
-        //   this.toastr.error('An error occurred while updating the coupon', 'Error on update');
+        //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
         // } else {
           this.toastr.success('', 'Coupon edited successfully!');
           this.router.navigate(['/reserved-area/producer/list']);
         // }
       }, err => {
         console.log(err);
-        this.toastr.error('An error occurred while updating the coupon', 'Error on update');
+        this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
       });
   }
 
@@ -185,7 +185,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
     const data = JSON.parse(response); // success server response
     this.imagePath = data.image;
-    this.imageURL = this.imagePath;
+
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
@@ -265,5 +265,18 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.markedFree = this.couponPass.price === 0;
     this.markedConstraints = this.couponPass.constraints === null;
     this.markedPrivate = this.couponPass.visible_from === null;
+  }
+
+
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (e: any) => { // called once readAsDataURL is completed
+        this.imageURL = String(e.target.result);
+      };
+    }
   }
 }

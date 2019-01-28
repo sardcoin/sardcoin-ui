@@ -146,7 +146,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   formatPrice(price) {
     if (price === 0) {
-      return 'Free';
+      return 'Gratis';
     }
 
     return '€ ' + price.toFixed(2);
@@ -154,7 +154,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   formatUntil(inputDate) {
     if (inputDate === null) {
-      return 'Unlimited';
+      return 'Illimitato';
     }
 
     const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
@@ -174,7 +174,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
-    bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/details'));
+    bread.push(new Breadcrumb( 'dettagli ' + this.couponPass.title , '/reserved-area/consumer/bought/details'));
+
+    // english version
+    // bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

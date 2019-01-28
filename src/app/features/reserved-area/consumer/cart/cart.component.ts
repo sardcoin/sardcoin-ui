@@ -117,7 +117,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   formatUntil(inputDate) {
     if (inputDate === null) {
-      return 'Unlimited';
+      return 'Illimitato';
     }
 
     const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
@@ -132,7 +132,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   formatPrice(price) {
     if (price === 0) {
-      return 'Free';
+      return 'Gratis';
     }
 
     return '€ ' + price.toFixed(2);
