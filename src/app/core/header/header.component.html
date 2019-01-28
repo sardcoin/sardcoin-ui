@@ -12,8 +12,9 @@
             id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)">
       <span class="navbar-toggler-icon"></span>
     </button>
-      <div id="menu"  class=" border-menu fixed-top dropdown-menu">
-        <ul class="nav navbar-nav">
+      <nav  >
+      <div id="menu"  class=" border-menu  fixed-top dropdown-menu">
+        <ul class="nav navbar-nav scrollable-menu">
           <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
             <div class="border" style="background-color: white">
               <div (click)="clickEvent(null)" class="dropdown-header">
@@ -68,7 +69,7 @@
 
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
-                          class="menu-collapsed">Dettaglio Pagamenti</span>
+                          class="menu-collapsed">Dati di fatturazione</span>
                   </a>
                   <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent(null)" class="menu-collapsed">Ricevute</span>
@@ -89,6 +90,7 @@
           </li>
         </ul>
       </div>
+      </nav>
     </div>
     <img *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo.png" class="left">
     <div *ngIf="!isDesktop" class="left col-4">
