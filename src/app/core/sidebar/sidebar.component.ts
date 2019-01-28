@@ -39,8 +39,8 @@ export class SidebarComponent implements OnInit {
         case '2': // consumer
           this.userStringType = 'consumer';
           return true;
-        case '3': // verifier
-          this.userStringType = 'verifier';
+        case '3': // verify
+          this.userStringType = 'verify';
           return true;
       }
     });

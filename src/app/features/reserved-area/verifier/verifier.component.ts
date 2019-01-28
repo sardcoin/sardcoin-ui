@@ -41,7 +41,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.newCamera();
@@ -65,54 +66,28 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  verifier() { // TODO to check
+  verify() {
     this.submitted = true;
 
-    this.couponService.getTotalCoupons().subscribe(coupons => {
-      const cp = JSON.parse(JSON.stringify(coupons));
+    if (this.tokenForm.invalid) {
+      return;
+    }
 
-      let length = 1;
-      let isValidate = false;
-      for ( const i of cp) {
-
-
-        length ++;
-        if (i.state === 1 && i.token === this.tokenForm.value.token ) {
-          isValidate = true;
-          this.coupon = {
-            token: this.tokenForm.value.token,
-            verifier: this.storeService.getId(),
-            state: 2,
-          };
-
-          this.couponService.verifierCoupon(this.coupon).subscribe(
-            (data) => {
-              this.toastValidate();
-              this.router.navigate(['/reserved-area/verifier']);
-              return;
-            }, error => {
-              this.toastError();
-
-              console.log(error);
-            }
-          );
-        } else if (length === Number(cp.length) && !isValidate) {
-          this.toastError();
-        }
-      }
-    }, error1 => {
-      this.toastError()
-
-      ;
-      console.log(error1);
-    });
+    this.couponService.redeemCoupon(this.tokenForm.controls['token'].value)
+      .subscribe(result => {
+        this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+      }, err => {
+        console.error(err);
+        this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+      });
   }
+
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Verifier', '/reserved-area/verifier/'));
+    bread.push(new Breadcrumb('Verifier', '/reserved-area/verify/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -121,20 +96,12 @@ export class VerifierComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  toastValidate() {
-    this.toastr.success( 'Coupon verificato con successo!');
-  }
-
-  toastError() {
-    this.toastr.error( 'Coupon non valido!');
-  }
-
   scan() {
     this.isScan = true;
   }
 
   qrCodeReadSuccess() {
-    this.toastr.success( 'Qr-code letto correttamente!');
+    this.toastr.success('Qr-code letto correttamente!');
   }
 
 
@@ -151,7 +118,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
       console.error('Errore fotocamera.');
     });
 
-    this.scanner.scanComplete.subscribe((result: Result) => {this.qrResult = result; console.log(result)});
+    this.scanner.scanComplete.subscribe((result: Result) => {
+      this.qrResult = result;
+      console.log(result);
+    });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;

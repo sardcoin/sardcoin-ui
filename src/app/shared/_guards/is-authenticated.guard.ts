@@ -28,7 +28,7 @@ export class IsAuthenticatedGuard implements CanActivate {
         case '2': // consumer
           this.eventEmitter.userType.next('2');
           return true;
-        case '3': // verifier
+        case '3': // verify
           this.eventEmitter.userType.next('3');
           return true;
       }

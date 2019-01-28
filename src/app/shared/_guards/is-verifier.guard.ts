@@ -30,7 +30,7 @@ export class IsVerifierGuard implements CanActivate {
         case '2': // consumer
           this.eventEmitter.userType.next('2');
           return false;
-        case '3': // verifier
+        case '3': // verify
           this.eventEmitter.userType.next('3');
           return true;
       }

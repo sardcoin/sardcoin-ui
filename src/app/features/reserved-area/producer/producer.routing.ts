@@ -19,8 +19,8 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
         pathMatch: 'full'
       },
       {
-        path: 'verifier',
-        redirectTo: 'verifier',
+        path: 'verify',
+        redirectTo: 'verify',
         pathMatch: 'full'
       },
       {

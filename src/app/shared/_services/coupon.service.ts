@@ -82,12 +82,11 @@ export class CouponService {
     return this.http.request('put', this.formatUrl('importOfflineCoupon'), {body: cp});
   }
 
-  verifierCoupon(cp: any) {
-    return this.http.request('put', this.formatUrl('verifierCoupon'), {body: cp});
-  }
-
-  getTotalCoupons() {
-    return this.http.get(this.formatUrl('getAllCouponsStateOne'));
+  redeemCoupon(token: any) {
+    let body = {
+      token: token
+    };
+    return this.http.request('put', this.formatUrl('redeemCoupon'), {body: body});
   }
 
   private formatUrl(methodName) {
