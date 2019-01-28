@@ -36,7 +36,7 @@
                   <img src="{{imageURL}}">
                 </div>
 
-                <input (change)="onSelectFile($event)" type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+                <input  type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
 
                 <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">

@@ -79,7 +79,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.couponForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
       description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
-      image: [this.imagePath, Validators.required],
+      image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty: [this.markedUnlimited],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
@@ -105,6 +105,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.couponForm.invalid) {
+      console.log('erroreeeeeeee');
       return;
     }
 
