@@ -207,9 +207,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Producer', '/reserved-area/producer/'));
-    bread.push(new Breadcrumb('Add new coupon', '/reserved-area/producer/create/'));
+    bread.push(new Breadcrumb('Aggiungi coupon', '/reserved-area/producer/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

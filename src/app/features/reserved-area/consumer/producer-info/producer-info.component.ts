@@ -49,12 +49,12 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
-    const username = this.producer.username.charAt(0).toUpperCase() + this.producer.username.slice(1);
+    const companyName = this.producer.company_name;
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb(username + ' info', '/reserved-area/consumer/producer-info'));
+    bread.push(new Breadcrumb(companyName + ' info', '/reserved-area/consumer/producer-info'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
