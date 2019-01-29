@@ -80,14 +80,14 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   }
 
   formatUntil(until) {
-    return until ? this.formatDate(until) : 'Illimitato';
+    return until ? this.formatDate(until) : 'senza scadenza';
   }
 
 
   formatDate(inptuDate) {
     const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
     const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('Z'));
-    return 'Date: ' + date + ' Time: ' + time;
+    return 'Data: ' + date + ' Ora: ' + time;
   }
 
   retry() {
