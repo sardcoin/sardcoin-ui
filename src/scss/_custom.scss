@@ -37,7 +37,7 @@ app-core-sidebar {
   min-height: calc(100vh - 56px);
   background-color: #2f353a;
   padding: 0;
-  width: 230px;
+  // width: 230px;
   position: fixed;
 }
 
@@ -68,7 +68,7 @@ app-core-sidebar {
 
 /* Sidebar sizes when expanded and expanded */
 .sidebar-expanded {
-  min-width: 230px;
+  // min-width: 230px;
 }
 
 .sidebar-collapsed {

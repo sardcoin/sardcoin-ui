@@ -16,7 +16,7 @@ export class SidebarComponent implements OnInit {
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
   userStringType = '';
 
-  hide = false;
+  hide = true;
   desktopMode = true;
 
   constructor(
@@ -49,9 +49,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
 
-    this.globalEventService.hideSource.subscribe(message => {
-      this.hide = message
-    });
 
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
@@ -63,4 +60,30 @@ export class SidebarComponent implements OnInit {
     this.globalEventService.changeHide(value);
   }
 
+  // @HostListener('mouseover') onHover() {
+  //   this.globalEventService.changeHide(false);
+  //   this.hide = false;
+  //   console.log(this.hide);
+  // }
+
+  // @HostListener('mouseout') onOut() {
+  //   this.globalEventService.changeHide(true);
+  //   this.hide = true;
+  //   console.log(this.hide);
+  //
+  // }
+
+  sendHideTrue() {
+
+      this.globalEventService.changeHide(true);
+      this.hide = true;
+      console.log(this.hide);
+  }
+
+  sendHideFalse() {
+
+    this.globalEventService.changeHide(false);
+    this.hide = false;
+    console.log(this.hide);
+  }
 }
