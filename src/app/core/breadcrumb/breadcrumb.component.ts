@@ -23,7 +23,8 @@ export class BreadcrumbComponent {
   isUserLoggedIn: boolean;
   url: string;
   desktopMode = true;
-  usetType: number = null;
+  userType: number = null;
+  hide;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -33,12 +34,18 @@ export class BreadcrumbComponent {
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
-      this.usetType = Number(this.globalEventService.userType.getValue());
+      this.userType = Number(this.globalEventService.userType.getValue());
+      console.log(' this.usetType',  this.userType);
     });
 
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
     });
+
+    this.globalEventService.hideSource.subscribe(message => {
+      this.hide = message; console.log('hidea', this.hide);
+    });
+
 
     this.breadcrumb$.subscribe(elements => {
       this.breadList = elements['list'];

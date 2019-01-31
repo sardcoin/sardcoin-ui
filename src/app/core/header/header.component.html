@@ -90,7 +90,9 @@
       </div>
       </nav>
     </div>
-    <img *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo.png" class="left">
+    <div class="rounded mx-auto d-block">
+      <img *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo.png" class="crop-logo">
+    </div>
     <div *ngIf="!isDesktop" class="left col-4">
       <img src="assets/img/brand/sardcoin-logo.png" class="img-fluid logo-img">
     </div>

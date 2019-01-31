@@ -19,13 +19,7 @@
   }
 }
 
-.fixed-cart-desktop-empty {
 
-  position: fixed;
-  left: 87%;
-
-
-}
 
 .fixed-cart-desktop {
 
@@ -34,3 +28,4 @@
   width: 320px;
   text-align: right;
 }
+
