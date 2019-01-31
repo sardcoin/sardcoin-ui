@@ -8,7 +8,7 @@ import {GlobalEventsManagerService} from '../shared/_services/global-event-manag
 export class FeatureComponent implements OnInit {
 
   desktopMode: boolean;
-  userLogged: boolean;
+  userType;
   loginData;
   hide: boolean;
   width: string;
@@ -17,6 +17,10 @@ export class FeatureComponent implements OnInit {
   ){
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
+    });
+
+    this.globalEventService.userType.subscribe(value => {
+      this.userType = value;
     });
 
     this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
@@ -43,15 +47,15 @@ export class FeatureComponent implements OnInit {
     this.globalEventService.hideSource.subscribe(message => {
       this.hide = message;
       console.log('hhhiiiii', this.hide)
-      if (this.hide) {
+      if (this.hide && this.userType == '2') {
 
         this.width = '50px';
-        console.log('this.width', this.width)
+        console.log('this.width', this.width);
 
       } else {
 
         this.width = '230px';
-        console.log('this.width', this.width)
+        console.log('this.width', this.width);
       }
 
 

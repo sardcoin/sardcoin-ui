@@ -1,5 +1,5 @@
 <div  (mouseenter)="sendHideFalse()" (mouseleave)="sendHideTrue()"  class="padding-header sticky-top" *ngIf="desktopMode" > <!-- TODO to move to features the desktopMode -->
-  <div [ngStyle]="{'min-width': hide ? '20px' : '230px', 'max-width': hide ? '50px' : '230px'}"    id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
+  <div [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '50px' : '230px'}"    id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
 
     <ul class="list-group sticky-top sticky-offset">
       <li style=" " class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
@@ -8,53 +8,53 @@
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
 
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">I miei coupon</span>
+          <span  class="menu-collapsed">I miei coupon</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Aggiungi coupon</span>
+          <span  class="menu-collapsed">Aggiungi coupon</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Reports</span>
+          <span  class="menu-collapsed">Reports</span>
         </a>
       </div>
       <div *ngIf="this.userType == '2' || this.userType == '0'">
 
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Shopping</span>
+          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">I miei acquisti</span>
+          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Importa coupon</span>
+          <span *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Vidima coupon</span>
+          <span  class="menu-collapsed">Vidima coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType != '3'">
 
         <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Informazioni personali</span>
+          <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Informazioni personali</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
+        <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide" class="menu-collapsed">Dati di fatturazione</span>
+          <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Dati di fatturazione</span>
         </a>
-        <a  [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white ">
+        <a  class="list-group-item list-group-item-action text-white ">
           <span class="fas fa-archway mr-3"></span>
-          <span *ngIf="!hide"  >Ricevute</span>
+          <span *ngIf="!hide || userType == '0' || userType == '1'"  >Ricevute</span>
         </a>
       </div>
     </ul>
