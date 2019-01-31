@@ -2,58 +2,58 @@
   <div [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '50px' : '230px'}"    id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
 
     <ul class="list-group sticky-top sticky-offset">
-      <li style=" " class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
-        <small *ngIf="!hide" class="font-weight-bold text-uppercase">Menu</small>
+      <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
+        <small *ngIf="!hide || userType != '2'" class="font-weight-bold text-uppercase">Menu</small>
       </li>
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
 
         <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span  class="fas fa-box  mr-3 icon-dimension"></span>
           <span  class="menu-collapsed">I miei coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-plus-circle mr-3 icon-dimension"></span>
           <span  class="menu-collapsed">Aggiungi coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-file-contract mr-3 icon-dimension"></span>
           <span  class="menu-collapsed">Reports</span>
         </a>
       </div>
       <div *ngIf="this.userType == '2' || this.userType == '0'">
 
         <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-shopping-bag mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-shopping-basket mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
         </a>
         <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-file-import mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
         <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-stamp mr-3 icon-dimension"></span>
           <span  class="menu-collapsed">Vidima coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType != '3'">
 
         <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-user  mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Informazioni personali</span>
         </a>
         <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item list-group-item-action text-white">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-file-invoice  mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Dati di fatturazione</span>
         </a>
         <a  class="list-group-item list-group-item-action text-white ">
-          <span class="fas fa-archway mr-3"></span>
+          <span class="fas fa-receipt  mr-3 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0' || userType == '1'"  >Ricevute</span>
         </a>
       </div>
