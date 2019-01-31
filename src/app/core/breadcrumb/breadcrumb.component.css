@@ -18,3 +18,19 @@
     z-index: 1;
   }
 }
+
+.fixed-cart-desktop-empty {
+
+  position: fixed;
+  left: 87%;
+
+
+}
+
+.fixed-cart-desktop {
+
+  position: fixed;
+  left: 72.5%;
+  width: 320px;
+  text-align: right;
+}
