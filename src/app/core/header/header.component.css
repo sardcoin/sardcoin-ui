@@ -54,14 +54,22 @@
 
 
 .crop-logo {
-  width: 200px;
-  height: 30px;
+  width: 10em;
+  height: 3em;
 
 }
 
 .crop-logo-small {
-  width: 100px;
-  height: 20px;
+  width: 8em;
+  height: 2.5em;
+
+}
+
+.full-image {
+  width: 200px;
+  height: 30px;
+  width: 13em;
+  height: 3em;
 
 }
 
