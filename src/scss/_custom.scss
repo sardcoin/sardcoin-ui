@@ -35,8 +35,9 @@ body {
 
 app-core-sidebar {
   min-height: calc(100vh - 56px);
-  background-color: #2f353a;
+  background-color: white;
   padding: 0;
+  border: #33b5e5;
   // width: 230px;
   position: fixed;
 }
@@ -59,6 +60,11 @@ app-core-sidebar {
 @media only screen and (max-width: 767px) {
   #main-content {
     margin-left: 0;
+  }
+  #breadcrumb-style {
+    margin-left: 0;
+    min-height: 100%;
+    min-width: 100%;
   }
 
   #main-container {

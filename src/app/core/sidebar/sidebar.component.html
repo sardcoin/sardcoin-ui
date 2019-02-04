@@ -1,60 +1,60 @@
-<div  (mouseenter)="sendHideFalse()" (mouseleave)="sendHideTrue()"  class="padding-header sticky-top" *ngIf="desktopMode" > <!-- TODO to move to features the desktopMode -->
-  <div [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '50px' : '230px'}"    id="sidebar-container"  class="sidebar-expanded  col-1-5 " *ngIf="isUserLoggedIn">
+<div   (mouseenter)="sendHideFalse()" (mouseleave)="sendHideTrue()"  class="padding-header" *ngIf="desktopMode" > <!-- TODO to move to features the desktopMode -->
+  <div  [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '50px' : '230px'}"    id="sidebar-container"  class=" " *ngIf="isUserLoggedIn">
 
     <ul  class="list-group sticky-top sticky-offset">
-      <li class="list-group-item sidebar-separator-title text-white d-flex align-items-center menu-collapsed">
+      <li style="background-color: white" class="list-group-item sidebar-separator-title text-info d-flex align-items-center menu-collapsed">
         <small *ngIf="!hide || userType != '2'" class="font-weight-bold text-uppercase">Menu</small>
       </li>
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
 
-        <a [routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-white">
-          <span  class="fas fa-box  mr-4 icon-dimension text-center"></span>
+        <a style="margin-left: -0.045em"[routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-info">
+          <span class="fas fa-box  mr-4 icon-dimension text-center"></span>
           <span  class="menu-collapsed">I miei coupon</span>
         </a>
-        <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-white">
+        <a style="margin-left: -0.045em" [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-info">
           <span class=" img-fluid fas fa-plus-circle mr-4 icon-dimension text-center"></span>
           <span  class="menu-collapsed">Aggiungi coupon</span>
         </a>
-        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-white">
-          <span style="padding-left: 0.18em" class=" img-fluid fas fa-file-contract mr-4 icon-dimension text-center"></span>
-          <span  class="menu-collapsed">Reports</span>
+        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action text-info">
+          <span  class=" img-fluid fas fa-file-contract mr-4 icon-dimension text-info"></span>
+          <span  style="margin-left: 0.15em" class="menu-collapsed">Reports</span>
         </a>
       </div>
       <div *ngIf="this.userType == '2' || this.userType == '0'">
 
-        <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item  text-white">
-          <span style="padding-left: 0.15em" class="img-fluid fas fa-shopping-bag mr-4 icon-dimension text-center"></span>
-          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
+        <a [routerLink]="['/reserved-area/consumer/showcase']" class="list-group-item  text-info">
+          <span style="margin-left: -0.045em"  class="img-fluid fas fa-shopping-bag mr-4 icon-dimension"></span>
+          <span style="margin-left: 0.15em" *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
         </a>
-        <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item  text-white">
-          <span  class=" img-fluid fas fa-shopping-basket mr-4 icon-dimension text-center"></span>
+        <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item  text-info">
+          <span style="margin-left: -0.2em" class=" img-fluid fas fa-shopping-basket mr-4 icon-dimension "></span>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
         </a>
-        <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item  text-white">
-          <span class=" img-fluid fas fa-file-import mr-4 icon-dimension text-center"></span>
-          <span *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
+        <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item  text-info">
+          <span style="margin-left: -0.2em" class=" img-fluid fas fa-file-import mr-4 icon-dimension "></span>
+          <span style="margin-left: 0.17em" *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
         </a>
       </div>
       <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-        <a [routerLink]="['/reserved-area/verifier']" class="list-group-item  text-white">
-          <span  class=" img-fluid fas fa-stamp mr-4 icon-dimension text-center"></span>
-          <span  class="menu-collapsed">Vidima coupon</span>
+        <a [routerLink]="['/reserved-area/verifier']" class="list-group-item  text-info">
+          <span style="margin-left: -0.2em" class=" img-fluid fas fa-stamp mr-4 icon-dimension "></span>
+          <span style="margin-left: 0.17em" class="menu-collapsed">Vidima coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType != '3'">
 
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item text-white">
-          <span style="padding-left: 0.12em" class=" img-fluid fas fa-user  mr-4 icon-dimension text-center"></span>
-          <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Informazioni personali</span>
+        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']" class="list-group-item text-info">
+          <span style="margin-left: -0.045em" class=" img-fluid fas fa-user  mr-4 icon-dimension "></span>
+          <span style="margin-left: 0.15em" *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Informazioni personali</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item text-white">
-          <span style="padding-left: 0.18em" class=" img-fluid fas fa-file-invoice  mr-4 icon-dimension text-center"></span>
-          <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Dati di fatturazione</span>
+        <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']" class="list-group-item text-info">
+          <span class=" img-fluid fas fa-file-invoice  mr-4 icon-dimension "></span>
+          <span style="margin-left: 0.23em" *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Dati di fatturazione</span>
         </a>
-        <a  class="list-group-item  text-white ">
-          <span style="padding-left: 0.18em" class=" img-fluid fas fa-receipt  mr-4 icon-dimension text-center"></span>
-          <span *ngIf="!hide || userType == '0' || userType == '1'"  >Ricevute</span>
+        <a  class="list-group-item  text-info ">
+          <span  class=" img-fluid fas fa-receipt  mr-4 icon-dimension text-center "></span>
+          <span style="margin-left: 0.18em" *ngIf="!hide || userType == '0' || userType == '1'"  >Ricevute</span>
         </a>
       </div>
     </ul>
