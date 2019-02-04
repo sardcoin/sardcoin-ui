@@ -35,10 +35,8 @@ export class FeatureComponent implements OnInit {
   isHide() {
     const innerWidth = window.innerWidth;
     if (innerWidth < 768) {
-      // this.globalEventService.changeHide(true);
       this.globalEventService.changeView(false);
     } else {
-      // this.globalEventService.changeHide(false);
       this.globalEventService.changeView(true);
     }
   }
@@ -46,16 +44,16 @@ export class FeatureComponent implements OnInit {
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => {
       this.hide = message;
-      console.log('hhhiiiii', this.hide)
+
       if (this.hide && this.userType == '2') {
 
         this.width = '50px';
-        console.log('this.width', this.width);
+
 
       } else {
 
         this.width = '230px';
-        console.log('this.width', this.width);
+
       }
 
 

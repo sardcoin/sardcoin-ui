@@ -65,30 +65,16 @@ export class SidebarComponent implements OnInit {
     this.globalEventService.changeHide(value);
   }
 
-  // @HostListener('mouseover') onHover() {
-  //   this.globalEventService.changeHide(false);
-  //   this.hide = false;
-  //   console.log(this.hide);
-  // }
-
-  // @HostListener('mouseout') onOut() {
-  //   this.globalEventService.changeHide(true);
-  //   this.hide = true;
-  //   console.log(this.hide);
-  //
-  // }
 
   sendHideTrue() {
 
       this.globalEventService.changeHide(true);
       this.hide = true;
-      console.log(this.hide);
   }
 
   sendHideFalse() {
 
     this.globalEventService.changeHide(false);
     this.hide = false;
-    console.log(this.hide);
   }
 }

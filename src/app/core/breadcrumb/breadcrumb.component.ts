@@ -35,7 +35,6 @@ export class BreadcrumbComponent {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
       this.userType = Number(this.globalEventService.userType.getValue());
-      console.log(' this.usetType',  this.userType);
     });
 
     this.globalEventService.desktopMode.subscribe(message => {
@@ -43,7 +42,7 @@ export class BreadcrumbComponent {
     });
 
     this.globalEventService.hideSource.subscribe(message => {
-      this.hide = message; console.log('hidea', this.hide);
+      this.hide = message;
     });
 
 
