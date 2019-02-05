@@ -21,9 +21,9 @@
                 <span class="fa fa-arrow-left fa-fw mr-3"></span>
                 <strong class="text-capitalize">Menu</strong>
               </div>
-              <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
-                  data-toggle="collapse" aria-expanded="false">
-                <strong class="text-capitalize"> <i class="fa fa-box"></i>Contenuti </strong></a>
+              <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
+                  <!--data-toggle="collapse" aria-expanded="false">-->
+                <!--<strong class="text-capitalize"> <i class="fa fa-box"></i>Contenuti </strong></a>-->
               <div  class=" align-items-start">
 
                 <div  *ngIf="this.userType == '1' || this.userType == '0'">
@@ -60,12 +60,16 @@
 
               </div>
               <div *ngIf="this.userType != '3'">
-                <a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"
-                    data-toggle="collapse" aria-expanded="false">
-                  <strong class="text-capitalize"><i class="fa fa-user"></i> Il mio profilo </strong></a>
+                <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
+                    <!--data-toggle="collapse" aria-expanded="false">-->
+                  <!--<strong class="text-capitalize"><i class="fa fa-user"></i> Il mio profilo </strong></a>-->
 
                 <!-- Submenu content -->
                 <div  class="align-items-start">
+                  <!--<a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">-->
+                    <!--<span (click)="clickEvent('/reserved-area/' + userStringType +'/personal-info')"-->
+                          <!--class="menu-collapsed">Informazioni personali</span>-->
+                  <!--</a>-->
 
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
