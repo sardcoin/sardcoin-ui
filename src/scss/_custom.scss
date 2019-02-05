@@ -137,6 +137,7 @@ app-core-sidebar {
 
 #sidebar-container .list-group a.list-group-item:hover {
   background-color: revert;
+  text-decoration: underline !important;
 }
 
 .list-group-item {
