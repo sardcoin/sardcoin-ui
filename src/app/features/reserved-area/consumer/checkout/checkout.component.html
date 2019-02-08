@@ -8,31 +8,118 @@
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
             <h2 class="card-text">Coupon nel Carrello</h2>
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th style="width: 40%">Titolo</th>
-                <th style="width: 10%">Immagine</th>
-                <th style="width: 10%">Prezzo</th>
-                <th style="width: 10%">Quantità</th>
-                <th style="width: 10%">Scadenza</th>
-              </tr>
-              </thead>
+            <div class="container-fluid d-none d-md-none d-xl-block">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th style="width: 40%">Titolo</th>
+                  <th style="width: 10%">Immagine</th>
+                  <th style="width: 10%">Prezzo</th>
+                  <th style="width: 10%">Quantità</th>
+                  <th style="width: 10%">Scadenza</th>
+                </tr>
+                </thead>
 
-              <tbody>
-              <tr *ngFor="let coupon of coupons">
-                <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-                </td>
-                <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
-                         alt="Card image cap"></td>
-                <td>{{formatPrice(coupon.price)}}</td>
-                <td>{{coupon.quantity}}</td>
-                <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
-              </tr>
+                <tbody>
+                <tr *ngFor="let coupon of coupons">
+                  <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+                  </td>
+                  <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
+                           alt="Card image cap"></td>
+                  <td>{{formatPrice(coupon.price)}}</td>
+                  <td>{{coupon.quantity}}</td>
+                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                </tr>
 
-              </tbody>
+                </tbody>
 
-            </table>
+              </table>
+            </div> <!-- XL TABLE -->
+            <div class="container-fluid d-none d-md-none d-lg-block d-xl-none">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th style="width: 40%">Titolo</th>
+                  <th style="width: 10%">Immagine</th>
+                  <th style="width: 10%">Prezzo</th>
+                  <th style="width: 10%">Quantità</th>
+                  <th style="width: 10%">Scadenza</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr *ngFor="let coupon of coupons">
+                  <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+                  </td>
+                  <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
+                           alt="Card image cap"></td>
+                  <td>{{formatPrice(coupon.price)}}</td>
+                  <td>{{coupon.quantity}}</td>
+                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                </tr>
+
+                </tbody>
+
+              </table>
+            </div> <!-- LG TABLE -->
+            <div class="container-fluid d-none d-md-block d-lg-none">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th style="width: 40%">Titolo</th>
+                  <th style="width: 10%">Immagine</th>
+                  <th style="width: 10%">Prezzo</th>
+                  <th style="width: 10%">Quantità</th>
+                  <th style="width: 10%">Scadenza</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr *ngFor="let coupon of coupons">
+                  <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
+                  </td>
+                  <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
+                           alt="Card image cap"></td>
+                  <td>{{formatPrice(coupon.price)}}</td>
+                  <td>{{coupon.quantity}}</td>
+                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                </tr>
+
+                </tbody>
+
+              </table>
+            </div> <!-- MD TABLE -->
+            <div  style="margin-left: -2rem !important; margin-right: -2.35em !important;" class="d-block d-md-none ">
+              <div *ngFor="let coupon of coupons">
+                <div style="background-color: snow; " class="card flex-row flex-wrap">
+                  <div style="background-color:snow" class="card-header border-0 col-sm-4 col-5">
+                    <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+                  </div>
+                  <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
+                    <h5 class="card-text">{{coupon.title}}</h5>
+
+
+                  </div>
+                  <div style="float: left !important; min-width: 100%">{{coupon.description}}</div>
+                  <div  style="float: left !important;" class="text-info">
+
+
+                      Scadenza: {{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}
+
+                  </div>
+                  <div style="font-size: 1.5em; padding-right: 0.4em; padding-left: 0.4em" class="card-footer w-100 text-muted">
+
+                      Quantità: {{coupon.quantity}}
+
+                    <div style="float: right">
+                      {{formatPrice(coupon.price)}}
+                    </div>
+                  </div>
+                </div>
+
+              </div> <!-- SM CARD -->
+
+
             <div class="float-right">
               <h4>Importo totale: € {{totalAmount}}</h4>
             </div>
@@ -44,11 +131,21 @@
             <p><b>Account Paypal: </b>{{user.email_paypal}}</p>
           </div>
 
-          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Conferma e paga
+          <button class="btn btn-lg btn-success float-right ml-2 d-md-block d-lg-block d-xl-block d-none" (click)="openModal(template)">Conferma e paga
 
           </button>
 
-          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna al Carrello</button>
+          <button class="btn btn-lg btn-success  float-right ml-2 d-block d-md-none d-lg-none d-xl-none" (click)="openModal(template)">
+            <i class="fas fa-euro-sign"></i>
+            Paga
+          </button>
+
+          <button class="btn btn-lg btn-primary float-right d-md-block d-lg-block d-xl-block d-none" (click)="retry()">
+            Ritorna al Carrello</button>
+
+          <button class="btn btn-lg btn-primary  float-right d-block d-md-none d-lg-none d-xl-none" (click)="retry()">
+            <i class="fas fa-shopping-basket"></i>
+            Carrello</button>
         </div>
 
       </div>
