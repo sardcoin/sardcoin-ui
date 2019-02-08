@@ -44,7 +44,10 @@
             <p><b>Account Paypal: </b>{{user.email_paypal}}</p>
           </div>
 
-          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Conferma e paga</button>
+          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Conferma e paga
+
+          </button>
+
           <button class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna al Carrello</button>
         </div>
 
@@ -60,23 +63,24 @@
   <button class="col-sm-5 btn btn-danger" (click)="retry()">Ritorna al Carrello</button>
 </div>
 
-<ng-template #template>
-  <div class="modal-header">
+<ng-template  #template>
+  <div  class="modal-header">
     <h4 class="modal-title pull-left">Pagamento n. #236748227</h4> <!-- TODO: fix order number -->
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
-  <div class="modal-body">
+  <div  class="modal-body">
     <p *ngIf="totalAmount !== 0" class="card-text">Seleziona <b>metodo di pagamento</b> preferito, per finalizzare il tuo acquisto.
       Dopo aver completato il pagamento, riceverai un messaggio di conferma.</p>
     <p *ngIf="totalAmount === 0" class="card-text">Il tuo ordine è <b>Gratis!</b>, puoi saltare la fase di pagamento. Vuoi confermare il tuo acquisto?</p>
   </div>
 
-  <div class="modal-footer">
+  <div   class="modal-footer">
     <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy()">Conferma acquisto (senza pagare)
     </button>
-    <ngx-paypal class="mx-auto" *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
+    <ngx-paypal   class="mx-auto" *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
   </div>
 </ng-template>
+

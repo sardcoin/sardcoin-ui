@@ -38,7 +38,7 @@ export class CouponService {
     return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCouponsById/' + id));
   }
 
-  getCouponById(id: number){
+  getCouponById(id: number) {
     return this.http.get<Coupon>(this.formatUrl('getById/' + id));
   }
 
@@ -83,15 +83,19 @@ export class CouponService {
   }
 
   redeemCoupon(token: any) {
-    let body = {
+    const body = {
       token: token
     };
     return this.http.request('put', this.formatUrl('redeemCoupon'), {body: body});
   }
 
+
+
   private formatUrl(methodName) {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
   }
+
+
 }
 
 

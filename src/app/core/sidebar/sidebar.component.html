@@ -8,11 +8,11 @@
 
       <div *ngIf="this.userType == '1' || this.userType == '0'">
 
-        <a style="margin-left: -0.045em"[routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-info">
+        <a style="margin-left: -0.175em"[routerLink]="['/reserved-area/producer/list']" class="list-group-item list-group-item-action text-info">
           <span class="fas fa-box  mr-4 icon-dimension text-center"></span>
           <span  class="menu-collapsed">I miei coupon</span>
         </a>
-        <a style="margin-left: -0.045em" [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-info">
+        <a style="margin-left: -0.175em" [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action text-info">
           <span class=" img-fluid fas fa-plus-circle mr-4 icon-dimension text-center"></span>
           <span  class="menu-collapsed">Aggiungi coupon</span>
         </a>
@@ -36,7 +36,7 @@
           <span style="margin-left: 0.17em" *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
         </a>
       </div>
-      <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
+      <div style="margin-left: 0.1em" *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
         <a [routerLink]="['/reserved-area/verifier']" class="list-group-item  text-info">
           <span style="margin-left: -0.2em" class=" img-fluid fas fa-stamp mr-4 icon-dimension "></span>
           <span style="margin-left: 0.17em" class="menu-collapsed">Vidima coupon</span>
