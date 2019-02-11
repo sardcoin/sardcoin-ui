@@ -7,7 +7,6 @@
         </div>
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
-            <!--<h2 class="card-text ">Coupon nel Carrello</h2>-->
             <div class="container-fluid d-none d-md-none d-xl-block">
               <table class="table table-striped">
                 <thead>
@@ -28,12 +27,29 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
 
               </table>
+              <div class="float-right">
+                <h3  class="">Importo totale: {{formatPrice(totalAmount)}}</h3>
+
+              </div>
+
+              <h2 >Dati fatturazione</h2>
+
+              <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+              <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+              <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">
+                <i class="fas fa-euro-sign"></i>
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-primary float-right" (click)="retry()">
+                <i class="fas fa-shopping-basket"></i>
+                Ritorna al Carrello</button>
             </div> <!-- XL TABLE -->
             <div class="container-fluid d-none d-md-none d-lg-block d-xl-none">
               <table class="table table-striped">
@@ -55,12 +71,31 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
 
               </table>
+
+              <div class="float-right">
+                <h3  class="">Importo totale: {{formatPrice(totalAmount)}}</h3>
+
+              </div>
+
+              <h2 >Dati fatturazione</h2>
+
+              <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+              <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+
+              <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">
+                <i class="fas fa-euro-sign"></i>
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-primary float-right" (click)="retry()">
+                <i class="fas fa-shopping-basket"></i>
+                Ritorna al Carrello</button>
             </div> <!-- LG TABLE -->
             <div class="container-fluid d-none d-md-block d-lg-none">
               <table class="table table-striped">
@@ -82,32 +117,50 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
 
               </table>
+              <div class="float-right">
+                <h4  class="">Importo totale: {{formatPrice(totalAmount)}}</h4>
+
+              </div>
+
+              <h3 >Dati fatturazione</h3>
+
+              <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+              <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+              <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">
+                <i class="fas fa-euro-sign"></i>
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-primary float-right" (click)="retry()">
+                <i class="fas fa-shopping-basket"></i>
+                Ritorna al Carrello</button>
             </div> <!-- MD TABLE -->
-            <div  style="margin-left: -2rem !important; margin-right: -2.35em !important;" class="d-block d-md-none ">
+            <div   class="d-none d-sm-block d-lg-none d-md-none d-xl-none">
+
               <div *ngFor="let coupon of coupons">
                 <div style="background-color: snow; " class="card flex-row flex-wrap">
                   <div style="background-color:snow" class="card-header border-0 col-sm-4 col-5">
-                    <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+                    <img class="div-image"  [src]="imageUrl(coupon.image)" alt="">
                   </div>
                   <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
                     <h5 class="card-text">{{coupon.title}}</h5>
 
 
                   </div>
-                  <div style="float: left !important; min-width: 100% ; padding-left: 1em; padding-right: 1em">{{coupon.description}}</div>
-                  <div  style="float: left !important; padding-left: 1em; padding-right: 1em;padding-bottom: 0.4em" class="text-info">
+                  <div class="div-description">{{coupon.description}}</div>
+                  <div   class="text-info div-validity">
 
 
-                      Scadenza: {{coupon.valid_until === null? 'Unlimited': formatUntil(coupon.valid_until) }}
+                      Scadenza: {{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}
 
                   </div>
-                  <div style="font-size: 1.5em; padding-right: 0.4em; padding-left: 0.4em" class="card-footer w-100 text-muted">
+                  <div  class="card-footer w-100 text-muted div-quantity">
 
                       Quantità: {{coupon.quantity}}
 
@@ -117,43 +170,84 @@
                   </div>
                 </div>
 
-              </div> <!-- SM CARD -->
 
 
 
-          </div>
-            <div class="float-right  p-2">
-              <h4 class="d-md-block d-lg-block d-xl-block d-none">Importo totale: {{formatPrice(totalAmount)}}</h4>
-              <h5 style="margin-right: -2em" class="d-block d-md-none d-lg-none d-xl-none ">Totale: {{formatPrice(totalAmount)}}</h5>
+              </div>
 
-            </div>
+              <div class="float-right ">
+                <h5  class="">Importo totale: {{formatPrice(totalAmount)}}</h5>
 
-            <h2 class="card-text mt-5 d-md-block d-lg-block d-xl-block d-none ">Dati fatturazione</h2>
-            <h4 style="margin-left: -1.5em" class="card-text mt-5 d-block d-md-none d-lg-none d-xl-none p-2">Dati fatturazione</h4>
+              </div>
 
-            <p class=" p-2"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-            <p class=" p-2"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-            <p class=" p-2"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-          <button class="btn btn-lg btn-success float-right ml-2 d-md-block d-lg-block d-xl-block d-none" (click)="openModal(template)">Conferma e paga
+              <h4 class="div-top-info" >Dati fatturazione</h4>
 
-          </button>
+              <p  class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+              <p  class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              <p  class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+              <button class="btn btn-lg btn-success p-2  float-right ml-2" (click)="openModal(template)">
+                <i class="fas fa-euro-sign"></i>
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
+                <i class="fas fa-shopping-basket"></i>
+                Ritorna al carrello</button>
+          </div><!-- SM CARD -->
 
-          <button class="btn btn-lg btn-success p-2  float-right ml-2 d-block d-md-none d-lg-none d-xl-none" (click)="openModal(template)">
-            <i class="fas fa-euro-sign"></i>
-            Paga
-          </button>
 
-          <button class="btn btn-lg btn-primary float-right d-md-block d-lg-block d-xl-block d-none" (click)="retry()">
-            Ritorna al Carrello</button>
+            <div   class="d-block d-xl-none d-sm-none d-md-none d-lg-none ">
 
-          <button class="btn btn-lg btn-primary p-2  float-right d-block d-md-none d-lg-none d-xl-none" (click)="retry()">
-            <i class="fas fa-shopping-basket"></i>
-            Carrello</button>
-        </div>
+              <div *ngFor="let coupon of coupons">
+                <div style="background-color: snow; " class="card flex-row flex-wrap">
+                  <div style="background-color:snow" class="card-header border-0  col-5">
+                    <img class="div-image-xs" [src]="imageUrl(coupon.image)" alt="">
+                  </div>
+                  <div class="col-sm-8 col-7 div-title" >
+                    <h5 class="card-text">{{coupon.title}}</h5>
 
+
+                  </div>
+                  <div class="div-description">{{coupon.description}}</div>
+                  <div   class="text-info div-validity">
+
+
+                    Scadenza: {{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}
+
+                  </div>
+                  <div  class="card-footer w-100 text-muted div-quantity">
+
+                    Quantità: {{coupon.quantity}}
+
+                    <div style="float: right">
+                      {{formatPrice(coupon.price)}}
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+
+              <div class="float-right ">
+                <h5  class="">Totale: {{formatPrice(totalAmount)}}</h5>
+
+              </div>
+
+              <h4 class="margin-top-info" >Dati fatturazione</h4>
+
+              <p  class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+              <p  class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              <p  class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+              <button class="btn btn-lg btn-success p-2  float-right ml-2" (click)="openModal(template)">
+                <i class="fas fa-euro-sign"></i>
+                Paga
+              </button>
+              <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
+                <i class="fas fa-shopping-basket"></i>
+                Carrello</button>
+            </div><!-- XS CARD -->
       </div>
-
-
     </div>
   </div>
 </div>
