@@ -30,6 +30,8 @@ export class CartComponent implements OnInit, OnDestroy {
   cart: CartItem[];
   modalRef: BsModalRef;
   isDesktop: boolean;
+  totalAmount = 0;
+
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -66,6 +68,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
       elementToPush.quantity = element.quantity;
       elementToPush.max_quantity = maxQuantity;
+      this.totalAmount += element.quantity * elementToPush.price;
+
 
       this.coupons.push(elementToPush);
     });
@@ -165,4 +169,16 @@ export class CartComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
+
+  // async loadCart() {
+  //   this.cart.forEach(async element => {
+  //
+  //     const elementToPush = await this.couponService.getCouponById(element.id).toPromise();
+  //     elementToPush.quantity = element.quantity;
+  //
+  //     this.totalAmount += element.quantity * elementToPush.price;
+  //
+  //     this.coupons.push(elementToPush);
+  //   });
+  // }
 }

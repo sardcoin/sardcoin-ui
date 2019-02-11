@@ -214,7 +214,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
     const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('Z') - 4);
 
-    return date + ' ' + time;
+    return date + ' ' + 'ore ' + time;
   }
 
   imageUrl(path) {
