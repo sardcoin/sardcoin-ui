@@ -14,7 +14,7 @@
         <a *ngIf="item !== 'undefined'">{{item.label}}</a>
       </option>
     </select>
-    <div class="col"  style="margin-right: 50px; text-align: right" >
+    <div class="col"  style="margin-right: -0.5em; text-align: right" >
       <ng-container *ngIf="desktopMode && userType == 2">
         <div   (click)="viewCart()" >
           <a   *ngIf="cart.length === 0">Il tuo carrello <b class="text-info">è vuoto</b>! </a>

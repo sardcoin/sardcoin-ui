@@ -75,7 +75,8 @@
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
       class="fas fa-euro-sign mr-2"></i>Vai alla cassa
     </button>
-    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
+    <button class="btn btn-lg btn-primary float-right" (click)="retry()">
+      <i class="fas fa-shopping-basket mr-2"></i>Vai allo shopping</button>
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
       class="fas fa-trash"></i> Svuota il Carrello
     </button>
@@ -209,12 +210,12 @@
 
     </div>
 
-    <div style="padding-bottom: 5em" class="float-right col">
+    <div  class=" card-body p-0 float-right container-fluid">
       <button class="btn btn-lg btn-success float-right" type="button" (click)="goToDetailPayment()"><i
         class="fas fa-euro-sign mr-2"></i> Paga
       </button>
-      <button class="btn btn-lg btn-primary float-right mr-sm-0 mr-1" (click)="retry()"><i
-        class="fas fa-shopping-basket"></i> Shopping
+      <button class="btn btn-lg btn-primary float-right mr-sm-0 mr-1" (click)="retry()">
+        <i class="fas fa-shopping-basket mr-2"></i> Shopping
       </button>
       <button class="btn btn-lg btn-warning text-white float-left mr-sm-0 mr-1" (click)="openModal(emptyCartTemplate)">
         <i class="fas fa-trash"></i></button>
@@ -227,10 +228,23 @@
     <img class="img-fluid" src="assets/img/empty.png">
     <h3 class="display-3" style="font-size: 2rem;">Il carrello è vuoto!</h3>
   </div>
-  <div class="col-sm-12 mt-4 text-center">
-    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">Vai ai tuoi acquisti
+  <div class="col-sm-12 mt-4 text-center d-xl-block d-lg-block d-md-block d-sm-block d-none">
+    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
+      <span   class="fas fa-shopping-bag "></span>
+      Vai ai tuoi acquisti
     </button>
-    <button class="btn btn-lg btn-primary" (click)="retry()">Vai allo shopping</button>
+    <button class="btn btn-lg btn-primary" (click)="retry()">
+      <span  class=" fas fa-shopping-basket"></span>
+      Vai allo shopping</button>
+  </div>
+  <div class="col-sm-12 mt-4 text-center d-xl-none d-lg-none d-md-none d-sm-none d-block">
+    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
+      <span   class="fas fa-shopping-bag "></span>
+      Acquisti
+    </button>
+    <button class="btn btn-lg btn-primary" (click)="retry()">
+      <span  class=" fas fa-shopping-basket"></span>
+      Shopping</button>
   </div>
 </div>
 
