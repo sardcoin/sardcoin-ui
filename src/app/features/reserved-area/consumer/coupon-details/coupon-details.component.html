@@ -1,4 +1,4 @@
-<div *ngIf="couponPass !== null  ">
+<div *ngIf="couponPass !== null  " class="container-fluid px-0">
   <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
     <div class="card mx-4" style="padding: 5px">
       <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
@@ -54,14 +54,14 @@
 
         <div *ngIf="!desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                  class="btn btn-lg btn-success float-right ml-2"
+                  class="btn  btn-success float-right ml-2"
                   [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
-            <i class="fas fa-cart-plus"> Aggiungi</i>
+            <i class="fas fa-cart-plus"> </i> Aggiungi
           </button>
-          <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i
-            class="fas fa-shopping-cart"> Carrello</i></button>
-          <button class="btn btn-lg btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket">
-            Shopping</i></button>
+          <button *ngIf="inCart(couponPass.id)" class="btn btn-success float-right ml-2" (click)="viewCart()">
+            <i class="fas fa-shopping-cart"> </i> Carrello</button>
+          <button class="btn  btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket">
+            </i> Shopping</button>
         </div>
 
       </div>
