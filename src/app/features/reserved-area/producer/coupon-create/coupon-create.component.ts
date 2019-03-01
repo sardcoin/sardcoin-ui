@@ -11,6 +11,7 @@ import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -38,6 +39,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
+  broker = [{ id: '5a15b13c2340978ec3d2c0ea', name: 'Rochelle Estes', disabled: true },
+    { id: '5a15b13c663ea0af9ad0dae8', name: 'Mendoza Ruiz' },
+    { id: '5a15b13c728cd3f43cc0fe8a', name: 'Marquez Nolan' }];
+  selectedBroker = [];
+
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -49,6 +56,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
+
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],

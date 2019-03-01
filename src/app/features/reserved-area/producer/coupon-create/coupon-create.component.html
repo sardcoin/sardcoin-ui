@@ -108,7 +108,22 @@
                   <label class="custom-control-label" for="privateCheck">Privato</label>
                 </div>
               </div>
-            </div> <!-- Published From -->
+            </div>
+            <div *ngIf="markedPrivate" class="form-group row">
+              <label class="col-sm-2 col-form-label">Privato per: </label>
+              <div class="col-sm-8">
+                <ng-select
+                  [items]="broker"
+                  [multiple]="true"
+                  [closeOnSelect]="true"
+                  [searchable]="true"
+                  bindLabel="name"
+                  placeholder="Select broker"
+                  [(ngModel)]="selectedBroker">
+                </ng-select>
+              </div>
+            </div>
+            <!-- Published From -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valido da</label>
