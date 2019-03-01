@@ -57,12 +57,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   ngOnInit(): void {
 
+    // console.log('brober', this.selectedBroker)
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [0, Validators.required],
       published_from: [new Date()],
+      broker: [this.selectedBroker],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],

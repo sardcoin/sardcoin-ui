@@ -112,7 +112,7 @@
             <div *ngIf="markedPrivate" class="form-group row">
               <label class="col-sm-2 col-form-label">Privato per: </label>
               <div class="col-sm-8">
-                <ng-select
+                <ng-select formControlName="broker"
                   [items]="broker"
                   [multiple]="true"
                   [closeOnSelect]="true"
