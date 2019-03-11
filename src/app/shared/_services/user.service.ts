@@ -24,6 +24,10 @@ export class UserService {
     return this.http.get<User>(this.formatUrl('getProducerFromId/') + id);
   }
 
+  getBrokers() {
+    return this.http.get<User[]>(this.formatUrl('getBrokers/') );
+  }
+
   private formatUrl(methodName) {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/users/' + methodName;
   }

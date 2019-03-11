@@ -12,6 +12,8 @@ import {QuantityCouponValidation} from './validator/QuantityCouponValidation.dir
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs';
+import {User} from '../../../../shared/_models/User';
+import {UserService} from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -21,6 +23,8 @@ import {Observable} from 'rxjs';
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
+
+  brokers: User[];
 
   markedUnlimited = false;
   markedFree = false;
@@ -39,9 +43,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
-  broker = [{ id: '5a15b13c2340978ec3d2c0ea', name: 'Rochelle Estes', disabled: true },
-    { id: '5a15b13c663ea0af9ad0dae8', name: 'Mendoza Ruiz' },
-    { id: '5a15b13c728cd3f43cc0fe8a', name: 'Marquez Nolan' }];
   selectedBroker = [];
 
 
@@ -52,7 +53,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
+    private userService: UserService,
   ) {
+    this.userService.getBrokers().subscribe( brokers => {
+      this.brokers = brokers;
+      console.log('brokers', this.brokers);
+    });
   }
 
   ngOnInit(): void {
