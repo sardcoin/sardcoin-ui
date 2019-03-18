@@ -34,12 +34,12 @@
 
       <td>
         <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i
-          class="fas fa-info-circle"></i> <span class="d-xl-inline-block d-lg-none">Dettagli</span>
+          class="fas fa-info-circle"></i> <span class="d-xl-inline-block d-lg-none"> Dettagli</span>
         </button>
       </td>
       <td>
         <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i>
-          <span class="d-xl-inline-block d-lg-none">Elimina</span>
+          <span class="d-xl-inline-block d-lg-none"> Elimina</span>
         </button>
       </td>
 
@@ -66,9 +66,14 @@
     </tbody>
 
   </table>
+
+  <div class="card-body p-0">
+    <h3 class="text-right">Subtotale: € {{subtotal.toFixed(2)}}</h3>
+  </div>
+
   <div class="card-body p-0">
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-      class="fas fa-euro-sign mr-2"></i>Vai alla cassa
+      class="fas fa-euro-sign mr-2"></i> Vai alla cassa
     </button>
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
@@ -132,7 +137,7 @@
   </table>
   <div class="card-body p-0">
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-      class="fas fa-euro-sign mr-2"></i>Vai alla cassa
+      class="fas fa-euro-sign mr-2"></i> Vai alla cassa
     </button>
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
@@ -207,6 +212,8 @@
     </div>
   </div>
 </div> <!-- SM VIEW -->
+
+
 
 <div *ngIf="cart.length === 0" class="container-fluid">
   <div class="col-sm-12 text-center">

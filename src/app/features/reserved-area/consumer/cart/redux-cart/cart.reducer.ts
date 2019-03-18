@@ -7,7 +7,7 @@ export function CartReducer(state: CartState = CART_INITIAL_STATE, action): Cart
 
   switch (action.type) {
     case CART_INIT:
-      return Object.assign({}, state,{list: action.list});
+      return Object.assign({}, state,{list: action.list, total: 0});
 
     case CART_ADD_PROD:
       cartAux = state.list;

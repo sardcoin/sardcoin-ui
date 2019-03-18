@@ -1,4 +1,4 @@
-export class CartItem  {
+export class CartItem  { // TODO aggiungere prezzo
   id: number;
   quantity: number;
 }

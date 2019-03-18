@@ -155,7 +155,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         // if (data['status']) {
         //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
         // } else {
-          this.toastr.success('', 'Coupon edited successfully!');
+          this.toastr.success('', 'Coupon modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
         // }
       }, err => {

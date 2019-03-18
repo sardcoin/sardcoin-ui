@@ -152,4 +152,5 @@ export class CartActions {
   getQuantityCart() {
     return this.reduxCart.length;
   }
+
 }

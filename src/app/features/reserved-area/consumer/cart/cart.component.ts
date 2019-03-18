@@ -41,7 +41,6 @@ export class CartComponent implements OnInit, OnDestroy {
     private breadcrumbActions: BreadcrumbActions,
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
-
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
@@ -94,6 +93,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     if(await this.cartActions.addElement(item)){
       index = this.coupons.findIndex((element) => element.id === coupon.id);
+
       this.coupons[index].quantity = newQuantity;
     }
   } /* If increment is true, then an add of quantity in the cart is performed, else a deletion is performed */

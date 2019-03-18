@@ -7,7 +7,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {Router} from '@angular/router';
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import {Directive, HostBinding, HostListener} from '@angular/core';
 
 
 @Component({
@@ -17,12 +17,7 @@ import { Directive, HostBinding, HostListener } from '@angular/core';
 
 })
 
-
-
-
-
 export class HeaderComponent implements OnInit {
-
 
   isUserLoggedIn = false;
   username: string;
@@ -34,9 +29,6 @@ export class HeaderComponent implements OnInit {
   hide = true;
   image: string;
   isDesktop: boolean;
-  navbarCollapsed = true;
-  public _opened = false;
-
 
   constructor(
     private actions: LoginActions,
@@ -61,16 +53,14 @@ export class HeaderComponent implements OnInit {
             this.userStringType = 'producer';
             return true;
           case '2': // consumer
-          this.userStringType = 'consumer';
-          return true;
+            this.userStringType = 'consumer';
+            return true;
           case '3': // verify
             this.userStringType = 'verify';
             return true;
         }
       });
     });
-
-
   }
 
   logout() {
@@ -94,16 +84,18 @@ export class HeaderComponent implements OnInit {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     }
   }
+
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => this.isHide = message);
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
   }
 
-  clickEvent(link?: string ) {
+  clickEvent(link?: string) {
     if (link) {
-     this.router.navigate([link]);
+      this.router.navigate([link]);
     }
-   }
+  }
+
   viewCart() {
     this.router.navigate(['/reserved-area/consumer/cart']);
   }
