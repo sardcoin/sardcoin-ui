@@ -31,6 +31,10 @@
           <span style="margin-left: -0.045em"  class="img-fluid fas fa-shopping-bag mr-4 icon-dimension"></span>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
         </a>
+        <a [routerLink]="['/reserved-area/consumer/order']" class="list-group-item  text-info">
+          <span style="margin-left: -0.045em"  class="img-fluid fas fa-book mr-4 icon-dimension"></span>
+          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei ordini</span>
+        </a>
         <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item  text-info">
           <span style="margin-left: -0.2em" class=" img-fluid fas fa-file-import mr-4 icon-dimension "></span>
           <span style="margin-left: 0.17em" *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>

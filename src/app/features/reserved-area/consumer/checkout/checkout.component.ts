@@ -98,6 +98,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.couponService.buyCoupons(this.cart, paymentID).subscribe(response => {
 
         if (response['status']) {
+          console.log('response', response)
           this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
         } else {
           this.cartActions.emptyCart();

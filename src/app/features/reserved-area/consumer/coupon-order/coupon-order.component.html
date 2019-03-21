@@ -1,0 +1,93 @@
+<div class="table-responsive d-none d-md-none d-lg-block">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 40%">Titolo</th>
+          <th scope="col" style="width: 20%">Immagine</th>
+          <th scope="col" style="width: 15%">Prezzo</th>
+          <th scope="col" style="width: 25%">Stato</th>
+          <th scope="col" style="width: 10%"></th>
+        </tr>
+      </thead>
+
+      <tbody class="col-sm-12" *ngFor="let coupon of coupons">
+        <tr *ngFor="let token of coupon.CouponTokens ">
+          <td>
+            <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+            <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+          </td>
+          <td ><img class="img-thumbnail" [src]="imageUrl(coupon.image)" style="max-width: 150px;" alt="Card image cap"></td>
+          <td >{{formatPrice(coupon.price)}}</td>
+          <td [ngStyle]="{color: token.verifier ? 'red' : '#24cc32'}" class="text-uppercase td-state"><b>{{formatState(token.verifier)}}</b></td>
+
+          <td>
+            <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">
+              <i class="fas fa-info-circle"></i> Dettagli
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- XL + LG VIEW -->
+
+<div class="d-none d-md-block d-lg-none">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 50%">Titolo</th>
+        <th scope="col" style="width: 15%">Prezzo</th>
+        <th scope="col" style="width: 25%">Stato</th>
+        <th scope="col" style="width: 10%"></th>
+      </tr>
+      </thead>
+
+      <tbody class="col-sm-12" *ngFor="let coupon of coupons">
+      <tr *ngFor="let token of coupon.CouponTokens ">
+        <td>
+          <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+          <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        </td>
+        <td >{{formatPrice(coupon.price)}}</td>
+        <td [ngStyle]="{color: token.verifier ? 'red' : '#24cc32'}" class="text-uppercase td-state"><b>{{formatState(token.verifier)}}</b></td>
+
+        <td>
+          <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">
+            <i class="fas fa-info-circle"></i> Dettagli
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- MD VIEW -->
+<div class="d-block d-md-none">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 60%">Titolo</th>
+        <th scope="col" style="width: 20%">Stato</th>
+        <th scope="col" style="width: 20%"></th>
+      </tr>
+      </thead>
+
+      <tbody class="col-sm-12" *ngFor="let coupon of coupons">
+      <tr *ngFor="let token of coupon.CouponTokens ">
+        <td>
+          <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
+          <i style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
+        </td>
+        <td [ngStyle]="{color: token.verifier ? 'red' : '#24cc32'}" class="text-uppercase td-state"><b>{{formatState(token.verifier)}}</b></td>
+        <td class="text-center">
+          <button type="button" (click)="details(coupon, token)" class="btn btn-info text-white">
+            <i class="fas fa-info-circle"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- SM VIEW -->

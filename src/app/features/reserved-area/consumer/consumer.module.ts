@@ -19,6 +19,8 @@ import {ProducerInfoComponent} from './producer-info/producer-info.component';
 import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
 import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
 import {CartActions} from './cart/redux-cart/cart.actions';
+import {CouponOrderDetailComponent} from './coupon-order/coupon-order-detail/coupon-order-detail.component';
+import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-order.component';
 
 /** External Libraries **/
 import {QRCodeModule} from 'angularx-qrcode';
@@ -36,6 +38,8 @@ import {NgxPayPalModule} from 'ngx-paypal';
     CouponImportComponent,
     CouponBoughtDetailComponent,
     ProducerInfoComponent,
+    FeatureReservedAreaConsumerOrderComponent,
+    CouponOrderDetailComponent
   ],
   imports: [
     SharedModule,

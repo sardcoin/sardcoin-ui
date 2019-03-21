@@ -39,6 +39,7 @@
                   </a>-->
                 </div>
 
+
                 <div *ngIf="this.userType == '2' || this.userType == '0'">
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/consumer/showcase')" class="menu-collapsed">Shopping</span>
@@ -46,6 +47,10 @@
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                     <span (click)="clickEvent('/reserved-area/consumer/bought')"
                           class="menu-collapsed">I miei Acquisti</span>
+                  </a>
+                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                    <span (click)="clickEvent('/reserved-area/consumer/order')"
+                          class="menu-collapsed">I miei Ordini</span>
                   </a>
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                     <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Importa coupon</span>
