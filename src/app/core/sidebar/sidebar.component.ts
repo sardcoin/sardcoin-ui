@@ -26,27 +26,32 @@ export class SidebarComponent implements OnInit {
       this.isUserLoggedIn = value;
     });
 
+    this.globalEventService.hideSource.subscribe(value => {
+      this.hide = value;
+      console.log('Hide: ', this.hide);
+    });
+
     this.globalEventService.userType.subscribe(value => {
       this.userType = value;
 
       switch (this.userType) {
         case '0': // admin
           this.userStringType = 'admin';
-          this.sendHideFalse();
-          return true;
+          this.sendHide(false);
+          break;
         case '1': // producer
           this.userStringType = 'producer';
-          this.sendHideFalse();
-          return true;
+          this.sendHide(false);
+          break;
         case '2': // consumer
           this.userStringType = 'consumer';
-          this.hide = true;
-          this.sendHideTrue();
-          return true;
+          // this.hide = true;
+          this.sendHide(true);
+          break;
         case '3': // verify
           this.userStringType = 'verify';
-          this.sendHideFalse();
-          return true;
+          this.sendHide(false);
+          break;
       }
     });
   }
@@ -56,25 +61,12 @@ export class SidebarComponent implements OnInit {
 
 
     this.globalEventService.desktopMode.subscribe(message => {
-      this.desktopMode = message
+      this.desktopMode = message;
     });
   }
 
 
-  hideSideBar(value: boolean) {
-    this.globalEventService.changeHide(value);
-  }
-
-
-  sendHideTrue() {
-
-      this.globalEventService.changeHide(true);
-      this.hide = true;
-  }
-
-  sendHideFalse() {
-
-    this.globalEventService.changeHide(false);
-    this.hide = false;
+  sendHide(signal: boolean) {
+    this.globalEventService.changeHide(signal);
   }
 }
