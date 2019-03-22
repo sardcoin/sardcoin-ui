@@ -1,18 +1,16 @@
 .padding-header {
-
   padding-top: 1em;
 }
 
-
 .padding-left-sidebar-item {
-
   padding-left: 2.4em;
 }
 
 .icon-dimension {
-
-
   font-size: 1.2em !important;
 }
 
 
+div.text-center.d-inline-block {
+  width: 40px;
+}

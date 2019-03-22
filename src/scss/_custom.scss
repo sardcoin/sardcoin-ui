@@ -53,7 +53,7 @@ app-core-sidebar {
 
 #main-container {
   padding: 15px 0; /*9px 28px; */
-  margin-top: 50px;
+  margin-top: 47px;
   flex: 1 0 auto;
 }
 
@@ -131,13 +131,8 @@ app-core-sidebar {
   padding-left: 10px;
 }
 
-#sidebar-container .list-group a.list-group-item {
-  background-color: inherit;
-}
-
 #sidebar-container .list-group a.list-group-item:hover {
   background-color: revert;
-  text-decoration: underline !important;
 }
 
 .list-group-item {
@@ -284,4 +279,20 @@ table {
 #padding-top-sidebar {
 
   padding-top: 3em;
+}
+
+.red-sardcoin {
+  color: rgb(204, 51, 0) !important;
+}
+
+.gray-sardcoin {
+  color: rgb(51, 63, 80) !important;
+}
+
+.border-red-sardcoin {
+  border-color: rgb(204, 51, 0) !important;
+}
+
+.border-gray-sardcoin {
+  border-color: rgb(51, 63, 80) !important;
 }
