@@ -32,15 +32,20 @@ export class SidebarComponent implements OnInit {
       switch (this.userType) {
         case '0': // admin
           this.userStringType = 'admin';
+          this.sendHideFalse();
           return true;
         case '1': // producer
           this.userStringType = 'producer';
+          this.sendHideFalse();
           return true;
         case '2': // consumer
           this.userStringType = 'consumer';
+          this.hide = true;
+          this.sendHideTrue();
           return true;
         case '3': // verify
           this.userStringType = 'verify';
+          this.sendHideFalse();
           return true;
       }
     });
@@ -49,9 +54,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
 
-    this.globalEventService.hideSource.subscribe(message => {
-      this.hide = message
-    });
 
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message
@@ -63,4 +65,16 @@ export class SidebarComponent implements OnInit {
     this.globalEventService.changeHide(value);
   }
 
+
+  sendHideTrue() {
+
+      this.globalEventService.changeHide(true);
+      this.hide = true;
+  }
+
+  sendHideFalse() {
+
+    this.globalEventService.changeHide(false);
+    this.hide = false;
+  }
 }

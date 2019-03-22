@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -22,17 +22,19 @@ import {User} from '../../../../shared/_models/User';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit, OnDestroy {
+export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @select() cart$: Observable<CartItem[]>;
+  // @ViewChild('template') htmlSandbox: ElementRef;
+  // @ViewChildren('div1,div2,div3') divs: QueryList<ElementRef>;
 
   cart: CartItem[];
   coupons: Coupon[] = [];
   user: User;
   modalRef: BsModalRef;
   totalAmount = 0;
-  idTransaction: string = null;
-
+  clientId = null;
+  owner = null;
   public payPalConfig: PayPalConfig;
 
   constructor(private _sanitizer: DomSanitizer,
@@ -46,7 +48,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
-      console.log('this.cart', this.cart);
+      // console.log('this.cart', this.cart);
+    });
+    // in checkout si potrebbe fare un controllo, se nel carrello ci sono più producer, si rimanda a una pagina
+    // per pagare ogni singolo producer, altrimenti si procede al pagamento
+    this.couponService.getCouponById(this.cart[0].id).subscribe( coupon => {
+        this.owner = coupon.owner;
+        this.userService.getProducerFromId(this.owner).subscribe( owner => {
+          this.clientId = owner.client_id;
+          // console.log('client_id', owner.client_id);
+        });
     });
 
 
@@ -87,6 +98,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.couponService.buyCoupons(this.cart, paymentID).subscribe(response => {
 
         if (response['status']) {
+          console.log('response', response)
           this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
         } else {
           this.cartActions.emptyCart();
@@ -121,14 +133,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         commit: true,
         client: {
           sandbox:
-            'ARhQLPVETgECFDXgvWgu4v8ULn4Lz-jEBCSehJR8h5QA_cHbzCvPDcyBNmHfC2ZU6JTggRnDK-73K97e'
+              this.clientId,
         },
         button: {
           label: 'paypal',
           layout: 'vertical'
         },
         onAuthorize: (data, actions) => {
-          console.log('Authorize');
+          console.log('Authorize', data, actions);
           return of(undefined);
         },
         onPaymentComplete: (data, actions) => { // TODO chiamare il backend per verificare la transazione
@@ -146,10 +158,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           console.log(err);
         },
         onClick: () => {
+
           console.log('onClick');
+
+
         },
         validate: (actions) => {
-          console.log(actions);
+          console.log('validate', actions);
         },
         experience: {
           noShipping: true,
@@ -200,11 +215,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const date = inputDate.toString().substring(0, inputDate.indexOf('T'));
     const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('Z') - 4);
 
-    return date + ' ' + time;
+    return date + ' ' + 'ore ' + time;
   }
 
   imageUrl(path) {
     return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
+  }
+
+
+  ngAfterViewInit() {
+
+    // console.log('this.htmlSandbox', this.htmlSandbox);
+    // console.log(this.divs);
   }
 
 }

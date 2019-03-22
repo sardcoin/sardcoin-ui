@@ -10,6 +10,8 @@ import {CouponBoughtDetailComponent} from './coupon-bought/coupon-bought-detail/
 import {ProducerInfoComponent} from './producer-info/producer-info.component';
 import {PersonalInfoComponent} from '../personal-info/personal-info.component';
 import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
+import {CouponOrderDetailComponent} from './coupon-order/coupon-order-detail/coupon-order-detail.component';
+import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-order.component';
 
 /** App Components **/
 
@@ -59,8 +61,16 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
         component: FeatureReservedAreaConsumerBoughtComponent
       },
       {
+        path: 'order',
+        component: FeatureReservedAreaConsumerOrderComponent
+      },
+      {
         path: 'bought/details',
         component: CouponBoughtDetailComponent
+      },
+      {
+        path: 'order/details',
+        component: CouponOrderDetailComponent
       }
     ])
   ],

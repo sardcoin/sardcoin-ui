@@ -17,4 +17,5 @@ export interface User {
   password: string;
   user_type: string;
   checksum: string;
+  client_id: string;
 }

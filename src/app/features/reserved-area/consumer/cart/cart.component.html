@@ -34,12 +34,12 @@
 
       <td>
         <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i
-          class="fas fa-info-circle"></i> <span class="d-xl-inline-block d-lg-none"> Dettagli</span>
+          class="fas fa-info-circle"></i> <span class="d-xl-inline-block d-lg-none">Dettagli</span>
         </button>
       </td>
       <td>
         <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash"></i>
-          <span class="d-xl-inline-block d-lg-none"> Elimina</span>
+          <span class="d-xl-inline-block d-lg-none">Elimina</span>
         </button>
       </td>
 
@@ -67,15 +67,16 @@
 
   </table>
 
-  <div class="card-body p-0">
-    <h3 class="text-right">Subtotale: € {{subtotal.toFixed(2)}}</h3>
-  </div>
+  <div style="text-align: right; padding-bottom: 2em;padding-top: 1em">
+    <h5  class="">Importo totale: {{formatPrice(totalAmount)}}</h5>
 
+  </div>
   <div class="card-body p-0">
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-      class="fas fa-euro-sign mr-2"></i> Vai alla cassa
+      class="fas fa-euro-sign mr-2"></i>Vai alla cassa
     </button>
-    <button class="btn btn-lg btn-primary float-right" (click)="retry()">Vai allo shopping</button>
+    <button class="btn btn-lg btn-primary float-right" (click)="retry()">
+      <i class="fas fa-shopping-basket mr-2"></i>Vai allo shopping</button>
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
       class="fas fa-trash"></i> Svuota il Carrello
     </button>
@@ -135,9 +136,13 @@
     </tbody>
 
   </table>
+  <div style="text-align: right; ; padding-bottom: 2em; padding-top: 1em">
+    <h5  class="">Importo totale: {{formatPrice(totalAmount)}}</h5>
+
+  </div>
   <div class="card-body p-0">
     <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-      class="fas fa-euro-sign mr-2"></i> Vai alla cassa
+      class="fas fa-euro-sign mr-2"></i>Vai alla cassa
     </button>
     <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
     <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
@@ -200,12 +205,17 @@
 
 
     </div>
-    <div style="padding-bottom: 5em">
+    <div style="text-align: right" class=" float-right">
+      <h5  class="">Totale: {{formatPrice(totalAmount)}}</h5>
+
+    </div>
+
+    <div  class=" card-body p-0 float-right container-fluid">
       <button class="btn btn-lg btn-success float-right" type="button" (click)="goToDetailPayment()"><i
         class="fas fa-euro-sign mr-2"></i> Paga
       </button>
-      <button class="btn btn-lg btn-primary float-right mr-sm-0 mr-1" (click)="retry()"><i
-        class="fas fa-shopping-basket"></i> Shopping
+      <button class="btn btn-lg btn-primary float-right mr-sm-0 mr-1" (click)="retry()">
+        <i class="fas fa-shopping-basket mr-2"></i> Shopping
       </button>
       <button class="btn btn-lg btn-warning text-white float-left mr-sm-0 mr-1" (click)="openModal(emptyCartTemplate)">
         <i class="fas fa-trash"></i></button>
@@ -213,17 +223,28 @@
   </div>
 </div> <!-- SM VIEW -->
 
-
-
 <div *ngIf="cart.length === 0" class="container-fluid">
   <div class="col-sm-12 text-center">
     <img class="img-fluid" src="assets/img/empty.png">
     <h3 class="display-3" style="font-size: 2rem;">Il carrello è vuoto!</h3>
   </div>
-  <div class="col-sm-12 mt-4 text-center">
-    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">Vai ai tuoi acquisti
+  <div class="col-sm-12 mt-4 text-center d-xl-block d-lg-block d-md-block d-sm-block d-none">
+    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
+      <span   class="fas fa-shopping-bag "></span>
+      Vai ai tuoi acquisti
     </button>
-    <button class="btn btn-lg btn-primary" (click)="retry()">Vai allo shopping</button>
+    <button class="btn btn-lg btn-primary" (click)="retry()">
+      <span  class=" fas fa-shopping-basket"></span>
+      Vai allo shopping</button>
+  </div>
+  <div class="col-sm-12 mt-4 text-center d-xl-none d-lg-none d-md-none d-sm-none d-block">
+    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
+      <span   class="fas fa-shopping-bag "></span>
+      Acquisti
+    </button>
+    <button class="btn btn-lg btn-primary" (click)="retry()">
+      <span  class=" fas fa-shopping-basket"></span>
+      Shopping</button>
   </div>
 </div>
 

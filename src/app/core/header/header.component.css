@@ -38,3 +38,38 @@
   max-height:250px;/* you can change as you need it */
   overflow:auto;/* to get scroll */
 }
+
+.image-center {
+  /*left: 50%;*/
+  /*position: fixed;*/
+}
+.center-block {
+  position: fixed;
+  display: block;
+  left: 50%;
+
+
+
+}
+
+
+.crop-logo {
+  width: 10em;
+  height: 3em;
+
+}
+
+.crop-logo-small {
+  width: 8em;
+  height: 2.5em;
+
+}
+
+.full-image {
+  width: 200px;
+  height: 30px;
+  width: 13em;
+  height: 3em;
+
+}
+

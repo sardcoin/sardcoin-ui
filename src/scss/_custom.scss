@@ -35,9 +35,10 @@ body {
 
 app-core-sidebar {
   min-height: calc(100vh - 56px);
-  background-color: #2f353a;
+  background-color: white;
   padding: 0;
-  width: 230px;
+  border: #33b5e5;
+  // width: 230px;
   position: fixed;
 }
 
@@ -60,6 +61,11 @@ app-core-sidebar {
   #main-content {
     margin-left: 0;
   }
+  #breadcrumb-style {
+    margin-left: 0;
+    min-height: 100%;
+    min-width: 100%;
+  }
 
   #main-container {
     margin-top: 27px;
@@ -68,7 +74,7 @@ app-core-sidebar {
 
 /* Sidebar sizes when expanded and expanded */
 .sidebar-expanded {
-  min-width: 230px;
+  // min-width: 230px;
 }
 
 .sidebar-collapsed {
@@ -130,7 +136,8 @@ app-core-sidebar {
 }
 
 #sidebar-container .list-group a.list-group-item:hover {
-  background-color: #20a8d8;
+  background-color: revert;
+  text-decoration: underline !important;
 }
 
 .list-group-item {
@@ -272,4 +279,9 @@ table {
 
 .btn-info{
   //background-color: black;
+}
+
+#padding-top-sidebar {
+
+  padding-top: 3em;
 }

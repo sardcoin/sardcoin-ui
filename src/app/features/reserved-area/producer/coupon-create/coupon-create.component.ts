@@ -11,6 +11,9 @@ import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
+import {User} from '../../../../shared/_models/User';
+import {UserService} from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -20,6 +23,8 @@ import {ToastrService} from 'ngx-toastr';
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
   couponForm: FormGroup;
+
+  brokers: User[];
 
   markedUnlimited = false;
   markedFree = false;
@@ -38,6 +43,9 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
+  selectedBroker = [];
+
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -45,16 +53,24 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
+    private userService: UserService,
   ) {
+    this.userService.getBrokers().subscribe( brokers => {
+      this.brokers = brokers;
+      console.log('brokers', this.brokers);
+    });
   }
 
   ngOnInit(): void {
+
+    // console.log('brober', this.selectedBroker)
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [0, Validators.required],
       published_from: [new Date()],
+      broker: [this.selectedBroker],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],

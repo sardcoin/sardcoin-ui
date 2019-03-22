@@ -1,16 +1,17 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {GlobalEventsManagerService} from '../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-feature',
   templateUrl: './feature.component.html',
 })
-export class FeatureComponent{
+export class FeatureComponent implements OnInit {
 
   desktopMode: boolean;
-  userLogged: boolean;
+  userType;
   loginData;
-
+  hide: boolean;
+  width: string;
   constructor(
     private globalEventService: GlobalEventsManagerService,
   ){
@@ -18,8 +19,11 @@ export class FeatureComponent{
       this.desktopMode = message
     });
 
-    this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
+    this.globalEventService.userType.subscribe(value => {
+      this.userType = value;
+    });
 
+    this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
     this.isHide();
   }
 
@@ -31,11 +35,30 @@ export class FeatureComponent{
   isHide() {
     const innerWidth = window.innerWidth;
     if (innerWidth < 768) {
-      this.globalEventService.changeHide(true);
       this.globalEventService.changeView(false);
     } else {
-      this.globalEventService.changeHide(false);
       this.globalEventService.changeView(true);
     }
+  }
+
+  ngOnInit() {
+    this.globalEventService.hideSource.subscribe(message => {
+      this.hide = message;
+
+      if (this.hide && this.userType == '2') {
+
+        this.width = '50px';
+
+
+      } else {
+
+        this.width = '230px';
+
+      }
+
+
+
+    });
+
   }
 }
