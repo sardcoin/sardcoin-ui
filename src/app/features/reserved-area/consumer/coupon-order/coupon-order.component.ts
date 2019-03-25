@@ -65,8 +65,9 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
         for (const order of this.orders) {
           this.orderService.getOrderById(order.id).subscribe(
             orderDetail => {
+              let price = 0;
               for (const ord of orderDetail.OrderCoupon) {
-                let price = 0;
+
                 for ( let qty = 0; qty < Number(ord.quantity); qty++) {
                   console.log('ord.quantity', ord.quantity)
                   price += Number(ord.price) ? Number(ord.price) : 0;
@@ -110,4 +111,6 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
     this.router.navigate(['/reserved-area/consumer/order/details']);
   }
+
+
 }
