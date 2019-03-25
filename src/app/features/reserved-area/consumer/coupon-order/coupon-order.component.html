@@ -25,10 +25,10 @@
           </td>
 
           <td>
-            <span style="font-size: 17px;">{{order.price}}</span> <br/>
+            <span style="font-size: 17px;">{{formatPrice(order.price)}}</span> <br/>
           </td>
           <td>
-            <button type="button" (click)="details(order, '')" class="btn btn-info text-white">
+            <button type="button" (click)="details(order)" class="btn btn-info text-white">
               <i class="fas fa-info-circle"></i> Dettagli
             </button>
           </td>
@@ -62,11 +62,11 @@
             <i style="color: #999; font-size: 15px;"> ore:{{order.purchase_time.substr(11, 8)}}</i>
         </td>
         <td>
-          <span style="font-size: 17px;">{{order.price}}</span> <br/>
+          <span style="font-size: 17px;">{{formatPrice(order.price)}}</span> <br/>
         </td>
 
         <td>
-          <button type="button" (click)="details(order, '')" class="btn btn-info text-white">
+          <button type="button" (click)="details(order)" class="btn btn-info text-white">
             <i class="fas fa-info-circle"></i> Dettagli
           </button>
         </td>
@@ -99,11 +99,11 @@
         </td>
 
         <td>
-          <span style="font-size: 17px;">{{order.price}}</span> <br/>
+          <span style="font-size: 17px;">{{formatPrice(order.price)}}</span> <br/>
         </td>
         <!--<td [ngStyle]="{color: token.verifier ? 'red' : '#24cc32'}" class="text-uppercase td-state"><b>{{formatState(token.verifier)}}</b></td>-->
         <td class="text-center">
-          <button type="button" (click)="details(order, '')" class="btn btn-info text-white">
+          <button type="button" (click)="details(order)" class="btn btn-info text-white">
             <i class="fas fa-info-circle"></i>
           </button>
         </td>

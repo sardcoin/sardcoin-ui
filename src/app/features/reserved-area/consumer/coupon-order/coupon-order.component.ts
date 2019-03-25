@@ -20,7 +20,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   orders: any;
   ordersFull: any = [];
-    orderDetail: any = {order: '', price: '', purchase_time: ''};
+  orderDetail: any = {order: '', price: '', purchase_time: ''};
 
   isDesktop: boolean;
   done = false;
@@ -94,9 +94,6 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
       });
   }
 
-  imageUrl(path) {
-    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
-  }
 
   formatPrice(price) {
     if (price === 0) {
@@ -105,21 +102,11 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     return '€ ' + price.toFixed(2);
   }
 
-  formatState(state) {
-    if (state !== null) {
-      return 'Consumato';
-    } else {
-      return 'Riscattabile';
-    }
-  }
 
-  details(coupon: Coupon, token: CouponToken) {
 
-    const cp = coupon;
-    cp.quantity = 0;
-    cp.token = token;
+  details(order: any) {
 
-    this.couponService.setCoupon(coupon);
+    this.orderService.setOrder(order);
 
     this.router.navigate(['/reserved-area/consumer/order/details']);
   }

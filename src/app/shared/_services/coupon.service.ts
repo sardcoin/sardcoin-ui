@@ -21,6 +21,7 @@ export class CouponService {
 
   currentMessage = this.couponSource.asObservable();
   currentUserCoupon = this.couponUser.asObservable();
+
   checkFrom = this.boolFormEdit.asObservable();
 
   constructor(
@@ -57,6 +58,7 @@ export class CouponService {
   setCoupon(cp: Coupon) {
     this.couponSource.next(cp);
   }
+
 
   setUserCoupon(user: any) {
     this.couponUser.next(user);

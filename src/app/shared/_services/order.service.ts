@@ -10,18 +10,13 @@ import {CartItem, PurchasedCoupon} from '../_models/CartItem';
 @Injectable()
 
 export class OrderService {
-  coupon: Coupon;
-  couponChange: any = null;
-  couponInfoUser: any = null;
-  fromEditOrCopy = false;
+  orderChange: any = null;
 
-  private boolFormEdit = new BehaviorSubject<boolean>(this.fromEditOrCopy);
-  private couponSource = new BehaviorSubject<Coupon>(this.couponChange);
-  private couponUser = new BehaviorSubject(this.couponInfoUser);
 
-  currentMessage = this.couponSource.asObservable();
-  currentUserCoupon = this.couponUser.asObservable();
-  checkFrom = this.boolFormEdit.asObservable();
+  private orderSource = new BehaviorSubject<Coupon>(this.orderChange);
+
+
+  currentOrder = this.orderSource.asObservable();
 
   constructor(
     private router: Router,
@@ -37,6 +32,11 @@ export class OrderService {
   getOrderById(id: number) {
     return this.http.get<any>(this.formatUrl('getOrderById/' + id));
   }
+
+  setOrder(order: any) {
+    this.orderSource.next(order);
+  }
+
 
   // getCouponById(id: number) {
   //   return this.http.get<Coupon>(this.formatUrl('getById/' + id));
