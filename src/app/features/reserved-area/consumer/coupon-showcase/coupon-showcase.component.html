@@ -1,8 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid" style="padding-right: 2rem;">
 <div class="row">
-  <div style="margin-bottom: 2em" class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12" *ngFor="let coupon of coupons">
-    <div  class="card ">
-      <img class="card-img-top crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
+  <div class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
+    <div class="card">
+      <img class="crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{coupon.title}}</h5>
         <p class="card-text">{{coupon.description}}</p>

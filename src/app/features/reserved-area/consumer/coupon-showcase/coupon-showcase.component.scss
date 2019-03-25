@@ -1,14 +1,18 @@
 .card {
   margin-bottom: 0;
   height: 100%;
-  padding: 3px;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.card-footer {
+  background-color: #d0d0d099;
 }
 
 .col-md-4.col-sm-6 {
   margin-bottom: 15px;
   margin-top: 15px;
 }
-
 
 .crop {
   width: 100%;
@@ -17,7 +21,7 @@
 }
 
 .centered-and-cropped {
-   object-fit: cover
+  object-fit: cover
 }
 
 .btn-info:hover {
@@ -39,7 +43,6 @@
   padding: 15px;
   border-radius: 10px;
 }
-
 
 #myBtn:hover {
   background-color: #555;

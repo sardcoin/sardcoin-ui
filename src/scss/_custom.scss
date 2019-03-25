@@ -24,7 +24,7 @@ body {
 }
 
 #main-content > .container-fluid {
-  min-height: calc(100% - 56px - 54px);
+  min-height: calc(100% - 56px - 47px); // - 54px instead of -40px
 }
 
 #body-row {
@@ -34,16 +34,15 @@ body {
 }
 
 app-core-sidebar {
-  min-height: calc(100vh - 56px);
   background-color: white;
   padding: 0;
   border: #33b5e5;
-  // width: 230px;
   position: fixed;
+  margin-top: 4.4em;
 }
 
 #main-content {
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 116px); /*calc(100vh - 47px); TODO CHECK*/
   min-width: calc(100% - 230px);
   margin-left: 230px;
   display: flex;
@@ -52,9 +51,11 @@ app-core-sidebar {
 }
 
 #main-container {
-  padding: 15px 0; /*9px 28px; */
+  /*9px 28px; */
   margin-top: 47px;
   flex: 1 0 auto;
+  /* TODO check PADDING RIGHT */
+  padding: 15px 0 15px 0;
 }
 
 @media only screen and (max-width: 767px) {
@@ -70,11 +71,6 @@ app-core-sidebar {
   #main-container {
     margin-top: 27px;
   }
-}
-
-/* Sidebar sizes when expanded and expanded */
-.sidebar-expanded {
-  // min-width: 230px;
 }
 
 .sidebar-collapsed {
@@ -106,11 +102,6 @@ app-core-sidebar {
 .sidebar-separator {
   background-color: #2f353a;
   height: 25px;
-}
-
-.logo-separator {
-/*  background-color: #333;
-  height: 60px;*/
 }
 
 /* Closed submenu icon */
@@ -166,11 +157,6 @@ app-core-header .navbar {
 app-core-breadcrumb nav {
   height: 50px;
 }
-
-app-feature-authentication-login .container {
-  //margin-top: calc(25% - 28px - 25px );
-}
-
 
 .btn.btn-info.btn-sm.resetBtn {
   margin-bottom: 0.5rem!important;
@@ -234,8 +220,12 @@ angular-file-uploader div.container {
   font-size: 16px;
 }
 
-.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-  background-color: #F4FBFE;
+.table-striped > tbody.striped > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
+  background-color: #fff;
+}
+
+.table-striped > tbody.striped > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #edf5fd;
 }
 
 table {
@@ -272,15 +262,6 @@ table {
   overflow: hidden !important;
 }
 
-.btn-info{
-  //background-color: black;
-}
-
-#padding-top-sidebar {
-
-  padding-top: 3em;
-}
-
 .red-sardcoin {
   color: rgb(204, 51, 0) !important;
 }
@@ -289,10 +270,27 @@ table {
   color: rgb(51, 63, 80) !important;
 }
 
+.bg-gray-sardcoin {
+  background-color: rgb(51, 63, 80) !important;
+}
+
 .border-red-sardcoin {
   border-color: rgb(204, 51, 0) !important;
 }
 
 .border-gray-sardcoin {
   border-color: rgb(51, 63, 80) !important;
+}
+
+.table thead th {
+  font-size: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  border: 0;
+}
+
+tbody > tr.bg-blue > td {
+  padding: 2px;
 }

@@ -44,20 +44,7 @@ export class FeatureComponent implements OnInit {
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => {
       this.hide = message;
-
-      if (this.hide && this.userType == '2') {
-
-        this.width = '50px';
-
-
-      } else {
-
-        this.width = '230px';
-
-      }
-
-
-
+      this.width = this.hide && this.userType == '2' ? '55px' : '230px';
     });
 
   }

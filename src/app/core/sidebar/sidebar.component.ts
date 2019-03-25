@@ -28,7 +28,6 @@ export class SidebarComponent implements OnInit {
 
     this.globalEventService.hideSource.subscribe(value => {
       this.hide = value;
-      console.log('Hide: ', this.hide);
     });
 
     this.globalEventService.userType.subscribe(value => {

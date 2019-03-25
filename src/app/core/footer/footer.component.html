@@ -1,20 +1,20 @@
 <!--<footer class="footer bg-white">-->
-  <div *ngIf="isDesktop" class="container-fluid">
-    <div class="float-left">
-      <span><a class="red-sardcoin" href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</span>
+  <div *ngIf="isDesktop" class="container-fluid bg-gray-sardcoin">
+    <div class="float-left text-white">
+      <span><a class="text-info" href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</span>
     </div>
-    <div class="float-right">
+    <div class="float-right text-white">
       <span>
         Realizzato da
-        <a class="red-sardcoin" href="https://www.unica.it/unica/it/dip_matinfo.page" target="_blank">
+        <a class="text-info" href="https://www.unica.it/unica/it/dip_matinfo.page" target="_blank">
           Dipartimento di Matematica e Informatica
         </a>
       </span>
     </div>
   </div>
 
-  <div *ngIf="!isDesktop" class="w-100 bg-white text-center py-1">
-      <p class="w-100"><a class="red-sardcoin" href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</p>
-      <p class="w-100">Realizzato da <a class="red-sardcoin" href="https://www.unica.it/unica/it/dip_matinfo.page" target="_blank">UniCA - DMI</a></p>
+  <div *ngIf="!isDesktop" class="w-100 bg-gray-sardcoin text-center py-1">
+      <p class="w-100 text-white"><a class="text-secondary" href="https://www.sardcoin.eu">SardCoin</a> © {{this.copyrightYear}} UniCA</p>
+      <p class="w-100 text-white">Realizzato da <a class="text-info" href="https://www.unica.it/unica/it/dip_matinfo.page" target="_blank">UniCA - DMI</a></p>
   </div>
 <!--</footer>-->
