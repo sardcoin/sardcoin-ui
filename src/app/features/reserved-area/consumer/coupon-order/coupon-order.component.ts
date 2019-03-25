@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CouponToken} from '../../../../shared/_models/CouponToken';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {OrderService} from '../../../../shared/_services/order.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -17,12 +18,16 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 
 export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy {
 
-  coupons: any;
-  isDesktop: boolean;
+  orders: any;
+  ordersFull: any = [];
+    orderDetail: any = {order: '', price: '', purchase_time: ''};
 
+  isDesktop: boolean;
+  done = false;
   constructor(
     private couponService: CouponService,
     private breadcrumbActions: BreadcrumbActions,
+    private orderService: OrderService,
     private _sanitizer: DomSanitizer,
     private router: Router,
     private globalEventService: GlobalEventsManagerService,
@@ -33,7 +38,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   ngOnInit(): void {
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
     this.addBreadcrumb();
-    this.loadCoupons();
+    this.loadOrders();
   }
 
   ngOnDestroy(): void {
@@ -53,10 +58,37 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  loadCoupons() {
-    this.couponService.getPurchasedCoupons()
-      .subscribe(coupons => {
-        this.coupons = coupons;
+  loadOrders() {
+    this.orderService.getOrdersByConsumer()
+      .subscribe(orders => {
+        this.orders = orders;
+        for (const order of this.orders) {
+          this.orderService.getOrderById(order.id).subscribe(
+            orderDetail => {
+              for (const ord of orderDetail.OrderCoupon) {
+                let price = 0;
+                for ( let qty = 0; qty < Number(ord.quantity); qty++) {
+                  console.log('ord.quantity', ord.quantity)
+                  price += Number(ord.price) ? Number(ord.price) : 0;
+                  console.log('orderDetail.price', ord.price)
+
+                }
+                console.log('price', price)
+
+                this.orderDetail.order = orderDetail;
+                this.orderDetail.price = price;
+                this.orderDetail.purchase_time = order.purchase_time;
+
+              }
+              this.ordersFull.push(this.orderDetail);
+
+            }
+          );
+
+        }
+        this.done = true;
+        console.log('ordersFull', this.ordersFull);
+
       }, err => {
         console.log(err);
       });

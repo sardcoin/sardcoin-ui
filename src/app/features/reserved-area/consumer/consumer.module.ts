@@ -26,6 +26,7 @@ import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-o
 import {QRCodeModule} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {OrderService} from '../../../shared/_services/order.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {NgxPayPalModule} from 'ngx-paypal';
   ],
   providers: [
     CouponService,
-    CartActions
+    CartActions,
+    OrderService
   ],
   exports: [
     FeatureReservedAreaConsumerComponent,
