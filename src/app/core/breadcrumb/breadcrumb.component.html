@@ -1,9 +1,9 @@
 <nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn">
-  <ol class="breadcrumb border border-gray-sardcoin border-left-0 border-right-0 ">
+  <ol class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 ">
     <ng-container *ngIf="desktopMode && isUserLoggedIn">
 
       <li *ngFor="let item of breadList" class="breadcrumb-item">
-        <a [routerLink]="[item.url]" class="red-sardcoin">{{item.label}}</a>
+        <a [routerLink]="[item.url]" class="text-white">{{item.label}}</a>
       </li>
 
 
@@ -18,11 +18,11 @@
     <div class="col" style="margin-right: -0.5em; text-align: right">
       <ng-container *ngIf="desktopMode && userType == 2">
         <div (click)="viewCart()">
-          <a *ngIf="cart.length === 0">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
-          <a class="text-dark col-lg-8" routerLink="/reserved-area/consumer/cart"
+          <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
+          <a class="text-white col-lg-8" routerLink="/reserved-area/consumer/cart"
              *ngIf="cart.length > 0 && desktopMode">
 
-            {{cart.length === 1 ? "c'è" : 'ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
+            {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
             'coupon' : 'coupons'}}</b> nel tuo carrello.
             <!-- english version -->
             <!--There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!-->

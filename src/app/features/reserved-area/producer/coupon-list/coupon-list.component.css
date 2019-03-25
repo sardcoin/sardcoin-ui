@@ -73,3 +73,9 @@ h5 {
     margin: 0;
   }
 }
+
+.img-thumbnail {
+  padding: 0 !important;
+  border: 0;
+  border-radius: 0 !important;
+}
