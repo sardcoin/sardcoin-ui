@@ -6,8 +6,20 @@
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
        style="padding: 0px 9px 0px 55px; max-height: 49px">
     <div class="col-md-10 my-auto">
-      <input type="text" class="form-control form-check-inline align-middle mr-2 p-2" style="width: 90%;" placeholder="Cerca un coupon..."/>
-      <button class="btn btn-primary"><span class="fas fa-search"></span></button>
+
+      <div class="d-inline-block" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle icon-card mr-0" style="border-radius: 0.25rem 0 0 0.25rem"
+                aria-controls="dropdown-basic">Tutte le categorie <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" class="dropdown-menu ml-3" *dropdownMenu
+            role="menu" aria-labelledby="button-basic">
+          <li class="dropdown-item">Ristorazione</li>
+          <li class="dropdown-item">Albergazione</li>
+        </ul>
+      </div>
+
+      <input type="text" class="form-control form-check-inline align-middle mr-0 p-2" style="width: 70%; border-radius: 0" placeholder="Cerca un coupon..."/>
+      <button class="btn btn-primary" style="border-radius: 0 0.25rem 0.25rem 0"><span class="fas fa-search"></span></button>
     </div>
 
     <div class="col my-auto" style="margin-right: -0.5em; text-align: right">

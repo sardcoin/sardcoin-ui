@@ -7,7 +7,7 @@ import {LoginActions} from '../features/authentication/login/login.actions';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {ModalModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
 import {BreadcrumbActions} from './breadcrumb/breadcrumb.actions';
 import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {GooglePlacesDirective} from './map/google-places.directive';
@@ -25,6 +25,7 @@ import {CouponService} from '../shared/_services/coupon.service';
   imports: [
     RouterModule,
     SharedModule,
+    BsDropdownModule,
     ModalModule.forRoot(),
     NgSelectModule,
   ],
