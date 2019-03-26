@@ -6,110 +6,113 @@
 <!--*********per desktop********************-->
 
 <div class="fixed-top ">
-  <nav  class="fixed-top " class="navbar navbar-expand-md navbar-light bg-white ">
+  <nav class="fixed-top " class="navbar navbar-expand-md navbar-light bg-white ">
     <div data-toggle="dropdown">
-    <button href="menu" role="button" class="fixed-top " *ngIf="isUserLoggedIn" type="button"
-            id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      <nav  >
-      <div id="menu"  class=" border-menu  fixed-top dropdown-menu">
-        <ul class="nav navbar-nav scrollable-menu">
-          <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
-            <div class="border" style="background-color: white">
-              <div (click)="clickEvent(null)" class="dropdown-header">
-                <span class="fa fa-arrow-left fa-fw mr-3"></span>
-                <strong class="text-capitalize">Menu</strong>
-              </div>
-              <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
-                  <!--data-toggle="collapse" aria-expanded="false">-->
+      <button href="menu" role="button" class="fixed-top " *ngIf="isUserLoggedIn" type="button"
+              id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <nav>
+        <div id="menu" class=" border-menu  fixed-top dropdown-menu">
+          <ul class="nav navbar-nav scrollable-menu">
+            <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
+              <div class="border" style="background-color: white">
+                <div (click)="clickEvent(null)" class="dropdown-header">
+                  <span class="fa fa-arrow-left fa-fw mr-3"></span>
+                  <strong class="text-capitalize">Menu</strong>
+                </div>
+                <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
+                <!--data-toggle="collapse" aria-expanded="false">-->
                 <!--<strong class="text-capitalize"> <i class="fa fa-box"></i>Contenuti </strong></a>-->
-              <div  class=" align-items-start">
+                <div class=" align-items-start">
 
-                <div  *ngIf="this.userType == '1' || this.userType == '0'">
-                  <a  class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/list')" class="menu-collapsed ">I miei coupon</span>
-                  </a>
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                  <div *ngIf="this.userType == '1' || this.userType == '0'">
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/list')"
+                            class="menu-collapsed ">I miei coupon</span>
+                    </a>
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/producer/create')"
                           class="menu-collapsed">Aggiungi un coupon</span>
-                  </a>
-<!--                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
-                  </a>-->
-                </div>
+                    </a>
+                    <!--                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                                        <span (click)="clickEvent('/reserved-area/producer/report')" class="menu-collapsed">Reports</span>
+                                      </a>-->
+                  </div>
 
 
-                <div *ngIf="this.userType == '2' || this.userType == '0'">
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/consumer/showcase')" class="menu-collapsed">Shopping</span>
-                  </a>
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                  <div *ngIf="this.userType == '2' || this.userType == '0'">
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/consumer/showcase')"
+                            class="menu-collapsed">Shopping</span>
+                    </a>
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                     <span (click)="clickEvent('/reserved-area/consumer/bought')"
                           class="menu-collapsed">I miei Acquisti</span>
-                  </a>
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                    </a>
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
                     <span (click)="clickEvent('/reserved-area/consumer/order')"
                           class="menu-collapsed">I miei Ordini</span>
-                  </a>
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Importa coupon</span>
-                  </a>
-                </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                      <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Importa coupon</span>
+                    </a>
+                  </div>
 
-                <div  *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item" >
-                    <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Redimi coupon</span>
-                  </a>
-                </div>
+                  <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Redimi coupon</span>
+                    </a>
+                  </div>
 
-              </div>
-              <div *ngIf="this.userType != '3'">
-                <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
-                    <!--data-toggle="collapse" aria-expanded="false">-->
+                </div>
+                <div *ngIf="this.userType != '3'">
+                  <!--<a class=" menu-collapsed list-group-item list-group-item-action flex-column align-items-start"-->
+                  <!--data-toggle="collapse" aria-expanded="false">-->
                   <!--<strong class="text-capitalize"><i class="fa fa-user"></i> Il mio profilo </strong></a>-->
 
-                <!-- Submenu content -->
-                <div  class="align-items-start">
-                  <!--<a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">-->
+                  <!-- Submenu content -->
+                  <div class="align-items-start">
+                    <!--<a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">-->
                     <!--<span (click)="clickEvent('/reserved-area/' + userStringType +'/personal-info')"-->
-                          <!--class="menu-collapsed">Informazioni personali</span>-->
-                  <!--</a>-->
+                    <!--class="menu-collapsed">Informazioni personali</span>-->
+                    <!--</a>-->
 
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
                           class="menu-collapsed">Dati di fatturazione</span>
-                  </a>
-                  <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent(null)" class="menu-collapsed">Ricevute</span>
-                  </a>
+                    </a>
+                    <a class="list-group-item list-group-item-action text-secondary padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent(null)" class="menu-collapsed">Ricevute</span>
+                    </a>
+                  </div>
                 </div>
+
+                <!--              <a class="list-group-item list-group-item-action ">
+                                <div class="d-flex w-100 justify-content-start align-items-center">
+                                  <span class="fa fa-question fa-fw mr-3"></span>
+                                  <span class="menu-collapsed text-secondary">Aiuto</span>
+                                </div>
+                              </a>-->
+
               </div>
-
-<!--              <a class="list-group-item list-group-item-action ">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                  <span class="fa fa-question fa-fw mr-3"></span>
-                  <span class="menu-collapsed text-secondary">Aiuto</span>
-                </div>
-              </a>-->
-
-            </div>
-          </li>
-        </ul>
-      </div>
+            </li>
+          </ul>
+        </div>
       </nav>
     </div>
     <div class="rounded mx-auto d-block ">
-      <img style="margin-left: 260px" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" class="crop-logo   img-fluid">
+      <img style="margin-left: 260px" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png"
+           class="crop-logo   img-fluid">
     </div>
     <div *ngIf="!isDesktop" class="left col-4">
-      <img  src="assets/img/brand/sardcoin-logo-full.png  " class="img-fluid crop-logo-small">
+      <img src="assets/img/brand/sardcoin-logo-full.png  " class="img-fluid crop-logo-small">
     </div>
 
 
     <div class="right" id="navbarNavDropdown">
       <div style="float: left">
-        <ng-container  *ngIf="!isDesktop && userType == 2 && isUserLoggedIn">
+        <ng-container *ngIf="!isDesktop && userType == 2 && isUserLoggedIn">
           <button style="font-size : 2em;  " (click)="viewCart()"
                   type="button" class="btn-transparent ml-auto ">
         <span class="fas fa-shopping-cart text-warning">
@@ -124,7 +127,8 @@
           <!--<a class="nav-link" [routerLink]="['/authentication/login']">Login</a>-->
           <!--</li>-->
           <li class="col-6 text-right">
-            <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Registrati</button>
+            <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Registrati
+            </button>
           </li>
         </ul>
       </div>
@@ -134,12 +138,13 @@
         <ul class="nav navbar-nav ">
           <li class="nav-item dropdown">
 
-            <a aria-haspopup="true" aria-expanded="false"  href="menu_small" role="button" class="nav-link btn-group " data-toggle="dropdown" >
+            <a aria-haspopup="true" aria-expanded="false" href="menu_small" role="button" class="nav-link btn-group "
+               data-toggle="dropdown">
               <i *ngIf="isDesktop">Benvenuto, <b>{{username}}</b>!</i>
               <!--<i class="fa fa-2x fa-user-tie"></i>-->
               <img class="img-avatar" src="assets/img/avatars/8.jpg" alt="{{username}}">
             </a>
-            <div id="menu_small"  class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
+            <div id="menu_small" class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
               <div class="dropdown-header text-center">
                 <strong class="text-capitalize ">Impostazioni</strong>
               </div>

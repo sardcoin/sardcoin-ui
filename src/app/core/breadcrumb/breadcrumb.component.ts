@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {NgRedux, select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
@@ -7,6 +7,8 @@ import {IAppState} from '../../shared/store/model';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from './breadcrumb.actions';
 import {CartItem} from '../../shared/_models/CartItem';
+import {Coupon} from '../../shared/_models/Coupon';
+import {CouponService} from '../../shared/_services/coupon.service';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -16,20 +18,26 @@ import {CartItem} from '../../shared/_models/CartItem';
 
 export class BreadcrumbComponent {
 
-  cart: CartItem[];
   @select() breadcrumb$: Observable<Breadcrumb[]>;
   @select() cart$: Observable<CartItem[]>;
+
+  cart: CartItem[];
   breadList = [];
+
   isUserLoggedIn: boolean;
+  userType: number = null;
+
   url: string;
   desktopMode = true;
-  userType: number = null;
-  hide;
+  hide: boolean;
+
+  coupons: Coupon[];
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
     private ngRedux: NgRedux<IAppState>,
     private breadcrumbActions: BreadcrumbActions,
+    private couponService: CouponService, // TODO remove after REDUX
     private router: Router,
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
@@ -54,11 +62,14 @@ export class BreadcrumbComponent {
       this.cart = elements['list'];
     });
 
-    this.url = this.router.url;
-  }
+    this.couponService.getAvailableCoupons()
+      .subscribe(coupons => {
+        this.coupons = coupons;
+      }, err => {
+        console.log(err);
+      });
 
-  viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.url = this.router.url;
   }
 
   navigateTo(value) {

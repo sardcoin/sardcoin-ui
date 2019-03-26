@@ -1,13 +1,35 @@
 <nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn">
-  <ol class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 ">
-    <ng-container *ngIf="desktopMode && isUserLoggedIn">
 
+  <!-- TODO usare ngSelect come su couponCreate, riga 115-->
+
+  <div *ngIf="userType == 2"
+       class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
+       style="padding: 0px 9px 0px 55px; max-height: 49px">
+    <div class="col-md-10 my-auto">
+      <input type="text" class="form-control form-check-inline align-middle mr-2 p-2" style="width: 90%;" placeholder="Cerca un coupon..."/>
+      <button class="btn btn-primary"><span class="fas fa-search"></span></button>
+    </div>
+
+    <div class="col my-auto" style="margin-right: -0.5em; text-align: right">
+      <div *ngIf="desktopMode">
+          <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
+          <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/reserved-area/consumer/cart']">
+            {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
+            'coupon' : 'coupons'}}</b> nel tuo carrello.
+            <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <ol *ngIf="userType == 1"
+      class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0">
+    <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">
         <a [routerLink]="[item.url]" class="text-white">{{item.label}}</a>
       </li>
-
-
     </ng-container>
+
     <select style="height: 3em;" class="custom-select mb-2 mr-sm-2 mb-sm-0 col-5" *ngIf="!desktopMode"
             (change)="navigateTo($event.target.value)">
       <option><a selected>Seleziona...</a></option>
@@ -15,22 +37,5 @@
         <a *ngIf="item !== 'undefined'">{{item.label}}</a>
       </option>
     </select>
-    <div class="col" style="margin-right: -0.5em; text-align: right">
-      <ng-container *ngIf="desktopMode && userType == 2">
-        <div (click)="viewCart()">
-          <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
-          <a class="text-white col-lg-8" routerLink="/reserved-area/consumer/cart"
-             *ngIf="cart.length > 0 && desktopMode">
-
-            {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
-            'coupon' : 'coupons'}}</b> nel tuo carrello.
-            <!-- english version -->
-            <!--There {{cart.length === 1 ? 'is' : 'are'}} <b class="text-info">{{cart.length}} item{{cart.length === 1 ? '' : 's'}}</b> in your cart. Checkout now!-->
-            <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
-          </a>
-
-        </div>
-      </ng-container>
-    </div>
-  </ol>
+  </ol> <!-- Breadcrumb solo per utenti producer -->
 </nav>

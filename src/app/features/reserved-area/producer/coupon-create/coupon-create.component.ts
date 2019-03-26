@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -11,7 +11,6 @@ import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import {Observable} from 'rxjs';
 import {User} from '../../../../shared/_models/User';
 import {UserService} from '../../../../shared/_services/user.service';
 
@@ -57,13 +56,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ) {
     this.userService.getBrokers().subscribe( brokers => {
       this.brokers = brokers;
-      console.log('brokers', this.brokers);
     });
   }
 
   ngOnInit(): void {
-
-    // console.log('brober', this.selectedBroker)
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
@@ -120,8 +116,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   addCoupon(coupon: Coupon) {
-
-    console.log('image', this.imagePath);
     this.couponService.create(coupon)
       .subscribe(data => {
 
@@ -138,9 +132,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   toggleCheckbox(e) {
-
     switch (e.srcElement.id) {
-
       case 'privateCheck':
         this.markedPrivate = e.target.checked;
 
@@ -154,7 +146,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           this.bgColorPrivate = '#FFF';
         }
         break;
-
       case 'freeCheck':
         this.markedFree = e.target.checked;
 
@@ -164,7 +155,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           this.couponForm.get('price').enable();
         }
         break;
-
       case 'unlimitedCheck':
         this.markedUnlimited = e.target.checked;
 
@@ -179,7 +169,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         delete this.couponForm.value.valid_until;
         this.couponForm.value.valid_until_empty = true;
         break;
-
       case 'constraintsCheck':
         this.markedConstraints = e.target.checked;
 
@@ -191,7 +180,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
         this.couponForm.value.constraints = '';
         break;
-
       case 'quantityCheck':
         this.markedQuantity = e.target.checked;
 

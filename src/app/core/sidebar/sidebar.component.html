@@ -6,7 +6,7 @@
     <ul class="list-group sticky-top sticky-offset">
       <li style="background-color: white"
           class="list-group-item sidebar-separator-title d-flex align-items-center menu-collapsed red-sardcoin">
-        <h6 *ngIf="!hide" class="font-weight-bold text-uppercase">Menu</h6>
+        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase">Menu</h6>
         <div *ngIf="hide && userType == 2" class="text-center d-inline-block">
           <span class="fas fa-chevron-circle-right" style="margin-left: -6px; font-size: 1.8rem;"></span>
         </div>
