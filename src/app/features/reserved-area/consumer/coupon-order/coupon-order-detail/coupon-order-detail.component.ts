@@ -9,6 +9,7 @@ import {UserService} from '../../../../../shared/_services/user.service';
 import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {OrderService} from '../../../../../shared/_services/order.service';
+import {CouponToken} from '../../../../../shared/_models/CouponToken';
 
 @Component({
   selector: 'app-coupon-order-detail',
@@ -50,7 +51,7 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
       } else {
         this.orderPass = order;
         this.listCoupon.push(this.orderPass.order);
-        this.getTitleCoupons(this.listCoupon);
+        this.setDetailsCoupons(this.listCoupon);
         this.addBreadcrumb();
         console.log('this.listCoupon', this.listCoupon);
         // this.getOwner();
@@ -94,22 +95,13 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
 
   formatDate(inptuDate) {
     const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
-    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('Z'));
-    return 'Date: ' + date + ' Time: ' + time;
+    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('.000'));
+    return 'Data: ' + date + ' ora: ' + time;
   }
 
   retry() {
     this.router.navigate(['/reserved-area/consumer/order']);
   }
-
-  // getOwner() {
-  //   this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-  //     this.producer = user;
-  //     this.couponService.setUserCoupon(this.producer);
-  //   });
-  // }
-
-
   setClass() {
     if (!this.desktopMode) {
       this.classMx4 = 'card';
@@ -125,12 +117,12 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
   }
 
 
-  async getTitleCoupons(list) {
+  async setDetailsCoupons(list) {
 
     console.log('list', list);
     for (const cp of list[0].OrderCoupon) {
 
-      const titleQuantityPrice = {title: '', quantity: '', price: ''};
+      const titleQuantityPrice = {title: '', quantity: '', price: '', coupon: {}};
 
       try {
         const coupon = await this.couponService.getCouponById(cp.coupon_id).toPromise();
@@ -138,6 +130,8 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
         titleQuantityPrice.title = coupon.title;
         titleQuantityPrice.quantity = cp.quantity;
         titleQuantityPrice.price = cp.price;
+        titleQuantityPrice.coupon = coupon;
+
         this.listTitleQuantityPrice.push(titleQuantityPrice);
 
 
@@ -150,6 +144,14 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
     }
 
 
+  }
+
+
+  details(coupon: any) {
+
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/order/details/details-coupon']);
   }
 
 }

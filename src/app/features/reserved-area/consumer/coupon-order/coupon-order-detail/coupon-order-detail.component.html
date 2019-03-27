@@ -7,13 +7,16 @@
           <br>
           <i class="h5">Pagato {{formatPrice(orderPass.price)}}</i>
           <br/>
-          <i class="h5">Data {{orderPass.purchase_time.substr(0, 10)}} alle ore {{orderPass.purchase_time.substr(11, 8)}}</i>
+          <i class="h5">{{formatDate(orderPass.purchase_time)}}</i>
           <br>
           <br>
-          <div class="h5">Lista Coupons inclusi nell'ordine:</div>
+          <div class="h5">Coupons inclusi nell'ordine:</div>
+          <br>
           <div *ngFor="let content of listTitleQuantityPrice">
-            <div *ngIf="content">
-              {{content.title}} quantità {{content.quantity}} prezzo {{formatPrice(content.price)}}
+            <div style="cursor: pointer" class ='card card-body p-4' (click)="details(content)"*ngIf="content">
+
+              <i  class="la la-trash text-info h5 "> {{content.title}} quantità {{content.quantity}} prezzo unitario {{formatPrice(content.price)}}</i>
+
             </div>
           </div>
           <br>
@@ -26,12 +29,3 @@
   <!--</div>-->
 </div>
 
-<ng-template #qrModal>
-  <div class="modal-body text-center">
-    <button type="button" class="close pull-right mb-4" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <h3 class="mb-3">Codice coupon: {{orderPass.order.id}}</h3>
-    <qrcode class="d-table mx-auto" [qrdata]="orderPass.order.id" [size]="qrSize" [level]="'L'"></qrcode>
-  </div>
-</ng-template>

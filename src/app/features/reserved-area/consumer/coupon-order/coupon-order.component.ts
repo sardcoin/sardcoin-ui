@@ -103,6 +103,13 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     return '€ ' + price.toFixed(2);
   }
 
+  formatDate(inptuDate) {
+    const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
+    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('.000'));
+    return 'Data: ' + date + ' ora: ' + time;
+  }
+
+
 
 
   details(order: any) {

@@ -27,6 +27,7 @@ import {QRCodeModule} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
 import {OrderService} from '../../../shared/_services/order.service';
+import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail/coupon-detail-into-order/coupon-detail-into-order.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {OrderService} from '../../../shared/_services/order.service';
     CouponBoughtDetailComponent,
     ProducerInfoComponent,
     FeatureReservedAreaConsumerOrderComponent,
-    CouponOrderDetailComponent
+    CouponOrderDetailComponent,
+    CouponDetailIntoOrderComponent
   ],
   imports: [
     SharedModule,
