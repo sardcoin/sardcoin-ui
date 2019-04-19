@@ -53,7 +53,6 @@ import {CouponService} from './shared/_services/coupon.service';
     ToastrModule.forRoot({
       timeOut: 5000,
       progressBar: true,
-
     })
   ],
   declarations: [

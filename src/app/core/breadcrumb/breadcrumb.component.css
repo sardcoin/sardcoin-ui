@@ -1,31 +1,25 @@
-
-
-
 @media screen and (max-width: 768px) {
   .padding-breadcrumb-mobile {
     padding-bottom: 7em;
   }
-
-
 }
 
 @media screen and (min-width: 768px) {
-
-  .fixed-desktop{
-
+  .fixed-desktop {
     position: fixed;
     width: 100%;
     z-index: 1;
   }
 }
 
-
-
 .fixed-cart-desktop {
-
   position: fixed;
   left: 72.5%;
   width: 320px;
   text-align: right;
+}
+
+#select-category option {
+  background-color: #fff;
 }
 

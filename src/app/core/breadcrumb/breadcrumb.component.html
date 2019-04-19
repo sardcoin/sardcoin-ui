@@ -8,17 +8,22 @@
     <div class="col-md-10 my-auto">
 
       <div class="d-inline-block" dropdown>
-        <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle icon-card mr-0" style="border-radius: 0.25rem 0 0 0.25rem"
-                aria-controls="dropdown-basic">Tutte le categorie <span class="caret"></span>
-        </button>
-        <ul id="dropdown-basic" class="dropdown-menu ml-3" *dropdownMenu
-            role="menu" aria-labelledby="button-basic">
-          <li class="dropdown-item">Ristorazione</li>
-          <li class="dropdown-item">Albergazione</li>
-        </ul>
+        <!--<button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle icon-card mr-0" style="border-radius: 0.25rem 0 0 0.25rem"-->
+                <!--aria-controls="dropdown-basic">Tutte le categorie <span class="caret"></span>-->
+        <!--</button>-->
+        <!--<ul id="dropdown-basic" class="dropdown-menu ml-3" *dropdownMenu-->
+            <!--role="menu" aria-labelledby="button-basic">-->
+          <!--<li class="dropdown-item">Ristorazione</li>-->
+          <!--<li class="dropdown-item">Albergazione</li>-->
+        <!--</ul>-->
+        <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light" style="border-radius: 0.25rem 0 0 0.25rem">
+          <option value="tutte">Tutte le categorie</option>
+          <option value="ristorazione">Ristorazione</option>
+          <option value="albergazione">Albergazione</option>
+        </select>
       </div>
 
-      <input type="text" class="form-control form-check-inline align-middle mr-0 p-2" style="width: 70%; border-radius: 0" placeholder="Cerca un coupon..."/>
+      <input type="text" class="form-control form-check-inline align-middle mr-0 p-2" style="width: 70%; border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."/>
       <button class="btn btn-primary" style="border-radius: 0 0.25rem 0.25rem 0"><span class="fas fa-search"></span></button>
     </div>
 

@@ -1,7 +1,6 @@
 /** Angular Modules **/
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 /** Internal Files **/
 import {SharedModule} from '../../../shared/shared.module';
 import {CoreModule} from '../../../core/core.module';
@@ -21,11 +20,12 @@ import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-i
 import {CartActions} from './cart/redux-cart/cart.actions';
 import {CouponOrderDetailComponent} from './coupon-order/coupon-order-detail/coupon-order-detail.component';
 import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-order.component';
-
 /** External Libraries **/
 import {QRCodeModule} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {NgxLoadingModule} from 'ngx-loading';
+import {PaypalService} from '../../../shared/_services/paypal.service';
 
 @NgModule({
   declarations: [
@@ -50,11 +50,13 @@ import {NgxPayPalModule} from 'ngx-paypal';
     CommonModule,
     QRCodeModule,
     NgxPayPalModule,
+    NgxLoadingModule.forRoot({}),
     ZXingScannerModule.forRoot(),
   ],
   providers: [
     CouponService,
-    CartActions
+    CartActions,
+    PaypalService
   ],
   exports: [
     FeatureReservedAreaConsumerComponent,
