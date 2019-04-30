@@ -23,7 +23,6 @@ import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-o
 /** External Libraries **/
 import {QRCodeModule} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {NgxPayPalModule} from 'ngx-paypal';
 import {NgxLoadingModule} from 'ngx-loading';
 import {PaypalService} from '../../../shared/_services/paypal.service';
 
@@ -49,7 +48,6 @@ import {PaypalService} from '../../../shared/_services/paypal.service';
     FeatureReservedAreaPersonalInfoModule,
     CommonModule,
     QRCodeModule,
-    NgxPayPalModule,
     NgxLoadingModule.forRoot({}),
     ZXingScannerModule.forRoot(),
   ],

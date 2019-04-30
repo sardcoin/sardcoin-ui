@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -8,16 +8,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../../shared/_services/user.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {select} from '@angular-redux/store';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {environment} from '../../../../../environments/environment';
 import {User} from '../../../../shared/_models/User';
-import {ICreateOrderRequest, IPayPalConfig} from 'ngx-paypal';
-import {ngxLoadingAnimationTypes} from 'ngx-loading';
-import {catchError, map} from 'rxjs/operators';
 import {PaypalService} from '../../../../shared/_services/paypal.service';
 
 @Component({
@@ -25,7 +22,7 @@ import {PaypalService} from '../../../../shared/_services/paypal.service';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   @ViewChild('paymentModal') paymentModal: ElementRef;
   @ViewChild('buyWait') buyWait: ElementRef;
@@ -38,17 +35,10 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   totalAmount = 0;
   clientId = null;
   owner = null;
-  // public payPalConfig: IPayPalConfig;
   token: string;
+  paymentError: boolean = true;
 
   loading = false;
-  config = {
-    animationType: ngxLoadingAnimationTypes.threeBounce,
-    backdropBackgroundColour: 'rgba(0,0,0,0.1)',
-    backdropBorderRadius: '4px',
-    primaryColour: '#FFF',
-    secondaryColour: '#FFF'
-  };
 
   constructor(private _sanitizer: DomSanitizer,
               private userService: UserService,
@@ -69,7 +59,6 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.owner = coupon.owner;
       this.userService.getProducerFromId(this.owner).subscribe(owner => {
         this.clientId = owner.client_id;
-        // console.log('client_id', owner.client_id);
       });
     });
 
@@ -84,12 +73,19 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     const token = this.route.snapshot.queryParamMap.get('token');
+    const error = this.route.snapshot.queryParamMap.get('err');
 
-    if(token && token !== 'undefined') {
-      this.token = token;
-      this.router.navigate([], { replaceUrl: true});
+    if(error && error === 'true') {
+      this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
+      this.token = null;
+    } else {
+      if(token && token !== 'undefined' && error === 'true') {
+        this.token = token;
+      }
+      this.paymentError = false;
     }
 
+    this.router.navigate([], { replaceUrl: true});
 
     await this.loadCart();
   }
@@ -119,56 +115,49 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     let response;
     this.loading = true;
 
+    this.openModal(this.paymentModal, true);
+
     try {
       response = await this.paypalService.setCheckout(this.cart).toPromise();
-      this.openModal(this.paymentModal, true);
       window.location.href = response['link'];
     } catch (e) {
       console.error(e);
+      this.toastr.error('Non è stato possibile elaborare il pagamento. Per favore, riprova.', 'Errore inizializzando il pagamento.');
     }
   }
 
-  async confirmPayment() {
-    let response;
+  async confirmPayment() { // It performs
+    let payResponse, buyResponse;
+    let title = '', message = '';
 
     try {
-      response = await this.paypalService.pay(this.token).toPromise();
 
-      // TODO impostare messaggio pagamento in attesa
+      this.openModal(this.buyWait, true);
 
-      if(response['paid']) {
+      buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
+      payResponse = await this.paypalService.pay(this.token).toPromise();
+
+      if (payResponse['paid'] && buyResponse['success']) {
         this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       }
     } catch (e) {
-      console.error(e);
-    }
-  }
 
-  buy() {
-
-    this.couponService.buyCoupons(this.cart).subscribe(response => {
-
-      if (response['status']) {
-        console.log('response', response);
-        this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
-
-        this.closeModal();
-      } else {
-        this.cartActions.emptyCart();
-        this.toastr.success('Ordine eseguito con sucesso.', 'Ordine completato!');
-        this.router.navigate(['/reserved-area/consumer/bought']);
-
-        this.closeModal();
+      if (e.error['call'] === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
+        title = 'Errore finalizzando l\'ordine';
+        message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.'
       }
 
-      // console.log(response);
-    }, err => {
-      console.warn('Entro in error su buy');
-      console.error(err);
-      throw new Error('Error on buy coupon');
-    });
+      if (e.error['call'] === 'pay') { // Errore durante il pagamento
+        // TODO fare revert ordine
 
-    // throw new Error('prova');
+        title = 'Errore durante il pagamento';
+        message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.'
+      }
+
+      console.error(e.error);
+      this.toastr.error(message, title);
+      this.closeModal();
+    }
   }
 
   closeModal() {
@@ -179,149 +168,6 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/reserved-area/consumer/cart']);
 
   }
-
-  /*private initConfig(): void {
-
-    let response;
-    let finalized = true;
-
-    this.payPalConfig = {
-      currency: 'EUR',
-      clientId: this.clientId,
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
-        intent: 'CAPTURE',
-        purchase_units: [
-          {
-            amount: {
-              currency_code: 'EUR',
-              value: '30.00',
-              /!*breakdown: {
-                item_total: {
-                  currency_code: 'EUR',
-                  value: '9.99'
-                }
-              }*!/
-            },
-            /!*            items: [
-                          {
-                            name: 'Enterprise Subscription',
-                            quantity: '1',
-                            category: 'DIGITAL_GOODS',
-                            unit_amount: {
-                              currency_code: 'EUR',
-                              value: '9.99',
-                            }
-                          }
-                        ],*!/
-            payee: {
-              email_address: 'sardcoin-producer2@gmail.com',
-              merchant_id: 'unknown'
-            }
-          },
-          {
-            amount: {
-              currency_code: 'EUR',
-              value: '30.00',
-            },
-            payee: {
-              email_address: 'sardcoin2018-facilitator@gmail.com',
-              merchant_id: 'unknown'
-            }
-          }
-        ]
-      },
-      advanced: {
-        updateOrderDetails: {
-          commit: true
-        },
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical'
-      },
-      onApprove: (data, actions) => {
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
-
-        // return this.couponService.buyCoupons(this.cart);//.pipe(map((res) => res), catchError(e => of(e)));
-
-        /!*if (!finalized) {
-          throw new Error('òkisjdaf');
-        }*!/
-      },
-      onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-      },
-      onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
-      },
-      onError: err => {
-        console.log('OnError', err);
-
-        this.closeModal();
-        this.toastr.error('Si è verificato un errore durante la finalizzazione dell\'ordine.', 'Errore sull\'acquisto!');
-      },
-      onClick: async () => {
-        console.log('onClick');
-      },
-    };
-
-    /!*this.payPalConfig = new PayPalConfig(
-      PayPalIntegrationType.ClientSideREST,
-      PayPalEnvironment.Sandbox,
-      {
-        commit: true,
-        client: {
-          sandbox:
-              this.clientId,
-        },
-        button: {
-          label: 'paypal',
-          layout: 'vertical'
-        },
-        onAuthorize: (data, actions) => {
-          console.log('Authorize', data, actions);
-          return of(undefined);
-        },
-        onPaymentComplete: (data, actions) => { // TODO chiamare il backend per verificare la transazione
-          console.log('OnPaymentComplete, data', data);
-          const paymentID = data.paymentID;
-
-          console.log('OnPaymentComplete, actions', actions);
-          this.buy(paymentID);
-        },
-        onCancel: (data, actions) => {
-          console.log('OnCancel');
-        },
-        onError: err => {
-          console.log('OnError');
-          console.log(err);
-        },
-        onClick: () => {
-
-          console.log('onClick');
-
-
-        },
-        validate: (actions) => {
-          console.log('validate', actions);
-        },
-        experience: {
-          noShipping: true,
-          brandName: 'Angular PayPal'
-        },
-        transactions: [
-          {
-            amount: {
-              total: this.totalAmount,
-              currency: 'EUR',
-            },
-
-          }
-        ],
-        note_to_payer: 'Contact us if you have troubles processing payment'
-      }
-    );*!/
-  }*/
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
@@ -355,13 +201,6 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   imageUrl(path) {
     return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
-  }
-
-
-  ngAfterViewInit() {
-
-    // console.log('this.htmlSandbox', this.htmlSandbox);
-    // console.log(this.divs);
   }
 
 }

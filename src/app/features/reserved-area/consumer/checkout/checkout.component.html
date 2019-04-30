@@ -47,7 +47,7 @@
                 <i class="fas fa-euro-sign"></i>
                 Vai a pagare
               </button>
-              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token" (click)="confirmPayment()">
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError" (click)="confirmPayment()">
                 <i class="fas fa-euro-sign"></i>
                 Paga
               </button>
@@ -262,22 +262,15 @@
   <div class="modal-body">
     <p>Attendi mentre ti reindirizziamo alla pagina di pagamento Paypal</p>
   </div>
-
-  <!--<div class="modal-footer">
-    <button *ngIf="totalAmount === 0" type="button" class="btn btn-success" (click)="buy()">Conferma acquisto (senza
-      pagare)
-    </button>
-    <ngx-paypal class="mx-auto" *ngIf="totalAmount > 0" [config]="payPalConfig"></ngx-paypal>
-  </div>-->
 </ng-template>
 
 <ng-template #buyWait>
   <div class="modal-header">
-    <h4 class="modal-title pull-left"><i class="fas fa-hourglass-half mr-2"></i>Verifica dell'ordine in corso</h4>
+    <h4 class="modal-title pull-left"><i class="fas fa-hourglass-half mr-2"></i>Finalizzazione dell'ordine in corso</h4>
   </div>
 
   <div class="modal-body">
-    Il tuo ordine è in fase di finalizzazione, tra poco potrai pagare il tuo ordine
+    Attendi qualche secondo mentre finalizziamo il tuo acquisto...
   </div>
 </ng-template>
 
