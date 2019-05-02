@@ -8,6 +8,8 @@ import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
 import {UserService} from '../../../../../shared/_services/user.service';
 import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {OrderService} from '../../../../../shared/_services/order.service';
+import {CouponToken} from '../../../../../shared/_models/CouponToken';
 
 @Component({
   selector: 'app-coupon-order-detail',
@@ -17,35 +19,42 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 })
 export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
-  couponPass: Coupon = null;
+  orderPass = null;
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
   classMx4: string;
   qrSize: number;
+  listCoupon = [];
+  title: string;
+  listTitleQuantityPrice = [];
 
   modalRef: BsModalRef;
 
   constructor(
-    private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
+    private breadcrumbActions: BreadcrumbActions,
+    private orderService: OrderService,
     private router: Router,
     private userService: UserService,
     private modalService: BsModalService,
     private globalEventService: GlobalEventsManagerService,
   ) {
+
   }
 
   ngOnInit() {
 
-    this.couponService.currentMessage.subscribe(coupon => {
-      if (coupon === null) {
+    this.orderService.currentOrder.subscribe(order => {
+      if (order === null) {
         this.router.navigate(['/reserved-area/consumer/order']);
       } else {
-        this.couponPass = coupon;
+        this.orderPass = order;
+        this.listCoupon.push(this.orderPass.order);
+        this.setDetailsCoupons(this.listCoupon);
         this.addBreadcrumb();
-
-        this.getOwner();
+        console.log('this.listCoupon', this.listCoupon);
+        // this.getOwner();
       }
       this.globalEventService.desktopMode.subscribe(message => {
         this.desktopMode = message;
@@ -64,7 +73,7 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
 
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order/'));
-    bread.push(new Breadcrumb( this.couponPass.title , '/reserved-area/consumer/order/details'));
+    bread.push(new Breadcrumb( this.orderPass.order.id , '/reserved-area/consumer/order/details'));
     // english version
     // bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
 
@@ -86,22 +95,13 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
 
   formatDate(inptuDate) {
     const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
-    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('Z'));
-    return 'Date: ' + date + ' Time: ' + time;
+    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('.000'));
+    return 'Data: ' + date + ' ora: ' + time;
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/bought']);
+    this.router.navigate(['/reserved-area/consumer/order']);
   }
-
-  getOwner() {
-    this.userService.getProducerFromId(this.couponPass.owner).subscribe(user => {
-      this.producer = user;
-      this.couponService.setUserCoupon(this.producer);
-    });
-  }
-
-
   setClass() {
     if (!this.desktopMode) {
       this.classMx4 = 'card';
@@ -112,8 +112,46 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
     }
   }
 
-  openModal(template: TemplateRef<any>){
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  }
+
+
+  async setDetailsCoupons(list) {
+
+    console.log('list', list);
+    for (const cp of list[0].OrderCoupon) {
+
+      const titleQuantityPrice = {title: '', quantity: '', price: '', coupon: {}};
+
+      try {
+        const coupon = await this.couponService.getCouponById(cp.coupon_id).toPromise();
+
+        titleQuantityPrice.title = coupon.title;
+        titleQuantityPrice.quantity = cp.quantity;
+        titleQuantityPrice.price = cp.price;
+        titleQuantityPrice.coupon = coupon;
+
+        this.listTitleQuantityPrice.push(titleQuantityPrice);
+
+
+
+      } catch (e) {
+
+        console.log(e);
+        return this.title;
+      }
+    }
+
+
+  }
+
+
+  details(coupon: any) {
+
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/reserved-area/consumer/order/details/details-coupon']);
   }
 
 }

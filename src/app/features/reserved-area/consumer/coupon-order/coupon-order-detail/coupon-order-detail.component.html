@@ -1,34 +1,27 @@
-<div *ngIf="couponPass !== null" class="container-fluid px-0">
+<div *ngIf="orderPass !== null" class="container-fluid px-0">
   <!--<div class="row">-->
     <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
       <div [class]="classMx4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
         <div class="card-body p-4">
-          <h3 class="card-title mb-0">{{couponPass.title}}</h3>
-          <p *ngIf="couponPass.owner">di
-            <i [routerLink]="['/reserved-area/consumer/producer-info']"
-               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.company_name}}</i>
-          </p>
+          <h3 class="card-title mb-0">Ordine N° {{orderPass.order.id}}</h3>
+          <br>
+          <i class="h5">Pagato {{formatPrice(orderPass.price)}}</i>
+          <br/>
+          <i class="h5">{{formatDate(orderPass.purchase_time)}}</i>
+          <br>
+          <br>
+          <div class="h5">Coupons inclusi nell'ordine:</div>
+          <br>
+          <div *ngFor="let content of listTitleQuantityPrice">
+            <div style="cursor: pointer" class ='card card-body p-4' (click)="details(content)"*ngIf="content">
 
-          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
+              <i  class="la la-trash text-info h5 "> {{content.title}} quantità {{content.quantity}} prezzo unitario {{formatPrice(content.price)}}</i>
 
-          <p class="card-text mt-3">{{couponPass.description}}</p>
+            </div>
+          </div>
+          <br>
 
-          <p class="card-text">
-            <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
-            <br/>
-
-            <span *ngIf="couponPass.constraints">
-              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
-
-              <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
-                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' +
-                    couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
-            </span>
-          </p>
-
-          <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I miei acquisti</button>
-          <button class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice</button>
+          <button  class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I miei ordini</button>
         </div>
 
       </div>
@@ -36,12 +29,3 @@
   <!--</div>-->
 </div>
 
-<ng-template #qrModal>
-  <div class="modal-body text-center">
-    <button type="button" class="close pull-right mb-4" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <h3 class="mb-3">Codice coupon: {{couponPass.token.token}}</h3>
-    <qrcode class="d-table mx-auto" [qrdata]="couponPass.token.token" [size]="qrSize" [level]="'L'"></qrcode>
-  </div>
-</ng-template>

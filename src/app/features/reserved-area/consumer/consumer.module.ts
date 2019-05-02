@@ -23,7 +23,8 @@ import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-o
 /** External Libraries **/
 import {QRCodeModule} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {NgxLoadingModule} from 'ngx-loading';
+import {OrderService} from '../../../shared/_services/order.service';
+import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail/coupon-detail-into-order/coupon-detail-into-order.component';
 import {PaypalService} from '../../../shared/_services/paypal.service';
 
 @NgModule({
@@ -38,7 +39,8 @@ import {PaypalService} from '../../../shared/_services/paypal.service';
     CouponBoughtDetailComponent,
     ProducerInfoComponent,
     FeatureReservedAreaConsumerOrderComponent,
-    CouponOrderDetailComponent
+    CouponOrderDetailComponent,
+    CouponDetailIntoOrderComponent
   ],
   imports: [
     SharedModule,
@@ -48,13 +50,13 @@ import {PaypalService} from '../../../shared/_services/paypal.service';
     FeatureReservedAreaPersonalInfoModule,
     CommonModule,
     QRCodeModule,
-    NgxLoadingModule.forRoot({}),
     ZXingScannerModule.forRoot(),
   ],
   providers: [
     CouponService,
     CartActions,
-    PaypalService
+    PaypalService,
+    OrderService
   ],
   exports: [
     FeatureReservedAreaConsumerComponent,
