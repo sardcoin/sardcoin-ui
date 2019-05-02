@@ -79,7 +79,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
       this.token = null;
     } else {
-      if(token && token !== 'undefined' && error === 'true') {
+      if(token && token !== 'undefined') {
         this.token = token;
       }
       this.paymentError = false;
@@ -106,11 +106,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  openModal(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-    // this.initConfig();
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
-  }
-
   async setCheckout() {
     let response;
     this.loading = true;
@@ -135,7 +130,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.openModal(this.buyWait, true);
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      payResponse = await this.paypalService.pay(this.token).toPromise();
+      payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
 
       if (payResponse['paid'] && buyResponse['success']) {
         this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
@@ -148,16 +143,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
 
       if (e.error['call'] === 'pay') { // Errore durante il pagamento
-        // TODO fare revert ordine
-
         title = 'Errore durante il pagamento';
         message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.'
       }
 
       console.error(e.error);
+
       this.toastr.error(message, title);
       this.closeModal();
     }
+  }
+
+  openModal(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
   }
 
   closeModal() {

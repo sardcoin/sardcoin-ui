@@ -13,8 +13,8 @@ export class PaypalService {
     return this.http.post(this.formatUrl('setCheckout'), order);
   }
 
-  pay(token) {
-    return this.http.post(this.formatUrl('pay'), {token: token})
+  pay(token, order_id) {
+    return this.http.post(this.formatUrl('pay'), {token: token, order_id: order_id})
   }
 
   private formatUrl(methodName) {
