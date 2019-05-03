@@ -75,17 +75,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
 
-    if(error && error === 'true') {
+    if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
       this.token = null;
     } else {
-      if(token && token !== 'undefined') {
+      if (token && token !== 'undefined') {
         this.token = token;
       }
       this.paymentError = false;
     }
 
-    this.router.navigate([], { replaceUrl: true});
+    this.router.navigate([], {replaceUrl: true});
 
     await this.loadCart();
   }
@@ -127,24 +127,23 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     try {
 
-      this.openModal(this.buyWait, true);
+      this.openModal(this.buyWait);
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
       payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
 
-      if (payResponse['paid'] && buyResponse['success']) {
-        this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
-      }
+      this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
+      this.closeModal();
     } catch (e) {
 
       if (e.error['call'] === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
         title = 'Errore finalizzando l\'ordine';
-        message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.'
+        message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.';
       }
 
       if (e.error['call'] === 'pay') { // Errore durante il pagamento
         title = 'Errore durante il pagamento';
-        message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.'
+        message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.';
       }
 
       console.error(e.error);

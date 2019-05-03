@@ -78,12 +78,6 @@
           </div>
           <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Dati di fatturazione</span>
         </a>
-        <div class="list-group-item list-group-item-action text-secondary">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
-            <span class="fas fa-receipt icon-dimension"></span>
-          </div>
-          <span *ngIf="!hide || userType == '0' || userType == '1'">Ricevute</span>
-        </div>
       </div>
     </ul>
   </div>

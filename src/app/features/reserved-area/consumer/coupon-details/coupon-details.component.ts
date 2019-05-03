@@ -43,20 +43,19 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
-
   ) {
-
   }
 
   async ngOnInit() {
     this.couponService.currentMessage.subscribe(async coupon => {
+      console.warn('HO RICEVUTO ', coupon);
       this.couponPass = coupon;
 
       if (this.couponPass === null) {
         this.router.navigate(['/reserved-area/consumer/showcase']);
       } else {
 
-        if(!this.couponPass.max_quantity) {
+        if (!this.couponPass.max_quantity) {
           this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
         }
 
@@ -118,7 +117,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    if(!this.isMax) {
+    if (!this.isMax) {
       this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
       this.isMax = this.myForm.value.quantity === this.couponPass.max_quantity;
     }
@@ -174,10 +173,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
     bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
-    bread.push(new Breadcrumb( this.couponPass.title , '/reserved-area/consumer/bought/details'));
+    bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/bought/myPurchases'));
 
     // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/details'));
+    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -187,14 +186,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
 
-
   setClass() {
-
-      this.classRow = 'row';
-      this.classDiv = 'col-md-8 offset-md-2';
-      this.classMx4 = 'card mx-4';
-
-
+    this.classRow = 'row';
+    this.classDiv = 'col-md-8 offset-md-2';
+    this.classMx4 = 'card mx-4';
 
   }
 }

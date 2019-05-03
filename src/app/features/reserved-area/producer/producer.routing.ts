@@ -40,7 +40,7 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
         component: PersonalInfoComponent,
       },
       {
-        path: 'payment-details',
+        path: 'payment-myPurchases',
         component: PaymentDetailsComponent,
       },
       {

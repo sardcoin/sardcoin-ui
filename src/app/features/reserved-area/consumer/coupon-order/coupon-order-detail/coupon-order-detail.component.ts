@@ -9,7 +9,7 @@ import {UserService} from '../../../../../shared/_services/user.service';
 import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {OrderService} from '../../../../../shared/_services/order.service';
-import {CouponToken} from '../../../../../shared/_models/CouponToken';
+import {Order} from '../../../../../shared/_models/Order';
 
 @Component({
   selector: 'app-coupon-order-detail',
@@ -17,17 +17,16 @@ import {CouponToken} from '../../../../../shared/_models/CouponToken';
   styleUrls: ['./coupon-order-detail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
+export class CouponOrderDetailComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
-  orderPass = null;
+  orderPass: Order = null;
   cart = new Coupon();
   producer = null;
   desktopMode: boolean;
   classMx4: string;
   qrSize: number;
-  listCoupon = [];
   title: string;
-  listTitleQuantityPrice = [];
+  coupons: Array<Coupon> = [];
 
   modalRef: BsModalRef;
 
@@ -43,60 +42,42 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
 
   }
 
-  ngOnInit() {
-
-    this.orderService.currentOrder.subscribe(order => {
+  async ngOnInit() {
+    this.orderService.currentOrder.subscribe( order => {
       if (order === null) {
         this.router.navigate(['/reserved-area/consumer/order']);
       } else {
         this.orderPass = order;
-        this.listCoupon.push(this.orderPass.order);
-        this.setDetailsCoupons(this.listCoupon);
+        this.setDetailsCoupons();
         this.addBreadcrumb();
-        console.log('this.listCoupon', this.listCoupon);
-        // this.getOwner();
-      }
-      this.globalEventService.desktopMode.subscribe(message => {
-        this.desktopMode = message;
-        this.setClass();
+        this.globalEventService.desktopMode.subscribe(message => {
+          this.desktopMode = message;
+          this.setClass();
 
-      });
+        });
+      }
     });
+
+
   }
 
   ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
-
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order/'));
-    bread.push(new Breadcrumb( this.orderPass.order.id , '/reserved-area/consumer/order/details'));
-    // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' details', '/reserved-area/consumer/bought/details'));
-
-    this.breadcrumbActions.updateBreadcrumb(bread);
-  }
-
-  removeBreadcrumb() {
-    this.breadcrumbActions.deleteBreadcrumb();
-  }
-
   formatPrice(price) {
-    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
+    return price ? ( price === 0 ? 'Gratis' : '€ ' + price.toFixed(2)) : '';
   }
 
   formatUntil(until) {
     return until ? this.formatDate(until) : 'Illimitato';
   }
 
-
-  formatDate(inptuDate) {
-    const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
-    const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('.000'));
-    return 'Data: ' + date + ' ora: ' + time;
+  formatDate(inputDate) {
+    const auxDate = inputDate.slice(0, 10).split('-');
+    const date = auxDate[2] + '/' + auxDate[1] + '/' + auxDate[0];
+    const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
+    return date + ' ' + time;
   }
 
   retry() {
@@ -116,42 +97,43 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy { // TODO d
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
+  async setDetailsCoupons() {
+    let detailOrder: Order;
+    let coupon: Coupon;
 
-  async setDetailsCoupons(list) {
+    try {
+      detailOrder = await this.orderService.getOrderById(this.orderPass.id).toPromise();
 
-    console.log('list', list);
-    for (const cp of list[0].OrderCoupon) {
-
-      const titleQuantityPrice = {title: '', quantity: '', price: '', coupon: {}};
-
-      try {
-        const coupon = await this.couponService.getCouponById(cp.coupon_id).toPromise();
-
-        titleQuantityPrice.title = coupon.title;
-        titleQuantityPrice.quantity = cp.quantity;
-        titleQuantityPrice.price = cp.price;
-        titleQuantityPrice.coupon = coupon;
-
-        this.listTitleQuantityPrice.push(titleQuantityPrice);
-
-
-
-      } catch (e) {
-
-        console.log(e);
-        return this.title;
+      for (const orderCoupon of detailOrder.OrderCoupon) {
+        coupon = await this.couponService.getCouponById(orderCoupon.coupon_id).toPromise();
+        coupon['quantityBought'] = orderCoupon.quantity;
+        this.coupons.push(coupon);
       }
+
+    } catch (e) {
+      console.error(e);
+      // TODO show error message
     }
 
-
+  }
+  myPurchases() {
+    this.router.navigate(['/reserved-area/consumer/bought']);
   }
 
+  addBreadcrumb() {
+    const bread = [] as Breadcrumb[];
 
-  details(coupon: any) {
+    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
+    bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order/'));
+    // bread.push(new Breadcrumb( this.orderPass.order.id , '/reserved-area/consumer/order/myPurchases'));
+    // english version
+    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/bought/myPurchases'));
 
-    this.couponService.setCoupon(coupon);
+    this.breadcrumbActions.updateBreadcrumb(bread);
+  }
 
-    this.router.navigate(['/reserved-area/consumer/order/details/details-coupon']);
+  removeBreadcrumb() {
+    this.breadcrumbActions.deleteBreadcrumb();
   }
 
 }

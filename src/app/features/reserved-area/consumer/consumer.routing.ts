@@ -50,7 +50,7 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
         component: PersonalInfoComponent,
       },
       {
-        path: 'payment-details',
+        path: 'payment-myPurchases',
         component: PaymentDetailsComponent,
       },
       {
@@ -66,15 +66,15 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
         component: FeatureReservedAreaConsumerOrderComponent
       },
       {
-        path: 'bought/details',
+        path: 'bought/myPurchases',
         component: CouponBoughtDetailComponent
       },
       {
-        path: 'order/details',
+        path: 'order/myPurchases',
         component: CouponOrderDetailComponent
       },
       {
-        path: 'order/details/details-coupon',
+        path: 'order/myPurchases/myPurchases-coupon',
         component: CouponDetailIntoOrderComponent
       }
     ])

@@ -87,7 +87,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   details(coupon: any) {
     this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/details']);
+    this.router.navigate(['/reserved-area/consumer/myPurchases']);
   }
 
   async addToCart(coupon: Coupon) {

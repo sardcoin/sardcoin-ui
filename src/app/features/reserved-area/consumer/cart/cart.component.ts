@@ -163,7 +163,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   details(coupon: Coupon) {
     this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/details']);
+    this.router.navigate(['/reserved-area/consumer/myPurchases']);
   }
 
   openModal(template: TemplateRef<any>) {
