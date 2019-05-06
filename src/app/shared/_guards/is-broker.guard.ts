@@ -6,31 +6,33 @@ import {GlobalEventsManagerService} from '../_services/global-event-manager.serv
 
 @Injectable()
 
-export class IsAuthenticatedGuard implements CanActivate {
+// TODO Fix guards
+
+export class IsBrokerGuard implements CanActivate { // TODO check switch
   constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     // If the token exists, then the user is logged in and can carry on
-
-    // console.log('token: ' + this.localStore.getToken());
-
     if (this.localStore.getToken() != null) {
+
       this.eventEmitter.isUserLoggedIn.next(true);
+
+
       switch (this.localStore.getType()) {
         case '0': // admin
           this.eventEmitter.userType.next('0');
           return true;
         case '1': // producer
           this.eventEmitter.userType.next('1');
-          return true;
+          return false;
         case '2': // consumer
           this.eventEmitter.userType.next('2');
-          return true;
+          return false;
         case '3': // verify
           this.eventEmitter.userType.next('3');
-          return true;
+          return false;
         case '4': // broker
           this.eventEmitter.userType.next('4');
           return true;

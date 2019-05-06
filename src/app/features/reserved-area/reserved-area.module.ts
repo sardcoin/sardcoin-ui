@@ -14,6 +14,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {ModalModule} from 'ngx-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
+import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
     IsProducerGuard,
     IsConsumerGuard,
     IsVerifierGuard,
+    IsBrokerGuard,
     BreadcrumbActions,
     UserService,
     BsModalService,

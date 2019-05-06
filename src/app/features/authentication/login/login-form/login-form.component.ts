@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../authentication.service';
@@ -30,8 +30,8 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
     private globalEventService: GlobalEventsManagerService,
     private loginActions: LoginActions,
     private storeLocal: StoreService,
-
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -44,9 +44,11 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
     this.loginActions.logoutUser();
   }
 
-  get f() { return this.loginForm.controls; }
+  get f() {
+    return this.loginForm.controls;
+  }
 
-  onSubmit () {
+  onSubmit() {
 
     // If submitted, the validators start
     this.submitted = true;
@@ -69,17 +71,28 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
       .pipe(first())
       .subscribe(() => {
         setTimeout(() => {
-
             this.userType = this.storeLocal.getType();
-              if (this.userType !== null) {
-                if (this.userType === 3) {
+
+            if (this.userType !== null) {
+              switch (this.userType) {
+                case '1':
+                  this.router.navigate(['reserved-area/producer']);
+                  break;
+                case '2':
+                  this.router.navigate(['reserved-area/consumer']);
+                  break;
+                case '3':
                   this.router.navigate(['reserved-area/verify']);
-                  return;
-                } else {
+                  break;
+                case '4':
+                  this.router.navigate(['reserved-area/broker']);
+                  break;
+                default:
                   this.router.navigate(['reserved-area']);
-                  return;
-                }
+                  break;
               }
+
+            }
           },
           500);
       }, () => {

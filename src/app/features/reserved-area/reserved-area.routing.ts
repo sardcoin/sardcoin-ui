@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {IsProducerGuard} from '../../shared/_guards/is-producer.guard';
 import {IsConsumerGuard} from '../../shared/_guards/is-consumer.guard';
 import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
+import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
 
 /** App Components **/
 
@@ -29,6 +30,11 @@ import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
         path: 'verifier',
         loadChildren: './verifier/verifier.module#VerifierModule',
         canActivate: [IsVerifierGuard]
+      },
+      {
+        path: 'broker',
+        loadChildren: './broker/broker.module#FeatureReservedAreaBrokerModule',
+        canActivate: [IsBrokerGuard]
       },
     ])
   ],

@@ -31,6 +31,9 @@ export class IsProducerGuard implements CanActivate {
         case '3': // verify
           this.eventEmitter.userType.next('3');
           return false;
+        case '4': // broker
+          this.eventEmitter.userType.next('4');
+          return false;
       }
     }
 
