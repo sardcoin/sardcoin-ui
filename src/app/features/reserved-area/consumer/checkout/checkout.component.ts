@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   clientId = null;
   owner = null;
   token: string;
-  paymentError: boolean = true;
+  paymentError = true;
 
   loading = false;
 
