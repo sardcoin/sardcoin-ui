@@ -1,4 +1,5 @@
 import {CouponToken} from './CouponToken';
+import {User} from './User';
 
 export class Coupon {
   id?: number;
@@ -17,6 +18,7 @@ export class Coupon {
   owner?: number;
   CouponTokens?: CouponToken[];
   token?: CouponToken;
+  brokers?: User[];
 
   constructor(
               id?: number,
@@ -34,7 +36,8 @@ export class Coupon {
               quantity?: number,
               purchasable?: number,
               CouponTokens?: CouponToken[],
-              token?: CouponToken
+              token?: CouponToken,
+              brokers?: User[]
                ) {
     this.title = title;
     this.description = description;
@@ -50,6 +53,7 @@ export class Coupon {
     this.purchasable = purchasable;
     this.CouponTokens = CouponTokens;
     this.token = token;
+    this.brokers = brokers;
   }
 
 }

@@ -109,9 +109,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
-      quantity: this.f.quantity.value
+      quantity: this.f.quantity.value,
+      brokers: this.selectedBroker,
     };
 
+    console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
