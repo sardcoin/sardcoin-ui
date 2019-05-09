@@ -26,6 +26,7 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {OrderService} from '../../../shared/_services/order.service';
 import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail/coupon-detail-into-order/coupon-detail-into-order.component';
 import {PaypalService} from '../../../shared/_services/paypal.service';
+import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import {PaypalService} from '../../../shared/_services/paypal.service';
     ZXingScannerModule.forRoot(),
   ],
   providers: [
+    GlobalEventsManagerService,
     CouponService,
     CartActions,
     PaypalService,

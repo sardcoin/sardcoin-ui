@@ -13,6 +13,7 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -30,6 +31,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   constructor(
     private couponService: CouponService,
+    private GEManager: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer,
     private modalService: BsModalService,
@@ -44,6 +46,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   ngOnInit(): void {
     this.loadCoupons();
     this.addBreadcrumb();
+
+    this.GEManager.searchedCoupons.subscribe(coupons => {
+      if(coupons) {
+        this.coupons = coupons;
+      }
+    });
+
   }
 
   ngOnDestroy() {

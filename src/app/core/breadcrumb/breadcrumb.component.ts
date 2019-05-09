@@ -29,6 +29,7 @@ export class BreadcrumbComponent implements OnInit{
   categories: Array<Category> = [];
   coupons: Array<Coupon> = [];
   searchText: string = "";
+  public MAX_SUGGESTIONS = 10;
   showSuggestions: BehaviorSubject<boolean>  = new BehaviorSubject(false);
 
   isUserLoggedIn: boolean;
@@ -115,17 +116,16 @@ export class BreadcrumbComponent implements OnInit{
   }
 
   goToCouponDetails(coupon: Coupon) {
-    this.searchText = coupon.title;
-    // this.showListSuggestions(false);
-
     let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
-    // this.router.navigate([url]);
-    // this.showSuggestions.next(false); TODO check this
-    console.log(url);
+    this.searchText = coupon.title;
+    this.router.navigate([url]);
   }
 
   showListSuggestions(show){
-    console.warn('TO SHOW: ', show);
     this.showSuggestions.next(show);
+  }
+
+  searchCoupons(){
+
   }
 }

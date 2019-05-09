@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
+import {Coupon} from '../_models/Coupon';
 
 @Injectable()
 export class GlobalEventsManagerService {
@@ -8,6 +9,7 @@ export class GlobalEventsManagerService {
   public hideSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public desktopMode: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
+  public searchedCoupons: BehaviorSubject<Coupon[]> = new BehaviorSubject<Coupon[]>(null);
 
   changeHide(hide: boolean) {
     this.hideSource.next(hide);

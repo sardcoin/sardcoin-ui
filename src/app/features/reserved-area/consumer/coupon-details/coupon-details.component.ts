@@ -3,7 +3,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {environment} from '../../../../../environments/environment';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
@@ -50,11 +50,23 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // If the user is already in coupon details and choose another coupon, then to change coupon there is to listen to the route change
+    this.router.events.subscribe(async event => {
+        if (event instanceof NavigationEnd) {
+          await this.loadCoupon();
+        }
+      }
+    );
+
+    await this.loadCoupon();
+  }
+
+  async loadCoupon() {
     const pathArray = this.route.snapshot.url[this.route.snapshot.url.length - 1].path.split('-');
     const title = pathArray.slice(1).toString().replace(new RegExp(',', 'g'), ' ');
     const id = parseInt(pathArray[0]);
 
-    if(!isNaN(id)){
+    if (!isNaN(id)) {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
@@ -198,7 +210,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-
 
   setClass() {
     this.classRow = 'row';
