@@ -33,6 +33,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   classDiv: string;
   classMx4: string;
 
+  error404: boolean = false;
+
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
@@ -48,19 +50,19 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    const id = parseInt(this.route.snapshot.url[this.route.snapshot.url.length - 1].path);
-
-    console.log(id);
+    const pathArray = this.route.snapshot.url[this.route.snapshot.url.length - 1].path.split('-');
+    const title = pathArray.slice(1).toString().replace(new RegExp(',', 'g'), ' ');
+    const id = parseInt(pathArray[0]);
 
     if(!isNaN(id)){
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
-        this.couponPass.owner = 8;
-        console.log(this.couponPass);
 
-        if (this.couponPass === null) {
-          this.router.navigate(['/reserved-area/consumer/showcase']);
+        // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
+        if (this.couponPass === null || this.couponPass.title !== title || !title) {
+          this.error404 = true;
         } else {
+
           if (!this.couponPass.max_quantity) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
@@ -68,6 +70,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.globalEventService.desktopMode.subscribe(message => {
             this.desktopMode = message;
           });
+
           this.getOwner();
           this.addBreadcrumb();
         }
@@ -75,28 +78,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         console.error(e);
       }
     } else {
-      this.router.navigate(['/reserved-area/consumer/showcase']);
+      this.error404 = true;
     }
-
-    // this.couponService.currentMessage.subscribe(coupon => {
-    //   console.warn('HO RICEVUTO ', coupon);
-    //   this.couponPass = coupon;
-    //
-    //   if (this.couponPass === null) {
-    //     this.router.navigate(['/reserved-area/consumer/showcase']);
-    //   } else {
-    //
-    //     if (!this.couponPass.max_quantity) {
-    //       this.couponPass.max_quantity = 0;//await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
-    //     }
-    //
-    //     this.globalEventService.desktopMode.subscribe(message => {
-    //       this.desktopMode = message;
-    //     });
-    //     this.getOwner();
-    //     this.addBreadcrumb();
-    //   }
-    // });
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-<div *ngIf="couponPass" class="container-fluid px-0">
+<div *ngIf="couponPass && !error404" class="container-fluid px-0">
   <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
     <div class="card mx-4" style="padding: 5px">
       <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
@@ -67,6 +67,17 @@
       </div>
 
     </div>
+  </div>
+</div>
+
+<div *ngIf="error404" class="row m-0" style="height: 368px;">
+  <div class="col-6 offset-3 text-center my-auto">
+    <p><i class="fas fa-skull fa-4x"></i></p>
+    <h2>Errore 404</h2>
+    <h4 class="mb-4">Sembra che qua non ci sia nulla!</h4>
+    <button class="btn btn-info btn-lg text-white mt-4" [routerLink]="['../../showcase']">
+      <i class="fas fa-arrow-circle-left mr-2"></i>Torna allo shopping
+    </button>
   </div>
 </div>
 

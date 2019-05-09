@@ -85,9 +85,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef.hide();
   }
 
-  details(coupon: any) {
-    this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/details']);
+  details(coupon: Coupon) {
+    // this.couponService.setCoupon(coupon);
+    let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    this.router.navigate([url]);
   }
 
   async addToCart(coupon: Coupon) {
