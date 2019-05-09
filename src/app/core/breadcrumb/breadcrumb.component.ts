@@ -115,11 +115,17 @@ export class BreadcrumbComponent implements OnInit{
   }
 
   goToCouponDetails(coupon: Coupon) {
-    console.warn('Coupon da visualizzare: ', coupon);
-    // this.couponService.setCoupon(coupon);
-    this.couponService.couponToShow.next(coupon);
-    this.router.navigate(['/reserved-area/consumer/details']);
+    this.searchText = coupon.title;
+    // this.showListSuggestions(false);
+
+    let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    // this.router.navigate([url]);
+    // this.showSuggestions.next(false); TODO check this
+    console.log(url);
   }
 
-
+  showListSuggestions(show){
+    console.warn('TO SHOW: ', show);
+    this.showSuggestions.next(show);
+  }
 }

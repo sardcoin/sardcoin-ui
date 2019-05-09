@@ -22,8 +22,8 @@
                [(ngModel)]="searchText" (input)="giveSuggestions()"
         />
         <!--<ng-container>-->
-          <ul *ngIf="showSuggestions | async" id="search-suggestions" class="rounded-bottom">
-            <li *ngFor="let coupon of coupons | filter:searchText" (click)="goToCouponDetails(coupon)">{{coupon.title}}</li>
+          <ul *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)" id="search-suggestions" class="rounded-bottom">
+            <li *ngFor="let coupon of coupons | filter:searchText" (click)="goToCouponDetails(coupon)" class="cursor-pointer">{{coupon.title}}</li>
           </ul>
         <!--</ng-container>-->
       </div>

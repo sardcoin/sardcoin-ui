@@ -15,6 +15,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {CouponService} from '../shared/_services/coupon.service';
 import {CategoriesService} from '../shared/_services/categories.service';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {ClickOutsideModule} from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     BsDropdownModule,
     ModalModule.forRoot(),
     NgSelectModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    ClickOutsideModule
   ],
   providers: [
     LoginActions,
