@@ -38,6 +38,8 @@ export class IsProducerGuard implements CanActivate {
           return false;
         case '4': // broker
           this.eventEmitter.userType.next('4');
+          this.router.navigate(['reserved-area/broker']);
+
           return false;
       }
     }
