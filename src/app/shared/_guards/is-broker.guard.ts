@@ -19,7 +19,6 @@ export class IsBrokerGuard implements CanActivate { // TODO check switch
 
       this.eventEmitter.isUserLoggedIn.next(true);
 
-
       switch (this.localStore.getType()) {
         case '0': // admin
           this.eventEmitter.userType.next('0');

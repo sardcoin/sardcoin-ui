@@ -3,7 +3,7 @@ import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions'
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {environment} from '../../../../../environments/environment';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
@@ -25,7 +25,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
-  couponPass: Coupon;
+  couponPass: Coupon = null;
   isMax = false;
   producer = null;
   desktopMode: boolean;
@@ -39,6 +39,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: BsModalService,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private cartActions: CartActions,
@@ -47,25 +48,55 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.couponService.currentMessage.subscribe(async coupon => {
-      console.warn('HO RICEVUTO ', coupon);
-      this.couponPass = coupon;
+    const id = parseInt(this.route.snapshot.url[this.route.snapshot.url.length - 1].path);
 
-      if (this.couponPass === null) {
-        this.router.navigate(['/reserved-area/consumer/showcase']);
-      } else {
+    console.log(id);
 
-        if (!this.couponPass.max_quantity) {
-          this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+    if(!isNaN(id)){
+      try {
+        this.couponPass = await this.couponService.getCouponById(id).toPromise();
+        this.couponPass.owner = 8;
+        console.log(this.couponPass);
+
+        if (this.couponPass === null) {
+          this.router.navigate(['/reserved-area/consumer/showcase']);
+        } else {
+          if (!this.couponPass.max_quantity) {
+            this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+          }
+
+          this.globalEventService.desktopMode.subscribe(message => {
+            this.desktopMode = message;
+          });
+          this.getOwner();
+          this.addBreadcrumb();
         }
-
-        this.globalEventService.desktopMode.subscribe(message => {
-          this.desktopMode = message;
-        });
-        this.getOwner();
-        this.addBreadcrumb();
+      } catch (e) {
+        console.error(e);
       }
-    });
+    } else {
+      this.router.navigate(['/reserved-area/consumer/showcase']);
+    }
+
+    // this.couponService.currentMessage.subscribe(coupon => {
+    //   console.warn('HO RICEVUTO ', coupon);
+    //   this.couponPass = coupon;
+    //
+    //   if (this.couponPass === null) {
+    //     this.router.navigate(['/reserved-area/consumer/showcase']);
+    //   } else {
+    //
+    //     if (!this.couponPass.max_quantity) {
+    //       this.couponPass.max_quantity = 0;//await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+    //     }
+    //
+    //     this.globalEventService.desktopMode.subscribe(message => {
+    //       this.desktopMode = message;
+    //     });
+    //     this.getOwner();
+    //     this.addBreadcrumb();
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {

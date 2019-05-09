@@ -13,6 +13,8 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
 import {GooglePlacesDirective} from './map/google-places.directive';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {CouponService} from '../shared/_services/coupon.service';
+import {CategoriesService} from '../shared/_services/categories.service';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -28,11 +30,13 @@ import {CouponService} from '../shared/_services/coupon.service';
     BsDropdownModule,
     ModalModule.forRoot(),
     NgSelectModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     LoginActions,
     CartActions,
     CouponService, // TODO remove after REDUX
+    CategoriesService,
     BsModalService,
     BreadcrumbActions,
   ],

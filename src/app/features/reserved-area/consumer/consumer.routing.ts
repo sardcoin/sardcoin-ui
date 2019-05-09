@@ -30,7 +30,7 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
         component: FeatureReservedAreaConsumerShowcaseComponent
       },
       {
-        path: 'details',
+        path: 'details/:id',
         component: CouponDetailsComponent
       },
       {

@@ -1,40 +1,44 @@
 <nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn">
 
-  <!-- TODO usare ngSelect come su couponCreate, riga 115-->
-
+  <!-- SEARCHBAR COUPONS -->
   <div *ngIf="userType == 2"
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
        style="padding: 0px 9px 0px 55px; max-height: 49px">
-    <div class="col-md-10 my-auto">
+    <div class="row col-md-9 my-auto">
 
-      <div class="d-inline-block" dropdown>
-        <!--<button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle icon-card mr-0" style="border-radius: 0.25rem 0 0 0.25rem"-->
-                <!--aria-controls="dropdown-basic">Tutte le categorie <span class="caret"></span>-->
-        <!--</button>-->
-        <!--<ul id="dropdown-basic" class="dropdown-menu ml-3" *dropdownMenu-->
-            <!--role="menu" aria-labelledby="button-basic">-->
-          <!--<li class="dropdown-item">Ristorazione</li>-->
-          <!--<li class="dropdown-item">Albergazione</li>-->
-        <!--</ul>-->
-        <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light" style="border-radius: 0.25rem 0 0 0.25rem">
-          <option value="tutte">Tutte le categorie</option>
-          <option value="ristorazione">Ristorazione</option>
-          <option value="albergazione">Albergazione</option>
+      <div class="" dropdown>
+        <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light"
+                style="border-radius: 0.25rem 0 0 0.25rem" (change)="onChange($event.target.value)">
+          <option value="0">Tutte le categorie</option>
+          <ng-container *ngFor="let category of categories">
+            <option [value]="category.id">{{category.name}}</option>
+          </ng-container>
         </select>
       </div>
 
-      <input type="text" class="form-control form-check-inline align-middle mr-0 p-2" style="width: 70%; border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."/>
-      <button class="btn btn-primary" style="border-radius: 0 0.25rem 0.25rem 0"><span class="fas fa-search"></span></button>
+      <div class="col-md-8 p-0">
+        <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
+               style="border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."
+               [(ngModel)]="searchText" (input)="giveSuggestions()"
+        />
+        <!--<ng-container>-->
+          <ul *ngIf="showSuggestions | async" id="search-suggestions" class="rounded-bottom">
+            <li *ngFor="let coupon of coupons | filter:searchText" (click)="goToCouponDetails(coupon)">{{coupon.title}}</li>
+          </ul>
+        <!--</ng-container>-->
+      </div>
+      <button class="btn btn-primary" style="border-radius: 0 0.25rem 0.25rem 0"><span class="fas fa-search"></span>
+      </button> <!-- Search button -->
     </div>
 
     <div class="col my-auto" style="margin-right: -0.5em; text-align: right">
       <div *ngIf="desktopMode">
-          <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
-          <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/reserved-area/consumer/cart']">
-            {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
-            'coupon' : 'coupons'}}</b> nel tuo carrello.
-            <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
-          </a>
+        <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
+        <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/reserved-area/consumer/cart']">
+          {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
+          'coupon' : 'coupons'}}</b> nel tuo carrello.
+          <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
+        </a>
       </div>
     </div>
   </div>
