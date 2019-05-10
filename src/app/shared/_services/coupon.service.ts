@@ -44,7 +44,11 @@ export class CouponService {
   }
 
   getAvailableCouponsByCategoryId(category_id: number) {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableCouponsByCategoryId/' + category_id));
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByCatId/' + category_id));
+  }
+
+  getAvailableByTextAndCatId(text: string, category_id: number) {
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByTextAndCatId/' + text + '/' + category_id));
   }
 
   getProducerCoupons() {

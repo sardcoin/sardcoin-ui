@@ -18,7 +18,7 @@ import {Coupon} from '../../shared/_models/Coupon';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 
-export class BreadcrumbComponent implements OnInit{
+export class BreadcrumbComponent implements OnInit { // TODO to handle toast messages
 
   @select() breadcrumb$: Observable<Breadcrumb[]>;
   @select() cart$: Observable<CartItem[]>;
@@ -27,10 +27,11 @@ export class BreadcrumbComponent implements OnInit{
   breadList = [];
 
   categories: Array<Category> = [];
+  selectedCategory: number = 0;
   coupons: Array<Coupon> = [];
-  searchText: string = "";
+  searchText: string = '';
   public MAX_SUGGESTIONS = 10;
-  showSuggestions: BehaviorSubject<boolean>  = new BehaviorSubject(false);
+  showSuggestions: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   isUserLoggedIn: boolean;
   userType: number = null;
@@ -55,7 +56,7 @@ export class BreadcrumbComponent implements OnInit{
       this.userType = Number(this.globalEventService.userType.getValue());
     });
     this.globalEventService.desktopMode.subscribe(message => {
-      this.desktopMode = message
+      this.desktopMode = message;
     });
     this.globalEventService.hideSource.subscribe(message => {
       this.hide = message;
@@ -70,7 +71,7 @@ export class BreadcrumbComponent implements OnInit{
 
     this.url = this.router.url;
 
-    if(this.userType === 2) { // Consumer
+    if (this.userType === 2) { // Consumer
       await this.getCategories();
       await this.getCouponsByCategory();
     }
@@ -90,25 +91,21 @@ export class BreadcrumbComponent implements OnInit{
     }
   }
 
-  async getCouponsByCategory(category_id: number = 0) {
+  async getCouponsByCategory() {
     try {
-      if(category_id === 0) {
-        this.coupons = await this.couponService.getAvailableCoupons().toPromise();
-      } else {
-        this.coupons = await this.couponService.getAvailableCouponsByCategoryId(category_id).toPromise();
-      }
+      this.coupons = await this.couponService.getAvailableCouponsByCategoryId(this.selectedCategory).toPromise();
     } catch (e) {
       console.error(e);
     }
   }
 
   async onChange(value) {
-    await this.getCouponsByCategory(parseInt(value));
-    console.warn(this.coupons);
+    this.selectedCategory = parseInt(value);
+    await this.getCouponsByCategory();
   }
 
-  giveSuggestions(){
-    if(this.searchText && this.searchText.length > 0) {
+  giveSuggestions() {
+    if (this.searchText && this.searchText.length > 0) {
       this.showSuggestions.next(true);
     } else {
       this.showSuggestions.next(false);
@@ -121,11 +118,25 @@ export class BreadcrumbComponent implements OnInit{
     this.router.navigate([url]);
   }
 
-  showListSuggestions(show){
+  showListSuggestions(show) {
     this.showSuggestions.next(show);
   }
 
-  searchCoupons(){
+  async searchCoupons() {
+    let coupons;
 
+    try {
+      coupons = await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise();
+      console.log('Sto mandando', coupons);
+      this.globalEventService.couponsToShow = coupons;
+      console.warn(this.globalEventService.couponsToShow);
+      this.goToShowcase();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  goToShowcase(){
+    this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 }

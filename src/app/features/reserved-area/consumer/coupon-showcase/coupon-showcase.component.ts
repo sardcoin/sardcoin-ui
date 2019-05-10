@@ -41,18 +41,23 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
-  }
-
-  ngOnInit(): void {
-    this.loadCoupons();
-    this.addBreadcrumb();
-
-    this.GEManager.searchedCoupons.subscribe(coupons => {
+/*    this.GEManager.searchedCoupons.asObservable().subscribe(coupons => {
+      console.warn('HO RICEVUTO: ', coupons);
       if(coupons) {
         this.coupons = coupons;
       }
-    });
+    });*/
+  }
 
+  ngOnInit(): void {
+    console.warn('SHOWCASE', this.GEManager.couponsToShow);
+    if(this.GEManager.couponsToShow.length > 0) {
+      this.coupons = this.GEManager.couponsToShow;
+      this.GEManager.couponsToShow = [];
+    } else {
+      this.loadCoupons();
+    }
+    this.addBreadcrumb();
   }
 
   ngOnDestroy() {
