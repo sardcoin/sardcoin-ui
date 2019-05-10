@@ -17,21 +17,26 @@
       </div>
 
       <div class="col-md-8 p-0">
-        <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
-               style="border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."
-               [(ngModel)]="searchText" (input)="giveSuggestions()"/>
+        <form (submit)="searchCoupons(); showListSuggestions(false)">
+          <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
+                 style="border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."
+                 [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="giveSuggestions()"/>
 
+        </form>
         <ul id="search-suggestions" class="rounded-bottom"
-            *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)" >
+            *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)">
           <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
-            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)" class="cursor-pointer">
-              {{coupon.title}}
+            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)"
+                class="cursor-pointer">
+              <!--{{coupon.title + ' - ' + coupon.description}}-->
+              {{getListElement(coupon)}}
             </li>
           </ng-container>
         </ul>
 
       </div>
-      <button class="btn btn-primary" (click)="searchCoupons()" style="border-radius: 0 0.25rem 0.25rem 0"><span class="fas fa-search"></span>
+      <button class="btn btn-primary" (click)="searchCoupons()" style="border-radius: 0 0.25rem 0.25rem 0"><span
+        class="fas fa-search"></span>
       </button> <!-- Search button -->
     </div>
 

@@ -58,7 +58,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   ngOnInit(): void {
 
     this.filter$.subscribe(filter => {
-      if(filter['list'].length > 0) {
+      // console.warn('FILTER', filter);
+      if(filter && filter['list'].length > 0) {
         this.coupons = filter['list'];
       } else {
         this.loadCoupons();
@@ -75,6 +76,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
+    this.filterActions.clear();
     this.removeBreadcrumb();
   }
 

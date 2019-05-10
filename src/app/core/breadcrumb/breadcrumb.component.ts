@@ -106,12 +106,12 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     await this.getCouponsByCategory();
   }
 
-  giveSuggestions() {
-    if (this.searchText && this.searchText.length > 0) {
-      this.showSuggestions.next(true);
-    } else {
-      this.showSuggestions.next(false);
-    }
+  giveSuggestions() { // TODO refactor
+    this.showSuggestions.next(this.searchText && this.searchText.length > 0);
+  }
+
+  showListSuggestions(show) {
+    this.showSuggestions.next(show);
   }
 
   goToCouponDetails(coupon: Coupon) {
@@ -120,8 +120,19 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     this.router.navigate([url]);
   }
 
-  showListSuggestions(show) {
-    this.showSuggestions.next(show);
+  getListElement(coupon: Coupon) {
+    let i = coupon.description.toLowerCase().indexOf(this.searchText.toLowerCase());
+    let j, result;
+
+    if(i < 5) {
+      // j = coupon.description.toLowerCase().substr() TODO aggiungere parole, controllo su quello - bug showcase
+    } else {
+
+    }
+
+    // return result;
+
+    return coupon.title + ' - ' + (i > 5 ? '...' + coupon.description.substr(i - 5, i + 15) : coupon.description.substr(i, i + 20)) + '...';
   }
 
   async searchCoupons() {

@@ -1,8 +1,6 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
-import {AuthenticationService} from '../../features/authentication/authentication.service';
-import {LoginActions} from '../../features/authentication/login/login.actions';
-import {StoreService} from '../../shared/_services/store.service';
+import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 
 @Component({
   selector: 'app-core-sidebar',
@@ -21,6 +19,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
+    private filterActions: FilterActions
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -57,15 +56,16 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
-
-
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
     });
   }
 
-
   sendHide(signal: boolean) {
     this.globalEventService.changeHide(signal);
+  }
+
+  resetShowcase(){
+    this.filterActions.clear();
   }
 }
