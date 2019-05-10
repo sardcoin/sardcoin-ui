@@ -11,6 +11,7 @@ import {CouponService} from '../../shared/_services/coupon.service';
 import {CategoriesService} from '../../shared/_services/categories.service';
 import {Category} from '../../shared/_models/Category';
 import {Coupon} from '../../shared/_models/Coupon';
+import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -44,6 +45,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     private globalEventService: GlobalEventsManagerService,
     private ngRedux: NgRedux<IAppState>,
     private breadcrumbActions: BreadcrumbActions,
+    private filterActions: FilterActions,
     private couponService: CouponService, // TODO remove after REDUX
     private categoriesService: CategoriesService,
     private router: Router,
@@ -127,16 +129,10 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
 
     try {
       coupons = await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise();
-      console.log('Sto mandando', coupons);
-      this.globalEventService.couponsToShow = coupons;
-      console.warn(this.globalEventService.couponsToShow);
-      this.goToShowcase();
+      this.filterActions.update(coupons);
+      this.router.navigate(['/reserved-area/consumer/showcase']);
     } catch (e) {
       console.error(e);
     }
-  }
-
-  goToShowcase(){
-    this.router.navigate(['/reserved-area/consumer/showcase']);
   }
 }

@@ -14,6 +14,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {FilterActions} from './redux-filter/filter.actions';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -21,6 +24,8 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
   styleUrls: ['./coupon-showcase.component.scss']
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
+
+  @select() filter$: Observable<Coupon[]>;
 
   coupons: Coupon[];
   modalCoupon: Coupon;
@@ -37,6 +42,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private modalService: BsModalService,
     private localStore: StoreService,
     private cartActions: CartActions,
+    private filterActions: FilterActions,
     private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
@@ -50,13 +56,21 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   ngOnInit(): void {
-    console.warn('SHOWCASE', this.GEManager.couponsToShow);
-    if(this.GEManager.couponsToShow.length > 0) {
-      this.coupons = this.GEManager.couponsToShow;
-      this.GEManager.couponsToShow = [];
-    } else {
-      this.loadCoupons();
-    }
+
+    this.filter$.subscribe(filter => {
+      if(filter['list'].length > 0) {
+        this.coupons = filter['list'];
+      } else {
+        this.loadCoupons();
+      }
+    });
+
+    // if(this.GEManager.couponsToShow.length > 0) {
+    //   this.coupons = this.GEManager.couponsToShow;
+    //   this.GEManager.couponsToShow = [];
+    // } else {
+    //   this.loadCoupons();
+    // }
     this.addBreadcrumb();
   }
 

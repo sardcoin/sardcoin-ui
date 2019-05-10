@@ -16,6 +16,7 @@ import {CouponService} from '../shared/_services/coupon.service';
 import {CategoriesService} from '../shared/_services/categories.service';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ClickOutsideModule} from 'ng-click-outside';
+import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {ClickOutsideModule} from 'ng-click-outside';
   providers: [
     LoginActions,
     CartActions,
-    CouponService, // TODO remove after REDUX
+    FilterActions,
+    CouponService,
     CategoriesService,
     BsModalService,
     BreadcrumbActions,

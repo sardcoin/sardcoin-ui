@@ -27,6 +27,7 @@ import {OrderService} from '../../../shared/_services/order.service';
 import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail/coupon-detail-into-order/coupon-detail-into-order.component';
 import {PaypalService} from '../../../shared/_services/paypal.service';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
+import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {GlobalEventsManagerService} from '../../../shared/_services/global-event
     GlobalEventsManagerService,
     CouponService,
     CartActions,
+    FilterActions,
     PaypalService,
     OrderService
   ],
