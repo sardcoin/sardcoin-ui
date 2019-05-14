@@ -47,7 +47,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     private ngRedux: NgRedux<IAppState>,
     private breadcrumbActions: BreadcrumbActions,
     private filterActions: FilterActions,
-    private couponService: CouponService, // TODO remove after REDUX
+    private couponService: CouponService,
     private categoriesService: CategoriesService,
     private router: Router,
     private toast: ToastrService
@@ -123,18 +123,23 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   getListElement(coupon: Coupon) {
-    let i = coupon.description.toLowerCase().indexOf(this.searchText.toLowerCase());
-    let j, result;
+    let i = coupon.description.toLowerCase().split(' ').findIndex(el => el === this.searchText.toLowerCase()); // Index of the text found
+    let result = '';
 
-    if(i < 5) {
-      // j = coupon.description.toLowerCase().substr() TODO aggiungere parole, controllo su quello - bug showcase
+    // If there are less than 5 words before the text found, it shows every word before that
+    if(i < 6) {
+      result = coupon.description.split(' ').slice(0, 6).toString().replace(new RegExp(',', 'g'), ' ') + ' ...';
     } else {
-
+      // If the text found is at the end of the description, it shows 10 words before it
+      if ((i + 1) === coupon.description.split(' ').length) {
+        result += '... ' + coupon.description.split(' ').slice(i - 10, i).toString().replace(new RegExp(',', 'g'), ' ');
+      } else {
+        // If the text found is in the middle of the description, it shows something before and something after
+        result += '... ' + coupon.description.split(' ').slice(i - 5, i + 5).toString().replace(new RegExp(',', 'g'), ' ') + ' ...';
+      }
     }
 
-    // return result;
-
-    return coupon.title + ' - ' + (i > 5 ? '...' + coupon.description.substr(i - 5, i + 15) : coupon.description.substr(i, i + 20)) + '...';
+    return result;
   }
 
   async searchCoupons() {
