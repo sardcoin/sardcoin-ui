@@ -17,6 +17,7 @@ import {CategoriesService} from '../shared/_services/categories.service';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/
     RouterModule,
     SharedModule,
     BsDropdownModule,
+    ToastrModule,
     ModalModule.forRoot(),
     NgSelectModule,
     Ng2SearchPipeModule,

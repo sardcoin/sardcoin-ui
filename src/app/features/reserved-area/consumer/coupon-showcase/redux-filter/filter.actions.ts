@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {CartItem, PurchasedCoupon} from '../../../../../shared/_models/CartItem';
 import {CouponService} from '../../../../../shared/_services/coupon.service';
 import {Coupon} from '../../../../../shared/_models/Coupon';
+import {Category} from '../../../../../shared/_models/Category';
 
 export const FILTER_UPDATE = 'FILTER_UPDATE';
 export const FILTER_CLEAR  = 'FILTER_CLEAR';
@@ -19,8 +20,8 @@ export class FilterActions {
   ) {
   }
 
-  update(coupons: Coupon[]) {
-    this.ngRedux.dispatch({type: FILTER_UPDATE, list: coupons});
+  update(coupons: Coupon[], category: Category, searchText: string) {
+    this.ngRedux.dispatch({type: FILTER_UPDATE, list: coupons, category: category, searchText: searchText});
   }
 
   clear(){

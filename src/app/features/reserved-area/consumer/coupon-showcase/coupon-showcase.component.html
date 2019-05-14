@@ -1,5 +1,10 @@
 <div class="container-fluid" style="padding-right: 2rem;">
 <div class="row">
+  <div class="col-12" *ngIf="searchResults">
+    <h4>Risultati ricerca <span class="text-primary">{{searchText}}</span> in <span class="text-primary">{{category.name.toLowerCase()}}</span></h4>
+    <h5 *ngIf="coupons.length === 0">La ricerca non ha prodotto risultati.</h5>
+  </div>
+
   <div class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
     <div class="card">
       <img class="crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">

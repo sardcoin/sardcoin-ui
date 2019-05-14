@@ -8,6 +8,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {Router} from '@angular/router';
 import {Directive, HostBinding, HostListener} from '@angular/core';
+import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
+    private filterActions: FilterActions
   ) {
     this.globalEventService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
@@ -101,7 +103,10 @@ export class HeaderComponent implements OnInit {
   }
 
   quantityCart() {
-
     return this.cartActions.getQuantityCart();
+  }
+
+  resetShowcase(){
+    this.filterActions.clear();
   }
 }

@@ -17,6 +17,7 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 import {FilterActions} from './redux-filter/filter.actions';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
+import {Category} from '../../../../shared/_models/Category';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -28,11 +29,14 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   @select() filter$: Observable<Coupon[]>;
 
   coupons: Coupon[];
+  category: Category;
   modalCoupon: Coupon;
   modalRef: BsModalRef;
   maxQuantity = 1;
   isMax = false;
   myForm: FormGroup;
+  searchResults = false;
+  searchText: string = null;
 
   constructor(
     private couponService: CouponService,
@@ -47,31 +51,29 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
-/*    this.GEManager.searchedCoupons.asObservable().subscribe(coupons => {
-      console.warn('HO RICEVUTO: ', coupons);
-      if(coupons) {
-        this.coupons = coupons;
-      }
-    });*/
+    /*    this.GEManager.searchedCoupons.asObservable().subscribe(coupons => {
+          console.warn('HO RICEVUTO: ', coupons);
+          if(coupons) {
+            this.coupons = coupons;
+          }
+        });*/
   }
 
   ngOnInit(): void {
 
     this.filter$.subscribe(filter => {
-      // console.warn('FILTER', filter);
-      if(filter && filter['list'].length > 0) {
+      if (filter['list']) { // TODO take categories here to show
         this.coupons = filter['list'];
+        this.searchText = filter['searchText'];
+        this.category = filter['category'];
+        this.searchResults = true;
       } else {
         this.loadCoupons();
+        this.searchText = null;
+        this.searchResults = false;
       }
     });
 
-    // if(this.GEManager.couponsToShow.length > 0) {
-    //   this.coupons = this.GEManager.couponsToShow;
-    //   this.GEManager.couponsToShow = [];
-    // } else {
-    //   this.loadCoupons();
-    // }
     this.addBreadcrumb();
   }
 
@@ -99,10 +101,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     this.isMax = this.myForm.value.quantity === this.maxQuantity;
 
-    if(this.maxQuantity > 0) {
+    if (this.maxQuantity > 0) {
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
     } else {
-      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile')
+      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
     }
   }
 
@@ -118,7 +120,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   details(coupon: Coupon) {
     // this.couponService.setCoupon(coupon);
     let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
-    this.router.navigate([url]);3
+    this.router.navigate([url]);
+    3;
   }
 
   async addToCart(coupon: Coupon) {
@@ -132,7 +135,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success( coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
+      this.toastr.success(coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
     } else {
       this.toastr.error(coupon.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
     }
@@ -185,7 +188,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
 
   getQuantityCart() {
-    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart())
+    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart());
     return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
   }
 }

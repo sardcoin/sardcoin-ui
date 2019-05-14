@@ -12,6 +12,7 @@ import {CategoriesService} from '../../shared/_services/categories.service';
 import {Category} from '../../shared/_models/Category';
 import {Coupon} from '../../shared/_models/Coupon';
 import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -49,6 +50,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     private couponService: CouponService, // TODO remove after REDUX
     private categoriesService: CategoriesService,
     private router: Router,
+    private toast: ToastrService
   ) {
   }
 
@@ -137,12 +139,18 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
 
   async searchCoupons() {
     let coupons;
+    let category: Category = {
+      id: this.selectedCategory,
+      name: this.selectedCategory === 0 ? 'Tutte le categorie' : this.categories.find(el => el.id === this.selectedCategory).name
+    };
 
     try {
-      coupons = await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise();
-      this.filterActions.update(coupons);
+      // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
+      coupons = (await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise()) || [];
+      this.filterActions.update(coupons, category, this.searchText);
       this.router.navigate(['/reserved-area/consumer/showcase']);
     } catch (e) {
+      this.toast.error('La ricerca non è andata a buon fine. Prova con caratteri consentiti.', 'Errore durante la ricerca');
       console.error(e);
     }
   }
