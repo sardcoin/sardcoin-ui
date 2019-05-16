@@ -6,6 +6,7 @@ import {GlobalEventsManagerService} from '../_services/global-event-manager.serv
 
 @Injectable()
 
+// This guard checks if a user is a consumer or not. If the user is not logged in, he can access to the consumer paths
 export class IsConsumerGuard implements CanActivate {
   constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
   }
@@ -17,12 +18,12 @@ export class IsConsumerGuard implements CanActivate {
 
       this.eventEmitter.isUserLoggedIn.next(true);
 
-
       switch (this.localStore.getType()) {
         case '0': // admin
           this.eventEmitter.userType.next('0');
           return true;
         case '1': // producer
+          this.eventEmitter.userType.next('1');
           this.router.navigate(['reserved-area/producer']);
           return false;
         case '2': // consumer
@@ -35,12 +36,15 @@ export class IsConsumerGuard implements CanActivate {
           this.eventEmitter.userType.next('4');
           return false;
       }
+    } else {
+      this.eventEmitter.isUserLoggedIn.next(false);
+      return true;
     }
 
     // If the user is not logged in, he is redirect to the login view
-    this.eventEmitter.isUserLoggedIn.next(false);
-    this.router.navigate(['authentication/login']);
-
-    return false;
+    // this.eventEmitter.isUserLoggedIn.next(false);
+    // this.router.navigate(['authentication/login']);
+    //
+    // return false;
   }
 }

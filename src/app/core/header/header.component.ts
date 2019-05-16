@@ -50,16 +50,17 @@ export class HeaderComponent implements OnInit {
         switch (this.userType) {
           case '0': // admin
             this.userStringType = 'admin';
-            return true;
+            break;
           case '1': // producer
             this.userStringType = 'producer';
-            return true;
-          case '2': // consumer
-            this.userStringType = 'consumer';
-            return true;
+            break;
           case '3': // verify
             this.userStringType = 'verify';
-            return true;
+            break;
+          case '2': // The user is assumed to be a consumer if it's not logged in
+          default:
+            this.userStringType = 'consumer';
+            break;
         }
       });
     });

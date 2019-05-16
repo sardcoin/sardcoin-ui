@@ -12,7 +12,7 @@ export class SidebarComponent implements OnInit {
   isUserLoggedIn = false;
   userType = null;
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
-  userStringType = '';
+  infoUserLink = '';
 
   hide = false;
   desktopMode = true;
@@ -34,21 +34,22 @@ export class SidebarComponent implements OnInit {
 
       switch (this.userType) {
         case '0': // admin
-          this.userStringType = 'admin';
+          this.infoUserLink = '/reserved-area/admin/';
           this.sendHide(false);
           break;
         case '1': // producer
-          this.userStringType = 'producer';
+          this.infoUserLink = '/reserved-area/producer/';
+          this.sendHide(false);
+          break;
+        case '3': // verify
+          this.infoUserLink = '/reserved-area/verify/';
           this.sendHide(false);
           break;
         case '2': // consumer
-          this.userStringType = 'consumer';
+        default:
+          this.infoUserLink = '/';
           // this.hide = true;
           this.sendHide(true);
-          break;
-        case '3': // verify
-          this.userStringType = 'verify';
-          this.sendHide(false);
           break;
       }
     });
@@ -65,7 +66,7 @@ export class SidebarComponent implements OnInit {
     this.globalEventService.changeHide(signal);
   }
 
-  resetShowcase(){
+  resetShowcase() {
     this.filterActions.clear();
   }
 }

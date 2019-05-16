@@ -4,7 +4,7 @@ import {NgRedux, select} from '@angular-redux/store';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Breadcrumb} from './Breadcrumb';
 import {IAppState} from '../../shared/store/model';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {BreadcrumbActions} from './breadcrumb.actions';
 import {CartItem} from '../../shared/_models/CartItem';
 import {CouponService} from '../../shared/_services/coupon.service';
@@ -36,9 +36,9 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   showSuggestions: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   isUserLoggedIn: boolean;
+  authPage = false;
   userType: number = null;
 
-  url: string;
   desktopMode = true;
   hide: boolean;
 
@@ -73,9 +73,16 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
       this.cart = elements['list'];
     });
 
-    this.url = this.router.url;
+    this.authPage = this.router.url.includes('authentication');
 
-    if (this.userType === 2) { // Consumer
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) {
+        this.authPage = this.router.url.includes('authentication');
+      }
+    });
+
+
+    if (!this.userType || this.userType === 2) { // Consumer
       await this.getCategories();
       await this.getCouponsByCategory();
     }
@@ -153,7 +160,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
       // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
       coupons = (await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise()) || [];
       this.filterActions.update(coupons, category, this.searchText);
-      this.router.navigate(['/reserved-area/consumer/showcase']);
+      this.router.navigate(['/showcase']);
     } catch (e) {
       this.toast.error('La ricerca non è andata a buon fine. Prova con caratteri consentiti.', 'Errore durante la ricerca');
       console.error(e);

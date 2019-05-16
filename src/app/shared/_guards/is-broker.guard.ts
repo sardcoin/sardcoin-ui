@@ -35,6 +35,7 @@ export class IsBrokerGuard implements CanActivate { // TODO check switch
         case '4': // broker
           this.eventEmitter.userType.next('4');
           return true;
+
       }
     }
 

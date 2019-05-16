@@ -62,7 +62,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   ngOnInit(): void {
 
     this.filter$.subscribe(filter => {
-      if (filter['list']) { // TODO take categories here to show
+      if (filter['list']) {
         this.coupons = filter['list'];
         this.searchText = filter['searchText'];
         this.category = filter['category'];
@@ -91,7 +91,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       });
   }
 
-  async openModal(template: TemplateRef<any>, coupon: Coupon) {
+  async openModal(template: TemplateRef<any>, coupon: Coupon) { // TODO check if the user is registered
     this.modalCoupon = coupon;
     this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
@@ -186,9 +186,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-
   getQuantityCart() {
     console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart());
     return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
+  }
+
+  resetShowcase() {
+    this.filterActions.clear();
   }
 }

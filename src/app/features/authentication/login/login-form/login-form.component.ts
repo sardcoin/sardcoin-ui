@@ -67,7 +67,7 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
       password: this.f.password.value
     };
 
-    this.authenticationService.login(this.credentials)
+    this.authenticationService.login(this.credentials) // TODO check this
       .pipe(first())
       .subscribe(() => {
         setTimeout(() => {
@@ -76,20 +76,23 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
             if (this.userType !== null) {
               switch (this.userType) {
                 case '1':
-                  this.router.navigate(['reserved-area/producer']);
-                  break;
-                case '2':
-                  this.router.navigate(['reserved-area/consumer']);
-                  break;
                 case '3':
-                  this.router.navigate(['reserved-area/verify']);
-                  break;
                 case '4':
-                  this.router.navigate(['reserved-area/broker']);
-                  break;
-                default:
                   this.router.navigate(['reserved-area']);
                   break;
+                case '2':
+                default:
+                  this.router.navigate(['/']);
+                  break;
+                // case '3':
+                //   this.router.navigate(['reserved-area/verify']);
+                //   break;
+                // case '4':
+                //   this.router.navigate(['reserved-area/broker']);
+                //   break;
+                // default:
+                //   this.router.navigate(['reserved-area']);
+                //   break;
               }
 
             }

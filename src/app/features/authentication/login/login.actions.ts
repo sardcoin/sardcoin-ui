@@ -34,6 +34,8 @@ export class LoginActions {
     this.storeLocal.setId(user.id);
     this.storeLocal.setType(user.user_type);
     this.storeLocal.setUserNames(user.first_name + ' ' + user.last_name);
+
+    this.triggerMessageSubjects(user.user_type);
   }
 
   loginUserError() {
@@ -52,4 +54,10 @@ export class LoginActions {
 
     this.router.navigate(['/authentication/login']);
   }
+
+  triggerMessageSubjects(userType){
+    this.eventManager.isUserLoggedIn.next(true);
+    this.eventManager.userType.next(userType);
+  }
+
 }

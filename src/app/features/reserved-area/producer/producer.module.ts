@@ -14,6 +14,7 @@ import {FeatureReservedAreaCouponEditModule} from './coupon-edit/coupon-edit.mod
 import {ReactiveFormsModule} from '@angular/forms';
 import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
 import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
+import {FeatureReservedAreaConsumerModule} from '../consumer/consumer.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-i
     CoreModule,
     AppFooterModule,
     ProducerRoutingModule,
+    FeatureReservedAreaConsumerModule,
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
     FeatureReservedAreaCouponEditModule,

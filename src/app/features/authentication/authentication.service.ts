@@ -7,7 +7,7 @@ import {LoginActions} from './login/login.actions';
 import {map} from 'rxjs/internal/operators';
 import {environment} from '../../../environments/environment';
 import {StoreService} from '../../shared/_services/store.service';
-import {User} from '../../shared/_models/User';
+import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,6 +17,7 @@ export class AuthenticationService {
     private ngRedux: NgRedux<IAppState>,
     private loginActions: LoginActions,
     private localService: StoreService,
+    private GEmanager: GlobalEventsManagerService
   ) {
   }
 
@@ -34,6 +35,10 @@ export class AuthenticationService {
 
         if (response['user'] && response['token']) {
           this.loginActions.loginUserSuccess(response['user'], response['token']);
+          this.GEmanager.isUserLoggedIn.next(true);
+
+          // TODO inserire switch su tipo user
+
           return response;
         } else {
           this.loginActions.loginUserError();

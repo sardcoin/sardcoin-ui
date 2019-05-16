@@ -1,9 +1,9 @@
-<nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn">
+<nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn || !authPage">
 
   <!-- SEARCHBAR COUPONS -->
-  <div *ngIf="userType == 2"
+  <div *ngIf="!userType || userType == 2"
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
-       style="padding: 0px 9px 0px 55px; max-height: 49px">
+       [ngStyle]="{'padding': isUserLoggedIn ? '0px 9px 0px 72px' : '0px 9px 0px 16px'}" style="max-height: 49px">
     <div class="row col-md-9 my-auto">
 
       <div class="" dropdown>

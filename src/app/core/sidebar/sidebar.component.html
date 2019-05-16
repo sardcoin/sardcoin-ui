@@ -28,27 +28,35 @@
           <span class="menu-collapsed">Reports</span>
         </a>
       </div>
+
+      <a [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
+        <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
+          <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
+        </div>
+        <span *ngIf="!hide || userType != '2'" class="menu-collapsed">Shopping</span>
+      </a>
+
       <div *ngIf="this.userType == '2' || this.userType == '0'" class="mt-4">
 
-        <a [routerLink]="['/reserved-area/consumer/showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
+        <a [routerLink]="['/showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
             <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
           </div>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
         </a>
-        <a [routerLink]="['/reserved-area/consumer/bought']" class="list-group-item list-group-item-action gray-sardcoin">
+        <a [routerLink]="['/bought']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-shopping-bag icon-dimension"></span>
           </div>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
         </a>
-        <a [routerLink]="['/reserved-area/consumer/order']" class="list-group-item list-group-item-action gray-sardcoin">
+        <a [routerLink]="['/order']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-book icon-dimension"></span>
           </div>
           <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei ordini</span>
         </a>
-        <a [routerLink]="['/reserved-area/consumer/coupon-import']" class="list-group-item list-group-item-action gray-sardcoin">
+        <a [routerLink]="['/coupon-import']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-file-upload icon-dimension"></span>
           </div>
@@ -64,14 +72,14 @@
 
       <div *ngIf="this.userType != '3'">
 
-        <a [routerLink]="['/reserved-area/' + userStringType +'/personal-info']"
+        <a [routerLink]="[infoUserLink +'personal-info']"
            class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-user icon-dimension"></span>
           </div>
           <span *ngIf="!hide || userType == '0' || userType == '1'" class="menu-collapsed">Informazioni personali</span>
         </a>
-        <a [routerLink]="['/reserved-area/' + userStringType +'/payment-details']"
+        <a [routerLink]="[infoUserLink +'payment-details']"
            class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-file-invoice icon-dimension"></span>

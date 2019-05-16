@@ -28,6 +28,7 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
 import {PaypalService} from '../../../shared/_services/paypal.service';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
+import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
     ZXingScannerModule.forRoot(),
   ],
   providers: [
+    IsAuthenticatedGuard,
     GlobalEventsManagerService,
     CouponService,
     CartActions,

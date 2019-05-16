@@ -1,10 +1,11 @@
 <app-core-header></app-core-header>
 <div class="row" id="body-row">
-  <app-core-sidebar *ngIf="desktopMode && (loginData | async)"></app-core-sidebar>
+  <app-core-sidebar *ngIf="desktopMode && (loginData | async)"></app-core-sidebar> <!-- TODO there was *ngIf="desktopMode && (loginData | async)" -->
   <app-core-breadcrumb  class="px-0" id="breadcrumb-style" ></app-core-breadcrumb>
-  <div class="px-0" id="main-content" [ngStyle]="{'margin-left': ((loginData | async) && desktopMode ) ? width : '0'}">
+  <div class="px-0" id="main-content" [ngStyle]="{'margin-left': ((loginData | async) && desktopMode) ? width : '0'}">
+    <!-- TODO ngStyle was like [ngStyle]="{'margin-left': ((loginData | async) && desktopMode ) ? width : '0'}" -->
 
-    <div id="main-container"> <!-- levato container-fluid -->
+    <div id="main-container">
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -9,6 +9,7 @@ import {P404Component} from '../errors/404.component';
 import {P500Component} from '../errors/500.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {IsConsumerGuard} from '../shared/_guards/is-consumer.guard';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {CommonModule} from '@angular/common';
 
   ],
   providers: [
-    IsAuthenticatedGuard
+    IsAuthenticatedGuard,
+    IsConsumerGuard
   ],
   exports: [
 

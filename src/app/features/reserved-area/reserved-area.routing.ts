@@ -21,11 +21,11 @@ import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
         loadChildren: './producer/producer.module#FeatureReservedAreaProducerModule',
         canActivate: [IsProducerGuard]
       },
-      {
+/*      {
         path: 'consumer',
         loadChildren: './consumer/consumer.module#FeatureReservedAreaConsumerModule',
         canActivate: [IsConsumerGuard]
-      },
+      },*/
       {
         path: 'verifier',
         loadChildren: './verifier/verifier.module#VerifierModule',
