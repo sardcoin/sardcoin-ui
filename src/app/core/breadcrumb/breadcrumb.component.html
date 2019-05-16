@@ -1,7 +1,7 @@
 <nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn || !authPage">
 
   <!-- SEARCHBAR COUPONS -->
-  <div *ngIf="!userType || userType == 2"
+  <div *ngIf="!userType || userType == 2 || showcasePage"
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
        [ngStyle]="{'padding': isUserLoggedIn ? '0px 9px 0px 72px' : '0px 9px 0px 16px'}" style="max-height: 49px">
     <div class="row col-md-9 my-auto">
@@ -26,10 +26,23 @@
         <ul id="search-suggestions" class="rounded-bottom"
             *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)">
           <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
-            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)"
-                class="cursor-pointer">
-              <!--{{coupon.title + ' - ' + coupon.description}}-->
-              {{getListElement(coupon)}}
+            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)" class="cursor-pointer">
+
+              <ng-container *ngIf="isOccurrenceInText(coupon.title); else noTitleOccurrence">
+                <b class="text-capitalize">
+                  {{getTitleOccurrence(coupon.title, true)}}<span class="text-danger">{{searchText}}</span>{{getTitleOccurrence(coupon.title, false)}}
+                </b>
+              </ng-container>
+              <ng-template #noTitleOccurrence>
+                <b class="text-capitalize">{{coupon.title}}</b>
+              </ng-template>
+
+              <ng-container *ngIf="isOccurrenceInText(coupon.description); else noDescriptionOccurrence">
+                  - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon, 2)}}
+              </ng-container>
+              <ng-template #noDescriptionOccurrence>
+                - {{getListElement(coupon)}}
+              </ng-template>
             </li>
           </ng-container>
         </ul>
@@ -52,7 +65,8 @@
     </div>
   </div>
 
-  <ol *ngIf="userType == 1"
+  <!-- NAVIGATION breadcrumb only for producers and if they are not in showcase page-->
+  <ol *ngIf="userType == 1 && !showcasePage"
       class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">

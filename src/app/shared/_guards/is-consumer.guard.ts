@@ -24,7 +24,7 @@ export class IsConsumerGuard implements CanActivate {
           return true;
         case '1': // producer
           this.eventEmitter.userType.next('1');
-          this.router.navigate(['reserved-area/producer']);
+          // this.router.navigate(['reserved-area/producer']);
           return false;
         case '2': // consumer
           this.eventEmitter.userType.next('2');

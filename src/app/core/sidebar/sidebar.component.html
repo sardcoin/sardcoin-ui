@@ -36,14 +36,14 @@
         <span *ngIf="!hide || userType != '2'" class="menu-collapsed">Shopping</span>
       </a>
 
-      <div *ngIf="this.userType == '2' || this.userType == '0'" class="mt-4">
+      <div *ngIf="this.userType == '2' || this.userType == '0'">
 
-        <a [routerLink]="['/showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
-            <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
-          </div>
-          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>
-        </a>
+        <!--<a [routerLink]="['/showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">-->
+          <!--<div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >-->
+            <!--<span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>-->
+          <!--</div>-->
+          <!--<span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>-->
+        <!--</a>-->
         <a [routerLink]="['/bought']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
             <span class="fas fa-shopping-bag icon-dimension"></span>

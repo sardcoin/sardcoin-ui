@@ -43,21 +43,29 @@ export class LoginActions {
   }
 
   logoutUser() {
-    this.ngRedux.dispatch({ type: LOGOUT_USER });
+    // If the user is logged in
+    if(this.eventManager.isUserLoggedIn.value.valueOf() || this.areUserInfoStored()) {
+      this.ngRedux.dispatch({ type: LOGOUT_USER });
 
-    this.storeLocal.removeToken();
-    this.storeLocal.removeId();
-    this.storeLocal.removeType();
-    this.storeLocal.removeUserNames();
+      this.storeLocal.removeToken();
+      this.storeLocal.removeId();
+      this.storeLocal.removeType();
+      this.storeLocal.removeUserNames();
+      this.storeLocal.removeCart();
 
-    this.eventManager.isUserLoggedIn.next(false);
+      this.eventManager.isUserLoggedIn.next(false);
 
-    this.router.navigate(['/authentication/login']);
+      this.router.navigate(['/']);
+    }
   }
 
   triggerMessageSubjects(userType){
     this.eventManager.isUserLoggedIn.next(true);
     this.eventManager.userType.next(userType);
+  }
+
+  areUserInfoStored(){
+    return this.storeLocal.getType() && this.storeLocal.getToken() && this.storeLocal.getId() && this.storeLocal.getUserNames();
   }
 
 }
