@@ -8,6 +8,7 @@ import {FlatpickrModule} from 'angularx-flatpickr';
 import {Ng2FlatpickrModule} from 'ng2-flatpickr';
 import {CoreModule} from '../../../../core/core.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {PackageService} from '../../../../shared/_services/package.service';
 
 
 
@@ -29,7 +30,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FeatureReservedAreaPackageCreateComponent
   ],
   providers: [
-    StoreService
+    StoreService,
+    PackageService
   ],
 })
 export class FeatureReservedAreaPackageCreateModule {}

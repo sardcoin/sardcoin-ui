@@ -8,7 +8,7 @@
         </div>
 
         <div class="card-body p-5">
-          <form [formGroup]="couponForm" (ngSubmit)="saveCoupon()">
+          <form [formGroup]="packageForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
               <label class="col-lg-2 col-sm-4 col-form-label">Titolo</label>
               <div class="col-lg-10 col-sm-8">
@@ -109,19 +109,47 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="markedPrivate" class="form-group row">
-              <label class="col-sm-2 col-form-label">Privato per: </label>
-              <div class="col-sm-8">
-                <ng-select formControlName="broker"
-                  [items]="brokers"
+            <div *ngIf="couponsAvailable" class="form-group row ">
+              <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
+              <div class="col-sm-12 col-lg-8">
+                <ng-select formControlName="coupons"
+                  [items]="couponsAvailable"
                   [multiple]="true"
                   [closeOnSelect]="true"
-                  [searchable]="true"
-                  bindLabel="username"
-                  placeholder="Seleziona broker"
-                  [(ngModel)]="selectedBroker">
+                  [searchable]= "true"
+                  bindLabel="title"
+                  placeholder="Seleziona coupons"
+                  [(ngModel)]="selectedCoupons"
+                  [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }" >
+                </ng-select>
+
+                  <!--<div class="invalid-feedback"-->
+                       <!--*ngIf="submitted && f.coupons.errors?.QuantityArrayCoupons">-->
+                    <!--La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.-->
+                  <!--</div>-->
+                  <!--<div class="invalid-feedback"-->
+                       <!--*ngIf="submitted && packageForm.get('coupons').errors?.QuantityArrayCoupons && packageForm.get('quantity').errors?.QuantityArrayCoupons">-->
+                    <!--Selezionare i coupons se disponibili.-->
+                  <!--</div>-->
+
+              </div>
+
+            </div>
+
+            <div  class="form-group row">
+              <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
+              <div class="col-sm-8">
+                <ng-select formControlName="categories"
+                           [items]="categories"
+                           [multiple]="true"
+                           [closeOnSelect]="true"
+                           [searchable]= "true"
+                           bindLabel="name"
+                           placeholder="Seleziona categorie"
+                           [(ngModel)]="selectedCategories">
                 </ng-select>
               </div>
+
             </div>
             <!-- Published From -->
 
@@ -186,8 +214,13 @@
               <div class="col-sm-12 col-lg-8">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" min="1" max="1"/>
-                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
-                  <div *ngIf="f.quantity.errors">Valore richiesto o incorretto</div>
+                <div class="invalid-feedback"
+                     *ngIf="submitted && f.quantity.errors?.MatchErrorQuantity">
+                  <div>Quantità non corretta.</div>
+                </div>
+                <div class="invalid-feedback"
+                     *ngIf="submitted && f.quantity.errors?.QuantityArrayCoupons">
+                  <div>La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.</div>
                 </div>
               </div>
             </div> <!-- Quantity -->
@@ -220,7 +253,21 @@
               Carica immagine
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.quantity.errors?.MatchQuantity">Quantità non corretta.
+                 *ngIf="submitted && f.quantity.errors?.MatchPurchasableQuantity &&
+                 f.purchasable.errors?.MatchPurchasableQuantity">Questo valore deve essere inferiore o uguale alla quantità creata
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.quantity.errors?.MatchErrorQuantity">Quantità non corretta.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.purchasable.errors?.MatchErrorPurchasable">Acquisto massimo per user non corretta.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && packageForm.get('coupons').errors?.QuantityArrayCoupons && packageForm.get('quantity').errors?.QuantityArrayCoupons">
+                    La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.coupons.errors?.CouponsEmpty">Inserire i coupons per la creazione dei pacchetti.
             </div>
             <div *ngIf="submitted && f.image.errors" class="alert alert-danger col-md-12">
               <!--<div *ngIf="f.image.errors">Image is required</div>-->
@@ -229,6 +276,12 @@
             <div *ngIf="submitted && imagePath == null" class="alert alert-danger col-md-12">
               <!--<div *ngIf="f.image.errors">Image is required</div>-->
               <div>Caricare l'immagine correttamente.</div>
+            </div>
+            <div *ngIf="submitted && f.coupons.errors" class="invalid-feedback">
+              <div *ngIf="f.coupons.errors">Inserire i coupons per la creazione del pacchetto.</div>
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.coupons.errors?.EmptyArrayCoupons">Selezionare i coupons se disponibili.
             </div>
             <div class="form group">
               <p>

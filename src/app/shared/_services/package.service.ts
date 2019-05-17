@@ -9,7 +9,7 @@ import {CartItem, PurchasedCoupon} from '../_models/CartItem';
 
 @Injectable()
 
-export class CouponService {
+export class PackageService {
   private boolFormEdit = new BehaviorSubject<boolean>(null);
   private couponSource = new BehaviorSubject<Coupon>(null);
   private couponUser = new BehaviorSubject(null);
@@ -44,11 +44,7 @@ export class CouponService {
   }
 
   getAvailableCouponsByCategoryId(category_id: number) {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByCatId/' + category_id));
-  }
-
-  getAvailableByTextAndCatId(text: string, category_id: number) {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByTextAndCatId/' + text + '/' + category_id));
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableCouponsByCategoryId/' + category_id));
   }
 
   getProducerCoupons() {
@@ -100,7 +96,7 @@ export class CouponService {
   }
 
   private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
+    return environment.protocol + '://' + environment.host + ':' + environment.port + '/package/' + methodName;
   }
 
 

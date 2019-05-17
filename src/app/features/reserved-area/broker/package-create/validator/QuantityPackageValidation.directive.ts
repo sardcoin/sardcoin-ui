@@ -1,27 +1,121 @@
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {Coupon} from '../../../../../shared/_models/Coupon';
 
-export class QuantityCouponValidation {
+export class QuantityPackageValidation {
 
-  static CheckQuantityCoupon(AC: AbstractControl) {
-    const quantityCoupon = parseInt(AC.get('quantity').value, 10); // to get value in input tag
-    const quantityMaxBuyCoupon = parseInt(AC.get('purchasable').value, 10); // to get value in input tag
+  static CheckQuantityPackage: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const quantity = control.get('quantity').value; // to get value in input tag
+    const purchasable = control.get('purchasable').value; // to get value in input tag
+    let couponArray: Coupon[];
+    const couponQuantityArray: number[] = [];
+    const couponQuantityArrayAndQuatityAvailable: number[] = [];
+    couponArray = control.get('coupons').value; // to get value in input tag
+    couponArray.sort();
+    let current = null;
+    let cnt = 0;
+    let minCouponsQuantity;
+    let isErrorPurchasable = false;
+    let isErrorEmptyArrayCoupons = false;
+    let isErrorPurchasableQuantity = false;
+    let isErrorQuantityArrayCoupons = false;
+    let isErrorQuantity = false;
 
+    for (let i = 0; i < couponArray.length; i++) {
+      if (couponArray[i] != current) {
+        if (cnt > 0) {
+          if (couponArray[i].purchasable) {
+            couponQuantityArray.push(couponArray[i].purchasable - cnt);
+          } else {
+            couponQuantityArray.push(couponArray[i].quantity - cnt);
+          }
+        }
+        current = couponArray[i];
+        cnt = 1;
+      } else {
+        cnt++;
+      }
+    }
+    if (cnt > 0) {
+      if (current.purchasable) {
+        couponQuantityArray.push(current.purchasable - cnt);
+      } else {
+        couponQuantityArray.push(current.quantity - cnt);
+      }
+      couponQuantityArray.push(cnt);
+    }
+
+    minCouponsQuantity = Math.min(...couponQuantityArray);
+
+    // console.log('couponQuantityArray', couponQuantityArray);
+    //
+    // console.log('minCouponsQuantity', minCouponsQuantity);
+    //
+    // console.log('couponArray', couponArray);
     try {
+      if ((minCouponsQuantity - quantity + 1) < 0 ) {
+        // AC.get('coupons').setErrors({MatchQuantity: true});
+        // isErrorGeneral = true;
+        isErrorQuantityArrayCoupons = true;
 
-      if (quantityMaxBuyCoupon < 1) {
-        AC.get('purchasable').setErrors({MatchQuantity: true});
+      }
+      if (couponArray.length == 0) {
+        // AC.get('coupons').setErrors({CouponsEmpty: true});
+        // isErrorGeneral = true;
+        isErrorEmptyArrayCoupons = true;
+
       }
 
-      if (quantityCoupon < 1) {
-        AC.get('quantity').setErrors({MatchQuantity: true});
-      } else {
-        if (quantityMaxBuyCoupon > quantityCoupon) {
-          AC.get('purchasable').setErrors({MatchQuantity: true});
+      if (purchasable < 1) {
+        // AC.get('purchasable').setErrors({MatchQuantity: true});
+        isErrorPurchasable = true;
+      }
 
+      if (quantity < 1) {
+        // AC.get('quantity').setErrors({MatchQuantity: true});
+        isErrorQuantity = true;
+      } else {
+        if (purchasable > quantity) {
+          // AC.get('purchasable').setErrors({MatchQuantity: true});
+          // isErrorGeneral = true;
+          isErrorPurchasableQuantity = true;
         }
 
-        return null;
+
       }
+      console.log('isError:', isErrorQuantity)
+
+      if (isErrorQuantityArrayCoupons) {
+        control.get('coupons').setErrors({QuantityArrayCoupons: true});
+        control.get('quantity').setErrors({QuantityArrayCoupons: true});
+        control.get('purchasable').setErrors(null);
+
+
+      } else {
+        if (isErrorEmptyArrayCoupons) {
+          control.get('coupons').setErrors({EmptyArrayCoupons: true});
+          control.get('quantity').setErrors(null);
+          control.get('purchasable').setErrors(null);
+        } else if (isErrorPurchasableQuantity) {
+          control.get('coupons').setErrors(null);
+          control.get('quantity').setErrors({MatchPurchasableQuantity: true});
+          control.get('purchasable').setErrors({MatchPurchasableQuantity: true});
+
+        } else if (isErrorQuantity) {
+          control.get('coupons').setErrors(null);
+          control.get('quantity').setErrors({MatchErrorQuantity: true});
+          control.get('purchasable').setErrors(null);
+        } else if (isErrorPurchasable) {
+          control.get('coupons').setErrors(null);
+          control.get('quantity').setErrors(null);
+          control.get('purchasable').setErrors({MatchErrorPurchasable: true});
+      } else {
+
+          control.get('coupons').setErrors(null);
+          control.get('quantity').setErrors(null);
+          control.get('purchasable').setErrors(null);
+        }
+      }
+      return isErrorQuantityArrayCoupons ? {QuantityArrayCoupons: true} : null;
 
     } catch (Error) {
       // dateUntil does not exists

@@ -6,7 +6,7 @@ import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {StoreService} from '../../../../shared/_services/store.service';
-import {QuantityCouponValidation} from '../package-create/validator/QuantityPackageValidation.directive';
+import {QuantityPackageValidation} from '../package-create/validator/QuantityPackageValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
@@ -89,7 +89,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       quantity: [{value: this.couponPass.quantity, disabled: this.fromEdit}],
       purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
-      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
 
     this.addBreadcrumb();
