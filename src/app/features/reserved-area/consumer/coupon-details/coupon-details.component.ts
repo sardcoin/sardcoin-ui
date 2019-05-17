@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -20,8 +20,8 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
   styleUrls: ['./coupon-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
-export class CouponDetailsComponent implements OnInit, OnDestroy {
+// TODO make details open to every other user type
+export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check if user is logged in before make some calls
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
@@ -34,6 +34,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   classMx4: string;
 
   error404: boolean = false;
+
+  isUserLoggedIn: boolean;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -58,6 +60,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.globalEventService.isUserLoggedIn.subscribe(value => {
+      this.isUserLoggedIn = value;
+    });
+
     await this.loadCoupon();
   }
 
@@ -75,7 +81,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
           this.error404 = true;
         } else {
 
-          if (!this.couponPass.max_quantity) {
+          if (!this.couponPass.max_quantity && this.isUserLoggedIn) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
 
@@ -166,7 +172,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   formatPrice(price) {
@@ -189,7 +195,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/showcase']);
+    this.router.navigate(['/showcase']);
   }
 
   addBreadcrumb() {
@@ -197,12 +203,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
-    bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/bought/myPurchases'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Shopping', '/showcase'));
+    bread.push(new Breadcrumb(this.couponPass.title, '/bought/myPurchases'));
 
     // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/myPurchases'));
+    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

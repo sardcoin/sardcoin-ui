@@ -74,14 +74,14 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   details(order: Order) {
     this.orderService.setOrder(order);
-    this.router.navigate(['/reserved-area/consumer/order/myPurchases']);
+    this.router.navigate(['/order/myPurchases']);
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei ordini', '/order'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

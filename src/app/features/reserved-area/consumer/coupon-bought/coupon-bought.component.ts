@@ -43,8 +43,8 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei acquisti', '/reserved-area/consumer/bought'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei acquisti', '/bought'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -90,6 +90,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
     this.couponService.setCoupon(coupon);
 
-    this.router.navigate(['/reserved-area/consumer/bought/myPurchases']);
+    this.router.navigate(['/bought/myPurchases']);
   }
 }

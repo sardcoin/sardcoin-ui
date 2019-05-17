@@ -35,21 +35,21 @@
                   </div>
 
                   <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                      <span (click)="clickEvent('/reserved-area/consumer/showcase')"
+                      <span (click)="clickEvent('/showcase')"
                             class="menu-collapsed">Shopping</span>
                   </a>
 
                   <div *ngIf="this.userType == '2' || this.userType == '0'">
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/reserved-area/consumer/bought')"
+                    <span (click)="clickEvent('/bought')"
                           class="menu-collapsed">I miei Acquisti</span>
                     </a>
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/reserved-area/consumer/order')"
+                    <span (click)="clickEvent('/order')"
                           class="menu-collapsed">I miei Ordini</span>
                     </a>
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                      <span (click)="clickEvent('/reserved-area/consumer/coupon-import')" class="menu-collapsed">Importa coupon</span>
+                      <span (click)="clickEvent('/coupon-import')" class="menu-collapsed">Importa coupon</span>
                     </a>
                   </div>
 

@@ -13,6 +13,7 @@ import {Category} from '../../shared/_models/Category';
 import {Coupon} from '../../shared/_models/Coupon';
 import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 import {ToastrService} from 'ngx-toastr';
+import {StoreService} from '../../shared/_services/store.service';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -46,6 +47,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   constructor(
     private globalEventService: GlobalEventsManagerService,
     private ngRedux: NgRedux<IAppState>,
+    private localStore: StoreService,
     private breadcrumbActions: BreadcrumbActions,
     private filterActions: FilterActions,
     private couponService: CouponService,
@@ -84,17 +86,10 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
       }
     });
 
-
-    if (!this.userType || this.userType === 2) { // Consumer
+    // if (!this.userType || this.userType === 2) { // Consumer
       await this.getCategories();
       await this.getCouponsByCategory();
-    }
-  }
-
-  navigateTo(value) {
-    if (value) {
-      this.router.navigate([value]);
-    }
+    // }
   }
 
   async getCategories() {
@@ -118,6 +113,30 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     await this.getCouponsByCategory();
   }
 
+  async searchCoupons() {
+    let coupons;
+    let category: Category = {
+      id: this.selectedCategory,
+      name: this.selectedCategory === 0 ? 'Tutte le categorie' : this.categories.find(el => el.id === this.selectedCategory).name
+    };
+
+    try {
+      // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
+      coupons = (await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise()) || [];
+      this.filterActions.update(coupons, category, this.searchText);
+      this.router.navigate(['/showcase']);
+    } catch (e) {
+      this.toast.error('La ricerca non è andata a buon fine. Prova con caratteri consentiti.', 'Errore durante la ricerca');
+      console.error(e);
+    }
+  }
+
+  navigateTo(value) {
+    if (value) {
+      this.router.navigate([value]);
+    }
+  }
+
   giveSuggestions() { // TODO refactor
     this.showSuggestions.next(this.searchText && this.searchText.length > 0);
   }
@@ -127,7 +146,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   goToCouponDetails(coupon: Coupon) {
-    let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    let url = '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
     this.searchText = coupon.title;
     this.router.navigate([url]);
   }
@@ -175,21 +194,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
       : title.substr(title.toLowerCase().indexOf(this.searchText.toLowerCase()) + this.searchText.length, title.length);
   }
 
-  async searchCoupons() {
-    let coupons;
-    let category: Category = {
-      id: this.selectedCategory,
-      name: this.selectedCategory === 0 ? 'Tutte le categorie' : this.categories.find(el => el.id === this.selectedCategory).name
-    };
-
-    try {
-      // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
-      coupons = (await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise()) || [];
-      this.filterActions.update(coupons, category, this.searchText);
-      this.router.navigate(['/showcase']);
-    } catch (e) {
-      this.toast.error('La ricerca non è andata a buon fine. Prova con caratteri consentiti.', 'Errore durante la ricerca');
-      console.error(e);
-    }
+  isUserConsumer(): boolean {
+    return this.localStore.getId() == 2 || !this.localStore.getId();
   }
 }

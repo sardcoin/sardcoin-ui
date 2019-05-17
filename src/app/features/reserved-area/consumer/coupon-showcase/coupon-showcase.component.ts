@@ -38,6 +38,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   searchResults = false;
   searchText: string = null;
 
+  private isUserLoggedIn: boolean;
+
   constructor(
     private couponService: CouponService,
     private GEManager: GlobalEventsManagerService,
@@ -51,12 +53,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
-    /*    this.GEManager.searchedCoupons.asObservable().subscribe(coupons => {
-          console.warn('HO RICEVUTO: ', coupons);
-          if(coupons) {
-            this.coupons = coupons;
-          }
-        });*/
   }
 
   ngOnInit(): void {
@@ -75,6 +71,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     });
 
     this.addBreadcrumb();
+
+    this.GEManager.isUserLoggedIn.subscribe(value => {
+      this.isUserLoggedIn = value;
+    });
   }
 
   ngOnDestroy() {
@@ -92,19 +92,26 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) { // TODO check if the user is registered
-    this.modalCoupon = coupon;
-    this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
-    this.myForm = this.formBuilder.group({
-      quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
-    });
-
-    this.isMax = this.myForm.value.quantity === this.maxQuantity;
-
-    if (this.maxQuantity > 0) {
-      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    if(!this.isUserLoggedIn) {
+      this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {
-      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+
+      this.modalCoupon = coupon;
+
+      this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+
+      this.myForm = this.formBuilder.group({
+        quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+      });
+
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+
+      if (this.maxQuantity > 0) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+      } else {
+        this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+      }
     }
   }
 
@@ -118,10 +125,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   details(coupon: Coupon) {
-    // this.couponService.setCoupon(coupon);
-    let url = '/reserved-area/consumer/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    let url = '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
     this.router.navigate([url]);
-    3;
   }
 
   async addToCart(coupon: Coupon) {
@@ -148,7 +153,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   add() {
@@ -176,8 +181,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Shopping', '/showcase'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -193,5 +198,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   resetShowcase() {
     this.filterActions.clear();
+  }
+
+  isUserConsumer(): boolean {
+    return this.localStore.getId() == 2 || !this.localStore.getId();
   }
 }

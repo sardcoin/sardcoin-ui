@@ -229,7 +229,7 @@
     <h3 class="display-3" style="font-size: 2rem;">Il carrello è vuoto!</h3>
   </div>
   <div class="col-sm-12 mt-4 text-center d-xl-block d-lg-block d-md-block d-sm-block d-none">
-    <button class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
+    <button *ngIf="isUserLoggedIn && true" class="btn btn-lg btn-success mr-2" type="button" (click)="openBought()">
       <span   class="fas fa-shopping-bag "></span>
       Vai ai tuoi acquisti
     </button>
@@ -262,7 +262,7 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">No</button>
-    <button href="/reserved-area/consumer/cart-detail-payment" type="button" class="btn btn-success"
+    <button href="/cart-detail-payment" type="button" class="btn btn-success"
             (click)="emptyCart()">Si
     </button>
   </div>

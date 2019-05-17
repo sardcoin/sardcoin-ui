@@ -41,7 +41,7 @@ export class CouponDetailIntoOrderComponent implements OnInit, OnDestroy { // TO
 
     this.couponService.currentMessage.subscribe(coupon => {
       if (coupon === null) {
-        this.router.navigate(['/reserved-area/consumer/order']);
+        this.router.navigate(['/order']);
       } else {
         this.couponPass = coupon;
         this.addBreadcrumb();
@@ -63,11 +63,11 @@ export class CouponDetailIntoOrderComponent implements OnInit, OnDestroy { // TO
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei acquisti', '/reserved-area/consumer/bought/'));
-    bread.push(new Breadcrumb( this.couponPass.title , '/reserved-area/consumer/bought/myPurchases'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei acquisti', '/bought/'));
+    bread.push(new Breadcrumb( this.couponPass.title , '/bought/myPurchases'));
     // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/bought/myPurchases'));
+    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/bought/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -92,7 +92,7 @@ export class CouponDetailIntoOrderComponent implements OnInit, OnDestroy { // TO
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/order']);
+    this.router.navigate(['/order']);
   }
 
   getOwner() {

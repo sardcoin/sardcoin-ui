@@ -13,7 +13,7 @@
         <p class="card-text">{{coupon.description}}</p>
       </div>
       <div class="card-footer">
-        <button [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ?
+        <button *ngIf="isUserConsumer()" [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ?
          'Articolo già aggiunto: vai al carrello per cambiare la quantità.' : ''}}"
                 (click)="openModal(template, coupon)"><i class="fas fa-cart-plus"></i> Aggiungi
         </button>

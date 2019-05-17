@@ -100,7 +100,7 @@ export class HeaderComponent implements OnInit {
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   quantityCart() {

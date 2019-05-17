@@ -5,7 +5,7 @@
       <div class="card-body p-4">
         <h3 class="card-title mb-0">{{couponPass.title}}</h3>
         <p *ngIf="couponPass && couponPass.owner">di
-          <i [routerLink]="['/reserved-area/consumer/producer-info']"
+          <i [routerLink]="['/producer-info']"
              class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.company_name
             }}</i>
         </p>
@@ -53,7 +53,7 @@
         </div>
 
         <div *ngIf="!desktopMode">
-          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
+          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0 && isUserLoggedIn"
                   class="btn  btn-success float-right ml-2"
                   [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
             <i class="fas fa-cart-plus"> </i> Aggiungi

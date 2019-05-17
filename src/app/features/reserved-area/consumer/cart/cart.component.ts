@@ -30,6 +30,7 @@ export class CartComponent implements OnInit, OnDestroy {
   cart: CartItem[];
   modalRef: BsModalRef;
   isDesktop: boolean;
+  isUserLoggedIn: boolean;
   totalAmount = 0;
 
 
@@ -52,6 +53,7 @@ export class CartComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.addBreadcrumb();
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
+    this.globalEventService.isUserLoggedIn.subscribe(value => this.isUserLoggedIn = value);
     await this.loadCart();
   }
 
@@ -108,15 +110,15 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/showcase']);
+    this.router.navigate(['/showcase']);
   }
 
   openBought() {
-    this.router.navigate(['/reserved-area/consumer/bought']);
+    this.router.navigate(['/bought']);
   }
 
   goToDetailPayment() {
-    this.router.navigate(['/reserved-area/consumer/checkout']);
+    this.router.navigate(['/checkout']);
   }
 
   formatUntil(inputDate) {
@@ -147,8 +149,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Carrello', '/reserved-area/consumer/cart'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Carrello', '/cart'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -163,7 +165,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   details(coupon: Coupon) {
     this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/myPurchases']);
+    this.router.navigate(['/myPurchases']);
   }
 
   openModal(template: TemplateRef<any>) {

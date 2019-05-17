@@ -73,7 +73,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
       (data) => {
         if (data !== null) {
           this.toastValidate();
-          this.router.navigate(['/reserved-area/consumer/bought']);
+          this.router.navigate(['/bought']);
           return;
         } else {
           this.toastError();
@@ -93,8 +93,8 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Importa coupon', '/reserved-area/consumer/coupon-import/'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Importa coupon', '/coupon-import/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

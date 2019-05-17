@@ -18,6 +18,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 import {ToastrModule} from 'ngx-toastr';
+import {StoreService} from '../shared/_services/store.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {ToastrModule} from 'ngx-toastr';
     FilterActions,
     CouponService,
     CategoriesService,
+    StoreService,
     BsModalService,
     BreadcrumbActions,
   ],
