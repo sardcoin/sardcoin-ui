@@ -74,8 +74,8 @@
         </div>
       </nav>
     </div>
-    <div class="rounded mx-auto d-block">
-      <img style="margin-left: 260px" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
+    <div class="rounded mr-auto d-block">
+      <img [ngStyle]="{'margin-left' : isUserLoggedIn ? '55px' : '0px'}" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
            class="crop-logo img-fluid cursor-pointer">
     </div>
     <div *ngIf="!isDesktop" class="left col-4">
@@ -99,7 +99,7 @@
             <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Registrati
             </button>
           </li>
-          <li class="col-6 text-right">
+          <li class="col-6 text-right pr-0">
             <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/login']">Accedi
             </button>
           </li>
@@ -111,11 +111,11 @@
         <ul class="nav navbar-nav ">
           <li class="nav-item dropdown">
 
-            <a aria-haspopup="true" aria-expanded="false" href="menu_small" role="button" class="nav-link btn-group "
+            <a aria-haspopup="true" aria-expanded="false" href="menu_small" role="button" class="nav-link btn-group pr-0"
                data-toggle="dropdown">
               <i *ngIf="isDesktop">Benvenuto, <b>{{username}}</b>!</i>
               <!--<i class="fa fa-2x fa-user-tie"></i>-->
-              <img class="img-avatar" src="assets/img/avatars/8.jpg" alt="{{username}}">
+              <img class="img-avatar mr-0" src="assets/img/avatars/8.jpg" alt="{{username}}">
             </a>
             <div id="menu_small" class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
               <div class="dropdown-header text-center">

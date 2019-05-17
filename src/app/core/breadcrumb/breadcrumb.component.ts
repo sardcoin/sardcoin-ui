@@ -108,7 +108,6 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   async getCouponsByCategory() {
     try {
       this.coupons = await this.couponService.getAvailableCouponsByCategoryId(this.selectedCategory).toPromise();
-      console.log('Coupons: ', this.coupons);
     } catch (e) {
       console.error(e);
     }
@@ -162,24 +161,6 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
         result = coupon.description.split(' ').slice(0, 10).toString().replace(new RegExp(',', 'g'), ' ') + '...';
         break;
     }
-
-    // If part is true, returns the first part, else the last part
-
-    // console.warn({
-    //   splittedArray: coupon.description.toLowerCase().split(' '),
-    //   indexFound: i,
-    //   total: result,
-    //   first: result.substr(0, result.toLowerCase().indexOf(this.searchText.toLowerCase())),
-    //   last: result.substr(result.toLowerCase().indexOf(this.searchText.toLowerCase()), result.length)
-    // });
-    // console.info('TOTAL RESULT: ', result);
-    // console.warn('FIRST PART: ', result.substr(0, result.toLowerCase().indexOf(this.searchText.toLowerCase())));
-    // console.warn('LAST PART: ', result.substr(result.toLowerCase().indexOf(this.searchText.toLowerCase()), result.length));
-
-    // return part
-    //   ? result.substr(0, result.toLowerCase().indexOf(this.searchText.toLowerCase()))
-    //   : result.substr(result.toLowerCase().indexOf(this.searchText.toLowerCase()) + this.searchText.length, result.length);
-
 
     return result;
   }
