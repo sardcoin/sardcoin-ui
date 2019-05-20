@@ -7,6 +7,7 @@ import {FeatureReservedAreaProducerCouponReportComponent} from './report/coupon-
 import {PersonalInfoComponent} from '../personal-info/personal-info.component';
 import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
 import {FeatureReservedAreaConsumerShowcaseComponent} from '../consumer/coupon-showcase/coupon-showcase.component';
+import {CouponDetailsComponent} from '../consumer/coupon-details/coupon-details.component';
 
 /** App Components **/
 
@@ -22,6 +23,10 @@ import {FeatureReservedAreaConsumerShowcaseComponent} from '../consumer/coupon-s
       {
         path: 'showcase',
         component: FeatureReservedAreaConsumerShowcaseComponent
+      },
+      {
+        path: 'details/:id',
+        component: CouponDetailsComponent
       },
       {
         path: 'verify',
@@ -45,7 +50,7 @@ import {FeatureReservedAreaConsumerShowcaseComponent} from '../consumer/coupon-s
         component: PersonalInfoComponent,
       },
       {
-        path: 'payment-myPurchases',
+        path: 'payment-details',
         component: PaymentDetailsComponent,
       },
       {

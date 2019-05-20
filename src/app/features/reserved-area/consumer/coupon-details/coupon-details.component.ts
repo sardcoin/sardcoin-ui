@@ -195,7 +195,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
   }
 
   retry() {
-    this.router.navigate(['/showcase']);
+    let arrayUrl = this.router.url.slice(1).split('/');
+    console.log(arrayUrl);
+    let url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
+    this.router.navigate([url + '/showcase']);
   }
 
   addBreadcrumb() {

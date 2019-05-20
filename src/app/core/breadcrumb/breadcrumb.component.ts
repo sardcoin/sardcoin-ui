@@ -195,6 +195,6 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   isUserConsumer(): boolean {
-    return this.localStore.getId() == 2 || !this.localStore.getId();
+    return parseInt(this.localStore.getId()) === 2 || !this.localStore.getId();
   }
 }

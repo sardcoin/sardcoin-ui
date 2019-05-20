@@ -65,9 +65,9 @@ import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.gua
     OrderService
   ],
   exports: [
+    CouponDetailsComponent,
     FeatureReservedAreaConsumerComponent,
     FeatureReservedAreaConsumerBoughtComponent,
-    CouponDetailsComponent,
     FeatureReservedAreaConsumerShowcaseComponent
   ]
 })

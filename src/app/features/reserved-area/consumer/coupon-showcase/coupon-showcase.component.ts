@@ -6,7 +6,7 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
@@ -50,6 +50,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private cartActions: CartActions,
     private filterActions: FilterActions,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
@@ -125,7 +126,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   details(coupon: Coupon) {
-    let url = '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    let url = this.router.url.includes('reserved-area') ? this.router.url.substr(0, this.router.url.lastIndexOf('/')) : '';
+    url += '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
     this.router.navigate([url]);
   }
 
@@ -201,6 +203,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   isUserConsumer(): boolean {
-    return this.localStore.getId() == 2 || !this.localStore.getId();
+    return parseInt(this.localStore.getId()) === 2 || !this.localStore.getId();
   }
 }
