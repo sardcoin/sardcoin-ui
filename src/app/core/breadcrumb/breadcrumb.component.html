@@ -1,8 +1,9 @@
 <nav class=" fixed-desktop" aria-label="breadcrumb" *ngIf="isUserLoggedIn || !authPage">
 
-  <div *ngIf="showcasePage"
+  <div *ngIf="showcasePage || !userType || userType == 2"
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
-       [ngStyle]="{'padding': isUserLoggedIn ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}" style="max-height: 49px">
+       [ngStyle]="{'padding': isUserLoggedIn ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}"
+       style="max-height: 49px">
     <div class="row col-md-9 my-auto">
 
       <div class="" dropdown>
@@ -25,11 +26,13 @@
         <ul id="search-suggestions" class="rounded-bottom"
             *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)">
           <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
-            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)" class="cursor-pointer">
+            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)"
+                class="cursor-pointer">
 
               <ng-container *ngIf="isOccurrenceInText(coupon.title); else noTitleOccurrence">
                 <b class="text-capitalize">
-                  {{getTitleOccurrence(coupon.title, true)}}<span class="text-danger">{{searchText}}</span>{{getTitleOccurrence(coupon.title, false)}}
+                  {{getTitleOccurrence(coupon.title, true)}}<span class="text-danger">{{searchText}}</span>{{getTitleOccurrence(coupon.title,
+                  false)}}
                 </b>
               </ng-container>
               <ng-template #noTitleOccurrence>
@@ -37,12 +40,17 @@
               </ng-template>
 
               <ng-container *ngIf="isOccurrenceInText(coupon.description); else noDescriptionOccurrence">
-                  - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon, 2)}}
+                - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon,
+                2)}}
               </ng-container>
               <ng-template #noDescriptionOccurrence>
                 - {{getListElement(coupon)}}
               </ng-template>
             </li>
+          </ng-container>
+
+          <ng-container *ngIf="(coupons | filter:searchText).length === 0">
+            <li>Nessun elemento trovato.</li>
           </ng-container>
         </ul>
 
@@ -52,7 +60,7 @@
       </button> <!-- Search button -->
     </div>
 
-    <div *ngIf="isUserConsumer()" class="col my-auto" style="margin-right: -0.5em; text-align: right">
+    <div *ngIf="userType == 2" class="col my-auto" style="margin-right: -0.5em; text-align: right">
       <div *ngIf="desktopMode">
         <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">

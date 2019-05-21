@@ -15,6 +15,7 @@ import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {CartActions} from './redux-cart/cart.actions';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {LoginState} from '../../../authentication/login/login.model';
 
 @Component({
   selector: 'app-consumer-cart',
@@ -25,6 +26,7 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 export class CartComponent implements OnInit, OnDestroy {
 
   @select() cart$: Observable<CartItem[]>;
+  @select() login$: Observable<LoginState>;
 
   coupons: Coupon[] = [];
   cart: CartItem[];
@@ -48,12 +50,16 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
     });
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login['isLogged'];
+    })
   }
 
   async ngOnInit() {
     this.addBreadcrumb();
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
-    this.globalEventService.isUserLoggedIn.subscribe(value => this.isUserLoggedIn = value);
+    // this.globalEventService.isUserLoggedIn.subscribe(value => this.isUserLoggedIn = value);
     await this.loadCart();
   }
 

@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {Observable} from 'rxjs';
+import {LoginState} from '../../features/authentication/login/login.model';
+import {select} from '@angular-redux/store';
 
 @Component({
   selector: 'app-core-sidebar',
@@ -9,6 +12,8 @@ import {FilterActions} from '../../features/reserved-area/consumer/coupon-showca
 })
 
 export class SidebarComponent implements OnInit {
+  @select() login$: Observable<LoginState>;
+
   isUserLoggedIn = false;
   userType = null;
   sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5'; // default value
@@ -21,8 +26,11 @@ export class SidebarComponent implements OnInit {
     private globalEventService: GlobalEventsManagerService,
     private filterActions: FilterActions
   ) {
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
+    // this.globalEventService.isUserLoggedIn.subscribe(value => {
+    //   this.isUserLoggedIn = value;
+    // });
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
     });
 
     this.globalEventService.hideSource.subscribe(value => {

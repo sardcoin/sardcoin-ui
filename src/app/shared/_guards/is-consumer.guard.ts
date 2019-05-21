@@ -3,12 +3,17 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 import {StoreService} from '../_services/store.service';
 import {GlobalEventsManagerService} from '../_services/global-event-manager.service';
+import {LoginActions} from '../../features/authentication/login/login.actions';
 
 @Injectable()
 
 // This guard checks if a user is a consumer or not. If the user is not logged in, he can access to the consumer paths
 export class IsConsumerGuard implements CanActivate {
-  constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
+  constructor(
+    private router: Router,
+    private localStore: StoreService,
+    private loginActions: LoginActions,
+    private eventEmitter: GlobalEventsManagerService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
@@ -16,7 +21,8 @@ export class IsConsumerGuard implements CanActivate {
     // If the token exists, then the user is logged in and can carry on
     if (this.localStore.getToken() != null) {
 
-      this.eventEmitter.isUserLoggedIn.next(true);
+      // this.eventEmitter.isUserLoggedIn.next(true);
+      this.loginActions.userLogged();
 
       switch (this.localStore.getType()) {
         case '0': // admin
@@ -37,7 +43,6 @@ export class IsConsumerGuard implements CanActivate {
           return false;
       }
     } else {
-      this.eventEmitter.isUserLoggedIn.next(false);
       return true;
     }
 

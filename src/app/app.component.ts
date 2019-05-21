@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import {CartActions} from './features/reserved-area/consumer/cart/redux-cart/cart.actions';
+import {GlobalEventsManagerService} from './shared/_services/global-event-manager.service';
 
 @Component({
   // tslint:disable-next-line
@@ -9,7 +10,7 @@ import {CartActions} from './features/reserved-area/consumer/cart/redux-cart/car
   // templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor( private router: Router, private cartActions: CartActions) { }
+  constructor( private router: Router, private cartActions: CartActions, private GEmanager: GlobalEventsManagerService) { }
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {

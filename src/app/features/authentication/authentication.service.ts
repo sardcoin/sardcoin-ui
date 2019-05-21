@@ -35,7 +35,7 @@ export class AuthenticationService {
 
         if (response['user'] && response['token']) {
           this.loginActions.loginUserSuccess(response['user'], response['token']);
-          this.GEmanager.isUserLoggedIn.next(true);
+          // this.GEmanager.isUserLoggedIn.next(true);
 
           // TODO inserire switch su tipo user
 

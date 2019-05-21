@@ -7,8 +7,10 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {Router} from '@angular/router';
-import {Directive, HostBinding, HostListener} from '@angular/core';
 import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
+import {LoginState} from '../../features/authentication/login/login.model';
 
 
 @Component({
@@ -19,6 +21,8 @@ import {FilterActions} from '../../features/reserved-area/consumer/coupon-showca
 })
 
 export class HeaderComponent implements OnInit {
+
+  @select() login$: Observable<LoginState>;
 
   isUserLoggedIn = false;
   username: string;
@@ -41,8 +45,10 @@ export class HeaderComponent implements OnInit {
     private modalService: BsModalService,
     private filterActions: FilterActions
   ) {
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
+
       this.username = this.localStore.getUserNames();
       this.globalEventService.userType.subscribe(val => {
         this.userType = val;

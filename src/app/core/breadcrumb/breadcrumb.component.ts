@@ -14,6 +14,7 @@ import {Coupon} from '../../shared/_models/Coupon';
 import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 import {ToastrService} from 'ngx-toastr';
 import {StoreService} from '../../shared/_services/store.service';
+import {LoginState} from '../../features/authentication/login/login.model';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -25,6 +26,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
 
   @select() breadcrumb$: Observable<Breadcrumb[]>;
   @select() cart$: Observable<CartItem[]>;
+  @select() login$: Observable<LoginState>;
 
   cart: CartItem[];
   breadList = [];
@@ -58,10 +60,17 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   async ngOnInit() {
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
-      this.userType = Number(this.globalEventService.userType.getValue());
+    // this.globalEventService.isUserLoggedIn.subscribe(value => {
+    //   this.isUserLoggedIn = value;
+    // });
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
+      this.userType = this.localStore.getType();
+      console.log(this.userType);
     });
+
+    // this.userType = this.localStore.getType(); // Number(this.globalEventService.userType.getValue());
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
     });
@@ -114,7 +123,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   async searchCoupons() {
-    let coupons;
+    let coupons, text = this.searchText.replace(new RegExp(' ', 'g'), '-');
     let category: Category = {
       id: this.selectedCategory,
       name: this.selectedCategory === 0 ? 'Tutte le categorie' : this.categories.find(el => el.id === this.selectedCategory).name
@@ -122,7 +131,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
 
     try {
       // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
-      coupons = (await this.couponService.getAvailableByTextAndCatId(this.searchText, this.selectedCategory).toPromise()) || [];
+      coupons = (await this.couponService.getAvailableByTextAndCatId(text, this.selectedCategory).toPromise()) || [];
       this.filterActions.update(coupons, category, this.searchText);
       this.router.navigate(['/showcase']);
     } catch (e) {

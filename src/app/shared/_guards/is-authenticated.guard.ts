@@ -3,18 +3,24 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 import {StoreService} from '../_services/store.service';
 import {GlobalEventsManagerService} from '../_services/global-event-manager.service';
+import {LoginActions} from '../../features/authentication/login/login.actions';
 
 @Injectable()
 
 export class IsAuthenticatedGuard implements CanActivate {
-  constructor(private router: Router, private localStore: StoreService, private eventEmitter: GlobalEventsManagerService) {
+  constructor(
+    private router: Router,
+    private localStore: StoreService,
+    private loginActions: LoginActions,
+    private eventEmitter: GlobalEventsManagerService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     // If the token exists, then the user is logged in and can carry on
     if (this.localStore.getToken() != null) {
-      this.eventEmitter.isUserLoggedIn.next(true);
+      // this.eventEmitter.isUserLoggedIn.next(true);
+      this.loginActions.userLogged();
       switch (this.localStore.getType()) {
         case '0': // admin
           this.eventEmitter.userType.next('0');

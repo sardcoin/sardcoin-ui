@@ -18,6 +18,7 @@ import {FilterActions} from './redux-filter/filter.actions';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {Category} from '../../../../shared/_models/Category';
+import {LoginState} from '../../../authentication/login/login.model';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -27,6 +28,7 @@ import {Category} from '../../../../shared/_models/Category';
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
   @select() filter$: Observable<Coupon[]>;
+  @select() login$: Observable<LoginState>;
 
   coupons: Coupon[];
   category: Category;
@@ -37,8 +39,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   myForm: FormGroup;
   searchResults = false;
   searchText: string = null;
+  userType = null;
 
-  private isUserLoggedIn: boolean;
+  isUserLoggedIn: boolean;
 
   constructor(
     private couponService: CouponService,
@@ -71,11 +74,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       }
     });
 
-    this.addBreadcrumb();
-
-    this.GEManager.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login['isLogged'];
     });
+
+    this.userType = parseInt(this.localStore.getType());
+
+    this.addBreadcrumb();
   }
 
   ngOnDestroy() {
@@ -200,9 +205,5 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   resetShowcase() {
     this.filterActions.clear();
-  }
-
-  isUserConsumer(): boolean {
-    return parseInt(this.localStore.getId()) === 2 || !this.localStore.getId();
   }
 }

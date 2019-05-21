@@ -13,6 +13,9 @@ import {UserService} from '../../../../shared/_services/user.service';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
+import {LoginState} from '../../../authentication/login/login.model';
 
 @Component({
   selector: 'app-coupon-details',
@@ -22,6 +25,9 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 })
 // TODO make details open to every other user type
 export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check if user is logged in before make some calls
+
+  @select() login$: Observable<LoginState>;
+
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
@@ -60,8 +66,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
       }
     );
 
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
+    // this.globalEventService.isUserLoggedIn.subscribe(value => {
+    //   this.isUserLoggedIn = value;
+    // });
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login['isLogged'];
     });
 
     await this.loadCoupon();
@@ -74,6 +84,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
 
     if (!isNaN(id)) {
       try {
+        this.couponService.getCouponById(id);
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
         // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
@@ -196,7 +207,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
 
   retry() {
     let arrayUrl = this.router.url.slice(1).split('/');
-    console.log(arrayUrl);
     let url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
     this.router.navigate([url + '/showcase']);
   }
@@ -204,14 +214,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    // bread.push(new Breadcrumb('Home', '/'));
-    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Shopping', '/showcase'));
     bread.push(new Breadcrumb(this.couponPass.title, '/bought/myPurchases'));
-
-    // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -75,14 +75,12 @@
       </nav>
     </div>
     <div class="rounded mr-auto d-block">
-      <img [ngStyle]="{'margin-left' : isUserLoggedIn ? '55px' : '0px'}" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
+      <img [ngStyle]="{'margin-left' : isUserLoggedIn ? (userType == 2 ? '55px' : '-5px') : '0px'}" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
            class="crop-logo img-fluid cursor-pointer">
     </div>
     <div *ngIf="!isDesktop" class="left col-4">
       <img src="assets/img/brand/sardcoin-logo-full.png" class="img-fluid crop-logo-small cursor-pointer" (click)="resetShowcase()" [routerLink]="['/']">
     </div>
-
-
     <div class="right" id="navbarNavDropdown">
       <div style="float: left">
         <ng-container *ngIf="!isDesktop && (userType == 2 || userType === null)"> <!-- *ngIf="!isDesktop && userType == 2 && isUserLoggedIn" -->

@@ -9,10 +9,9 @@ import {StoreService} from '../../../shared/_services/store.service';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 
 export const LOGIN_USER          = 'LOGIN_USER';
-export const LOGIN_USER_SUCCESS  = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_ERROR    = 'LOGIN_USER_ERROR';
+export const LOGGED_USER         = 'LOGGED_USER';
 export const LOGOUT_USER         = 'LOGOUT_USER';
-export const PASSWORD_CONTROL    = 'PASSWORD_CONTROL';
 
 @Injectable()
 export class LoginActions {
@@ -28,23 +27,25 @@ export class LoginActions {
   }
 
   loginUserSuccess(user: User, token: string) {
-    this.ngRedux.dispatch({ type: LOGIN_USER_SUCCESS, user: user, token: token });
+    this.ngRedux.dispatch({ type: LOGGED_USER, token: token });
 
     this.storeLocal.setToken(token);
     this.storeLocal.setId(user.id);
     this.storeLocal.setType(user.user_type);
     this.storeLocal.setUserNames(user.first_name + ' ' + user.last_name);
 
-    this.triggerMessageSubjects(user.user_type);
+    this.eventManager.userType.next(user.user_type);
   }
 
   loginUserError() {
     this.ngRedux.dispatch({ type: LOGIN_USER_ERROR });
   }
 
+  // TODO add method to pass true to the loggedIn, remove User from the model and give just the token and other infos useful, not everything
+
   logoutUser() {
     // If the user is logged in
-    if(this.eventManager.isUserLoggedIn.value.valueOf() || this.areUserInfoStored()) {
+    if(this.areUserInfoStored()) {
       this.ngRedux.dispatch({ type: LOGOUT_USER });
 
       this.storeLocal.removeToken();
@@ -53,15 +54,15 @@ export class LoginActions {
       this.storeLocal.removeUserNames();
       this.storeLocal.removeCart();
 
-      this.eventManager.isUserLoggedIn.next(false);
 
       this.router.navigate(['/']);
     }
   }
 
-  triggerMessageSubjects(userType){
-    this.eventManager.isUserLoggedIn.next(true);
-    this.eventManager.userType.next(userType);
+  userLogged(){
+    if(this.areUserInfoStored()) {
+      this.ngRedux.dispatch({type: LOGGED_USER, token: this.storeLocal.getToken()});
+    }
   }
 
   areUserInfoStored(){

@@ -1,6 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {GlobalEventsManagerService} from '../shared/_services/global-event-manager.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feature',
@@ -8,9 +10,11 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 })
 export class FeatureComponent implements OnInit {
 
+  @select(['login', 'isLogged']) loginData: Observable<boolean>;
+
   desktopMode: boolean;
   userType;
-  loginData;
+  // loginData;
   hide: boolean;
   width: string;
   authPage = true;
@@ -28,7 +32,8 @@ export class FeatureComponent implements OnInit {
       this.userType = value;
     });
 
-    this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
+
+    // this.loginData = this.globalEventService.isUserLoggedIn.asObservable();
     this.isHide();
   }
 
