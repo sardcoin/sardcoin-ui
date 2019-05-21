@@ -15,6 +15,8 @@ import {FilterActions} from '../../features/reserved-area/consumer/coupon-showca
 import {ToastrService} from 'ngx-toastr';
 import {StoreService} from '../../shared/_services/store.service';
 import {LoginState} from '../../features/authentication/login/login.model';
+import {BreadcrumbState} from './breadcrumb.model';
+import {CartState} from '../../features/reserved-area/consumer/cart/redux-cart/cart.model';
 
 @Component({
   selector: 'app-core-breadcrumb',
@@ -24,8 +26,8 @@ import {LoginState} from '../../features/authentication/login/login.model';
 
 export class BreadcrumbComponent implements OnInit { // TODO to handle toast messages
 
-  @select() breadcrumb$: Observable<Breadcrumb[]>;
-  @select() cart$: Observable<CartItem[]>;
+  @select() breadcrumb$: Observable<BreadcrumbState>;
+  @select() cart$: Observable<CartState>;
   @select() login$: Observable<LoginState>;
 
   cart: CartItem[];
@@ -79,10 +81,11 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     });
 
     this.breadcrumb$.subscribe(elements => {
-      this.breadList = elements['list'];
+      console.warn(elements.list);
+      this.breadList = elements.list;
     });
     this.cart$.subscribe(elements => {
-      this.cart = elements['list'];
+      this.cart = elements.list;
     });
 
     this.authPage = this.router.url.includes('authentication');

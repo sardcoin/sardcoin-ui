@@ -12,7 +12,7 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
   templateUrl: './coupon-bought.component.html',
-  styleUrls: ['./coupon-bought.component.css']
+  styleUrls: ['./coupon-bought.component.scss']
 })
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
@@ -21,12 +21,11 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   isDesktop: boolean;
 
   constructor(
-    private couponService: CouponService,
+    private globalEventService: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
+    private couponService: CouponService,
     private _sanitizer: DomSanitizer,
     private router: Router,
-    private globalEventService: GlobalEventsManagerService,
-
   ) {
   }
 

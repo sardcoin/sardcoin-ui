@@ -16,6 +16,7 @@ import {Observable} from 'rxjs';
 import {CartActions} from './redux-cart/cart.actions';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 import {LoginState} from '../../../authentication/login/login.model';
+import {CartState} from './redux-cart/cart.model';
 
 @Component({
   selector: 'app-consumer-cart',
@@ -25,7 +26,7 @@ import {LoginState} from '../../../authentication/login/login.model';
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-  @select() cart$: Observable<CartItem[]>;
+  @select() cart$: Observable<CartState>;
   @select() login$: Observable<LoginState>;
 
   coupons: Coupon[] = [];
@@ -48,18 +49,22 @@ export class CartComponent implements OnInit, OnDestroy {
     private globalEventService: GlobalEventsManagerService,
   ) {
     this.cart$.subscribe(elements => {
-      this.cart = elements['list'];
+      if(elements['list'].length === 0) {
+        this.toastr.info('Prima di accedere al carrello, inserisci articoli al suo interno.', 'Il carrello è vuoto.');
+        this.router.navigate(['/']);
+      }
+
+      this.cart = elements.list;
     });
 
     this.login$.subscribe(login => {
-      this.isUserLoggedIn = login['isLogged'];
+      this.isUserLoggedIn = login.isLogged;
     })
   }
 
   async ngOnInit() {
     this.addBreadcrumb();
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
-    // this.globalEventService.isUserLoggedIn.subscribe(value => this.isUserLoggedIn = value);
     await this.loadCart();
   }
 

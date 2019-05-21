@@ -8,7 +8,7 @@
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
             <div class="container-fluid d-none d-md-none d-xl-block">
-              <table class="table table-striped">
+              <table class="table table-striped table-borderless">
                 <thead>
                 <tr>
                   <th style="width: 40%">Titolo</th>
@@ -19,7 +19,10 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tr class="bg-blue">
+                  <td colspan="5"></td>
+                </tr>
+                <tbody class="striped">
                 <tr *ngFor="let coupon of coupons">
                   <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
                     style="color: #999; font-size: 15px;">{{coupon.description}}</i>
@@ -47,7 +50,8 @@
                 <i class="fas fa-euro-sign"></i>
                 Vai a pagare
               </button>
-              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError" (click)="confirmPayment()">
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
+                      (click)="confirmPayment()">
                 <i class="fas fa-euro-sign"></i>
                 Paga
               </button>
@@ -57,7 +61,7 @@
               </button>
             </div> <!-- XL TABLE -->
             <div class="container-fluid d-none d-md-none d-lg-block d-xl-none">
-              <table class="table table-striped">
+              <table class="table table-striped table-borderless">
                 <thead>
                 <tr>
                   <th style="width: 40%">Titolo</th>
@@ -68,7 +72,10 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tr class="bg-blue">
+                  <td colspan="5"></td>
+                </tr>
+                <tbody class="striped">
                 <tr *ngFor="let coupon of coupons">
                   <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
                     style="color: #999; font-size: 15px;">{{coupon.description}}</i>
@@ -105,7 +112,7 @@
               </button>
             </div> <!-- LG TABLE -->
             <div class="container-fluid d-none d-md-block d-lg-none">
-              <table class="table table-striped">
+              <table class="table table-striped table-borderless">
                 <thead>
                 <tr>
                   <th style="width: 40%">Titolo</th>
@@ -116,7 +123,10 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tr class="bg-blue">
+                  <td colspan="5"></td>
+                </tr>
+                <tbody class="striped">
                 <tr *ngFor="let coupon of coupons">
                   <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
                     style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
@@ -158,20 +168,13 @@
                   </div>
                   <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
                     <h5 class="card-text">{{coupon.title}}</h5>
-
-
                   </div>
                   <div class="div-description">{{coupon.description}}</div>
                   <div class="text-info div-validity">
-
-
                     Scadenza: {{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}
-
                   </div>
                   <div class="card-footer w-100 text-muted div-quantity">
-
                     Quantità: {{coupon.quantity}}
-
                     <div style="float: right">
                       {{formatPrice(coupon.price)}}
                     </div>

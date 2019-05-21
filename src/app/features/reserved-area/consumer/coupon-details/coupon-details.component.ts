@@ -14,8 +14,10 @@ import {CartActions} from '../cart/redux-cart/cart.actions';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 import {select} from '@angular-redux/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {LoginState} from '../../../authentication/login/login.model';
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import {StoreService} from '../../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -23,8 +25,8 @@ import {LoginState} from '../../../authentication/login/login.model';
   styleUrls: ['./coupon-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-// TODO make details open to every other user type
-export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check if user is logged in before make some calls
+
+export class CouponDetailsComponent implements OnInit, OnDestroy {
 
   @select() login$: Observable<LoginState>;
 
@@ -35,19 +37,18 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
   isMax = false;
   producer = null;
   desktopMode: boolean;
-  classRow: string;
-  classDiv: string;
-  classMx4: string;
-
   error404: boolean = false;
-
+  userType: number;
   isUserLoggedIn: boolean;
+
+  routeSubscription: Subscription;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private modalService: BsModalService,
+    private localStore: StoreService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -58,23 +59,24 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
   }
 
   async ngOnInit() {
-    // If the user is already in coupon details and choose another coupon, then to change coupon there is to listen to the route change
-    this.router.events.subscribe(async event => {
+    // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
+    this.routeSubscription = this.router.events.subscribe(async event => {
+        console.log(event);
         if (event instanceof NavigationEnd) {
+          console.warn(event);
           await this.loadCoupon();
+          this.addBreadcrumb();
         }
       }
     );
 
-    // this.globalEventService.isUserLoggedIn.subscribe(value => {
-    //   this.isUserLoggedIn = value;
-    // });
-
     this.login$.subscribe(login => {
-      this.isUserLoggedIn = login['isLogged'];
+      this.isUserLoggedIn = login.isLogged;
+      this.userType = parseInt(this.localStore.getType());
     });
 
     await this.loadCoupon();
+    this.addBreadcrumb();
   }
 
   async loadCoupon() {
@@ -92,7 +94,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
           this.error404 = true;
         } else {
 
-          if (!this.couponPass.max_quantity && this.isUserLoggedIn) {
+          if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
 
@@ -101,7 +103,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
           });
 
           this.getOwner();
-          this.addBreadcrumb();
         }
       } catch (e) {
         console.error(e);
@@ -112,7 +113,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
   }
 
   ngOnDestroy(): void {
-    this.removeBreadcrumb();
+    this.breadcrumbActions.deleteBreadcrumb();
+    this.routeSubscription.unsubscribe();
   }
 
   async addToCart() {
@@ -219,16 +221,5 @@ export class CouponDetailsComponent implements OnInit, OnDestroy { // TODO check
     bread.push(new Breadcrumb(this.couponPass.title, '/bought/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
-
-  removeBreadcrumb() {
-    this.breadcrumbActions.deleteBreadcrumb();
-  }
-
-  setClass() {
-    this.classRow = 'row';
-    this.classDiv = 'col-md-8 offset-md-2';
-    this.classMx4 = 'card mx-4';
-
   }
 }
