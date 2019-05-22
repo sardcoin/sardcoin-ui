@@ -11,6 +11,7 @@ import {FilterActions} from '../../features/reserved-area/consumer/coupon-showca
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {LoginState} from '../../features/authentication/login/login.model';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private actions: LoginActions,
     private router: Router,
+    private toastr: ToastrService,
     private localStore: StoreService,
     private authService: AuthenticationService,
     private cartActions: CartActions,
@@ -79,7 +81,7 @@ export class HeaderComponent implements OnInit {
     }
 
     this.actions.logoutUser();
-    this.authService.logout();
+    this.toastr.success('', 'Logout riuscito.');
   }
 
   decline() {

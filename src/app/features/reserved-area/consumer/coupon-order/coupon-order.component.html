@@ -121,25 +121,26 @@
 <!--<ng-container >-->
 <div class="container-fluid">
   <!--<div class="row">-->
-  <div *ngFor="let order of orders" class="row col-8 ml-1 mb-2 pr-0 bg-white rounded border">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 pl-md-0 ">
-      <div class="row p-1 bg-secondary">
+  <div *ngFor="let order of orders"
+       class="row col-lg-6 col-md-8 col-sm-10 col-12 ml-1 mb-2 px-0 bg-white">
+    <div class="w-100 pl-0">
+      <div class="row py-2 px-3">
         <div class="col-3">
-          <p class="text-uppercase small mb-0">Ordine effettuato il:</p>
+          <p class="text-uppercase font-weight-bold small mb-0">Ordine effettuato il:</p>
           <p class="text-uppercase small mb-0">{{formatDate(order.purchase_time)}}</p>
         </div>
         <div class="col-3">
-          <p class="text-uppercase small mb-0">Totale</p>
+          <p class="text-uppercase font-weight-bold small mb-0">Totale</p>
           <p class="text-uppercase small mb-0">EUR {{formatPrice(order.total)}}</p>
         </div>
         <div class="col-3 offset-3 text-right">
-          <p class="text-uppercase small mb-0">Ordine n.</p>
-          <p class="text-uppercase small mb-0">{{order.id}}</p>
+          <p class="text-uppercase font-weight-bold small mb-0">Ordine #{{order.id}}</p>
+          <!--<p class="text-uppercase small mb-0">{{order.id}}</p>-->
         </div>
-
       </div>
-      <div [class]="classMx4" style="padding: 5px">
-        <div class="card-body p-4">
+      <div class="col-12 bg-blue" style="height: 5px;"></div>
+      <div class="row px-3 py-2">
+        <div class="card-body p-3">
           <h3 class="card-title mb-0">Ordine N° {{order.id}}</h3>
           <br>
           <i class="h5">Costo totale {{formatPrice(order.total)}}</i>
@@ -158,10 +159,12 @@
           </div>
           <br>
 
-          <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I
-            miei ordini
-          </button>
-          <button class="btn btn-primary btn-retry" (click)="myPurchases()"> I miei acquisti</button>
+          <div class="float-right">
+            <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I
+              miei ordini
+            </button>
+            <button class="btn btn-primary btn-retry" (click)="myPurchases()"> I miei acquisti</button>
+          </div>
         </div>
       </div>
     </div>

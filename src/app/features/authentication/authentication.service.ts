@@ -46,9 +46,6 @@ export class AuthenticationService {
       }));
   }
 
-  logout() {
-  }
-
 }
 
 

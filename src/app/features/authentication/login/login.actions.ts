@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {User} from '../../../shared/_models/User';
 import {StoreService} from '../../../shared/_services/store.service';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
+import {ToastrService} from 'ngx-toastr';
 
 export const LOGIN_USER          = 'LOGIN_USER';
 export const LOGIN_USER_ERROR    = 'LOGIN_USER_ERROR';
@@ -19,7 +20,8 @@ export class LoginActions {
     private ngRedux: NgRedux<IAppState>,
     private router: Router,
     private storeLocal: StoreService,
-    private eventManager: GlobalEventsManagerService
+    private eventManager: GlobalEventsManagerService,
+    private toastr: ToastrService
     ) {}
 
   loginUser() {
@@ -53,7 +55,6 @@ export class LoginActions {
       this.storeLocal.removeType();
       this.storeLocal.removeUserNames();
       this.storeLocal.removeCart();
-
 
       this.router.navigate(['/']);
     }
