@@ -150,13 +150,13 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     };
 
     console.log('broker selezionati', this.selectedCoupons);
-    // this.addPackage(pack);
+    this.addPackage(pack);
   }
 
   addPackage(pack: Package) {
     this.packageService.create(pack)
       .subscribe(data => {
-
+        console.log('data', data)
         if (data['created']) {
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);

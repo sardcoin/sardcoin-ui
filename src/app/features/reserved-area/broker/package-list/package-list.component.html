@@ -19,26 +19,26 @@
     </tr>
 
     <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
+    <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
       </td>
       <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
+        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.package.image)" alt="Card image cap">
       </td>
-      <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
-      <td>{{formatPrice(coupon.price)}}</td>
+      <!--<td>{{package.price != 0 ? package.price : 'free'}}</td>-->
+      <td>{{formatPrice(package.package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{coupon.quantity}}</td>
-      <td>{{coupon.buyed}}</td>
+      <td>{{package.package.quantity}}</td>
+      <td>{{package.package.buyed}}</td>
 
 
       <td>
-        <button type="button" class="btn btn-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copia</button>
+        <button type="button" class="btn btn-primary" (click)="onCopy(package)"><i class="far fa-copy"></i> Copia</button>
       </td>
       <td>
-        <button type="button" class="btn btn-info text-white" (click)="onEdit(coupon)"><i class="fas fa-edit"></i> Modifica
+        <button type="button" class="btn btn-info text-white" (click)="onEdit(package)"><i class="fas fa-edit"></i> Modifica
         </button>
       </td>
       <td>
@@ -48,19 +48,19 @@
 
         <ng-template #template>
           <div class="modal-header">
-            <h4 class="modal-title pull-left">Coupon delete</h4>
+            <h4 class="modal-title pull-left">package delete</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            Sei sicuro di cancellare questo coupon? Questa operazione non è reversibile!
+            Sei sicuro di cancellare questo package? Questa operazione non è reversibile!
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
+            <button type="button" class="btn btn-success" (click)="onDelete(package)">Yes</button>
           </div>
         </ng-template>
       </td>
@@ -88,18 +88,18 @@
     </tr>
 
     <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
+    <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
       </td>
       <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
+        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.package.image)" alt="Card image cap">
       </td>
-      <td>{{formatPrice(coupon.price)}}</td>
+      <td>{{formatPrice(package.package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{coupon.quantity}}</td>
-      <td>{{coupon.buyed}}</td>
+      <td>{{package.package.quantity}}</td>
+      <td>{{package.package.buyed}}</td>
 
       <td>
         <div class="btn-group" dropdown>
@@ -109,11 +109,11 @@
           </button>
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
               aria-labelledby="action-button">
-            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(package)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(package)"><i class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, package)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
           </ul>
         </div>
@@ -140,18 +140,18 @@
     </tr>
 
     <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
+    <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
       </td>
       <td class="d-lg-block d-none">
-        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(coupon.image)"
+        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(package.package.image)"
              alt="Card image cap">
       </td>
-      <td>{{formatPrice(coupon.price)}}</td>
+      <td>{{formatPrice(package.package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{coupon.buyed}}/{{coupon.quantity}}</td>
+      <td>{{package.package.buyed}}/{{package.package.quantity}}</td>
       <td>
         <div class="btn-group" dropdown>
           <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -160,11 +160,11 @@
           </button>
           <ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
               aria-labelledby="action-button-2">
-            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(package)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(package)"><i
               class="fas fa-edit text-primary"></i> Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, package)"><i
               class="fas fa-trash-alt text-primary"></i> Elimina</a></li>
           </ul>
         </div>
@@ -175,27 +175,27 @@
   </table>
 </div> <!-- MD TABLE -->
 <div class="container-fluid d-block d-md-none mb-5">
-  <div *ngIf="couponArray && couponArray.length > 0">
-    <div *ngFor="let coupon of couponArray" style="background-color: snow" class="card flex-row flex-wrap">
+  <div *ngIf="packageArray && packageArray.length > 0">
+    <div *ngFor="let package of packageArray" style="background-color: snow" class="card flex-row flex-wrap">
       <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
-        <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+        <img class="img-fluid" [src]="imageUrl(package.package.image)" alt="">
       </div>
       <div class="col-8 card-header border-0" style="background-color: snow;">
-        <h5 class="card-text truncate ">{{coupon.title}}</h5>
+        <h5 class="card-text truncate ">{{package.package.title}}</h5>
       </div>
       <div class="col-12 mb-1 text-justify">
-        <p class="card-text truncate ">{{coupon.description}}</p>
+        <p class="card-text truncate ">{{package.package.description}}</p>
       </div>
       <div class="card-footer w-100">
         <div class="float-left">
-          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
-          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
+          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(package.package)"><i class="far fa-copy"></i></button>
+          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(package.package)"><i class="fas fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger" (click)="openModal(template, coupon)"><i class="fas fa-trash-alt"></i>
+          <button type="button" class="btn btn-danger" (click)="openModal(template, package)"><i class="fas fa-trash-alt"></i>
           </button>
         </div>
         <div class="float-right card-price">
-          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
+          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(package.package.price)}}
         </div>
       </div>
     </div>
@@ -204,18 +204,18 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Coupon delete</h4>
+    <h4 class="modal-title pull-left">package delete</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    Sei sicuro di cancellare questo coupon? Questa operazione è irreversibile!
+    Sei sicuro di cancellare questo package? Questa operazione è irreversibile!
   </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-    <button type="button" class="btn btn-success" (click)="onDelete(modalCoupon)">Yes</button>
+    <button type="button" class="btn btn-success" (click)="onDelete(modalPackage)">Yes</button>
   </div>
 </ng-template>

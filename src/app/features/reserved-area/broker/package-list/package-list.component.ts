@@ -9,6 +9,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
+import {PackageService} from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-feature-reserved-area-package-list',
@@ -19,11 +20,11 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestroy {
 
   modalRef: BsModalRef;
-  modalCoupon: Coupon;
-  couponArray: any;
+  modalPackage: Coupon;
+  packageArray: any;
 
   constructor(private modalService: BsModalService,
-              private couponService: CouponService,
+              private packageService: PackageService,
               private router: Router,
               private breadcrumbActions: BreadcrumbActions,
               private _sanitizer: DomSanitizer,
@@ -37,20 +38,20 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
 
 
   onEdit(coupon: Coupon) {
-    this.couponService.setCoupon(coupon);
-    this.couponService.setFromEdit(true);
+    this.packageService.setCoupon(coupon);
+    this.packageService.setFromEdit(true);
     this.router.navigate(['reserved-area/producer/edit']);
   }
 
   onCopy(coupon: Coupon) {
-    this.couponService.setCoupon(coupon);
-    this.couponService.setFromEdit(false);
+    this.packageService.setCoupon(coupon);
+    this.packageService.setFromEdit(false);
     this.router.navigate(['reserved-area/producer/edit']);
   }
 
 
   onDelete(coupon: Coupon) {
-    this.couponService.deleteCoupon(coupon.id).subscribe((data) => {
+    this.packageService.deleteCoupon(coupon.id).subscribe((data) => {
 
       if (data['deleted']) {
         this.toastr.success('', 'Coupon eliminato!');
@@ -100,15 +101,16 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
 
 
   control() {
-    this.couponService.getProducerCoupons().subscribe(
+    this.packageService.getBrokerPackages().subscribe(
       data => {
-        this.couponArray = data;
+        this.packageArray = data;
+        console.log('pkgArray', this.packageArray);
       }, error => console.log(error)
     );
   }
 
   openModal(template: TemplateRef<any>, coupon: Coupon) {
-    this.modalCoupon = coupon;
+    this.modalPackage = coupon;
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 

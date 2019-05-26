@@ -6,6 +6,7 @@ import {BehaviorSubject, Observable, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {CartItem, PurchasedCoupon} from '../_models/CartItem';
+import {Package} from '../_models/Package';
 
 @Injectable()
 
@@ -47,12 +48,12 @@ export class PackageService {
     return this.http.get<Coupon[]>(this.formatUrl('getAvailableCouponsByCategoryId/' + category_id));
   }
 
-  getProducerCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
+  getBrokerPackages() {
+    return this.http.get<Coupon[]>(this.formatUrl('getBrokerPackages'));
   }
 
   getBrokerCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getBrokerCoupons'));
+    return this.http.get<Package[]>(this.formatUrl('getBrokerCoupons'));
   }
 
   deleteCoupon(cp: number) {
@@ -78,8 +79,9 @@ export class PackageService {
     return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
   }
 
-  create(coupon: Coupon) {
-    return this.http.post(this.formatUrl('create'), coupon);
+  create(pack: Package) {
+    console.log('pack', pack)
+    return this.http.post(this.formatUrl('create'), pack);
   }
 
   buyCoupons(cart: CartItem[]) {
@@ -96,7 +98,7 @@ export class PackageService {
   }
 
   private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/package/' + methodName;
+    return environment.protocol + '://' + environment.host + ':' + environment.port + '/packages/' + methodName;
   }
 
 
