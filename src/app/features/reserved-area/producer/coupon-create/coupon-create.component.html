@@ -109,6 +109,22 @@
                 </div>
               </div>
             </div>
+
+            <div  class="form-group row">
+              <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
+              <div class="col-sm-8">
+                <ng-select formControlName="categories"
+                           [items]="categories"
+                           [multiple]="true"
+                           [closeOnSelect]="true"
+                           [searchable]= "true"
+                           bindLabel="name"
+                           placeholder="Seleziona categorie"
+                           [(ngModel)]="selectedCategories">
+                </ng-select>
+              </div>
+
+            </div>
             <div  class="form-group row">
               <label class="col-sm-2 col-form-label">Privato per: </label>
               <div class="col-sm-8">

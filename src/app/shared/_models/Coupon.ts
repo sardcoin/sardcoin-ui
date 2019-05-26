@@ -1,5 +1,6 @@
 import {CouponToken} from './CouponToken';
 import {User} from './User';
+import {Category} from './Category';
 
 export class Coupon {
   id?: number;
@@ -19,6 +20,7 @@ export class Coupon {
   CouponTokens?: CouponToken[];
   token?: CouponToken;
   brokers?: User[];
+  categories?: Category[]
 
   constructor(
               id?: number,
@@ -37,8 +39,10 @@ export class Coupon {
               purchasable?: number,
               CouponTokens?: CouponToken[],
               token?: CouponToken,
-              brokers?: User[]
-               ) {
+              brokers?: User[],
+              categories?: Category[]
+
+) {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -54,6 +58,7 @@ export class Coupon {
     this.CouponTokens = CouponTokens;
     this.token = token;
     this.brokers = brokers;
+    this.categories = categories;
   }
 
 }

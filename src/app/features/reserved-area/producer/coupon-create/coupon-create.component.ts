@@ -13,6 +13,8 @@ import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {User} from '../../../../shared/_models/User';
 import {UserService} from '../../../../shared/_services/user.service';
+import {CategoriesService} from '../../../../shared/_services/categories.service';
+import {Category} from '../../../../shared/_models/Category';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
@@ -31,6 +33,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   markedQuantity = false;
   markedPrivate = false;
   submitted = false;
+  categories: any;
+  selectedCategories: Category[] = [];
 
   bgColorCalendar = '#FFF';
   bgColorPrivate = '#FFF';
@@ -53,10 +57,17 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private userService: UserService,
+    private categoriesService: CategoriesService,
+
   ) {
     this.userService.getBrokers().subscribe( brokers => {
       this.brokers = brokers;
     });
+
+    this.categoriesService.getAll().subscribe(cat => {
+      this.categories = cat;
+    });
+
   }
 
   ngOnInit(): void {
@@ -66,6 +77,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       image: [this.imagePath, Validators.required ],
       price: [0, Validators.required],
       published_from: [new Date()],
+      categories: [this.selectedCategories],
       broker: [this.selectedBroker],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
@@ -111,6 +123,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
       brokers: this.selectedBroker,
+      categories: this.selectedCategories
+
     };
 
     console.log('broker selezionati', this.selectedBroker);
