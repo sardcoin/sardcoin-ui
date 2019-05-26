@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Coupon} from '../_models/Coupon';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StoreService} from './store.service';
-import {BehaviorSubject, observable} from 'rxjs';
+import {BehaviorSubject, Observable, observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {CartItem, PurchasedCoupon} from '../_models/CartItem';
@@ -10,18 +10,14 @@ import {CartItem, PurchasedCoupon} from '../_models/CartItem';
 @Injectable()
 
 export class CouponService {
-  coupon: Coupon;
-  couponChange: any = null;
-  couponInfoUser: any = null;
-  fromEditOrCopy = false;
+  private boolFormEdit = new BehaviorSubject<boolean>(null);
+  private couponSource = new BehaviorSubject<Coupon>(null);
+  private couponUser = new BehaviorSubject(null);
 
-  private boolFormEdit = new BehaviorSubject<boolean>(this.fromEditOrCopy);
-  private couponSource = new BehaviorSubject<Coupon>(this.couponChange);
-  private couponUser = new BehaviorSubject(this.couponInfoUser);
+  public couponToShow = new BehaviorSubject<Coupon>(null);
 
-  currentMessage = this.couponSource.asObservable();
+  public currentMessage: Observable<Coupon> = this.couponSource.asObservable();
   currentUserCoupon = this.couponUser.asObservable();
-
   checkFrom = this.boolFormEdit.asObservable();
 
   constructor(
@@ -47,6 +43,14 @@ export class CouponService {
     return this.http.get<Coupon[]>(this.formatUrl('getAvailableCoupons'));
   }
 
+  getAvailableCouponsByCategoryId(category_id: number) {
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByCatId/' + category_id));
+  }
+
+  getAvailableByTextAndCatId(text: string, category_id: number) {
+    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByTextAndCatId/' + text + '/' + category_id));
+  }
+
   getProducerCoupons() {
     return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
   }
@@ -56,6 +60,8 @@ export class CouponService {
   }
 
   setCoupon(cp: Coupon) {
+    console.log(cp);
+
     this.couponSource.next(cp);
   }
 
@@ -85,13 +91,9 @@ export class CouponService {
   }
 
   redeemCoupon(token: any) {
-    const body = {
-      token: token
-    };
+    const body = {token: token};
     return this.http.request('put', this.formatUrl('redeemCoupon'), {body: body});
   }
-
-
 
   private formatUrl(methodName) {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/' + methodName;

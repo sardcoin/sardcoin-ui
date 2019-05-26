@@ -1,9 +1,9 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {environment} from '../../../../../environments/environment';
-import {Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastrService} from 'ngx-toastr';
@@ -13,6 +13,11 @@ import {UserService} from '../../../../shared/_services/user.service';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {select} from '@angular-redux/store';
+import {Observable, Subscription} from 'rxjs';
+import {LoginState} from '../../../authentication/login/login.model';
+import {LocalStorage} from '@ngx-pwa/local-storage';
+import {StoreService} from '../../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -22,23 +27,30 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 })
 
 export class CouponDetailsComponent implements OnInit, OnDestroy {
+
+  @select() login$: Observable<LoginState>;
+
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   modalRef: BsModalRef;
   myForm: FormGroup;
-  couponPass: Coupon;
+  couponPass: Coupon = null;
   isMax = false;
   producer = null;
   desktopMode: boolean;
-  classRow: string;
-  classDiv: string;
-  classMx4: string;
+  error404: boolean = false;
+  userType: number;
+  isUserLoggedIn: boolean;
+
+  routeSubscription: Subscription;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
     private router: Router,
     private modalService: BsModalService,
+    private localStore: StoreService,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private cartActions: CartActions,
@@ -47,29 +59,62 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.couponService.currentMessage.subscribe(async coupon => {
-      console.warn('HO RICEVUTO ', coupon);
-      this.couponPass = coupon;
-
-      if (this.couponPass === null) {
-        this.router.navigate(['/reserved-area/consumer/showcase']);
-      } else {
-
-        if (!this.couponPass.max_quantity) {
-          this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+    // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
+    this.routeSubscription = this.router.events.subscribe(async event => {
+        console.log(event);
+        if (event instanceof NavigationEnd) {
+          console.warn(event);
+          await this.loadCoupon();
+          this.addBreadcrumb();
         }
-
-        this.globalEventService.desktopMode.subscribe(message => {
-          this.desktopMode = message;
-        });
-        this.getOwner();
-        this.addBreadcrumb();
       }
+    );
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
+      this.userType = parseInt(this.localStore.getType());
     });
+
+    await this.loadCoupon();
+    this.addBreadcrumb();
+  }
+
+  async loadCoupon() {
+    const pathArray = this.route.snapshot.url[this.route.snapshot.url.length - 1].path.split('-');
+    const title = pathArray.slice(1).toString().replace(new RegExp(',', 'g'), ' ');
+    const id = parseInt(pathArray[0]);
+
+    if (!isNaN(id)) {
+      try {
+        this.couponService.getCouponById(id);
+        this.couponPass = await this.couponService.getCouponById(id).toPromise();
+
+        // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
+        if (this.couponPass === null || this.couponPass.title !== title || !title) {
+          this.error404 = true;
+        } else {
+
+          if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
+            this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+          }
+
+          this.globalEventService.desktopMode.subscribe(message => {
+            this.desktopMode = message;
+          });
+
+          this.getOwner();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      this.error404 = true;
+    }
   }
 
   ngOnDestroy(): void {
-    this.removeBreadcrumb();
+    this.breadcrumbActions.deleteBreadcrumb();
+    this.routeSubscription.unsubscribe();
   }
 
   async addToCart() {
@@ -140,7 +185,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   formatPrice(price) {
@@ -163,33 +208,18 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/showcase']);
+    let arrayUrl = this.router.url.slice(1).split('/');
+    let url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
+    this.router.navigate([url + '/showcase']);
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    // bread.push(new Breadcrumb('Home', '/'));
-    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
-    bread.push(new Breadcrumb(this.couponPass.title, '/reserved-area/consumer/bought/myPurchases'));
-
-    // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/myPurchases'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Shopping', '/showcase'));
+    bread.push(new Breadcrumb(this.couponPass.title, '/bought/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
-
-  removeBreadcrumb() {
-    this.breadcrumbActions.deleteBreadcrumb();
-  }
-
-
-  setClass() {
-    this.classRow = 'row';
-    this.classDiv = 'col-md-8 offset-md-2';
-    this.classMx4 = 'card mx-4';
-
   }
 }

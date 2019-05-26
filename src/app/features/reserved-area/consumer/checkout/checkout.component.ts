@@ -162,7 +162,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
 
   }
 
@@ -171,8 +171,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Checkout', '/reserved-area/consumer/checkout'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Checkout', '/checkout'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

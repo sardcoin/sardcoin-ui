@@ -7,7 +7,11 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CartActions} from '../../features/reserved-area/consumer/cart/redux-cart/cart.actions';
 import {Router} from '@angular/router';
-import {Directive, HostBinding, HostListener} from '@angular/core';
+import {FilterActions} from '../../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
+import {LoginState} from '../../features/authentication/login/login.model';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -18,6 +22,8 @@ import {Directive, HostBinding, HostListener} from '@angular/core';
 })
 
 export class HeaderComponent implements OnInit {
+
+  @select() login$: Observable<LoginState>;
 
   isUserLoggedIn = false;
   username: string;
@@ -33,14 +39,18 @@ export class HeaderComponent implements OnInit {
   constructor(
     private actions: LoginActions,
     private router: Router,
+    private toastr: ToastrService,
     private localStore: StoreService,
     private authService: AuthenticationService,
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
+    private filterActions: FilterActions
   ) {
-    this.globalEventService.isUserLoggedIn.subscribe(value => {
-      this.isUserLoggedIn = value;
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
+
       this.username = this.localStore.getUserNames();
       this.globalEventService.userType.subscribe(val => {
         this.userType = val;
@@ -48,16 +58,17 @@ export class HeaderComponent implements OnInit {
         switch (this.userType) {
           case '0': // admin
             this.userStringType = 'admin';
-            return true;
+            break;
           case '1': // producer
             this.userStringType = 'producer';
-            return true;
-          case '2': // consumer
-            this.userStringType = 'consumer';
-            return true;
+            break;
           case '3': // verify
             this.userStringType = 'verify';
-            return true;
+            break;
+          case '2': // The user is assumed to be a consumer if it's not logged in
+          default:
+            this.userStringType = 'consumer';
+            break;
         }
       });
     });
@@ -70,7 +81,7 @@ export class HeaderComponent implements OnInit {
     }
 
     this.actions.logoutUser();
-    this.authService.logout();
+    this.toastr.success('', 'Logout riuscito.');
   }
 
   decline() {
@@ -97,11 +108,14 @@ export class HeaderComponent implements OnInit {
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   quantityCart() {
-
     return this.cartActions.getQuantityCart();
+  }
+
+  resetShowcase(){
+    this.filterActions.clear();
   }
 }

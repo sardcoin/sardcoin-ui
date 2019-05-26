@@ -1,5 +1,3 @@
-import {User} from '../../../shared/_models/User';
-
 export interface Credentials {
   username?: string;
   password?: string;
@@ -7,14 +5,14 @@ export interface Credentials {
 
 export interface LoginState {
   token: string;
-  user: User;
   hasError: boolean;
   isLoading: boolean;
+  isLogged: boolean;
 }
 
 export const LOGIN_INITIAL_STATE: LoginState = {
   token: null,
-  user: null,
   hasError: false,
   isLoading: false,
+  isLogged: false
 };

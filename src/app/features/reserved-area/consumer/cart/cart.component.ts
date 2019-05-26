@@ -15,6 +15,8 @@ import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {CartActions} from './redux-cart/cart.actions';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {LoginState} from '../../../authentication/login/login.model';
+import {CartState} from './redux-cart/cart.model';
 
 @Component({
   selector: 'app-consumer-cart',
@@ -24,12 +26,14 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-  @select() cart$: Observable<CartItem[]>;
+  @select() cart$: Observable<CartState>;
+  @select() login$: Observable<LoginState>;
 
   coupons: Coupon[] = [];
   cart: CartItem[];
   modalRef: BsModalRef;
   isDesktop: boolean;
+  isUserLoggedIn: boolean;
   totalAmount = 0;
 
 
@@ -45,8 +49,17 @@ export class CartComponent implements OnInit, OnDestroy {
     private globalEventService: GlobalEventsManagerService,
   ) {
     this.cart$.subscribe(elements => {
-      this.cart = elements['list'];
+      if(elements['list'].length === 0) {
+        this.toastr.info('Prima di accedere al carrello, inserisci articoli al suo interno.', 'Il carrello è vuoto.');
+        this.router.navigate(['/']);
+      }
+
+      this.cart = elements.list;
     });
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login.isLogged;
+    })
   }
 
   async ngOnInit() {
@@ -108,15 +121,15 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/showcase']);
+    this.router.navigate(['/showcase']);
   }
 
   openBought() {
-    this.router.navigate(['/reserved-area/consumer/bought']);
+    this.router.navigate(['/bought']);
   }
 
   goToDetailPayment() {
-    this.router.navigate(['/reserved-area/consumer/checkout']);
+    this.router.navigate(['/checkout']);
   }
 
   formatUntil(inputDate) {
@@ -147,8 +160,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Carrello', '/reserved-area/consumer/cart'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Carrello', '/cart'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -163,7 +176,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   details(coupon: Coupon) {
     this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/myPurchases']);
+    this.router.navigate(['/myPurchases']);
   }
 
   openModal(template: TemplateRef<any>) {

@@ -4,6 +4,7 @@ import {CoreModule} from '../../../core/core.module';
 import {CommonModule} from '@angular/common';
 import {CouponService} from '../../../shared/_services/coupon.service';
 import {PersonalInfoComponent} from './personal-info.component';
+import {UserService} from '../../../shared/_services/user.service';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {PersonalInfoComponent} from './personal-info.component';
   ],
   providers: [
     CouponService,
+    UserService
   ],
   exports: [
     PersonalInfoComponent

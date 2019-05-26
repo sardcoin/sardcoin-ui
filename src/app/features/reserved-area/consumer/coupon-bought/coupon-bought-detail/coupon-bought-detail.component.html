@@ -6,7 +6,7 @@
         <div class="card-body p-4">
           <h3 class="card-title mb-0">{{couponPass.title}}</h3>
           <p *ngIf="couponPass.owner">di
-            <i [routerLink]="['/reserved-area/consumer/producer-info']"
+            <i [routerLink]="['/producer-info']"
                class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.company_name}}</i>
           </p>
 

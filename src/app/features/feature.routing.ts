@@ -6,6 +6,7 @@ import {FeatureComponent} from './feature.component';
 import {IsAuthenticatedGuard} from '../shared/_guards/is-authenticated.guard';
 import {AuthenticationService} from './authentication/authentication.service';
 import {P404Component} from '../errors/404.component';
+import {IsConsumerGuard} from '../shared/_guards/is-consumer.guard';
 
 @NgModule({
   imports: [
@@ -16,8 +17,8 @@ import {P404Component} from '../errors/404.component';
         children: [
           {
             path: '',
-            redirectTo: 'reserved-area',
-            pathMatch: 'full'
+            canActivate: [IsConsumerGuard],
+            loadChildren: './reserved-area/consumer/consumer.module#FeatureReservedAreaConsumerModule'
           },
           {
             path: 'reserved-area',

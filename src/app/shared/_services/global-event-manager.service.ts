@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class GlobalEventsManagerService {
-  public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public userType: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   public hideSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public desktopMode: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
 
   changeHide(hide: boolean) {
     this.hideSource.next(hide);

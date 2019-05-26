@@ -6,13 +6,19 @@ import {CouponService} from '../../../../shared/_services/coupon.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {CartItem} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
+import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import {FilterActions} from './redux-filter/filter.actions';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs';
+import {Category} from '../../../../shared/_models/Category';
+import {LoginState} from '../../../authentication/login/login.model';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -21,32 +27,64 @@ import {CartActions} from '../cart/redux-cart/cart.actions';
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
+  @select() filter$: Observable<Coupon[]>;
+  @select() login$: Observable<LoginState>;
+
   coupons: Coupon[];
+  category: Category;
   modalCoupon: Coupon;
   modalRef: BsModalRef;
   maxQuantity = 1;
   isMax = false;
   myForm: FormGroup;
+  searchResults = false;
+  searchText: string = null;
+  userType = null;
+
+  isUserLoggedIn: boolean;
 
   constructor(
     private couponService: CouponService,
+    private GEManager: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer,
     private modalService: BsModalService,
     private localStore: StoreService,
     private cartActions: CartActions,
+    private filterActions: FilterActions,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
   }
 
   ngOnInit(): void {
-    this.loadCoupons();
+
+    this.filter$.subscribe(filter => {
+      if (filter['list']) {
+        this.coupons = filter['list'];
+        this.searchText = filter['searchText'];
+        this.category = filter['category'];
+        this.searchResults = true;
+      } else {
+        this.loadCoupons();
+        this.searchText = null;
+        this.searchResults = false;
+      }
+    });
+
+    this.login$.subscribe(login => {
+      this.isUserLoggedIn = login['isLogged'];
+    });
+
+    this.userType = parseInt(this.localStore.getType());
+
     this.addBreadcrumb();
   }
 
   ngOnDestroy() {
+    this.filterActions.clear();
     this.removeBreadcrumb();
   }
 
@@ -60,19 +98,26 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) {
-    this.modalCoupon = coupon;
-    this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
-    this.myForm = this.formBuilder.group({
-      quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
-    });
-
-    this.isMax = this.myForm.value.quantity === this.maxQuantity;
-
-    if(this.maxQuantity > 0) {
-      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    if(!this.isUserLoggedIn) {
+      this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {
-      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile')
+
+      this.modalCoupon = coupon;
+
+      this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+
+      this.myForm = this.formBuilder.group({
+        quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+      });
+
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+
+      if (this.maxQuantity > 0) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+      } else {
+        this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+      }
     }
   }
 
@@ -85,9 +130,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.modalRef.hide();
   }
 
-  details(coupon: any) {
-    this.couponService.setCoupon(coupon);
-    this.router.navigate(['/reserved-area/consumer/myPurchases']);
+  details(coupon: Coupon) {
+    let url = this.router.url.includes('reserved-area') ? this.router.url.substr(0, this.router.url.lastIndexOf('/')) : '';
+    url += '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    this.router.navigate([url]);
   }
 
   async addToCart(coupon: Coupon) {
@@ -101,7 +147,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success( coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
+      this.toastr.success(coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
     } else {
       this.toastr.error(coupon.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
     }
@@ -114,7 +160,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   viewCart() {
-    this.router.navigate(['/reserved-area/consumer/cart']);
+    this.router.navigate(['/cart']);
   }
 
   add() {
@@ -142,8 +188,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('Shopping', '/reserved-area/consumer/showcase'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('Shopping', '/showcase'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -152,9 +198,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-
   getQuantityCart() {
-    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart())
+    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart());
     return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
+  }
+
+  resetShowcase() {
+    this.filterActions.clear();
   }
 }

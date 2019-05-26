@@ -13,6 +13,12 @@ import {CartActions} from '../features/reserved-area/consumer/cart/redux-cart/ca
 import {GooglePlacesDirective} from './map/google-places.directive';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {CouponService} from '../shared/_services/coupon.service';
+import {CategoriesService} from '../shared/_services/categories.service';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {ClickOutsideModule} from 'ng-click-outside';
+import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
+import {ToastrModule} from 'ngx-toastr';
+import {StoreService} from '../shared/_services/store.service';
 
 @NgModule({
   declarations: [
@@ -26,13 +32,19 @@ import {CouponService} from '../shared/_services/coupon.service';
     RouterModule,
     SharedModule,
     BsDropdownModule,
+    ToastrModule,
     ModalModule.forRoot(),
     NgSelectModule,
+    Ng2SearchPipeModule,
+    ClickOutsideModule
   ],
   providers: [
     LoginActions,
     CartActions,
-    CouponService, // TODO remove after REDUX
+    FilterActions,
+    CouponService,
+    CategoriesService,
+    StoreService,
     BsModalService,
     BreadcrumbActions,
   ],

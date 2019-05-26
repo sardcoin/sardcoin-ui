@@ -19,7 +19,7 @@ import {SharedModule} from '../../shared/shared.module';
   ],
   providers: [
     AuthenticationService,
-    UserService
+    UserService,
   ],
   exports: [
     FeatureAuthenticationComponent

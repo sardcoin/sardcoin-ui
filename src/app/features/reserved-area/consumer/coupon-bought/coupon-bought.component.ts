@@ -12,7 +12,7 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
   templateUrl: './coupon-bought.component.html',
-  styleUrls: ['./coupon-bought.component.css']
+  styleUrls: ['./coupon-bought.component.scss']
 })
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
@@ -21,12 +21,11 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   isDesktop: boolean;
 
   constructor(
-    private couponService: CouponService,
+    private globalEventService: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
+    private couponService: CouponService,
     private _sanitizer: DomSanitizer,
     private router: Router,
-    private globalEventService: GlobalEventsManagerService,
-
   ) {
   }
 
@@ -43,8 +42,8 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei acquisti', '/reserved-area/consumer/bought'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei acquisti', '/bought'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -90,6 +89,6 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
     this.couponService.setCoupon(coupon);
 
-    this.router.navigate(['/reserved-area/consumer/bought/myPurchases']);
+    this.router.navigate(['/bought/myPurchases']);
   }
 }

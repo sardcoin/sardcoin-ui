@@ -13,9 +13,12 @@ import {PaymentDetailsComponent} from '../payment-details/payment-details.compon
 import {CouponOrderDetailComponent} from './coupon-order/coupon-order-detail/coupon-order-detail.component';
 import {FeatureReservedAreaConsumerOrderComponent} from './coupon-order/coupon-order.component';
 import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail/coupon-detail-into-order/coupon-detail-into-order.component';
+import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
 
 /** App Components **/
 
+// Is Authenticated Guard verifies if the user is logged in order to access to certain services.
+// The user doesn't know the link for the reserved parts of the website, and even if he tries to access he would be redirect to the login page.
 
 @NgModule({
   imports: [
@@ -30,7 +33,7 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
         component: FeatureReservedAreaConsumerShowcaseComponent
       },
       {
-        path: 'details',
+        path: 'details/:id',
         component: CouponDetailsComponent
       },
       {
@@ -39,19 +42,23 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
       },
       {
         path: 'checkout',
-        component: CheckoutComponent
+        component: CheckoutComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
         path: 'coupon-import',
-        component: CouponImportComponent
+        component: CouponImportComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
         path: 'personal-info',
         component: PersonalInfoComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
-        path: 'payment-myPurchases',
+        path: 'payment-details',
         component: PaymentDetailsComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
         path: 'producer-info',
@@ -59,23 +66,28 @@ import {CouponDetailIntoOrderComponent} from './coupon-order/coupon-order-detail
       },
       {
         path: 'bought',
-        component: FeatureReservedAreaConsumerBoughtComponent
+        component: FeatureReservedAreaConsumerBoughtComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
         path: 'order',
-        component: FeatureReservedAreaConsumerOrderComponent
+        component: FeatureReservedAreaConsumerOrderComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
-        path: 'bought/myPurchases',
-        component: CouponBoughtDetailComponent
+        path: 'bought/details',
+        component: CouponBoughtDetailComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
-        path: 'order/myPurchases',
-        component: CouponOrderDetailComponent
+        path: 'order/details',
+        component: CouponOrderDetailComponent,
+        canActivate: [IsAuthenticatedGuard]
       },
       {
-        path: 'order/myPurchases/myPurchases-coupon',
-        component: CouponDetailIntoOrderComponent
+        path: 'order/details/details-coupon',
+        component: CouponDetailIntoOrderComponent,
+        canActivate: [IsAuthenticatedGuard]
       }
     ])
   ],

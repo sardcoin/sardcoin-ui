@@ -10,7 +10,7 @@ import {User} from '../../../../shared/_models/User';
   templateUrl: './producer-info.component.html',
   styleUrls: ['./producer-info.component.scss']
 })
-export class ProducerInfoComponent implements OnInit, OnDestroy {
+export class ProducerInfoComponent implements OnInit, OnDestroy { // TODO rendere più visibile (es.: lista di coupon in vendita in basso, categorie di vendita, ecc)
   producer: User;
   couponPass: any;
 
@@ -26,10 +26,9 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
 
       if(user){
         this.producer = user;
-        console.log(user);
         this.addBreadcrumb();
       } else {
-        this.router.navigate(['/reserved-area/consumer/showcase']);
+        this.router.navigate(['/showcase']);
       }
     });
 
@@ -53,14 +52,14 @@ export class ProducerInfoComponent implements OnInit, OnDestroy {
 
     // bread.push(new Breadcrumb('Home', '/'));
     // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb(companyName + ' info', '/reserved-area/consumer/producer-info'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb(companyName + ' info', '/producer-info'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/showcase']);
+    this.router.navigate(['/showcase']);
   }
 
 }

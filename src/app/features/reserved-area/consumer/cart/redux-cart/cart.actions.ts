@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {CartItem, PurchasedCoupon} from '../../../../../shared/_models/CartItem';
 import {CouponService} from '../../../../../shared/_services/coupon.service';
 import {Coupon} from '../../../../../shared/_models/Coupon';
+import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
 
 export const CART_INIT = 'CART_INIT';
 export const CART_ADD_PROD = 'CART_ADD_PROD';
@@ -23,7 +24,8 @@ export class CartActions {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private storeService: StoreService,
-    private couponService: CouponService
+    private couponService: CouponService,
+    private GEmanager: GlobalEventsManagerService
   ) {
     this.cart.subscribe(elements => {
       this.reduxCart = elements['list'];

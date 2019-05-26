@@ -3,12 +3,11 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 import {select} from '@angular-redux/store';
 import {AuthenticationService} from '../../features/authentication/authentication.service';
-import {map, take} from 'rxjs/internal/operators';
 import {StoreService} from '../_services/store.service';
 
 @Injectable()
 
-export class IsAuthenticatedGuard implements CanActivate {
+export class IsNotAuthenticatedGuard implements CanActivate {
   @select('login') loginState;
 
   constructor(private router: Router, private authService: AuthenticationService, private localStore: StoreService) {

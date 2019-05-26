@@ -45,7 +45,7 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.orderService.currentOrder.subscribe( order => {
       if (order === null) {
-        this.router.navigate(['/reserved-area/consumer/order']);
+        this.router.navigate(['/order']);
       } else {
         this.orderPass = order;
         this.setDetailsCoupons();
@@ -81,7 +81,7 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    this.router.navigate(['/reserved-area/consumer/order']);
+    this.router.navigate(['/order']);
   }
   setClass() {
     if (!this.desktopMode) {
@@ -117,17 +117,17 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy {
 
   }
   myPurchases() {
-    this.router.navigate(['/reserved-area/consumer/bought']);
+    this.router.navigate(['/bought']);
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order/'));
-    // bread.push(new Breadcrumb( this.orderPass.order.id , '/reserved-area/consumer/order/myPurchases'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei ordini', '/order/'));
+    // bread.push(new Breadcrumb( this.orderPass.order.id , '/order/myPurchases'));
     // english version
-    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/reserved-area/consumer/bought/myPurchases'));
+    // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/bought/myPurchases'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -11,7 +11,7 @@ import {Order} from '../../../../shared/_models/Order';
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
   templateUrl: './coupon-order.component.html',
-  styleUrls: ['./coupon-order.component.css']
+  styleUrls: ['./coupon-order.component.scss']
 })
 
 export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy {
@@ -67,21 +67,21 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   formatDate(inputDate) {
     const auxDate = inputDate.slice(0, 10).split('-');
-    const date = auxDate[2] + '/' + auxDate[1] + '/' + auxDate[0];
-    const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
-    return date + ' ' + time;
+    const date = auxDate[2] + ' ' + (new Date(inputDate)).toLocaleString('it', { month: 'long' }) + ' ' + auxDate[0];
+    // const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
+    return date;// + ' ' + time;
   }
 
   details(order: Order) {
     this.orderService.setOrder(order);
-    this.router.navigate(['/reserved-area/consumer/order/myPurchases']);
+    this.router.navigate(['/order/details']);
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/consumer/'));
-    bread.push(new Breadcrumb('I miei ordini', '/reserved-area/consumer/order'));
+    bread.push(new Breadcrumb('Home', '/'));
+    bread.push(new Breadcrumb('I miei ordini', '/order'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
