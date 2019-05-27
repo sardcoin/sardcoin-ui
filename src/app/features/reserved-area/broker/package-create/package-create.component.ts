@@ -134,7 +134,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       return;
     }
 
-    const pack: Package = {
+    const pack: Coupon = {
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath,
@@ -146,15 +146,16 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
       coupons: this.selectedCoupons,
-      categories: this.selectedCategories
+      categories: this.selectedCategories,
+      type: 1
     };
 
     console.log('broker selezionati', this.selectedCoupons);
     this.addPackage(pack);
   }
 
-  addPackage(pack: Package) {
-    this.packageService.create(pack)
+  addPackage(pack: Coupon) {
+    this.couponService.create(pack)
       .subscribe(data => {
         console.log('data', data)
         if (data['created']) {
