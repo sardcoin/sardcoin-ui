@@ -27,6 +27,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
               private packageService: PackageService,
               private router: Router,
               private breadcrumbActions: BreadcrumbActions,
+              private couponService: CouponService,
+
               private _sanitizer: DomSanitizer,
               private toastr: ToastrService) {
   }
@@ -37,21 +39,21 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   }
 
 
-  onEdit(coupon: Coupon) {
-    this.packageService.setCoupon(coupon);
-    this.packageService.setFromEdit(true);
-    this.router.navigate(['reserved-area/producer/edit']);
+  onEdit(pack: Coupon) {
+    this.couponService.setCoupon(pack);
+    this.couponService.setFromEdit(true);
+    this.router.navigate(['reserved-area/broker/edit']);
   }
 
-  onCopy(coupon: Coupon) {
-    this.packageService.setCoupon(coupon);
-    this.packageService.setFromEdit(false);
-    this.router.navigate(['reserved-area/producer/edit']);
+  onCopy(pack: Coupon) {
+    this.couponService.setCoupon(pack);
+    this.couponService.setFromEdit(false);
+    this.router.navigate(['reserved-area/broker/edit']);
   }
 
 
-  onDelete(coupon: Coupon) {
-    this.packageService.deleteCoupon(coupon.id).subscribe((data) => {
+  onDelete(pack: Coupon) {
+    this.couponService.deleteCoupon(pack.id).subscribe((data) => {
 
       if (data['deleted']) {
         this.toastr.success('', 'Coupon eliminato!');

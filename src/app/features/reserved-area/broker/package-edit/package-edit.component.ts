@@ -11,6 +11,7 @@ import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {DateValidation} from '../package-create/validator/DateValidation.directive';
+import {CategoriesService} from '../../../../shared/_services/categories.service';
 
 @Component({
   selector: 'app-edit-package',
@@ -21,7 +22,10 @@ import {DateValidation} from '../package-create/validator/DateValidation.directi
 export class PackageEditComponent implements OnInit, OnDestroy {
 
   couponForm: FormGroup;
-
+  couponsAvailable: Coupon[];
+  selectedCoupons = [];
+  selectedCategories = [];
+  categories: any;
   markedUnlimited = false;
   markedFree = false;
   markedConstraints = false;
@@ -34,7 +38,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   fromEdit = false;
   submitted = false;
 
-  couponPass: Coupon;
+  couponPass: any;
 
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
@@ -48,27 +52,65 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private router: Router,
     public formBuilder: FormBuilder,
     public couponService: CouponService,
+    private categoriesService: CategoriesService,
     public storeService: StoreService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService
   ) {
+    this.categoriesService.getAll().subscribe(cat => {
+      this.categories = cat;
+    });
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
+      console.log('categories', this.couponPass.categories);
+      console.log('coupons', this.couponPass.coupons);
+
+      for (const cp of this.couponPass.coupons) {
+        this.selectedCoupons.push(cp.coupon);
+      }
+      console.log('pacchetto', this.couponPass);
+
       if (this.couponPass === null || this.couponPass === undefined) {
-        this.router.navigate(['/reserved-area/producer/list']);
+        this.router.navigate(['/reserved-area/broker/list']);
       }
     });
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
 
+    this.couponService.getBrokerCoupons().subscribe(cp => {
+
+      this.couponsAvailable = [];
+      const coupons = cp;
+      for (const coupon of coupons) {
+        const quantity = coupon.quantity;
+        const purchesable = coupon.purchasable;
+        if (purchesable == null) {
+          for (let i = 0; i < quantity; i++) {
+            this.couponsAvailable.push(coupon);
+          }
+        } else if (purchesable <= quantity) {
+          for (let i = 0; i < purchesable; i++) {
+            this.couponsAvailable.push(coupon);
+          }
+
+        } else {
+          for (let i = 0; i < quantity; i++) {
+            this.couponsAvailable.push(coupon);
+          }
+
+        }
+      }
+      // this.couponsAvailable = cp;
+      console.log('cpBroker', this.couponsAvailable);
+    });
   }
 
   ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
     if (this.couponPass === null || this.couponPass === undefined) {
-      this.router.navigate(['/reserved-area/producer/list']);
+      this.router.navigate(['/reserved-area/broker/list']);
     }
 
-    this.imageURL = this.imageURL + this.couponPass.image;
+    this.imageURL = this.imageURL + this.couponPass.package.image;
     const until = this.couponPass.valid_until === null ? '' : this.couponPass.valid_until;
 
     this.initMarked();
@@ -77,17 +119,19 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.couponForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
+      title: [this.couponPass.package.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
+      description: [this.couponPass.package.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
       image: [this.imagePath],
-      price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
+      price: [{value: this.markedFree ? 0 : this.couponPass.package.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty: [this.markedUnlimited],
-      published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
-      valid_from: [this.couponPass.valid_from, Validators.compose([Validators.required])],
+      published_from: [{value: this.markedPrivate ? null : this.couponPass.package.visible_from, disabled: this.markedPrivate}],
+      coupons: [{value: this.selectedCoupons, disabled: true}],
+      categories: [this.selectedCategories],
+      valid_from: [this.couponPass.package.valid_from, Validators.compose([Validators.required])],
       valid_until: [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
-      constraints: [{value: this.markedConstraints ? null : this.couponPass.constraints, disabled: this.markedConstraints}],
-      quantity: [{value: this.couponPass.quantity, disabled: this.fromEdit}],
-      purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
+      constraints: [{value: this.markedConstraints ? null : this.couponPass.package.constraints, disabled: this.markedConstraints}],
+      quantity: [{value: this.couponPass.package.quantity, disabled: this.fromEdit}],
+      purchasable: [{value: this.markedQuantity ? null : this.couponPass.package.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
@@ -109,7 +153,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     }
 
     const coupon: Coupon = {
-      id: this.couponPass.id,
+      id: this.couponPass.package.id,
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath ? this.imagePath : this.couponPass.image,

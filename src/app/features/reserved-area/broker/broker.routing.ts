@@ -9,6 +9,7 @@ import {FeatureReservedAreaCouponCreateComponent} from '../producer/coupon-creat
 import {FeatureReservedAreaPackageListComponent} from './package-list/package-list.component';
 import {FeatureReservedAreaPackageCreateComponent} from './package-create/package-create.component';
 import {FeatureReservedAreaBrokerPackageReportComponent} from './report/package-report.component';
+import {PackageEditComponent} from './package-edit/package-edit.component';
 
 
 /** App Components **/
@@ -46,6 +47,10 @@ import {FeatureReservedAreaBrokerPackageReportComponent} from './report/package-
       {
         path: 'report',
         component: FeatureReservedAreaBrokerPackageReportComponent
+      },
+      {
+        path: 'edit',
+        component: PackageEditComponent
       }
     ])
   ],

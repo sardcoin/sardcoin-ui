@@ -6,10 +6,13 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
 
 import {ModalBackdropComponent} from 'ngx-bootstrap';
+import {FeatureReservedAreaPackageEditModule} from '../package-edit/package-edit.module';
+import {PackageEditComponent} from '../package-edit/package-edit.component';
 
 @NgModule({
   declarations: [
     FeatureReservedAreaPackageListComponent,
+
   ],
   imports: [
     SharedModule,
@@ -18,6 +21,7 @@ import {ModalBackdropComponent} from 'ngx-bootstrap';
   ],
   exports: [
     FeatureReservedAreaPackageListComponent,
+
   ],
   providers: [
     BreadcrumbActions,
