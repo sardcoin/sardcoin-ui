@@ -66,23 +66,25 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
         this.couponsAvailable = [];
         const coupons = cp;
-        for (const coupon of coupons) {
-          const quantity = coupon.quantity;
-          const purchesable = coupon.purchasable;
-          if (purchesable == null) {
-            for (let i = 0; i < quantity; i++) {
-              this.couponsAvailable.push(coupon);
-            }
-          } else if (purchesable <= quantity) {
-              for (let i = 0; i < purchesable; i++) {
-              this.couponsAvailable.push(coupon);
-            }
-
-          } else {
+        if (coupons) {
+          for (const coupon of coupons) {
+            const quantity = coupon.quantity;
+            const purchesable = coupon.purchasable;
+            if (purchesable == null) {
               for (let i = 0; i < quantity; i++) {
-              this.couponsAvailable.push(coupon);
-            }
+                this.couponsAvailable.push(coupon);
+              }
+            } else if (purchesable <= quantity) {
+              for (let i = 0; i < purchesable; i++) {
+                this.couponsAvailable.push(coupon);
+              }
 
+            } else {
+              for (let i = 0; i < quantity; i++) {
+                this.couponsAvailable.push(coupon);
+              }
+
+            }
           }
         }
         // this.couponsAvailable = cp;

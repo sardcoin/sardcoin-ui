@@ -62,19 +62,28 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     });
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
-      console.log('categories', this.couponPass.categories);
-      console.log('coupons', this.couponPass.coupons);
-
-      for (const cp of this.couponPass.coupons) {
-        this.selectedCoupons.push(cp.coupon);
-      }
-      console.log('pacchetto', this.couponPass);
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/broker/list']);
+        return;
       }
+      console.log('categories', this.couponPass.categories);
+      console.log('coupons', this.couponPass.coupons);
+
+
+      console.log('pacchetto', this.couponPass);
     });
-    this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
+    this.couponService.checkFrom.subscribe(fromEdit => {
+        this.fromEdit = fromEdit;
+
+        if (this.fromEdit) {
+          for (const cp of this.couponPass.coupons) {
+            this.selectedCoupons.push(cp.coupon);
+          }
+        }
+      }
+
+    );
 
     this.couponService.getBrokerCoupons().subscribe(cp => {
 
@@ -106,8 +115,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
-    if (this.couponPass === null || this.couponPass === undefined) {
+    if (this.couponPass === null || this.couponPass === undefined ) {
       this.router.navigate(['/reserved-area/broker/list']);
+      return;
     }
 
     this.imageURL = this.imageURL + this.couponPass.package.image;
@@ -125,7 +135,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       price: [{value: this.markedFree ? 0 : this.couponPass.package.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty: [this.markedUnlimited],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.package.visible_from, disabled: this.markedPrivate}],
-      coupons: [{value: this.selectedCoupons, disabled: true}],
+      coupons: [{value: this.selectedCoupons,  disabled: this.fromEdit}],
       categories: [this.selectedCategories],
       valid_from: [this.couponPass.package.valid_from, Validators.compose([Validators.required])],
       valid_until: [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
@@ -156,15 +166,18 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       id: this.couponPass.package.id,
       title: this.f.title.value,
       description: this.f.description.value,
-      image: this.imagePath ? this.imagePath : this.couponPass.image,
-      timestamp: this.couponPass.timestamp,
+      image: this.imagePath ? this.imagePath : this.couponPass.package.image,
+      timestamp: this.couponPass.package.timestamp,
       price: this.markedFree ? 0 : this.f.price.value,
       visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
-      quantity: this.f.quantity.value
+      quantity: this.f.quantity.value,
+      coupons: this.selectedCoupons,
+      categories: this.selectedCategories,
+      type: 1
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon

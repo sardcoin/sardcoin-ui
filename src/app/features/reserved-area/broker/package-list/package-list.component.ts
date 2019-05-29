@@ -52,8 +52,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   }
 
 
-  onDelete(pack: Coupon) {
-    this.couponService.deleteCoupon(pack.id).subscribe((data) => {
+  onDelete(pack: any) {
+    this.couponService.deleteCoupon(pack.package.id).subscribe((data) => {
 
       if (data['deleted']) {
         this.toastr.success('', 'Coupon eliminato!');
@@ -65,7 +65,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     });
 
     this.modalRef.hide();
-  }
+ }
 
   formatState(state) { // TODO fixme
     return 'Attivo';
