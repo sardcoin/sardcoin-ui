@@ -20,7 +20,7 @@ import {PackageEditComponent} from './package-edit/package-edit.component';
     RouterModule.forChild([
       {
         path: '',
-        component: FeatureReservedAreaBrokerComponent
+        component: FeatureReservedAreaPackageListComponent
       },
       {
         path: 'verify',

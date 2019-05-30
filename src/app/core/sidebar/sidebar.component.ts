@@ -53,6 +53,10 @@ export class SidebarComponent implements OnInit {
           this.infoUserLink = '/reserved-area/verify/';
           this.sendHide(false);
           break;
+        case '4': // broker
+          this.infoUserLink = '/reserved-area/broker/';
+          this.sendHide(false);
+          break;
         case '2': // consumer
         default:
           this.infoUserLink = '/';

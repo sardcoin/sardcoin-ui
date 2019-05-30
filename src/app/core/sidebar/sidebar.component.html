@@ -29,7 +29,7 @@
         </a>
       </div>
 
-      <a [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
+      <a *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
         <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
           <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
         </div>

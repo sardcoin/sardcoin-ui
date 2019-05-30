@@ -55,7 +55,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
       if (this.couponPass === null || this.couponPass === undefined) {
-        this.router.navigate(['/reserved-area/producer/list']);
+        this.router.navigate(['/reserved-area/broker/list']);
       }
     });
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
@@ -65,7 +65,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
     if (this.couponPass === null || this.couponPass === undefined) {
-      this.router.navigate(['/reserved-area/producer/list']);
+      this.router.navigate(['/reserved-area/broker/list']);
     }
 
     this.imageURL = this.imageURL + this.couponPass.image;
@@ -138,14 +138,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         // if (data['created']) {
-          this.toastr.success('', 'Coupon creato con successo!');
-          this.router.navigate(['/reserved-area/producer/list']);
+          this.toastr.success('', 'Pacchetto creato con successo!');
+          this.router.navigate(['/reserved-area/broker/list']);
         // } else {
         //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
       }, err => {
         console.log(err);
-        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+        this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
       });
   }
 
@@ -155,20 +155,20 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         // if (data['status']) {
         //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
         // } else {
-          this.toastr.success('', 'Coupon modificato con successo!');
-          this.router.navigate(['/reserved-area/producer/list']);
+          this.toastr.success('', 'Pacchetto modificato con successo!');
+          this.router.navigate(['/reserved-area/broker/list']);
         // }
       }, err => {
         console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
+        this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
       });
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/producer/'));
-    bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/producer/edit/'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/broker/'));
+    bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/broker/edit/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
