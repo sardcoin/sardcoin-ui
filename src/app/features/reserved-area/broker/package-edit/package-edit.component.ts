@@ -20,8 +20,7 @@ import {CategoriesService} from '../../../../shared/_services/categories.service
 })
 
 export class PackageEditComponent implements OnInit, OnDestroy {
-
-  couponForm: FormGroup;
+  packageForm: FormGroup;
   couponsAvailable: Coupon[];
   selectedCoupons = [];
   selectedCategories = [];
@@ -67,11 +66,6 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.router.navigate(['/reserved-area/broker/list']);
         return;
       }
-      console.log('categories', this.couponPass.categories);
-      console.log('coupons', this.couponPass.coupons);
-
-
-      console.log('pacchetto', this.couponPass);
     });
     this.couponService.checkFrom.subscribe(fromEdit => {
         this.fromEdit = fromEdit;
@@ -109,7 +103,6 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         }
       }
       // this.couponsAvailable = cp;
-      console.log('cpBroker', this.couponsAvailable);
     });
   }
 
@@ -128,7 +121,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorCalendar = this.markedUnlimited ? '#E4E7EA' : '#FFF';
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
-    this.couponForm = this.formBuilder.group({
+    this.packageForm = this.formBuilder.group({
       title: [this.couponPass.package.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
       description: [this.couponPass.package.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
       image: [this.imagePath],
@@ -152,13 +145,13 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   }
 
   get f() {
-    return this.couponForm.controls;
+    return this.packageForm.controls;
   }
 
   saveChange() {
     this.submitted = true;
 
-    if (this.couponForm.invalid) {
+    if (this.packageForm.invalid) {
       return;
     }
 
@@ -194,38 +187,38 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.couponService.create(coupon)
       .subscribe(data => {
 
-        // if (data['created']) {
-          this.toastr.success('', 'Coupon creato con successo!');
-          this.router.navigate(['/reserved-area/producer/list']);
-        // } else {
-        //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
-        // }
+        if (data['created']) {
+          this.toastr.success('', 'Pacchetto creato con successo!');
+          this.router.navigate(['/reserved-area/broker/list']);
+        } else {
+          this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
+        }
       }, err => {
         console.log(err);
-        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+        this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
       });
   }
 
   editCoupon(coupon: Coupon) {
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        // if (data['status']) {
-        //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
-        // } else {
-          this.toastr.success('', 'Coupon modificato con successo!');
+        if (data['status']) {
+          this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
+        } else {
+          this.toastr.success('', 'Pacchetto modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
-        // }
+        }
       }, err => {
         console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
+        this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
       });
   }
 
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    bread.push(new Breadcrumb('Home', '/reserved-area/producer/'));
-    bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/producer/edit/'));
+    bread.push(new Breadcrumb('Home', '/reserved-area/broker/'));
+    bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/broker/edit/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -256,12 +249,12 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.markedPrivate = e.target.checked;
 
         if (this.markedPrivate) {
-          this.couponForm.get('published_from').disable();
-          this.couponForm.get('published_from').setValue(null);
+          this.packageForm.get('published_from').disable();
+          this.packageForm.get('published_from').setValue(null);
           this.bgColorPrivate = '#E4E7EA';
         } else {
-          this.couponForm.get('published_from').enable();
-          this.couponForm.get('published_from').setValue(Date.now());
+          this.packageForm.get('published_from').enable();
+          this.packageForm.get('published_from').setValue(Date.now());
           this.bgColorPrivate = '#FFF';
         }
         break;
@@ -270,9 +263,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.markedFree = e.target.checked;
 
         if (this.markedFree) {
-          this.couponForm.get('price').disable();
+          this.packageForm.get('price').disable();
         } else {
-          this.couponForm.get('price').enable();
+          this.packageForm.get('price').enable();
         }
         break;
 
@@ -280,36 +273,36 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.markedUnlimited = e.target.checked;
 
         if (this.markedUnlimited === true) {
-          this.couponForm.get('valid_until').disable();
+          this.packageForm.get('valid_until').disable();
           this.bgColorCalendar = '#E4E7EA';
         } else {
-          this.couponForm.get('valid_until').enable();
+          this.packageForm.get('valid_until').enable();
           this.bgColorCalendar = '#FFF';
         }
 
-        delete this.couponForm.value.valid_until;
-        this.couponForm.value.valid_until_empty = true;
+        delete this.packageForm.value.valid_until;
+        this.packageForm.value.valid_until_empty = true;
         break;
 
       case 'constraintsCheck':
         this.markedConstraints = e.target.checked;
 
         if (this.markedConstraints) {
-          this.couponForm.get('constraints').disable();
+          this.packageForm.get('constraints').disable();
         } else {
-          this.couponForm.get('constraints').enable();
+          this.packageForm.get('constraints').enable();
         }
 
-        this.couponForm.value.constraints = '';
+        this.packageForm.value.constraints = '';
         break;
 
       case 'quantityCheck':
         this.markedQuantity = e.target.checked;
 
         if (this.markedQuantity) {
-          this.couponForm.get('purchasable').disable();
+          this.packageForm.get('purchasable').disable();
         } else {
-          this.couponForm.get('purchasable').enable();
+          this.packageForm.get('purchasable').enable();
         }
         break;
     }

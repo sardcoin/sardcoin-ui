@@ -6,7 +6,7 @@
           <h1 class="text-center">{{fromEdit ? 'Modifica' : 'Crea'}}</h1>
           <h4 class="text-muted text-center">{{fromEdit ? 'Modifica ' : 'Crea '}} Pacchetto</h4>
 
-          <form [formGroup]="couponForm" (ngSubmit)="saveChange()">
+          <form [formGroup]="packageForm" (ngSubmit)="saveChange()">
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Titolo</label>
@@ -228,17 +228,41 @@
                 </div>
               </div>
             </div> <!-- Purchasable -->
-
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.valid_from.errors?.MatchDate">Errore sulle date
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">La data di scadenza deve essere maggiore della validità.
+            </div>
+            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
+              Carica immagine
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.quantity.errors?.MatchPurchasableQuantity &&
+                 f.purchasable.errors?.MatchPurchasableQuantity">Questo valore deve essere inferiore o uguale alla quantità creata
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.quantity.errors?.MatchErrorQuantity">Quantità non corretta.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.purchasable.errors?.MatchErrorPurchasable">Acquisto massimo per user non corretta.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && packageForm.get('coupons').errors?.QuantityArrayCoupons && packageForm.get('quantity').errors?.QuantityArrayCoupons">
+              La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.coupons.errors?.CouponsEmpty">Inserire i coupons per la creazione dei pacchetti.
+            </div>
+            <div class="alert alert-danger col-md-12"
+                 *ngIf="submitted && f.coupons.errors?.EmptyArrayCoupons">Selezionare i coupons se disponibili.
+            </div>
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">La data inserita è già trascorsa!
             </div>
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">la scadenza precede l'inizio
             </div>
-
-          <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
-          <!--Please upload an image before create the coupon.-->
-          <!--</div>-->
           <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
             Quantità non corretta.
           </div>

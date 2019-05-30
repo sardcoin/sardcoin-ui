@@ -119,7 +119,6 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.scanner.scanComplete.subscribe((result: Result) => {
       this.qrResult = result;
-      console.log(result);
     });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {

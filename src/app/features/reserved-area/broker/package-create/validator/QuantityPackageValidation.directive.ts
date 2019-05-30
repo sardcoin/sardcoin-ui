@@ -46,11 +46,7 @@ export class QuantityPackageValidation {
 
     minCouponsQuantity = Math.min(...couponQuantityArray);
 
-    // console.log('couponQuantityArray', couponQuantityArray);
-    //
-    // console.log('minCouponsQuantity', minCouponsQuantity);
-    //
-    // console.log('couponArray', couponArray);
+
     try {
       if ((minCouponsQuantity - quantity + 1) < 0 ) {
         // AC.get('coupons').setErrors({MatchQuantity: true});
@@ -82,8 +78,6 @@ export class QuantityPackageValidation {
 
 
       }
-      console.log('isError:', isErrorQuantity)
-
       if (isErrorQuantityArrayCoupons) {
         control.get('coupons').setErrors({QuantityArrayCoupons: true});
         control.get('quantity').setErrors({QuantityArrayCoupons: true});

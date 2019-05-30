@@ -11,8 +11,6 @@ import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {QuantityPackageValidation} from './validator/QuantityPackageValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import {Package} from '../../../../shared/_models/Package';
-import Arrays from '@zxing/library/esm5/core/util/Arrays';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {PackageService} from '../../../../shared/_services/package.service';
 
@@ -88,7 +86,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           }
         }
         // this.couponsAvailable = cp;
-        console.log('cpBroker', this.couponsAvailable);
       });
 
   }
@@ -152,14 +149,12 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       type: 1
     };
 
-    console.log('broker selezionati', this.selectedCoupons);
     this.addPackage(pack);
   }
 
   addPackage(pack: Coupon) {
     this.couponService.create(pack)
       .subscribe(data => {
-        console.log('data', data)
         if (data['created']) {
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);

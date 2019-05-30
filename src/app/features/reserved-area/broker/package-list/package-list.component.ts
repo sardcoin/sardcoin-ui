@@ -106,7 +106,6 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.packageService.getBrokerPackages().subscribe(
       data => {
         this.packageArray = data;
-        console.log('pkgArray', this.packageArray);
       }, error => console.log(error)
     );
   }
