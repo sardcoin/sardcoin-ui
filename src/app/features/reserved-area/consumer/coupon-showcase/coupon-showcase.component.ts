@@ -132,7 +132,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   details(coupon: Coupon) {
     let url = this.router.url.includes('reserved-area') ? this.router.url.substr(0, this.router.url.lastIndexOf('/')) : '';
-    url += '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    url += this.couponService.getCouponDetailsURL(coupon);
     this.router.navigate([url]);
   }
 

@@ -8,36 +8,26 @@
   object-fit: cover
 }
 
-/*p {
-  display: block;
-  max-width: 400px;
-  height: 109.2px;
-  margin: 0 auto;
-  line-height: 1.4;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  !*overflow: hidden;*!
-  !*text-overflow: ellipsis;*!
-}*/
-
-h5 {
-  display: block; /* Fallback for non-webkit */
-  display: -webkit-box;
-  max-width: 400px;
-  height: 90px; /* Fallback for non-webkit */
-  margin: 0 auto;
-  line-height: 1.4;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  /*overflow: hidden;*/
-  /*text-overflow: ellipsis;*/
-
+h2 {
+  padding-left: 2px;
 }
-
 
 .td-state {
   padding-top: 17px;
   font-size: 15px;
 }
 
+.quantity {
+  bottom: 0;
+  color: white;
+  right: 0;
+  font-weight: bold;
+  width: 20px;
+  text-align: center;
+}
 
+.buttons-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 15px;
+}

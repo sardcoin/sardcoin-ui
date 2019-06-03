@@ -62,31 +62,16 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
   }
 
   async ngOnInit() {
-    // this.globalEventService.isUserLoggedIn.subscribe(value => {
-    //   this.isUserLoggedIn = value;
-    // });
-
     this.login$.subscribe(login => {
       this.isUserLoggedIn = login.isLogged;
       this.userType = parseInt(this.localStore.getType());
-      console.log(this.userType);
     });
 
-    // this.userType = this.localStore.getType(); // Number(this.globalEventService.userType.getValue());
-    this.globalEventService.desktopMode.subscribe(message => {
-      this.desktopMode = message;
-    });
-    this.globalEventService.hideSource.subscribe(message => {
-      this.hide = message;
-    });
+    this.globalEventService.desktopMode.subscribe(message => this.desktopMode = message);
+    this.globalEventService.hideSource.subscribe(message => this.hide = message);
 
-    this.breadcrumb$.subscribe(elements => {
-      console.warn(elements.list);
-      this.breadList = elements.list;
-    });
-    this.cart$.subscribe(elements => {
-      this.cart = elements.list;
-    });
+    this.breadcrumb$.subscribe(elements => this.breadList = elements.list);
+    this.cart$.subscribe(elements => this.cart = elements.list);
 
     this.authPage = this.router.url.includes('authentication');
     this.showcasePage = this.router.url.includes('showcase');
@@ -98,10 +83,8 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
       }
     });
 
-    // if (!this.userType || this.userType === 2) { // Consumer
-      await this.getCategories();
-      await this.getCouponsByCategory();
-    // }
+    await this.getCategories();
+    await this.getCouponsByCategory();
   }
 
   async getCategories() {
@@ -204,9 +187,5 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     return part
       ? title.substr(0, title.toLowerCase().indexOf(this.searchText.toLowerCase()))
       : title.substr(title.toLowerCase().indexOf(this.searchText.toLowerCase()) + this.searchText.length, title.length);
-  }
-
-  isUserConsumer(): boolean {
-    return parseInt(this.localStore.getId()) === 2 || !this.localStore.getId();
   }
 }
