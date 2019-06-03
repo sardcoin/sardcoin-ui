@@ -60,6 +60,10 @@ export class CouponService {
     return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
   }
 
+  getBrokerCoupons() {
+    return this.http.get<Coupon[]>(this.formatUrl('getBrokerCoupons'));
+  }
+
   deleteCoupon(cp: number) {
     return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});
   }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -8,33 +8,32 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {QuantityCouponValidation} from './validator/QuantityCouponValidation.directive';
+import {QuantityPackageValidation} from './validator/QuantityPackageValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import {User} from '../../../../shared/_models/User';
-import {UserService} from '../../../../shared/_services/user.service';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
-import {Category} from '../../../../shared/_models/Category';
+import {PackageService} from '../../../../shared/_services/package.service';
+import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-feature-reserved-area-coupon-create',
-  templateUrl: './coupon-create.component.html',
-  styleUrls: ['./coupon-create.component.scss'],
+  selector: 'app-feature-reserved-area-package-create',
+  templateUrl: './package-create.component.html',
+  styleUrls: ['./package-create.component.scss'],
 })
 
-export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
-  couponForm: FormGroup;
+export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
 
-  brokers: User[];
+  couponsAvailable: Coupon[];
 
+  packageForm: FormGroup;
+
+  categories: any;
   markedUnlimited = false;
   markedFree = false;
   markedConstraints = false;
   markedQuantity = false;
   markedPrivate = false;
   submitted = false;
-  categories: any;
-  selectedCategories: Category[] = [];
 
   bgColorCalendar = '#FFF';
   bgColorPrivate = '#FFF';
@@ -42,53 +41,57 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   imagePath: string = null;
 
   public uploader: FileUploader = new FileUploader({
-    url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage',
+    url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage', // fix for broker
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
-  selectedBroker = [];
+  selectedCoupons = [];
+  selectedCategories = [];
 
+  check = null;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private storeService: StoreService,
     private couponService: CouponService,
+    private categoriesService: CategoriesService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
-    private userService: UserService,
-    private categoriesService: CategoriesService,
-
+    private packageService: PackageService,
   ) {
-    this.userService.getBrokers().subscribe( brokers => {
-      this.brokers = brokers;
-    });
+      this.categoriesService.getAll().subscribe( cat => {
+        this.categories = cat;
+      });
 
-    this.categoriesService.getAll().subscribe(cat => {
-      this.categories = cat;
-    });
 
   }
 
-  ngOnInit(): void {
-    this.couponForm = this.formBuilder.group({
+    ngOnInit() {
+
+      this.setCoupons();
+
+    this.packageForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [0, Validators.required],
       published_from: [new Date()],
+      coupons: [this.selectedCoupons],
       categories: [this.selectedCategories],
-      broker: [this.selectedBroker],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
-      quantity: [1, Validators.required],
+      quantity: [1, [Validators.required]],
       constraints: [null],
       purchasable: [1, Validators.required]
     }, {
-      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
 
+    this.checking();
+
+    console.log('check', this.check);
     this.addBreadcrumb();
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
@@ -100,18 +103,17 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   get f() {
-    return this.couponForm.controls;
+    return this.packageForm.controls;
   }
 
   saveCoupon() {
     this.submitted = true;
-
     // It stops here if form is invalid
-    if (this.couponForm.invalid || this.imagePath == null) {
+    if (this.packageForm.invalid || this.imagePath == null) {
       return;
     }
 
-    const coupon: Coupon = {
+    const pack: Coupon = {
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath,
@@ -122,28 +124,26 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
-      brokers: this.selectedBroker,
-      categories: this.selectedCategories
-
+      coupons: this.selectedCoupons,
+      categories: this.selectedCategories,
+      type: 1
     };
 
-    console.log('broker selezionati', this.selectedBroker);
-    this.addCoupon(coupon);
+    this.addPackage(pack);
   }
 
-  addCoupon(coupon: Coupon) {
-    this.couponService.create(coupon)
+  addPackage(pack: Coupon) {
+    this.couponService.create(pack)
       .subscribe(data => {
-
         if (data['created']) {
-          this.toastr.success('', 'Coupon creato con successo!');
-          this.router.navigate(['/reserved-area/producer/list']);
+          this.toastr.success('', 'Pacchetto creato con successo!');
+          this.router.navigate(['/reserved-area/broker/list']);
         } else {
-          this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+          this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
         console.log(err);
-        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+        this.toastr.error('Errore imprevisto durante la creazione del pacchetto .', 'Errore durante la creazione');
       });
   }
 
@@ -153,11 +153,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.markedPrivate = e.target.checked;
 
         if (this.markedPrivate) {
-          this.couponForm.get('published_from').disable();
+          this.packageForm.get('published_from').disable();
           // this.couponForm.get('published_from').setValue(null);
           this.bgColorPrivate = '#E4E7EA';
         } else {
-          this.couponForm.get('published_from').enable();
+          this.packageForm.get('published_from').enable();
           // this.couponForm.get('published_from').setValue(Date.now());
           this.bgColorPrivate = '#FFF';
         }
@@ -166,50 +166,50 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.markedFree = e.target.checked;
 
         if (this.markedFree) {
-          this.couponForm.get('price').disable();
+          this.packageForm.get('price').disable();
         } else {
-          this.couponForm.get('price').enable();
+          this.packageForm.get('price').enable();
         }
         break;
       case 'unlimitedCheck':
         this.markedUnlimited = e.target.checked;
 
         if (this.markedUnlimited === true) {
-          this.couponForm.get('valid_until').disable();
+          this.packageForm.get('valid_until').disable();
           this.bgColorCalendar = '#E4E7EA';
         } else {
-          this.couponForm.get('valid_until').enable();
+          this.packageForm.get('valid_until').enable();
           this.bgColorCalendar = '#FFF';
         }
 
-        delete this.couponForm.value.valid_until;
-        this.couponForm.value.valid_until_empty = true;
+        delete this.packageForm.value.valid_until;
+        this.packageForm.value.valid_until_empty = true;
         break;
       case 'constraintsCheck':
         this.markedConstraints = e.target.checked;
 
         if (this.markedConstraints) {
-          this.couponForm.get('constraints').disable();
+          this.packageForm.get('constraints').disable();
         } else {
-          this.couponForm.get('constraints').enable();
+          this.packageForm.get('constraints').enable();
         }
 
-        this.couponForm.value.constraints = '';
+        this.packageForm.value.constraints = '';
         break;
       case 'quantityCheck':
         this.markedQuantity = e.target.checked;
 
         if (this.markedQuantity) {
-          this.couponForm.get('purchasable').disable();
+          this.packageForm.get('purchasable').disable();
         } else {
-          this.couponForm.get('purchasable').enable();
+          this.packageForm.get('purchasable').enable();
         }
         break;
     }
   }
 
   setAddress(addressObtained) {
-    this.couponForm.get('constraints').setValue(addressObtained);
+    this.packageForm.get('constraints').setValue(addressObtained);
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
@@ -227,7 +227,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Aggiungi coupon', '/reserved-area/producer/create/'));
+    bread.push(new Breadcrumb('Aggiungi Pacchetto', '/reserved-area/broker/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -236,6 +236,51 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
+  async checking() {
+    this.check = await QuantityPackageValidation.CheckQuantityPackage;
+    return this.check;
+  }
+
+  setCoupons() {
+
+    this.couponService.getBrokerCoupons().subscribe(coupons => {
+      if (coupons) {
+        for   (const coupon of coupons) {
+          const quantity = coupon.quantity;
+          const id = coupon.id;
+          this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
+            const purchesable = coupon.purchasable;
+            const assign =  assignCoupon.assign;
+            console.log('purch', purchesable);
+            console.log('assign', assign);
+            console.log('quantity', quantity);
+            this.couponsAvailable = []
+            if (!purchesable) {
+              console.log('null');
+              for  (let i = 0; i < quantity; i++) {
+                this.couponsAvailable.push(coupon);
+                console.log('this.couponsAvailable null', this.couponsAvailable);
+              }
+            } else if (purchesable > quantity) {
+              for (let i = 0; i < (purchesable - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+
+            } else {
+
+              for (let i = 0; i < (quantity - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+            }
+            return this.couponsAvailable
+          });
+        }
+        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
+
+      }
+    });
+
+  }
 }
 
 

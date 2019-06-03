@@ -1,8 +1,8 @@
 import {CouponToken} from './CouponToken';
-import {User} from './User';
+import {Coupon} from './Coupon';
 import {Category} from './Category';
 
-export class Coupon {
+export class Package {
   id?: number;
   title: string;
   description: string;
@@ -19,10 +19,8 @@ export class Coupon {
   owner?: number;
   CouponTokens?: CouponToken[];
   token?: CouponToken;
-  brokers?: User[];
-  categories?: Category[];
   coupons?: Coupon[];
-  type?: number
+  categories?: Category[]
 
   constructor(
               id?: number,
@@ -41,14 +39,9 @@ export class Coupon {
               purchasable?: number,
               CouponTokens?: CouponToken[],
               token?: CouponToken,
-              brokers?: User[],
-              categories?: Category[],
               coupons?: Coupon[],
-              type?: number
-
-
-
-  ) {
+              categories?: Category[],
+               ) {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -63,10 +56,8 @@ export class Coupon {
     this.purchasable = purchasable;
     this.CouponTokens = CouponTokens;
     this.token = token;
-    this.brokers = brokers;
-    this.categories = categories;
     this.coupons = coupons;
-    this.type = type;
+    this.categories = categories;
   }
 
 }
