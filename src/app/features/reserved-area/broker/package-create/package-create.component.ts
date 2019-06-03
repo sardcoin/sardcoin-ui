@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -13,6 +13,7 @@ import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {PackageService} from '../../../../shared/_services/package.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feature-reserved-area-package-create',
@@ -21,8 +22,11 @@ import {PackageService} from '../../../../shared/_services/package.service';
 })
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
-  packageForm: FormGroup;
+
   couponsAvailable: Coupon[];
+
+  packageForm: FormGroup;
+
   categories: any;
   markedUnlimited = false;
   markedFree = false;
@@ -42,7 +46,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   });
 
   selectedCoupons = [];
-  selectedCategories = []
+  selectedCategories = [];
 
   check = null;
 
@@ -56,41 +60,17 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     private toastr: ToastrService,
     private packageService: PackageService,
   ) {
-      this.categoriesService.getAll().subscribe(cat => {
+      this.categoriesService.getAll().subscribe( cat => {
         this.categories = cat;
       });
 
-      this.couponService.getBrokerCoupons().subscribe(cp => {
-
-        this.couponsAvailable = [];
-        const coupons = cp;
-        if (coupons) {
-          for (const coupon of coupons) {
-            const quantity = coupon.quantity;
-            const purchesable = coupon.purchasable;
-            if (purchesable == null) {
-              for (let i = 0; i < quantity; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            } else if (purchesable <= quantity) {
-              for (let i = 0; i < purchesable; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-
-            } else {
-              for (let i = 0; i < quantity; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-
-            }
-          }
-        }
-        // this.couponsAvailable = cp;
-      });
 
   }
 
-  ngOnInit(): void {
+    ngOnInit() {
+
+      this.setCoupons();
+
     this.packageForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
@@ -111,7 +91,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
     this.checking();
 
-    console.log('check', this.check)
+    console.log('check', this.check);
     this.addBreadcrumb();
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
@@ -261,6 +241,46 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     return this.check;
   }
 
+  setCoupons() {
+
+    this.couponService.getBrokerCoupons().subscribe(coupons => {
+      if (coupons) {
+        for   (const coupon of coupons) {
+          const quantity = coupon.quantity;
+          const id = coupon.id;
+          this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
+            const purchesable = coupon.purchasable;
+            const assign =  assignCoupon.assign;
+            console.log('purch', purchesable);
+            console.log('assign', assign);
+            console.log('quantity', quantity);
+            this.couponsAvailable = []
+            if (!purchesable) {
+              console.log('null');
+              for  (let i = 0; i < quantity; i++) {
+                this.couponsAvailable.push(coupon);
+                console.log('this.couponsAvailable null', this.couponsAvailable);
+              }
+            } else if (purchesable > quantity) {
+              for (let i = 0; i < (purchesable - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+
+            } else {
+
+              for (let i = 0; i < (quantity - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+            }
+            return this.couponsAvailable
+          });
+        }
+        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
+
+      }
+    });
+
+  }
 }
 
 

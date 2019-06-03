@@ -12,6 +12,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {DateValidation} from '../package-create/validator/DateValidation.directive';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
+import {PackageService} from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-edit-package',
@@ -54,7 +55,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private categoriesService: CategoriesService,
     public storeService: StoreService,
     private breadcrumbActions: BreadcrumbActions,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private packageService: PackageService,
+
   ) {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
@@ -142,6 +145,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+
+    this.setCoupons();
   }
 
   get f() {
@@ -327,5 +332,47 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.imageURL = String(e.target.result);
       };
     }
+  }
+
+
+  setCoupons() {
+
+    this.couponService.getBrokerCoupons().subscribe(coupons => {
+      if (coupons) {
+        for   (const coupon of coupons) {
+          const quantity = coupon.quantity;
+          const id = coupon.id;
+          this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
+            const purchesable = coupon.purchasable;
+            const assign =  assignCoupon.assign;
+            console.log('purch', purchesable);
+            console.log('assign', assign);
+            console.log('quantity', quantity);
+            this.couponsAvailable = []
+            if (!purchesable) {
+              console.log('null');
+              for  (let i = 0; i < quantity; i++) {
+                this.couponsAvailable.push(coupon);
+                console.log('this.couponsAvailable null', this.couponsAvailable);
+              }
+            } else if (purchesable > quantity) {
+              for (let i = 0; i < (purchesable - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+
+            } else {
+
+              for (let i = 0; i < (quantity - assign); i++) {
+                this.couponsAvailable.push(coupon);
+              }
+            }
+            return this.couponsAvailable;
+          });
+        }
+        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
+
+      }
+    });
+
   }
 }
