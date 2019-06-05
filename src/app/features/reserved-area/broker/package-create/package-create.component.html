@@ -276,7 +276,7 @@
             </div>
             <div class="form group">
               <p>
-                <button class="btn btn-block btn-success btn-create-coupon">Crea</button>
+                <button *ngIf="couponsAvailable" class="btn btn-block btn-success btn-create-coupon" [disabled]="couponsAvailable.length == 0">Crea</button>
               </p>
             </div>
 

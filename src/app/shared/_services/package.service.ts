@@ -51,6 +51,9 @@ export class PackageService {
   getBrokerPackages() {
     return this.http.get<Coupon[]>(this.formatUrl('getBrokerPackages'));
   }
+  getCouponsPackage(id: number) {
+    return this.http.get<any>(this.formatUrl('getCouponsPackage/' + id));
+  }
 
   getBrokerCoupons() {
     return this.http.get<Package[]>(this.formatUrl('getBrokerCoupons'));
