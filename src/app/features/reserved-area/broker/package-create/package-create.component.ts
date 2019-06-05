@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -47,6 +47,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   selectedCoupons = [];
   selectedCategories = [];
+  modalCoupon: Coupon;
 
   check = null;
 
@@ -60,21 +61,22 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     private toastr: ToastrService,
     private packageService: PackageService,
   ) {
-      this.categoriesService.getAll().subscribe( cat => {
-        this.categories = cat;
-      });
+    this.categoriesService.getAll().subscribe(cat => {
+      this.categories = cat;
+    });
 
 
   }
 
-    ngOnInit() {
+  ngOnInit() {
 
-      this.setCoupons();
+    this.setCoupons();
+
 
     this.packageForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-      image: [this.imagePath, Validators.required ],
+      image: [this.imagePath, Validators.required],
       price: [0, Validators.required],
       published_from: [new Date()],
       coupons: [this.selectedCoupons],
@@ -243,21 +245,27 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   setCoupons() {
 
+    try {
+
+    } catch (e) {
+
+    }
+
     this.couponService.getBrokerCoupons().subscribe(coupons => {
       if (coupons) {
-        for   (const coupon of coupons) {
+        for (const coupon of coupons) {
           const quantity = coupon.quantity;
           const id = coupon.id;
           this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
             const purchesable = coupon.purchasable;
-            const assign =  assignCoupon.assign;
+            const assign = assignCoupon.assign;
             console.log('purch', purchesable);
             console.log('assign', assign);
             console.log('quantity', quantity);
-            this.couponsAvailable = []
+            this.couponsAvailable = [];
             if (!purchesable) {
               console.log('null');
-              for  (let i = 0; i < quantity; i++) {
+              for (let i = 0; i < quantity; i++) {
                 this.couponsAvailable.push(coupon);
                 console.log('this.couponsAvailable null', this.couponsAvailable);
               }
@@ -272,14 +280,33 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
                 this.couponsAvailable.push(coupon);
               }
             }
-            return this.couponsAvailable
           });
         }
-        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
 
       }
     });
 
+    console.log('this.couponsAvailable dopo for', this.couponsAvailable);
+
+  }
+
+  async openModal(template: TemplateRef<any>, coupon: Coupon) {
+
+    this.modalCoupon = coupon;
+
+/*    this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+
+    this.myForm = this.formBuilder.group({
+      quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+    });
+
+    this.isMax = this.myForm.value.quantity === this.maxQuantity;
+
+    if (this.maxQuantity > 0) {
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    } else {
+      this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+    }*/
   }
 }
 

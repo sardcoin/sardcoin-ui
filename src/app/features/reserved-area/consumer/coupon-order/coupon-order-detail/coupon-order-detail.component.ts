@@ -105,8 +105,8 @@ export class CouponOrderDetailComponent implements OnInit, OnDestroy {
       detailOrder = await this.orderService.getOrderById(this.orderPass.id).toPromise();
 
       for (const orderCoupon of detailOrder.OrderCoupon) {
-        coupon = await this.couponService.getCouponById(orderCoupon.coupon_id).toPromise();
-        coupon['quantityBought'] = orderCoupon.quantity;
+        // coupon = await this.couponService.getCouponById(orderCoupon.coupon_id).toPromise();
+        // coupon['quantityBought'] = orderCoupon.quantity;
         this.coupons.push(coupon);
       }
 

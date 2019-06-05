@@ -109,7 +109,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="couponsAvailable" class="form-group row ">
+            <div *ngIf="couponsAvailable" class="form-group row mb-0">
               <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
               <div class="col-sm-12 col-lg-8">
                 <ng-select formControlName="coupons"
@@ -125,6 +125,29 @@
 
               </div>
 
+            </div> <!-- Coupons -->
+            <div *ngIf="selectedCoupons" class="form-group row">
+              <ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-group pr-0">
+                <li *ngFor="let coup of selectedCoupons" class="list-group-item d-flex justify-content-between align-items-center">
+                  <span class="text-left">{{coup.title}}</span>
+                  <span class="text-right">
+                    <span class="badge badge-primary badge-pill mr-1">qnt</span>
+                    <i class="fas fa-edit mr-1 text-secondary"></i>
+                    <i class="fas fa-trash-alt text-danger"></i>
+                  </span>
+                </li>
+<!--                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Dapibus ac facilisis in
+                  <span class="badge badge-primary badge-pill">2</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Morbi leo risus
+                  <span class="badge badge-primary badge-pill">1</span>
+                </li>-->
+              </ul>
+              <!--<ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-">
+                <li *ngFor="let coup of selectedCoupons">{{coup.title}}</li>
+              </ul>-->
             </div>
 
             <div  class="form-group row">
@@ -288,3 +311,39 @@
     </div>
   </div>
 </div>
+
+<ng-template #couponAdding>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>Aggiungi "{{modalCoupon.title.length > 20 ?
+      modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" nel carrello</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="myForm" class="container">
+      <div class="form-group row">
+        <label class="col-sm-7 my-auto" style="font-size: 16px;">Inserisci la quantità: <i class="text-info">
+          ({{maxQuantity}} disponibil{{maxQuantity > 1 ? 'i' : 'e' }})</i></label>
+
+        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
+               max="{{modalCoupon.quantity}}"/>
+
+        <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
+          <i class="fas fa-minus text-white"></i>
+        </button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+
+        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Inserire una quantità valida!</div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="decline()">Annulla</button>
+    <button [disabled]="inCart(modalCoupon.id)" type="button" class="btn btn-success" (click)="addToCart(modalCoupon)">
+      Aggiungi
+    </button>
+  </div>
+</ng-template>
