@@ -21,17 +21,17 @@
     <tbody class="striped">
     <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
+        <span style="font-size: 17px;">{{package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.description}}</i>
       </td>
       <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.package.image)" alt="Card image cap">
+        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.image)" alt="Card image cap">
       </td>
       <!--<td>{{package.price != 0 ? package.price : 'free'}}</td>-->
-      <td>{{formatPrice(package.package.price)}}</td>
+      <td>{{formatPrice(package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{package.package.quantity}}</td>
-      <td>{{package.package.buyed}}</td>
+      <td>{{package.quantity}}</td>
+      <td>{{package.buyed}}</td>
 
 
       <td>
@@ -90,16 +90,16 @@
     <tbody class="striped">
     <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
+        <span style="font-size: 17px;">{{package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.description}}</i>
       </td>
       <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.package.image)" alt="Card image cap">
+        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(package.image)" alt="Card image cap">
       </td>
-      <td>{{formatPrice(package.package.price)}}</td>
+      <td>{{formatPrice(package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{package.package.quantity}}</td>
-      <td>{{package.package.buyed}}</td>
+      <td>{{package.quantity}}</td>
+      <td>{{package.buyed}}</td>
 
       <td>
         <div class="btn-group" dropdown>
@@ -142,16 +142,16 @@
     <tbody class="striped">
     <tr *ngFor="let package of packageArray">
       <td>
-        <span style="font-size: 17px;">{{package.package.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{package.package.description}}</i>
+        <span style="font-size: 17px;">{{package.title}}</span> <br/>
+        <i style="color: #999; font-size: 15px;">{{package.description}}</i>
       </td>
       <td class="d-lg-block d-none">
-        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(package.package.image)"
+        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(package.image)"
              alt="Card image cap">
       </td>
-      <td>{{formatPrice(package.package.price)}}</td>
+      <td>{{formatPrice(package.price)}}</td>
       <td>{{formatState(0)}}</td>
-      <td>{{package.package.buyed}}/{{package.package.quantity}}</td>
+      <td>{{package.buyed}}/{{package.quantity}}</td>
       <td>
         <div class="btn-group" dropdown>
           <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -178,24 +178,24 @@
   <div *ngIf="packageArray && packageArray.length > 0">
     <div *ngFor="let package of packageArray" style="background-color: snow" class="card flex-row flex-wrap">
       <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
-        <img class="img-fluid" [src]="imageUrl(package.package.image)" alt="">
+        <img class="img-fluid" [src]="imageUrl(package.image)" alt="">
       </div>
       <div class="col-8 card-header border-0" style="background-color: snow;">
-        <h5 class="card-text truncate ">{{package.package.title}}</h5>
+        <h5 class="card-text truncate ">{{package.title}}</h5>
       </div>
       <div class="col-12 mb-1 text-justify">
-        <p class="card-text truncate ">{{package.package.description}}</p>
+        <p class="card-text truncate ">{{package.description}}</p>
       </div>
       <div class="card-footer w-100">
         <div class="float-left">
-          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(package.package)"><i class="far fa-copy"></i></button>
-          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(package.package)"><i class="fas fa-edit"></i>
+          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(package)"><i class="far fa-copy"></i></button>
+          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(package)"><i class="fas fa-edit"></i>
           </button>
           <button type="button" class="btn btn-danger" (click)="openModal(template, package)"><i class="fas fa-trash-alt"></i>
           </button>
         </div>
         <div class="float-right card-price">
-          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(package.package.price)}}
+          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(package.price)}}
         </div>
       </div>
     </div>

@@ -72,43 +72,25 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     });
     this.couponService.checkFrom.subscribe(fromEdit => {
         this.fromEdit = fromEdit;
-
-        if (this.fromEdit) {
-          for (const cp of this.couponPass.coupons) {
-            this.selectedCoupons.push(cp.coupon);
-          }
-        }
       }
-
     );
 
-    this.couponService.getBrokerCoupons().subscribe(cp => {
+    if (this.fromEdit) {
 
-      this.couponsAvailable = [];
-      const coupons = cp;
-      for (const coupon of coupons) {
-        const quantity = coupon.quantity;
-        const purchesable = coupon.purchasable;
-        if (purchesable == null) {
-          for (let i = 0; i < quantity; i++) {
-            this.couponsAvailable.push(coupon);
-          }
-        } else if (purchesable <= quantity) {
-          for (let i = 0; i < purchesable; i++) {
-            this.couponsAvailable.push(coupon);
-          }
+      this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
 
-        } else {
-          for (let i = 0; i < quantity; i++) {
-            this.couponsAvailable.push(coupon);
-          }
-
+        const cp = [];
+        console.log('coupons', coupons);
+        for (const coupon of coupons.coupons_array) {
+          cp.push(coupon);
         }
-      }
-      // this.couponsAvailable = cp;
-    });
-  }
+        this.selectedCoupons = cp;
+      });
+    } else {
 
+      this.setCoupons();
+    }
+  }
   ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
     if (this.couponPass === null || this.couponPass === undefined ) {
@@ -116,7 +98,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.imageURL = this.imageURL + this.couponPass.package.image;
+    this.imageURL = this.imageURL + this.couponPass.image;
     const until = this.couponPass.valid_until === null ? '' : this.couponPass.valid_until;
 
     this.initMarked();
@@ -125,19 +107,19 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.packageForm = this.formBuilder.group({
-      title: [this.couponPass.package.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-      description: [this.couponPass.package.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
+      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
+      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
       image: [this.imagePath],
-      price: [{value: this.markedFree ? 0 : this.couponPass.package.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
+      price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
       valid_until_empty: [this.markedUnlimited],
-      published_from: [{value: this.markedPrivate ? null : this.couponPass.package.visible_from, disabled: this.markedPrivate}],
+      published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
       coupons: [{value: this.selectedCoupons,  disabled: this.fromEdit}],
       categories: [this.selectedCategories],
-      valid_from: [this.couponPass.package.valid_from, Validators.compose([Validators.required])],
+      valid_from: [this.couponPass.valid_from, Validators.compose([Validators.required])],
       valid_until: [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
-      constraints: [{value: this.markedConstraints ? null : this.couponPass.package.constraints, disabled: this.markedConstraints}],
-      quantity: [{value: this.couponPass.package.quantity, disabled: this.fromEdit}],
-      purchasable: [{value: this.markedQuantity ? null : this.couponPass.package.purchasable, disabled: this.markedQuantity}, Validators.required]
+      constraints: [{value: this.markedConstraints ? null : this.couponPass.constraints, disabled: this.markedConstraints}],
+      quantity: [{value: this.couponPass.quantity, disabled: this.fromEdit}],
+      purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
@@ -146,7 +128,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
 
-    this.setCoupons();
+
   }
 
   get f() {
@@ -161,11 +143,11 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     }
 
     const coupon: Coupon = {
-      id: this.couponPass.package.id,
+      id: this.couponPass.id,
       title: this.f.title.value,
       description: this.f.description.value,
-      image: this.imagePath ? this.imagePath : this.couponPass.package.image,
-      timestamp: this.couponPass.package.timestamp,
+      image: this.imagePath ? this.imagePath : this.couponPass.image,
+      timestamp: this.couponPass.timestamp,
       price: this.markedFree ? 0 : this.f.price.value,
       visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
@@ -338,6 +320,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   setCoupons() {
 
     this.couponService.getBrokerCoupons().subscribe(coupons => {
+      console.log('dentro setCoupons', this.couponsAvailable)
       if (coupons) {
         for   (const coupon of coupons) {
           const quantity = coupon.quantity;
@@ -348,23 +331,36 @@ export class PackageEditComponent implements OnInit, OnDestroy {
             console.log('purch', purchesable);
             console.log('assign', assign);
             console.log('quantity', quantity);
-            this.couponsAvailable = []
+            this.couponsAvailable = [];
             if (!purchesable) {
               console.log('null');
               for  (let i = 0; i < quantity; i++) {
                 this.couponsAvailable.push(coupon);
                 console.log('this.couponsAvailable null', this.couponsAvailable);
               }
-            } else if (purchesable > quantity) {
+            } else if ( assign == purchesable) {
+              this.toastr.error( 'Non hai coupons disponibili!');
+              return;
+
+            } else if (assign < purchesable && purchesable <= quantity) {
+
               for (let i = 0; i < (purchesable - assign); i++) {
                 this.couponsAvailable.push(coupon);
               }
+            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) >= quantity) {
 
-            } else {
-
-              for (let i = 0; i < (quantity - assign); i++) {
+              for (let i = 0; i < quantity ; i++) {
                 this.couponsAvailable.push(coupon);
               }
+            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) < quantity) {
+
+              for (let i = 0; i < purchesable - assign ; i++) {
+                this.couponsAvailable.push(coupon);
+              }
+            }
+            console.log('this.couponsAvailable.length', this.couponsAvailable.length)
+            if (this.couponsAvailable.length == 0) {
+              this.toastr.error( 'Non hai coupons disponibili!');
             }
             return this.couponsAvailable;
           });

@@ -72,7 +72,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
     this.setCoupons();
 
-
     this.packageForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
@@ -252,6 +251,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     }
 
     this.couponService.getBrokerCoupons().subscribe(coupons => {
+      console.log('dentro setCoupons', this.couponsAvailable)
       if (coupons) {
         for (const coupon of coupons) {
           const quantity = coupon.quantity;
@@ -269,17 +269,31 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
                 this.couponsAvailable.push(coupon);
                 console.log('this.couponsAvailable null', this.couponsAvailable);
               }
-            } else if (purchesable > quantity) {
+            } else if ( assign == purchesable) {
+              this.toastr.error( 'Non hai coupons disponibili!');
+              return;
+
+            } else if (assign < purchesable && purchesable <= quantity) {
+
               for (let i = 0; i < (purchesable - assign); i++) {
                 this.couponsAvailable.push(coupon);
               }
+            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) >= quantity) {
 
-            } else {
+              for (let i = 0; i < quantity ; i++) {
+                this.couponsAvailable.push(coupon);
+              }
+            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) < quantity) {
 
-              for (let i = 0; i < (quantity - assign); i++) {
+              for (let i = 0; i < purchesable - assign ; i++) {
                 this.couponsAvailable.push(coupon);
               }
             }
+            console.log('this.couponsAvailable.length', this.couponsAvailable.length)
+            if (this.couponsAvailable.length == 0) {
+              this.toastr.error( 'Non hai coupons disponibili!');
+            }
+            return this.couponsAvailable;
           });
         }
 
