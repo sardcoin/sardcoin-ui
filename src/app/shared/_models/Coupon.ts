@@ -22,7 +22,8 @@ export class Coupon {
   brokers?: User[];
   categories?: Category[];
   coupons?: Coupon[];
-  type?: number
+  type?: number;
+  assigned?: number;
 
   constructor(
               id?: number,

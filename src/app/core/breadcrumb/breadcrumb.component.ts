@@ -65,7 +65,6 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     this.login$.subscribe(login => {
       this.isUserLoggedIn = login.isLogged;
       this.userType = parseInt(this.localStore.getType());
-      console.log(this.userType);
     });
 
     this.globalEventService.desktopMode.subscribe(message => this.desktopMode = message);

@@ -3,8 +3,8 @@ import {Coupon} from '../../../../../shared/_models/Coupon';
 
 export class QuantityPackageValidation {
 
-  static CheckQuantityPackage: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    const quantity = control.get('quantity').value; // to get value in input tag
+  static CheckQuantityPackage: ValidatorFn = (control: FormGroup): ValidationErrors | null => { // TODO check
+    /*const quantity = control.get('quantity').value; // to get value in input tag
     const purchasable = control.get('purchasable').value; // to get value in input tag
     let couponArray: Coupon[];
     const couponQuantityArray: number[] = [];
@@ -114,6 +114,8 @@ export class QuantityPackageValidation {
     } catch (Error) {
       // dateUntil does not exists
 
-    }
+    }*/
+
+    return null;
   }
 }
