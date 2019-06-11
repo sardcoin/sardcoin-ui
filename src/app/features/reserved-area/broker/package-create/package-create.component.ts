@@ -252,7 +252,9 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
             const purchesable = coupon.purchasable;
             const assign =  assignCoupon.assign;
-            console.log('purch', purchesable);
+            console.log('assignCoupon', assignCoupon);
+
+            console.log('purcheee', purchesable);
             console.log('assign', assign);
             console.log('quantity', quantity);
             this.couponsAvailable = [];
