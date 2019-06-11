@@ -32,6 +32,9 @@ export class OrderService {
     this.orderSource.next(order);
   }
 
+  getLastOrder() {
+    return this.http.get<any>(this.formatUrl('getLastOrder'));
+  }
   private formatUrl(methodName) {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/orders/' + methodName;
   }

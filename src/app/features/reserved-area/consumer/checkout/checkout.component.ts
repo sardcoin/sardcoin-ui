@@ -16,6 +16,7 @@ import {CartActions} from '../cart/redux-cart/cart.actions';
 import {environment} from '../../../../../environments/environment';
 import {User} from '../../../../shared/_models/User';
 import {PaypalService} from '../../../../shared/_services/paypal.service';
+import {OrderService} from '../../../../shared/_services/order.service';
 
 @Component({
   selector: 'app-consumer-checkout',
@@ -37,7 +38,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   owner = null;
   token: string;
   paymentError = true;
-
+  lastId = 0
   loading = false;
 
   constructor(private _sanitizer: DomSanitizer,
@@ -49,7 +50,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
               private toastr: ToastrService,
               private breadcrumbActions: BreadcrumbActions,
               private couponService: CouponService,
-              private paypalService: PaypalService
+              private paypalService: PaypalService,
+              private  orderService: OrderService
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements['list'];
@@ -62,6 +64,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.orderService.getLastOrder().subscribe( lastId => {
+      this.lastId = lastId.lastId + 1
+      console.log('lastId', this.lastId);
+    });
 
   }
 
