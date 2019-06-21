@@ -91,9 +91,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     this.addBreadcrumb();
 
-    this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
-    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
-  }
+    }
 
   ngOnDestroy() {
     this.removeBreadcrumb();
@@ -103,10 +101,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     return this.couponForm.controls;
   }
 
-  saveCoupon() {
+    async saveCoupon() {
     this.submitted = true;
+    console.log('this.uploader', this.uploader);
+      await this.uploadFiles(this.uploader);
 
-    // It stops here if form is invalid
+      // It stops here if form is invalid
     if (this.couponForm.invalid || this.imagePath == null) {
       return;
     }
@@ -133,7 +133,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   addCoupon(coupon: Coupon) {
     this.couponService.create(coupon)
-      .subscribe(data => {
+      .subscribe( data => {
 
         if (data['created']) {
           this.toastr.success('', 'Coupon creato con successo!');
@@ -212,17 +212,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm.get('constraints').setValue(addressObtained);
   }
 
-  onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    const data = JSON.parse(response); // success server response
-    this.imagePath = data.image;
-  }
-
-  onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
-  }
-
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
@@ -235,6 +224,23 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
+
+   async uploadFiles(inputElement) {
+    if (inputElement) {
+
+      try {
+        inputElement.queue[0].upload();
+        this.imagePath = inputElement.queue[0]._file.name;
+      } catch (e) {
+        console.log('error upload image', e);
+        this.imagePath = null;
+      }
+
+    }
+
+
+  }
+
 
 }
 
