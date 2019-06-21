@@ -36,7 +36,7 @@
               <label class="col-lg-2 col-sm-4 col-form-label">Immagine</label>
               <div class="col-lg-10 col-sm-8">
 
-                <input  type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+                <input accept="image/*" type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
 
 
