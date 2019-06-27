@@ -233,7 +233,7 @@
             </div> <!-- Quantity -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Acquisto massimo per User</label>
+              <label class="col-sm-4 col-lg-2 col-form-label">Acquisto max per utente</label>
               <div  class="col-sm-4 col-lg-8">
                 <input  type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
@@ -267,7 +267,7 @@
                  *ngIf="submitted && f.quantity.errors?.MatchErrorQuantity">Quantità non corretta.
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.purchasable.errors?.MatchErrorPurchasable">Acquisto massimo per user non corretta.
+                 *ngIf="submitted && f.purchasable.errors?.MatchErrorPurchasable">Acquisto max per utente non corretta.
             </div>
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && packageForm.get('coupons').errors?.QuantityArrayCoupons && packageForm.get('quantity').errors?.QuantityArrayCoupons">
