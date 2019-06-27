@@ -54,7 +54,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
-  selectedCoupons: Array<{coupon: Coupon, quantity: number}> = [];
+  selectedCoupons: Array<{ coupon: Coupon, quantity: number }> = [];
   selectedCategories = [];
   modalCoupon: Coupon;
 
@@ -257,24 +257,24 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     try {
       this.coupons = await this.couponService.getBrokerCoupons().toPromise();
 
-      if(!this.coupons || this.coupons.length === 0) {
-        this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.')
+      if (!this.coupons || this.coupons.length === 0) {
+        this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
       }
 
       this.couponsAvailable = this.coupons;
 
     } catch (e) {
       console.error(e);
-      this.toastr.error('C\'è stato un errore recuperando i coupon disponibili. Per favore, riprova più tardi.','Errore recuperando i coupon dispobili.')
+      this.toastr.error('C\'è stato un errore recuperando i coupon disponibili. Per favore, riprova più tardi.', 'Errore recuperando i coupon dispobili.');
     }
   }
 
   addToPackage(coupon: Coupon) {
     console.warn(coupon);
-    if(this.editCoupon) {
+    if (this.editCoupon) {
       for (let el of this.selectedCoupons) {
         console.log(el);
-        if(el.coupon.id === coupon.id) {
+        if (el.coupon.id === coupon.id) {
           el.quantity = this.myForm.value.quantity;
         }
       }
@@ -286,12 +286,10 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
       this.couponsAvailable = this.couponsAvailable.filter(cp => cp.id !== coupon.id);
 
-      if(this.couponsAvailable.length === 0){
+      if (this.couponsAvailable.length === 0) {
         this.packageForm.get('coupons').disable();
       }
     }
-
-
 
 
     this.closeModal();
@@ -312,16 +310,28 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.selectedCoupons = this.selectedCoupons.filter(el => el.coupon.id !== coupon_id);
     this.couponsAvailable.push(this.coupons.find(coupon => coupon.id === coupon_id));
 
-    if(!this.packageForm.get('coupons').enabled) {
+    console.warn('FOUND', this.coupons.find(coupon => coupon.id === coupon_id));
+
+    if (!this.packageForm.get('coupons').enabled) {
       this.packageForm.get('coupons').enable();
+      // document.getElementById('couponChoice')['value'] = 0;
     }
 
-    document.getElementById('couponChoice')['value'] = 0;
+    // document.getElementById('couponChoice')['value'] = 0;
   }
 
-  openModal(template: TemplateRef<any>, coupon_id, edit = false) {
+  openModal(template: TemplateRef<any>, coupon_id = null, edit = false) {
+    // this.modalCoupon = this.packageForm.get('coupons').value;
+
     if (coupon_id != 0) {
+
+      coupon_id = coupon_id || this.packageForm.get('coupons').value;
+      console.log('EDIT', edit);
+      // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
       this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
+
+      console.warn(this.modalCoupon);
+      // this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
       this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
 
       // this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
@@ -342,7 +352,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   closeModal() {
-    document.getElementById('couponChoice')['value'] = 0;
+    // document.getElementById('couponChoice')['value'] = 0;
     this.modalRef.hide();
   }
 }

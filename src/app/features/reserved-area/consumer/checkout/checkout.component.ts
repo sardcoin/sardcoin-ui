@@ -130,6 +130,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     try {
 
+      console.warn(this.cart);
+
+
       this.openModal(this.buyWait);
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
@@ -137,6 +140,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       this.closeModal();
+      this.cartActions.emptyCart();
+      this.router.navigate(['/bought']);
     } catch (e) {
 
       if (e.error['call'] === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)

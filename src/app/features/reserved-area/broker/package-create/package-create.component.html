@@ -112,19 +112,18 @@
             <div *ngIf="couponsAvailable" class="form-group row mb-0">
               <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
               <div class="col-sm-12 col-lg-8">
-                <!--<ng-select formControlName="coupons"-->
-                  <!--[items]="couponsAvailable "-->
-                  <!--[multiple]="true"-->
-                  <!--[closeOnSelect]="true"-->
-                  <!--[searchable]= "true"-->
-                  <!--bindLabel="title"-->
-                  <!--placeholder="Seleziona coupons"-->
-                  <!--[(ngModel)]="selectedCoupons"-->
-                  <!--[ngClass]="{ 'is-invalid': submitted && f.coupons.errors }" >-->
-                <!--</ng-select>-->
+                <!--<ng-select formControlName="coupons"
+                  [items]="couponsAvailable"
+                  [closeOnSelect]="true"
+                  [searchable]= "true"
+                  bindLabel="title"
+                  placeholder="Seleziona coupon"
+                  (ngModelChange)="openModal(couponAdding)"
+                  [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }" >
+                </ng-select>-->
 
-                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding, $event.target.value)"> <!-- OPEN MODAL instead of EVENT -->
-                  <option value="0" [selected]="true">Scegli un coupon...</option>
+                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"> <!-- OPEN MODAL instead of EVENT -->
+                  <option value="0">Scegli un coupon...</option>
                   <option *ngFor="let coupon of couponsAvailable" [value]="coupon.id">{{coupon.title}}</option>
                 </select>
 
@@ -153,8 +152,8 @@
                            [closeOnSelect]="true"
                            [searchable]= "true"
                            bindLabel="name"
-                           placeholder="Seleziona categorie"
-                           [(ngModel)]="selectedCategories">
+                           placeholder="Seleziona categorie">
+                           <!--[(ngModel)]="selectedCategories">-->
                 </ng-select>
               </div>
 

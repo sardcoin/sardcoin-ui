@@ -8,7 +8,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {CartItem} from '../../../../shared/_models/CartItem';
+import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
@@ -141,9 +141,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
       return;
     }
 
+    console.warn(coupon);
+
     const item: CartItem = {
       id: coupon.id,
-      quantity: this.myForm.value.quantity
+      quantity: this.myForm.value.quantity,
+      type: coupon.type
     };
 
     if (await this.cartActions.addElement(item)) {
