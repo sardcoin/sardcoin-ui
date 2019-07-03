@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Coupon} from '../../../../shared/_models/Coupon';
+import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {Router} from '@angular/router';
@@ -14,8 +14,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {PackageService} from '../../../../shared/_services/package.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-
-import * as _ from 'lodash';
+import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-package-create',
@@ -54,7 +53,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
-  selectedCoupons: Array<{ coupon: Coupon, quantity: number }> = [];
+  selectedCoupons: Array<PackItem> = [];
   selectedCategories = [];
   modalCoupon: Coupon;
 
@@ -88,12 +87,13 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       image: [this.imagePath, Validators.required],
       price: [0, Validators.required],
       published_from: [new Date()],
-      coupons: [this.selectedCoupons],
+      coupons: [this.selectedCoupons,],
+      selected: [this.selectedCoupons],
       categories: [this.selectedCategories],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
-      quantity: [1, [Validators.required]],
+      quantity: [1, Validators.required],
       constraints: [null],
       purchasable: [1, Validators.required]
     }, {
@@ -102,7 +102,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
     await this.setCoupons();
 
-    this.checking();
+
 
     this.addBreadcrumb();
 
@@ -119,13 +119,18 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   saveCoupon() {
+
+    console.log('chiamato SAVE');
+
     this.submitted = true;
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == null) {
+      console.error('Errore nel form o nell\'immagine');
       return;
     }
 
-    const pack: Coupon = {
+
+    const pack: Package = {
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath,
@@ -136,15 +141,19 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
-      coupons: _.map(this.selectedCoupons, 'coupon'),
+      package: this.selectedCoupons,
       categories: this.selectedCategories,
-      type: 1
+      type: ITEM_TYPE.PACKAGE
     };
+
+
+    console.warn('PACK', pack);
 
     this.addPackage(pack);
   }
 
   addPackage(pack: Coupon) {
+    console.log('RICEVUTO: ', pack);
     this.couponService.create(pack)
       .subscribe(data => {
         if (data['created']) {
@@ -248,10 +257,10 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  async checking() {
-    this.check = await QuantityPackageValidation.CheckQuantityPackage;
-    return this.check;
-  }
+  // async checking() {
+  //   this.check = await QuantityPackageValidation.CheckQuantityPackage;
+  //   return this.check;
+  // }
 
   async setCoupons() {
     try {
@@ -273,7 +282,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     console.warn(coupon);
     if (this.editCoupon) {
       for (let el of this.selectedCoupons) {
-        console.log(el);
         if (el.coupon.id === coupon.id) {
           el.quantity = this.myForm.value.quantity;
         }
@@ -326,11 +334,9 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     if (coupon_id != 0) {
 
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
-      console.log('EDIT', edit);
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
       this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
 
-      console.warn(this.modalCoupon);
       // this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
       this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
 

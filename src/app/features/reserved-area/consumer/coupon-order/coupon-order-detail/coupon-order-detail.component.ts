@@ -20,7 +20,6 @@ import {Order} from '../../../../../shared/_models/Order';
 export class CouponOrderDetailComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   orderPass: Order = null;
-  cart = new Coupon();
   producer = null;
   desktopMode: boolean;
   classMx4: string;
