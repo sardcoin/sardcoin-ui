@@ -65,9 +65,8 @@
                   </div>
                 </div>
 
-                <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
-                  <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Immagine obbligatoria.</div>
+                <div *ngIf="submitted && f.image.errors" class="text-danger" style="font-size: 80%;">
+                  <div>Carica un'immagine associata al pacchetto.</div>
                 </div>
               </div>
             </div> <!-- Image -->
@@ -108,27 +107,22 @@
                   <label class="custom-control-label" for="privateCheck">Privato</label>
                 </div>
               </div>
-            </div>
+            </div> <!-- Visible from -->
+
             <div *ngIf="couponsAvailable" class="form-group row mb-0">
               <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
               <div class="col-sm-12 col-lg-8">
-                <!--<ng-select formControlName="coupons"
-                  [items]="couponsAvailable"
-                  [closeOnSelect]="true"
-                  [searchable]= "true"
-                  bindLabel="title"
-                  placeholder="Seleziona coupon"
-                  (ngModelChange)="openModal(couponAdding)"
-                  [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }" >
-                </ng-select>-->
 
-                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"> <!-- formControlName="coupons"  -->
+                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"
+                        [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }">
                   <option value="" selected>Scegli un coupon...</option>
                   <option *ngFor="let coupon of couponsAvailable" [value]="coupon.id">{{coupon.title}}</option>
                 </select>
-
+                <div class="invalid-feedback" *ngIf="submitted">
+                  <div *ngIf="f.coupons.errors?.NumberCouponPurchasable">Hai selezionato più coupon rispetto ai disponibili all'acquisto in un unico pacchetto.</div>
+                  <div *ngIf="f.coupons.errors?.NoCouponSelected">Seleziona almeno un coupon da inserire nel pacchetto.</div>
+                </div>
               </div>
-
             </div> <!-- Coupons -->
             <div *ngIf="selectedCoupons" class="form-group row">
               <ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-group pr-0">
@@ -141,9 +135,8 @@
                   </span>
                 </li>
               </ul>
-            </div>
-
-            <div  class="form-group row">
+            </div> <!-- Coupons list -->
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
               <div class="col-sm-8">
                 <ng-select formControlName="categories"
@@ -152,13 +145,14 @@
                            [closeOnSelect]="true"
                            [searchable]= "true"
                            bindLabel="name"
-                           placeholder="Seleziona categorie">
+                           placeholder="Seleziona categorie"
+                           [ngClass]="{ 'is-invalid': submitted && f.categories.errors, 'ng-touched': submitted && f.categories.errors }">
                            <!--[(ngModel)]="selectedCategories">-->
                 </ng-select>
-              </div>
 
-            </div>
-            <!-- Published From -->
+                <div *ngIf="submitted && f.categories.errors?.NoCategoriesSelected" class="text-danger" style="font-size: 80%;">Seleziona almeno una categoria.</div>
+              </div>
+            </div><!-- Categories -->
 
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Valido da</label>
@@ -226,12 +220,11 @@
                   <div>Quantità non corretta.</div>
                 </div>
                 <div class="invalid-feedback"
-                     *ngIf="submitted && f.quantity.errors?.QuantityArrayCoupons">
-                  <div>La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.</div>
+                     *ngIf="submitted && f.quantity.errors?.QuantityCouponPurchasable">
+                  <div>Non ci sono abbastanza coupon disponibili per creare il numero di pacchetti scelto.</div>
                 </div>
               </div>
             </div> <!-- Quantity -->
-
             <div class="form-group row">
               <label class="col-sm-4 col-lg-2 col-form-label">Acquisto max per utente</label>
               <div  class="col-sm-4 col-lg-8">
@@ -250,56 +243,18 @@
               </div>
             </div> <!-- Purchasable -->
 
+            <!-- Date errors -->
             <div class="alert alert-danger col-md-12"
                  *ngIf="submitted && f.valid_from.errors?.MatchDate">Errore sulle date
             </div>
             <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">La data di scadenza deve essere maggiore della validità.
-            </div>
-            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">
-              Carica immagine
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.quantity.errors?.MatchPurchasableQuantity &&
-                 f.purchasable.errors?.MatchPurchasableQuantity">Questo valore deve essere inferiore o uguale alla quantità creata
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.quantity.errors?.MatchErrorQuantity">Quantità non corretta.
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.purchasable.errors?.MatchErrorPurchasable">Acquisto max per utente non corretta.
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && packageForm.get('coupons').errors?.QuantityArrayCoupons && packageForm.get('quantity').errors?.QuantityArrayCoupons">
-                    La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.coupons.errors?.CouponsEmpty">Inserire i coupons per la creazione dei pacchetti.
-            </div>
-            <div *ngIf="submitted && f.image.errors" class="alert alert-danger col-md-12">
-              <!--<div *ngIf="f.image.errors">Image is required</div>-->
-              <div>Immagine obbligatoria.</div>
-            </div>
-            <div *ngIf="submitted && imagePath == null"class="alert alert-danger col-md-12">
-              <!--<div *ngIf="f.image.errors">Image is required</div>-->
-              <div>Caricare l'immagine correttamente.</div>
-            </div>
-            <div *ngIf="submitted && f.coupons.errors" class="invalid-feedback">
-              <div *ngIf="f.coupons.errors">Inserire i coupons per la creazione del pacchetto.</div>
-            </div>
-            <div class="alert alert-danger col-md-12"
-                 *ngIf="submitted && f.coupons.errors?.EmptyArrayCoupons">Selezionare i coupons se disponibili.
+                 *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">La data di scadenza deve essere successiva all'inizio di quella di validità.
             </div>
             <div class="form group">
-              <p>
                 <button *ngIf="couponsAvailable" class="btn btn-block btn-success btn-create-coupon" [disabled]="coupons.length == 0">Crea</button>
-              </p>
             </div>
-
           </form>
-
         </div>
-
       </div>
     </div>
   </div>

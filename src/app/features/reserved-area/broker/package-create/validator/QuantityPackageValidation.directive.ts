@@ -38,6 +38,7 @@ export class QuantityPackageValidation {
 
   static CheckQuantityPackage: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
     const packItems: PackItem[] = control.get('selected').value; // coupons
+    const categories = control.get('categories').value;
     const quantity = control.get('quantity').value; // Number of packages to create
 
     let quantityError: boolean = false;
@@ -50,8 +51,10 @@ export class QuantityPackageValidation {
       }
     }
 
-    control.get('coupons').setErrors({NumberCouponPurchasable: purchasableError});
-    control.get('quantity').setErrors({QuantityCouponPurchasable: quantityError});
+    control.get('coupons').setErrors(purchasableError ? {NumberCouponPurchasable: true} : null);
+    control.get('coupons').setErrors(packItems.length === 0 ? {NoCouponSelected: true} : null);
+    control.get('categories').setErrors(categories.length === 0 ? {NoCategoriesSelected: true} : null);
+    control.get('quantity').setErrors(quantityError ? {QuantityCouponPurchasable: true} : null);
 
     return null;
   }

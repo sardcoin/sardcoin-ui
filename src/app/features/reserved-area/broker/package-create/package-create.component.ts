@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -20,6 +20,7 @@ import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
   selector: 'app-feature-reserved-area-package-create',
   templateUrl: './package-create.component.html',
   styleUrls: ['./package-create.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
@@ -75,14 +76,12 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
     });
-
-
   }
 
   async ngOnInit() {
 
     this.packageForm = this.formBuilder.group({
-      title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
+      title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
       image: [this.imagePath, Validators.required],
       price: [0, Validators.required],
@@ -126,6 +125,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == null) {
       console.error('Errore nel form o nell\'immagine');
+      console.warn(this.packageForm);
       return;
     }
 
@@ -142,7 +142,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
       package: this.selectedCoupons,
-      categories: this.selectedCategories,
+      categories: this.f.categories.value,
       type: ITEM_TYPE.PACKAGE
     };
 
