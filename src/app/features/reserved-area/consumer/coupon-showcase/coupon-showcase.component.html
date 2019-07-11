@@ -1,32 +1,42 @@
 <div class="container-fluid" style="padding-right: 2rem;">
-<div class="row">
-  <div class="col-12" *ngIf="searchResults">
-    <h4>Risultati ricerca <span class="red-sardcoin">{{searchText}}</span> in <span class="text-primary">{{category.name}}</span></h4>
-    <h5 *ngIf="coupons.length === 0">La ricerca non ha prodotto risultati.</h5>
-  </div>
+  <div class="row">
+    <div class="col-12" *ngIf="searchResults">
+      <h4>Risultati ricerca <span class="red-sardcoin">{{searchText}}</span> in <span class="text-primary">{{category.name}}</span>
+      </h4>
+      <h5 *ngIf="coupons.length === 0">La ricerca non ha prodotto risultati.</h5>
+    </div>
 
-  <div class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
-    <div class="card">
-      <img class="crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}" [src]="imageUrl(coupon.image)" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{coupon.title}}</h5>
-        <p class="card-text">{{coupon.description}}</p>
-      </div>
-      <div class="card-footer">
-        <button *ngIf="!userType || userType == 2" [disabled]="inCart(coupon.id)" type="button" class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ?
+    <div class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
+      <div class="card" [ngClass]="{'package-style': coupon.type === ITEM_TYPE.PACKAGE}">
+        <img class="crop centered-and-cropped" [ngStyle]="{'opacity': inCart(coupon.id) ? '0.5' : '1'}"
+             [src]="imageUrl(coupon.image)" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{coupon.title }} <span class="text-muted font-italic">{{coupon.type === ITEM_TYPE.PACKAGE ? getQuantityPackString(coupon.quantity_pack) : ''}}</span>
+          </h5>
+          <p class="card-text">{{coupon.description}}</p>
+        </div>
+        <div class="card-footer">
+          <button *ngIf="!userType || userType == 2" [disabled]="inCart(coupon.id)" type="button"
+                  class="btn btn-success float-right ml-1" title="{{inCart(coupon.id) ?
          'Articolo già aggiunto: vai al carrello per cambiare la quantità.' : ''}}"
-                (click)="openModal(template, coupon)"><i class="fas fa-cart-plus"></i> Aggiungi
-        </button>
-        <button type="button" class="btn btn-primary text-white float-right" (click)="details(coupon)"><i class="fas fa-info-circle"></i> Dettagli</button>
-      </div>
-      <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
-      <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
-        <i class="fas fa-cart-arrow-down"></i>
+                  (click)="openModal(template, coupon)"><i class="fas fa-cart-plus"></i> Aggiungi
+          </button>
+          <button type="button" class="btn btn-primary text-white float-right" (click)="details(coupon)"><i
+            class="fas fa-info-circle"></i> Dettagli
+          </button>
+        </div>
+        <div class="coupon-price">{{formatPrice(coupon.price)}}</div>
+        <div *ngIf="coupon.type === ITEM_TYPE.PACKAGE" class="coupon-package text-uppercase"><i class="fas fa-box-open mr-1"></i> Pacchetto</div>
+        <div class="coupon-cart cursor-pointer" *ngIf="inCart(coupon.id)" (click)="viewCart()">
+          <i class="fas fa-cart-arrow-down"></i>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-12 text-right" *ngIf="searchResults" (click)="resetShowcase()">
-    <button class="btn btn-lg btn-info text-white"><span class="fas fa-arrow-left mr-2"></span>Torna a tutti i coupon</button>
+    <div class="col-12 text-right" *ngIf="searchResults" (click)="resetShowcase()">
+      <button class="btn btn-lg btn-info text-white"><span class="fas fa-arrow-left mr-2"></span>Torna a tutti i coupon
+      </button>
+    </div>
   </div>
 </div>
 <ng-template #template>
@@ -50,9 +60,11 @@
         <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
           <i class="fas fa-minus text-white"></i>
         </button>
-        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i
+          class="fas fa-plus text-white"></i></button>
 
-        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Inserire una quantità valida!</div>
+        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Inserire una quantità valida!
+        </div>
       </div>
     </form>
   </div>

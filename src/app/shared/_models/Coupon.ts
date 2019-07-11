@@ -19,6 +19,7 @@ export interface Coupon {
   purchasable: number;
   constraints: string;
   quantity?: number;
+  quantity_pack?: number;
   max_quantity?: number;
   owner?: number;
   CouponTokens?: CouponToken[];

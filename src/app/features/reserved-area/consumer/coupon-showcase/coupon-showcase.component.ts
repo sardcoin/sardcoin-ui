@@ -42,6 +42,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   userType = null;
 
   isUserLoggedIn: boolean;
+  ITEM_TYPE = ITEM_TYPE;
 
   constructor(
     private couponService: CouponService,
@@ -104,7 +105,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     } else {
 
       this.modalCoupon = coupon;
-
       this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
       this.myForm = this.formBuilder.group({
@@ -140,8 +140,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     if (this.myForm.invalid) {
       return;
     }
-
-    console.warn(coupon);
 
     const item: CartItem = {
       id: coupon.id,
@@ -181,11 +179,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   formatPrice(price) {
-    if (price === 0) {
-      return 'Gratis';
-    }
-
-    return '€ ' + price.toFixed(2);
+    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
   }
 
   addBreadcrumb() {
@@ -201,9 +195,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  getQuantityCart() {
-    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart());
-    return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
+  getQuantityPackString(quantity_pack: number){
+    return '(' + quantity_pack + ' coupon ' + (quantity_pack > 1 ? 'inclusi' : 'incluso') + ')';
   }
 
   resetShowcase() {
