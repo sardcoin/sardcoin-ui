@@ -299,7 +299,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       }
     }
 
-
     this.closeModal();
   }
 
@@ -312,7 +311,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       this.isMax = false;
     }
   }
-
 
   deleteSelected(coupon_id: number) {
     this.selectedCoupons = this.selectedCoupons.filter(el => el.coupon.id !== coupon_id);

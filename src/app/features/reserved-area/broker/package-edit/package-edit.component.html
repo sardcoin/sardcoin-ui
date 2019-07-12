@@ -1,11 +1,12 @@
 <div *ngIf="couponPass !== null" class="container-fluid">
   <div class="row">
-    <div class="col-md-10 col-12 offset-md-1">
-      <div class="card mx-3">
+    <div class="col-lg-12 col-xl-9">
+      <div class="card">
+        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
+          <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
+          <h6 class="display-4" style="float:left; font-size:30pt;">{{fromEdit ? 'Modifica ' : 'Crea '}} un pacchetto</h6>
+        </div>
         <div class="card-body p-4">
-          <h1 class="text-center">{{fromEdit ? 'Modifica' : 'Crea'}}</h1>
-          <h4 class="text-muted text-center">{{fromEdit ? 'Modifica ' : 'Crea '}} Pacchetto</h4>
-
           <form [formGroup]="packageForm" (ngSubmit)="saveChange()">
 
             <div class="form-group row">
@@ -110,23 +111,34 @@
                 </div>
               </div>
             </div> <!-- Published From -->
-            <div  class="form-group row ">
-              <label class="col-sm-2 col-form-label">Coupons selezionati: </label>
+            <div *ngIf="couponsAvailable" class="form-group row mb-0">
+              <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
               <div class="col-sm-12 col-lg-8">
-                <ng-select formControlName="coupons"
-                           [items]="couponsAvailable"
-                           [multiple]="true"
-                           [closeOnSelect]="true"
-                           [searchable]= "true"
-                           bindLabel="title"
-                           placeholder="Seleziona coupons"
-                           [(ngModel)]="selectedCoupons"
-                           [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }" >
-                </ng-select>
-              </div>
 
-            </div>
-            <div  class="form-group row">
+                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"
+                        [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }">
+                  <option value="" selected>Scegli un coupon...</option>
+                  <option *ngFor="let coupon of couponsAvailable" [value]="coupon.id">{{coupon.title}}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="submitted">
+                  <div *ngIf="f.coupons.errors?.NumberCouponPurchasable">Hai selezionato più coupon rispetto ai disponibili all'acquisto in un unico pacchetto.</div>
+                  <div *ngIf="f.coupons.errors?.NoCouponSelected">Seleziona almeno un coupon da inserire nel pacchetto.</div>
+                </div>
+              </div>
+            </div> <!-- Coupons -->
+            <div *ngIf="selectedCoupons" class="form-group row">
+              <ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-group pr-0">
+                <li *ngFor="let el of selectedCoupons" class="list-group-item d-flex justify-content-between align-items-center">
+                  <span class="text-left">{{el.coupon.title}}</span>
+                  <span class="text-right">
+                    <span class="badge badge-primary badge-pill mr-1">{{el.quantity}}</span>
+                    <i class="fas fa-edit mr-1 text-secondary cursor-pointer" (click)="openModal(couponAdding, el.coupon.id, true)"></i>
+                    <i class="fas fa-trash-alt text-danger cursor-pointer" (click)="deleteSelected(el.coupon.id)"></i>
+                  </span>
+                </li>
+              </ul>
+            </div> <!-- Coupons list -->
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
               <div class="col-sm-8">
                 <ng-select formControlName="categories"
@@ -140,7 +152,7 @@
                 </ng-select>
               </div>
 
-            </div>
+            </div> <!-- Categories -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valido da:</label>
               <div class="col-sm-10">
