@@ -24,8 +24,7 @@ import {IsConsumerGuard} from '../shared/_guards/is-consumer.guard';
     CoreModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
-    CommonModule,
-
+    CommonModule
   ],
   providers: [
     IsAuthenticatedGuard,

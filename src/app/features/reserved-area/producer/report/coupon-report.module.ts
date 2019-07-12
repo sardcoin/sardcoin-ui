@@ -4,8 +4,7 @@ import {FeatureReservedAreaProducerCouponReportComponent} from './coupon-report.
 
 @NgModule({
   imports: [
-    CommonModule,
-  ],
+    CommonModule],
   declarations: []
 })
 export class FeatureReservedAreaProducerCouponReportModule { }

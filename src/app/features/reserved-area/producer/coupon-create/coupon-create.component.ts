@@ -106,7 +106,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     console.log('this.uploader', this.uploader);
       await this.uploadFiles(this.uploader);
 
-      // It stops here if form is invalid
+      // It stops here if form is invalid or not upload image
     if (this.couponForm.invalid || this.imagePath == null) {
       return;
     }

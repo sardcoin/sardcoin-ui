@@ -15,6 +15,7 @@ import {ModalModule} from 'ngx-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
 import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
+import {FeatureReservedAreaProducerCouponReportModule} from './producer/report/coupon-report.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
     ReactiveFormsModule,
     FeatureReservedAreaRoutingModule,
     CommonModule,
+    FeatureReservedAreaProducerCouponReportModule,
     ModalModule.forRoot(),
   ],
   providers: [

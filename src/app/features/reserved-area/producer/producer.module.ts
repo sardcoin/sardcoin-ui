@@ -15,6 +15,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FeatureReservedAreaPaymentDetailsModule} from '../payment-details/payment-details.module';
 import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-info.module';
 import {FeatureReservedAreaConsumerModule} from '../consumer/consumer.module';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {ReportService} from '../../../shared/_services/report.service';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,12 @@ import {FeatureReservedAreaConsumerModule} from '../consumer/consumer.module';
     CommonModule,
     ReactiveFormsModule,
     FileUploadModule,
+    Ng2GoogleChartsModule
+
   ],
   providers: [
     CouponService,
+    ReportService
   ],
   exports: [
     FeatureReservedAreaProducerComponent
