@@ -22,10 +22,7 @@ import {PackageService} from '../../../../shared/_services/package.service';
 
 export class PackageEditComponent implements OnInit, OnDestroy {
   packageForm: FormGroup;
-  couponsAvailable: Coupon[];
-  selectedCoupons = [];
-  selectedCategories = [];
-  categories: any;
+
   markedUnlimited = false;
   markedFree = false;
   markedConstraints = false;
@@ -39,6 +36,11 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   submitted = false;
 
   couponPass: any;
+  coupons: Coupon[] = [];
+  couponsAvailable: Coupon[];
+  selectedCoupons = [];
+  selectedCategories = [];
+  categories: any;
 
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
@@ -50,14 +52,13 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    public formBuilder: FormBuilder,
-    public couponService: CouponService,
+    private formBuilder: FormBuilder,
+    private couponService: CouponService,
     private categoriesService: CategoriesService,
-    public storeService: StoreService,
+    private storeService: StoreService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private packageService: PackageService,
-
   ) {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
@@ -71,29 +72,28 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       }
     });
     this.couponService.checkFrom.subscribe(fromEdit => {
-        this.fromEdit = fromEdit;
-      }
-    );
+      this.fromEdit = fromEdit;
+    });
 
     if (this.fromEdit) {
-
       this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
 
-        const cp = [];
-        console.log('coupons', coupons);
-        for (const coupon of coupons.coupons_array) {
-          cp.push(coupon);
-        }
-        this.selectedCoupons = cp;
+        console.warn('GET COUPON PACKAGE: ', coupons);
+
+        // const cp = [];
+        // for (const coupon of coupons['coupons_array']) {
+        //   cp.push(coupon);
+        // }
+        this.selectedCoupons = coupons['coupons_array'];
       });
     } else {
-
       this.setCoupons();
     }
   }
+
   ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
-    if (this.couponPass === null || this.couponPass === undefined ) {
+    if (this.couponPass === null || this.couponPass === undefined) {
       this.router.navigate(['/reserved-area/broker/list']);
       return;
     }
@@ -107,18 +107,19 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.packageForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
-      image: [this.imagePath],
-      price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.compose([Validators.required])],
-      valid_until_empty: [this.markedUnlimited],
+      title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
+      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+      image: [this.imagePath, Validators.required],
+      price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
-      coupons: [{value: this.selectedCoupons,  disabled: this.fromEdit}],
+      coupons: [this.selectedCoupons,],
+      selected: [this.selectedCoupons],
       categories: [this.selectedCategories],
       valid_from: [this.couponPass.valid_from, Validators.compose([Validators.required])],
       valid_until: [{value: this.markedUnlimited ? null : until, disabled: this.markedUnlimited}],
-      constraints: [{value: this.markedConstraints ? null : this.couponPass.constraints, disabled: this.markedConstraints}],
+      valid_until_empty: [this.markedUnlimited],
       quantity: [{value: this.couponPass.quantity, disabled: this.fromEdit}],
+      constraints: [{value: this.markedConstraints ? null : this.couponPass.constraints, disabled: this.markedConstraints}],
       purchasable: [{value: this.markedQuantity ? null : this.couponPass.purchasable, disabled: this.markedQuantity}, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
@@ -127,8 +128,6 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
-
-
   }
 
   get f() {
@@ -303,72 +302,19 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.markedPrivate = this.couponPass.visible_from === null;
   }
 
+  async setCoupons() {
+    try {
+      this.coupons = await this.couponService.getBrokerCoupons().toPromise();
 
-  onSelectFile(event) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      reader.onload = (e: any) => { // called once readAsDataURL is completed
-        this.imageURL = String(e.target.result);
-      };
-    }
-  }
-
-
-  setCoupons() {
-
-    this.couponService.getBrokerCoupons().subscribe(coupons => {
-      console.log('dentro setCoupons', this.couponsAvailable)
-      if (coupons) {
-        for   (const coupon of coupons) {
-          const quantity = coupon.quantity;
-          const id = coupon.id;
-          this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
-            const purchesable = coupon.purchasable;
-            const assign =  assignCoupon.assign;
-            console.log('purch', purchesable);
-            console.log('assign', assign);
-            console.log('quantity', quantity);
-            this.couponsAvailable = [];
-            if (!purchesable) {
-              console.log('null');
-              for  (let i = 0; i < quantity; i++) {
-                this.couponsAvailable.push(coupon);
-                console.log('this.couponsAvailable null', this.couponsAvailable);
-              }
-            } else if ( assign == purchesable) {
-              this.toastr.error( 'Non hai coupons disponibili!');
-              return;
-
-            } else if (assign < purchesable && purchesable <= quantity) {
-
-              for (let i = 0; i < (purchesable - assign); i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) >= quantity) {
-
-              for (let i = 0; i < quantity ; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) < quantity) {
-
-              for (let i = 0; i < purchesable - assign ; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            }
-            console.log('this.couponsAvailable.length', this.couponsAvailable.length)
-            if (this.couponsAvailable.length == 0) {
-              this.toastr.error( 'Non hai coupons disponibili!');
-            }
-            return this.couponsAvailable;
-          });
-        }
-        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
-
+      if (!this.coupons || this.coupons.length === 0) {
+        this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
       }
-    });
 
+      this.couponsAvailable = this.coupons;
+
+    } catch (e) {
+      console.error(e);
+      this.toastr.error('C\'è stato un errore recuperando i coupon disponibili. Per favore, riprova più tardi.', 'Errore recuperando i coupon dispobili.');
+    }
   }
 }

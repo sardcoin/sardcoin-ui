@@ -23,21 +23,20 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   modalPackage: Coupon;
   packageArray: any;
 
-  constructor(private modalService: BsModalService,
-              private packageService: PackageService,
-              private router: Router,
-              private breadcrumbActions: BreadcrumbActions,
-              private couponService: CouponService,
-
-              private _sanitizer: DomSanitizer,
-              private toastr: ToastrService) {
+  constructor(
+    private modalService: BsModalService,
+    private packageService: PackageService,
+    private router: Router,
+    private breadcrumbActions: BreadcrumbActions,
+    private couponService: CouponService,
+    private _sanitizer: DomSanitizer,
+    private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
     this.control();
     this.addBreadcrumb();
   }
-
 
   onEdit(pack: Coupon) {
     this.couponService.setCoupon(pack);
@@ -50,7 +49,6 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.couponService.setFromEdit(false);
     this.router.navigate(['reserved-area/broker/edit']);
   }
-
 
   onDelete(pack: any) {
     this.couponService.deleteCoupon(pack.id).subscribe((data) => {
@@ -65,7 +63,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     });
 
     this.modalRef.hide();
- }
+  }
 
   formatState(state) { // TODO fixme
     return 'Attivo';
@@ -75,7 +73,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('I miei coupon', '/reserved-area/producer/list/'));
+    bread.push(new Breadcrumb('I miei pacchetti', '/reserved-area/producer/list/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -98,9 +96,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
       return 'Gratis';
     }
 
-    return '€ ' + price.toFixed(2);
+    return (price === 0) ? 'Gratis' : '€ ' + price.toFixed(2);
   }
-
 
   control() {
     this.packageService.getBrokerPackages().subscribe(
