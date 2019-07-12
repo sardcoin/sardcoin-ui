@@ -287,9 +287,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
 
   convertJsonToArrayForPie(report, range) {
-    console.log('reportPie', report);
-
-    console.log('reportBar', report);
     if (!report) {
       return null;
     }
@@ -309,7 +306,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
       }
     }
-    console.log('pieTotalArray', totalArray)
     return totalArray;
   }
 
@@ -337,7 +333,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       }
     }
     totalArray.push(arrayHeader);
-    console.log('totalArray', totalArray);
     for (const key in report) {
       singleArray.push(this.convertMonth(key.valueOf()))
       for (let i = 1; i < arrayHeader.length; i++) {
@@ -345,7 +340,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       }
       if (report.hasOwnProperty(key)) {
 
-        console.log('arrayHeader', arrayHeader);
 
         for (let i = 0; i < report[key].length; i++) {
               const username = report[key][i].username;
@@ -354,7 +348,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
           for (let j = 0; j < arrayHeader.length; j++) {
                 console.log('i', i, 'report[key][i].username', username, 'j', j,  'arrayHeader[j]', arrayHeader[j])
                   if (username == arrayHeader[j] || (username == null && arrayHeader[j] == 'Senza Broker')) {
-                    console.log('true')
 
                     singleArray[j] = receipt;
                   }
@@ -365,9 +358,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       totalArray.push(singleArray);
       singleArray = [];
     }
-
-    console.log('columnTotalArray', totalArray)
-
     return totalArray;
   }
 
