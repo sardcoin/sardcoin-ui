@@ -8,7 +8,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {CartItem} from '../../../../shared/_models/CartItem';
+import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
 import {StoreService} from '../../../../shared/_services/store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Coupon} from '../../../../shared/_models/Coupon';
@@ -42,6 +42,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   userType = null;
 
   isUserLoggedIn: boolean;
+  ITEM_TYPE = ITEM_TYPE;
 
   constructor(
     private couponService: CouponService,
@@ -104,7 +105,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     } else {
 
       this.modalCoupon = coupon;
-
       this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
       this.myForm = this.formBuilder.group({
@@ -132,7 +132,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   details(coupon: Coupon) {
     let url = this.router.url.includes('reserved-area') ? this.router.url.substr(0, this.router.url.lastIndexOf('/')) : '';
-    url += '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
+    url += this.couponService.getCouponDetailsURL(coupon);
     this.router.navigate([url]);
   }
 
@@ -143,7 +143,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
     const item: CartItem = {
       id: coupon.id,
-      quantity: this.myForm.value.quantity
+      quantity: this.myForm.value.quantity,
+      type: coupon.type
     };
 
     if (await this.cartActions.addElement(item)) {
@@ -178,11 +179,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   formatPrice(price) {
-    if (price === 0) {
-      return 'Gratis';
-    }
-
-    return '€ ' + price.toFixed(2);
+    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
   }
 
   addBreadcrumb() {
@@ -198,9 +195,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  getQuantityCart() {
-    console.log('this.cartActions.getQuantityCart()', this.cartActions.getQuantityCart());
-    return this.cartActions.getQuantityCart(); // If true, the element exists and its index is been retrievd
+  getQuantityPackString(quantity_pack: number){
+    return '(' + quantity_pack + ' coupon ' + (quantity_pack > 1 ? 'inclusi' : 'incluso') + ')';
   }
 
   resetShowcase() {

@@ -11,7 +11,7 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../shared/_services/user.service';
 import {CartActions} from '../cart/redux-cart/cart.actions';
-import {CartItem} from '../../../../shared/_models/CartItem';
+import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 import {select} from '@angular-redux/store';
 import {Observable, Subscription} from 'rxjs';
@@ -124,7 +124,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     const item: CartItem = {
       id: this.couponPass.id,
-      quantity: this.myForm.value.quantity
+      quantity: this.myForm.value.quantity,
+      type: this.couponPass.type
     };
 
     if (await this.cartActions.addElement(item)) {

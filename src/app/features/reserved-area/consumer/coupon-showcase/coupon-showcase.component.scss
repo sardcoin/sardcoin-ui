@@ -1,7 +1,7 @@
 .card {
   margin-bottom: 0;
   height: 100%;
-  border: 0 !important;
+  border: 0;
   border-radius: 0 !important;
 }
 
@@ -46,4 +46,12 @@
 
 #myBtn:hover {
   background-color: #555;
+}
+
+.package-style {
+  //border: 3px solid #ffd085 !important;
+
+  .card-footer {
+    background-color: #e6e8d1 !important;
+  }
 }

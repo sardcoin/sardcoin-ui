@@ -29,6 +29,7 @@ import {PaypalService} from '../../../shared/_services/paypal.service';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
 import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
+import {UserService} from '../../../shared/_services/user.service';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.gua
     GlobalEventsManagerService,
     CouponService,
     CartActions,
+    UserService,
     FilterActions,
     PaypalService,
     OrderService

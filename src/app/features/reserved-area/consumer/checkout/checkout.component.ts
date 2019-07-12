@@ -94,6 +94,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.router.navigate([], {replaceUrl: true});
 
     await this.loadCart();
+    console.warn(this.cart);
   }
 
   ngOnDestroy(): void {
@@ -110,6 +111,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
       this.coupons.push(elementToPush);
     });
+
+    // console.log(this.cart);
   }
 
   async setCheckout() {
@@ -133,13 +136,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     try {
 
+      console.warn(this.cart);
+
+
       this.openModal(this.buyWait);
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
+      // payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       this.closeModal();
+      this.cartActions.emptyCart();
+      this.router.navigate(['/bought']);
     } catch (e) {
 
       if (e.error['call'] === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)

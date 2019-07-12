@@ -1,119 +1,62 @@
 import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {Coupon} from '../../../../../shared/_models/Coupon';
+import {PackItem} from '../../../../../shared/_models/Coupon';
+/*
+export function CheckQuantityPackage(packItems: PackItem[]): ValidatorFn {
+
+  return (control: AbstractControl): {[key: string]: any} | ValidationErrors | null => {
+
+    console.log('cacca');
+    // const packItems: PackItem[] = control.get('coupons').value; // coupons
+    const quantity = control.get('quantity').value; // Number of packages to create
+
+    let quantityError: boolean = false;
+    let purchasableError: boolean = false;
+
+    if(packItems) {
+      for (const pack of packItems) {
+        quantityError = quantityError || (pack.quantity * quantity > pack.coupon.quantity);
+        purchasableError = purchasableError || (pack.quantity > pack.coupon.quantity);
+      }
+    }
+
+    control.get('coupons').setErrors({NumberCouponPurchasable: purchasableError});
+    control.get('quantity').setErrors({QuantityCouponPurchasable: quantityError});
+
+    return null;
+
+    // const forbidden = nameRe.test(control.value);
+    // return forbidden ? {'forbiddenName': {value: control.value}} : null;
+  };
+}*/
 
 export class QuantityPackageValidation {
 
+  /** Possible errors:
+      - purchasableError: the quantity for the coupon is greater than the purchasable quantity
+      - quantityError: it is not possible to create *quantity* packages because the quantity of coupons available is not enough
+  **/
+
   static CheckQuantityPackage: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    const quantity = control.get('quantity').value; // to get value in input tag
-    const purchasable = control.get('purchasable').value; // to get value in input tag
-    let couponArray: Coupon[];
-    const couponQuantityArray: number[] = [];
-    const couponQuantityArrayAndQuatityAvailable: number[] = [];
-    couponArray = control.get('coupons').value; // to get value in input tag
-    couponArray.sort();
-    let current = null;
-    let cnt = 0;
-    let minCouponsQuantity;
-    let isErrorPurchasable = false;
-    let isErrorEmptyArrayCoupons = false;
-    let isErrorPurchasableQuantity = false;
-    let isErrorQuantityArrayCoupons = false;
-    let isErrorQuantity = false;
+    const packItems: PackItem[] = control.get('selected').value; // coupons
+    const categories = control.get('categories').value;
+    const quantity = control.get('quantity').value; // Number of packages to create
 
-    for (let i = 0; i < couponArray.length; i++) {
-      if (couponArray[i] != current) {
-        if (cnt > 0) {
-          if (couponArray[i].purchasable) {
-            couponQuantityArray.push(couponArray[i].purchasable - cnt);
-          } else {
-            couponQuantityArray.push(couponArray[i].quantity - cnt);
-          }
-        }
-        current = couponArray[i];
-        cnt = 1;
-      } else {
-        cnt++;
+    let quantityError: boolean = false;
+    let purchasableError: boolean = false;
+
+    if(packItems) {
+      for (const pack of packItems) {
+        quantityError = quantityError || (pack.quantity * quantity > pack.coupon.quantity);
+        purchasableError = purchasableError || (pack.quantity > pack.coupon.quantity);
       }
     }
-    if (cnt > 0) {
-      if (current.purchasable) {
-        couponQuantityArray.push(current.purchasable - cnt);
-      } else {
-        couponQuantityArray.push(current.quantity - cnt);
-      }
-      couponQuantityArray.push(cnt);
-    }
 
-    minCouponsQuantity = Math.min(...couponQuantityArray);
+    control.get('coupons').setErrors(purchasableError ? {NumberCouponPurchasable: true} : null);
+    control.get('coupons').setErrors(packItems.length === 0 ? {NoCouponSelected: true} : null);
+    control.get('categories').setErrors(categories.length === 0 ? {NoCategoriesSelected: true} : null);
+    control.get('quantity').setErrors(quantityError ? {QuantityCouponPurchasable: true} : null);
 
-
-    try {
-      if ((minCouponsQuantity - quantity + 1) < 0 ) {
-        // AC.get('coupons').setErrors({MatchQuantity: true});
-        // isErrorGeneral = true;
-        isErrorQuantityArrayCoupons = true;
-
-      }
-      if (couponArray.length == 0) {
-        // AC.get('coupons').setErrors({CouponsEmpty: true});
-        // isErrorGeneral = true;
-        isErrorEmptyArrayCoupons = true;
-
-      }
-
-      if (purchasable < 1) {
-        // AC.get('purchasable').setErrors({MatchQuantity: true});
-        isErrorPurchasable = true;
-      }
-
-      if (quantity < 1) {
-        // AC.get('quantity').setErrors({MatchQuantity: true});
-        isErrorQuantity = true;
-      } else {
-        if (purchasable > quantity) {
-          // AC.get('purchasable').setErrors({MatchQuantity: true});
-          // isErrorGeneral = true;
-          isErrorPurchasableQuantity = true;
-        }
-
-
-      }
-      if (isErrorQuantityArrayCoupons) {
-        control.get('coupons').setErrors({QuantityArrayCoupons: true});
-        control.get('quantity').setErrors({QuantityArrayCoupons: true});
-        control.get('purchasable').setErrors(null);
-
-
-      } else {
-        if (isErrorEmptyArrayCoupons) {
-          control.get('coupons').setErrors({EmptyArrayCoupons: true});
-          control.get('quantity').setErrors(null);
-          control.get('purchasable').setErrors(null);
-        } else if (isErrorPurchasableQuantity) {
-          control.get('coupons').setErrors(null);
-          control.get('quantity').setErrors({MatchPurchasableQuantity: true});
-          control.get('purchasable').setErrors({MatchPurchasableQuantity: true});
-
-        } else if (isErrorQuantity) {
-          control.get('coupons').setErrors(null);
-          control.get('quantity').setErrors({MatchErrorQuantity: true});
-          control.get('purchasable').setErrors(null);
-        } else if (isErrorPurchasable) {
-          control.get('coupons').setErrors(null);
-          control.get('quantity').setErrors(null);
-          control.get('purchasable').setErrors({MatchErrorPurchasable: true});
-      } else {
-
-          control.get('coupons').setErrors(null);
-          control.get('quantity').setErrors(null);
-          control.get('purchasable').setErrors(null);
-        }
-      }
-      return isErrorQuantityArrayCoupons ? {QuantityArrayCoupons: true} : null;
-
-    } catch (Error) {
-      // dateUntil does not exists
-
-    }
+    return null;
   }
+
 }

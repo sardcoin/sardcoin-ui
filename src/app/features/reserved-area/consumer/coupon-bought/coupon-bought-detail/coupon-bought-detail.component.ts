@@ -18,7 +18,6 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO delete (redundant)
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   couponPass: Coupon = null;
-  cart = new Coupon();
   producer = null;
   desktopMode: boolean;
   classMx4: string;

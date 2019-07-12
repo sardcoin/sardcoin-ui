@@ -105,7 +105,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
     const item: CartItem = {
       id: coupon.id,
-      quantity: newQuantity
+      quantity: newQuantity,
+      type: coupon.type
     };
 
     if(await this.cartActions.addElement(item)){

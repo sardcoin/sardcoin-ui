@@ -1,5 +1,5 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Coupon} from '../../../../shared/_models/Coupon';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {Router} from '@angular/router';
@@ -13,19 +13,28 @@ import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {PackageService} from '../../../../shared/_services/package.service';
-import {Observable} from 'rxjs';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-package-create',
   templateUrl: './package-create.component.html',
   styleUrls: ['./package-create.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
 
-  couponsAvailable: Coupon[];
+  @ViewChild('couponAdding') couponAdding;
+
+  coupons: Coupon[] = [];
+  couponsAvailable: Coupon[] = [];
 
   packageForm: FormGroup;
+  myForm: FormGroup;
+  maxQuantity: number;
+  isMax: boolean;
+  editCoupon: boolean;
 
   categories: any;
   markedUnlimited = false;
@@ -45,8 +54,11 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     authToken: 'Bearer ' + this.storeService.getToken()
   });
 
-  selectedCoupons = [];
+  selectedCoupons: Array<PackItem> = [];
   selectedCategories = [];
+  modalCoupon: Coupon;
+
+  modalRef: BsModalRef;
 
   check = null;
 
@@ -58,40 +70,39 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     private categoriesService: CategoriesService,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
+    private modalService: BsModalService,
     private packageService: PackageService,
   ) {
-      this.categoriesService.getAll().subscribe( cat => {
-        this.categories = cat;
-      });
-
-
+    this.categoriesService.getAll().subscribe(cat => {
+      this.categories = cat;
+    });
   }
 
-    ngOnInit() {
-
-      this.setCoupons();
+  async ngOnInit() {
 
     this.packageForm = this.formBuilder.group({
-      title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(40), Validators.required])],
+      title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-      image: [this.imagePath, Validators.required ],
+      image: [this.imagePath, Validators.required],
       price: [0, Validators.required],
       published_from: [new Date()],
-      coupons: [this.selectedCoupons],
+      coupons: [this.selectedCoupons,],
+      selected: [this.selectedCoupons],
       categories: [this.selectedCategories],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
-      quantity: [1, [Validators.required]],
+      quantity: [1, Validators.required],
       constraints: [null],
       purchasable: [1, Validators.required]
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
 
-    this.checking();
+    await this.setCoupons();
 
-    console.log('check', this.check);
+
+
     this.addBreadcrumb();
 
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
@@ -107,13 +118,19 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   saveCoupon() {
+
+    console.log('chiamato SAVE');
+
     this.submitted = true;
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == null) {
+      console.error('Errore nel form o nell\'immagine');
+      console.warn(this.packageForm);
       return;
     }
 
-    const pack: Coupon = {
+
+    const pack: Package = {
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath,
@@ -124,15 +141,19 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
-      coupons: this.selectedCoupons,
-      categories: this.selectedCategories,
-      type: 1
+      package: this.selectedCoupons,
+      categories: this.f.categories.value,
+      type: ITEM_TYPE.PACKAGE
     };
+
+
+    console.warn('PACK', pack);
 
     this.addPackage(pack);
   }
 
   addPackage(pack: Coupon) {
+    console.log('RICEVUTO: ', pack);
     this.couponService.create(pack)
       .subscribe(data => {
         if (data['created']) {
@@ -236,66 +257,109 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  async checking() {
-    this.check = await QuantityPackageValidation.CheckQuantityPackage;
-    return this.check;
+  // async checking() {
+  //   this.check = await QuantityPackageValidation.CheckQuantityPackage;
+  //   return this.check;
+  // }
+
+  async setCoupons() {
+    try {
+      this.coupons = await this.couponService.getBrokerCoupons().toPromise();
+
+      if (!this.coupons || this.coupons.length === 0) {
+        this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
+      }
+
+      this.couponsAvailable = this.coupons;
+
+    } catch (e) {
+      console.error(e);
+      this.toastr.error('C\'è stato un errore recuperando i coupon disponibili. Per favore, riprova più tardi.', 'Errore recuperando i coupon dispobili.');
+    }
   }
 
-  setCoupons() {
-
-    this.couponService.getBrokerCoupons().subscribe(coupons => {
-      console.log('dentro setCoupons', this.couponsAvailable)
-      if (coupons) {
-        for   (const coupon of coupons) {
-          const quantity = coupon.quantity;
-          const id = coupon.id;
-          this.packageService.getAssignCouponsById(id).subscribe(assignCoupon => {
-            const purchesable = coupon.purchasable;
-            const assign =  assignCoupon.assign;
-            console.log('assignCoupon', assignCoupon);
-
-            console.log('purcheee', purchesable);
-            console.log('assign', assign);
-            console.log('quantity', quantity);
-            this.couponsAvailable = [];
-            if (!purchesable) {
-              console.log('null');
-              for  (let i = 0; i < quantity; i++) {
-                this.couponsAvailable.push(coupon);
-                console.log('this.couponsAvailable null', this.couponsAvailable);
-              }
-            } else if ( assign == purchesable) {
-              this.toastr.error( 'Non hai coupons disponibili!');
-              return;
-
-            } else if (assign < purchesable && purchesable <= quantity) {
-
-              for (let i = 0; i < (purchesable - assign); i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) >= quantity) {
-
-              for (let i = 0; i < quantity ; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            } else if (assign < purchesable && purchesable > quantity && (purchesable - assign) < quantity) {
-
-              for (let i = 0; i < purchesable - assign ; i++) {
-                this.couponsAvailable.push(coupon);
-              }
-            }
-            console.log('this.couponsAvailable.length', this.couponsAvailable.length)
-            if (this.couponsAvailable.length == 0) {
-              this.toastr.error( 'Non hai coupons disponibili!');
-            }
-            return this.couponsAvailable;
-          });
+  addToPackage(coupon: Coupon) {
+    console.warn(coupon);
+    if (this.editCoupon) {
+      for (let el of this.selectedCoupons) {
+        if (el.coupon.id === coupon.id) {
+          el.quantity = this.myForm.value.quantity;
         }
-        console.log('this.couponsAvailable dopo for', this.couponsAvailable);
-
       }
-    });
+    } else {
+      this.selectedCoupons.push({
+        coupon: coupon,
+        quantity: this.myForm.value.quantity
+      });
 
+      this.couponsAvailable = this.couponsAvailable.filter(cp => cp.id !== coupon.id);
+
+      if (this.couponsAvailable.length === 0) {
+        this.packageForm.get('coupons').disable();
+      }
+    }
+
+
+    this.closeModal();
+  }
+
+  changeCouponQuantity(type: boolean) {
+    if (type) {
+      this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+    } else {
+      this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
+      this.isMax = false;
+    }
+  }
+
+
+  deleteSelected(coupon_id: number) {
+    this.selectedCoupons = this.selectedCoupons.filter(el => el.coupon.id !== coupon_id);
+    this.couponsAvailable.push(this.coupons.find(coupon => coupon.id === coupon_id));
+
+    console.warn('FOUND', this.coupons.find(coupon => coupon.id === coupon_id));
+
+    if (!this.packageForm.get('coupons').enabled) {
+      this.packageForm.get('coupons').enable();
+      // document.getElementById('couponChoice')['value'] = 0;
+    }
+
+    // document.getElementById('couponChoice')['value'] = 0;
+  }
+
+  openModal(template: TemplateRef<any>, coupon_id = null, edit = false) {
+    // this.modalCoupon = this.packageForm.get('coupons').value;
+
+    if (coupon_id != 0) {
+
+      coupon_id = coupon_id || this.packageForm.get('coupons').value;
+      // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
+      this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
+
+      // this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
+      this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
+
+      // this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+
+      this.myForm = this.formBuilder.group({
+        quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+      });
+
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+
+      if (this.maxQuantity > 0) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+      } else {
+        this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+      }
+      this.editCoupon = edit;
+    }
+  }
+
+  closeModal() {
+    // document.getElementById('couponChoice')['value'] = 0;
+    this.modalRef.hide();
   }
 }
 

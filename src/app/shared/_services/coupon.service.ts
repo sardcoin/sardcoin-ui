@@ -14,8 +14,6 @@ export class CouponService {
   private couponSource = new BehaviorSubject<Coupon>(null);
   private couponUser = new BehaviorSubject(null);
 
-  public couponToShow = new BehaviorSubject<Coupon>(null);
-
   public currentMessage: Observable<Coupon> = this.couponSource.asObservable();
   currentUserCoupon = this.couponUser.asObservable();
   checkFrom = this.boolFormEdit.asObservable();
@@ -23,8 +21,11 @@ export class CouponService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private localStore: StoreService
   ) {
+  }
+
+  getCouponDetailsURL(coupon: Coupon) {
+    return '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
   }
 
   getPurchasedCoupons() {
@@ -37,6 +38,10 @@ export class CouponService {
 
   getCouponById(id: number) {
     return this.http.get<Coupon>(this.formatUrl('getById/' + id));
+  }
+
+  getCouponByToken(token: string, type: number) {
+    return this.http.get<Coupon>(this.formatUrl('getByToken/' + token + '/' + type));
   }
 
   getAvailableCoupons() {
@@ -68,7 +73,6 @@ export class CouponService {
 
     this.couponSource.next(cp);
   }
-
 
   setUserCoupon(user: any) {
     this.couponUser.next(user);

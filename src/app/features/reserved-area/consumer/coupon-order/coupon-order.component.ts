@@ -1,12 +1,20 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from '@angular/router';
+
+import * as _ from 'lodash';
+
 import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 import {OrderService} from '../../../../shared/_services/order.service';
 import {Order} from '../../../../shared/_models/Order';
+import {Coupon} from '../../../../shared/_models/Coupon';
+import {environment} from '../../../../../environments/environment';
+import {UserService} from '../../../../shared/_services/user.service';
+import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
+
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -14,9 +22,9 @@ import {Order} from '../../../../shared/_models/Order';
   styleUrls: ['./coupon-order.component.scss']
 })
 
-export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy {
+export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy { // TODO complete with packages and redeem button
 
-  orders: any;
+  orders: Order[];
   isDesktop: boolean;
 
   constructor(
@@ -24,9 +32,9 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     private breadcrumbActions: BreadcrumbActions,
     private orderService: OrderService,
     private _sanitizer: DomSanitizer,
+    private userService: UserService,
     private router: Router,
     private globalEventService: GlobalEventsManagerService,
-
   ) {
   }
 
@@ -41,16 +49,33 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   }
 
   async loadOrders() {
-    let orderDetail;
+    let orderDetail: Order;
+    let couponAux: Coupon;
+    let coupons;
+    let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
 
-      for(const i in this.orders) {
-        this.orders[i].total = 0;
-        orderDetail = await this.orderService.getOrderById(this.orders[i]['id']).toPromise();
+      for (const order of this.orders) {
+        orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 
-        for(const j in orderDetail['OrderCoupon']) {
-          this.orders[i].total += orderDetail['OrderCoupon'][j].quantity * orderDetail['OrderCoupon'][j].price;
+        order.total = 0;
+        order.coupons = [];
+
+        // Raggruppo i token per coupon_id
+        coupons = _.groupBy(orderDetail.OrderCoupon, 'coupon_id');
+
+        for(const coupon_id of Object.keys(coupons)) {
+          token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
+          type = coupons[coupon_id][0].coupon_token ? ITEM_TYPE.COUPON : ITEM_TYPE.PACKAGE;
+
+          couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
+          couponAux.quantity = coupons[coupon_id].length;
+
+
+
+          order.total = coupons[coupon_id].length * coupons[coupon_id][0].price;
+          order.coupons.push(couponAux);
         }
       }
     } catch (e) {
@@ -58,23 +83,22 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     }
   }
 
+  imageUrl(path) {
+    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
+  }
+
   formatPrice(price) {
-    if (price === 0) {
-      return 'Gratis';
-    }
-    return '€ ' + price.toFixed(2);
+    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
   }
 
   formatDate(inputDate) {
     const auxDate = inputDate.slice(0, 10).split('-');
-    const date = auxDate[2] + ' ' + (new Date(inputDate)).toLocaleString('it', { month: 'long' }) + ' ' + auxDate[0];
-    // const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
+    const date = auxDate[2] + ' ' + (new Date(inputDate)).toLocaleString('it', {month: 'long'}) + ' ' + auxDate[0];
     return date;// + ' ' + time;
   }
 
-  details(order: Order) {
-    this.orderService.setOrder(order);
-    this.router.navigate(['/order/details']);
+  details(coupon: Coupon) {
+    this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
   }
 
   addBreadcrumb() {
