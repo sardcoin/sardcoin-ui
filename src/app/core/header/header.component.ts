@@ -98,7 +98,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => this.isHide = message);
-    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
+    this.globalEventService.desktopMode.subscribe(message => {this.isDesktop = message;
+    console.log('this.isDesktop', this.isDesktop);}
+    );
   }
 
   clickEvent(link?: string) {

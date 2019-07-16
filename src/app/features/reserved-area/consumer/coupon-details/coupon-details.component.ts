@@ -18,6 +18,7 @@ import {Observable, Subscription} from 'rxjs';
 import {LoginState} from '../../../authentication/login/login.model';
 import {LocalStorage} from '@ngx-pwa/local-storage';
 import {StoreService} from '../../../../shared/_services/store.service';
+import {PackageService} from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -40,6 +41,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   error404: boolean = false;
   userType: number;
   isUserLoggedIn: boolean;
+  couponsPackage: Coupon[] = [];
 
   routeSubscription: Subscription;
 
@@ -55,10 +57,18 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
+    private packageService: PackageService
+
   ) {
+    this.globalEventService.desktopMode.subscribe(message => {
+      this.desktopMode = message;
+      console.log('this.desktopMode', this.desktopMode);
+    });
+
   }
 
   async ngOnInit() {
+
     // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
     this.routeSubscription = this.router.events.subscribe(async event => {
         console.log(event);
@@ -86,9 +96,14 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     if (!isNaN(id)) {
       try {
-        this.couponService.getCouponById(id);
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
+        if (this.couponPass.type === 1) {
+          const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
+          this.couponsPackage = couponsIncluded.coupons_array;
+
+
+        }
         // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
         if (this.couponPass === null || this.couponPass.title !== title || !title) {
           this.error404 = true;
@@ -98,9 +113,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
 
-          this.globalEventService.desktopMode.subscribe(message => {
-            this.desktopMode = message;
-          });
 
           this.getOwner();
         }
@@ -223,4 +235,5 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
+
 }

@@ -30,6 +30,7 @@ import {GlobalEventsManagerService} from '../../../shared/_services/global-event
 import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
 import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
 import {UserService} from '../../../shared/_services/user.service';
+import {PackageService} from '../../../shared/_services/package.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {UserService} from '../../../shared/_services/user.service';
     UserService,
     FilterActions,
     PaypalService,
-    OrderService
+    OrderService,
+    PackageService
   ],
   exports: [
     CouponDetailsComponent,

@@ -19,6 +19,7 @@ import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 import {Category} from '../../../../shared/_models/Category';
 import {LoginState} from '../../../authentication/login/login.model';
+import {PackageService} from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-showcase',
@@ -30,7 +31,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   @select() filter$: Observable<Coupon[]>;
   @select() login$: Observable<LoginState>;
 
-  coupons: Coupon[];
+  coupons: Coupon[] = [];
   category: Category;
   modalCoupon: Coupon;
   modalRef: BsModalRef;
@@ -56,7 +57,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private packageService: PackageService
   ) {
   }
 
@@ -92,7 +94,24 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   loadCoupons() {
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
-        this.coupons = coupons;
+        // this.coupons = coupons;
+        // console.log('coupons', coupons);
+
+        for (let cp = 0; cp < coupons.length; cp++) {
+          if (coupons[cp].type === 1) {
+            this.packageService.getCouponsPackage(coupons[cp].id).subscribe(coup => {
+              console.log('coup', cp, coup);
+              const volatileCoupons: Coupon = coupons[cp];
+              volatileCoupons.quantity_pack = coup.coupons_count;
+              this.coupons.push(volatileCoupons);
+
+            });
+
+          } else {
+              this.coupons.push(coupons[cp]);
+
+          }
+        }
       }, err => {
         console.log(err);
       });
@@ -100,7 +119,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) {
 
-    if(!this.isUserLoggedIn) {
+    if (!this.isUserLoggedIn) {
       this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {
 
@@ -195,7 +214,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.breadcrumbActions.deleteBreadcrumb();
   }
 
-  getQuantityPackString(quantity_pack: number){
+  getQuantityPackString(quantity_pack: number) {
     return '(' + quantity_pack + ' coupon ' + (quantity_pack > 1 ? 'inclusi' : 'incluso') + ')';
   }
 
