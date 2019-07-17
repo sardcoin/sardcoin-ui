@@ -123,6 +123,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
       brokers: this.selectedBroker,
+      type: 0,
       categories: this.selectedCategories
 
     };
