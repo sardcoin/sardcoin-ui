@@ -13,7 +13,6 @@ import {Observable} from 'rxjs';
 import {LoginState} from '../../features/authentication/login/login.model';
 import {ToastrService} from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-core-header',
   templateUrl: './header.component.html',

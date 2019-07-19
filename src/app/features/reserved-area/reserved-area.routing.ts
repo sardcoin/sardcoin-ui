@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {IsProducerGuard} from '../../shared/_guards/is-producer.guard';
-import {IsConsumerGuard} from '../../shared/_guards/is-consumer.guard';
 import {IsVerifierGuard} from '../../shared/_guards/is-verifier.guard';
 import {IsBrokerGuard} from '../../shared/_guards/is-broker.guard';
 

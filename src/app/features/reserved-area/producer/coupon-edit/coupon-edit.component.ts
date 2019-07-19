@@ -53,9 +53,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
-      this.couponPass = coupon;
-      if (this.couponPass === null || this.couponPass === undefined) {
-        this.router.navigate(['/reserved-area/broker/list']);
+      if (coupon) {
+        this.couponPass = coupon;
+      } else {
+        this.router.navigate(['/reserved-area/producer/list']);
       }
     });
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
