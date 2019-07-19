@@ -157,6 +157,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     const item: CartItem = {
       id: coupon.id,
       quantity: this.myForm.value.quantity,
+      price: coupon.price,
       type: coupon.type
     };
 

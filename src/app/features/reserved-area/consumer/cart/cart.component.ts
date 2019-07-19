@@ -55,6 +55,7 @@ export class CartComponent implements OnInit, OnDestroy {
       }
 
       this.cart = elements.list;
+      this.totalAmount = elements.total;
     });
 
     this.login$.subscribe(login => {
@@ -80,7 +81,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
       elementToPush.quantity = element.quantity;
       elementToPush.max_quantity = maxQuantity;
-      this.totalAmount += element.quantity * elementToPush.price;
+      // this.totalAmount += element.//element.quantity * elementToPush.price;
 
 
       this.coupons.push(elementToPush);
@@ -159,8 +160,6 @@ export class CartComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
 
-    // bread.push(new Breadcrumb('Home', '/'));
-    // bread.push(new Breadcrumb('Reserved Area', '/reserved-area/'));
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Carrello', '/cart'));
 
@@ -183,16 +182,4 @@ export class CartComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
-
-  // async loadCart() {
-  //   this.cart.forEach(async element => {
-  //
-  //     const elementToPush = await this.couponService.getCouponById(element.id).toPromise();
-  //     elementToPush.quantity = element.quantity;
-  //
-  //     this.totalAmount += element.quantity * elementToPush.price;
-  //
-  //     this.coupons.push(elementToPush);
-  //   });
-  // }
 }

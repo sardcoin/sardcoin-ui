@@ -14,7 +14,7 @@
           <h5 class="card-title">
             {{coupon.title }} <span class="text-muted font-italic">{{coupon.type === ITEM_TYPE.PACKAGE ? getQuantityPackString(coupon.quantity_pack) : ''}}</span>
           </h5>
-          <p class="card-text">{{coupon.description}}</p>
+          <p class="card-text pt-0">{{coupon.description}}</p>
         </div>
         <div class="card-footer">
           <button *ngIf="!userType || userType == 2" [disabled]="inCart(coupon.id)" type="button"

@@ -6,7 +6,8 @@ export const ITEM_TYPE = {
 export class CartItem  { // TODO aggiungere prezzo
   id: number;
   quantity: number;
-  type?: number; // Instance of ItemType TODO farlo diventare obbligatorio
+  price?: number;
+  type: number; // Instance of ItemType TODO farlo diventare obbligatorio
 }
 
 export interface PurchasedCoupon {
