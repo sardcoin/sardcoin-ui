@@ -1,24 +1,23 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {environment} from '../../../../../environments/environment';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {ToastrService} from 'ngx-toastr';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../../../shared/_services/user.service';
-import {CartActions} from '../cart/redux-cart/cart.actions';
-import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
-import {select} from '@angular-redux/store';
-import {Observable, Subscription} from 'rxjs';
-import {LoginState} from '../../../authentication/login/login.model';
-import {LocalStorage} from '@ngx-pwa/local-storage';
-import {StoreService} from '../../../../shared/_services/store.service';
-import {PackageService} from '../../../../shared/_services/package.service';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { environment } from '../../../../../environments/environment';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ToastrService } from 'ngx-toastr';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../../../shared/_services/user.service';
+import { CartActions } from '../cart/redux-cart/cart.actions';
+import { CartItem } from '../../../../shared/_models/CartItem';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { select } from '@angular-redux/store';
+import { Observable, Subscription } from 'rxjs';
+import { LoginState } from '../../../authentication/login/login.model';
+import { StoreService } from '../../../../shared/_services/store.service';
+import { PackageService } from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-coupon-details',
@@ -58,7 +57,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private packageService: PackageService
-
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
@@ -137,6 +135,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     const item: CartItem = {
       id: this.couponPass.id,
       quantity: this.myForm.value.quantity,
+      price: this.couponPass.price,
       type: this.couponPass.type
     };
 
