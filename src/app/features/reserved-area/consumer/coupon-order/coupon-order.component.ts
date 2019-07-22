@@ -14,6 +14,7 @@ import {Coupon} from '../../../../shared/_models/Coupon';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../shared/_services/user.service';
 import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
+import {CouponToken} from '../../../../shared/_models/CouponToken';
 
 
 @Component({
@@ -71,10 +72,10 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
           couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
           couponAux.quantity = coupons[coupon_id].length;
+          couponAux.token = coupons[coupon_id][0].coupon_token ||  coupons[coupon_id][0].package_token;
 
 
-
-          order.total = coupons[coupon_id].length * coupons[coupon_id][0].price;
+          order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
       }
@@ -99,6 +100,16 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   details(coupon: Coupon) {
     this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
+  }
+
+  redeem(coupon: Coupon) {
+    const cp = coupon;
+    cp.quantity = 0;
+    cp.token = coupon.token;
+
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/bought/details']);
   }
 
   addBreadcrumb() {
