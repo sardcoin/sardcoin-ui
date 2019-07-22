@@ -112,7 +112,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) {
 
-    console.log('into', this.isUserLoggedIn, this.toastr)
     if (!this.isUserLoggedIn) {
       this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {
