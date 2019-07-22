@@ -59,7 +59,6 @@ import {PackageService} from '../../../shared/_services/package.service';
   ],
   providers: [
     IsAuthenticatedGuard,
-    GlobalEventsManagerService,
     CouponService,
     CartActions,
     UserService,

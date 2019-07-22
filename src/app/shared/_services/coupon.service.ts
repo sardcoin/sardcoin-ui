@@ -69,8 +69,6 @@ export class CouponService {
   }
 
   setCoupon(cp: Coupon) {
-    console.log(cp);
-
     this.couponSource.next(cp);
   }
 
