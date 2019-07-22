@@ -11,13 +11,14 @@ import { Coupon } from '../../../../shared/_models/Coupon';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../../shared/_services/user.service';
 import { CartActions } from '../cart/redux-cart/cart.actions';
-import { CartItem } from '../../../../shared/_models/CartItem';
+import { CartItem, ITEM_TYPE } from '../../../../shared/_models/CartItem';
 import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 import { LoginState } from '../../../authentication/login/login.model';
 import { StoreService } from '../../../../shared/_services/store.service';
 import { PackageService } from '../../../../shared/_services/package.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-coupon-details',
@@ -40,7 +41,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   error404: boolean = false;
   userType: number;
   isUserLoggedIn: boolean;
-  couponsPackage: Coupon[] = [];
+  couponsPackage = {};
 
   routeSubscription: Subscription;
 
@@ -94,35 +95,26 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
-        if (this.couponPass.type === 1) {
+        if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
-          this.couponsPackage = couponsIncluded.coupons_array;
-
-
+          this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
         }
+
         // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
         if (this.couponPass === null || this.couponPass.title !== title || !title) {
           this.error404 = true;
         } else {
-
           if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
-
-
           this.getOwner();
         }
-      } catch (e) {
+      } catch (e) { // TODO edit
         console.error(e);
       }
     } else {
       this.error404 = true;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbActions.deleteBreadcrumb();
-    this.routeSubscription.unsubscribe();
   }
 
   async addToCart() {
@@ -145,6 +137,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this.viewCart();
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbActions.deleteBreadcrumb();
+    this.routeSubscription.unsubscribe();
   }
 
   get f() {
@@ -233,4 +230,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
+  getNumberCoupons() {
+    let values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+
+    return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+  }
 }
