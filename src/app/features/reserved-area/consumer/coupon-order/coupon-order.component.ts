@@ -1,21 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
-import {OrderService} from '../../../../shared/_services/order.service';
-import {Order} from '../../../../shared/_models/Order';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {environment} from '../../../../../environments/environment';
-import {UserService} from '../../../../shared/_services/user.service';
-import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
-import {CouponToken} from '../../../../shared/_models/CouponToken';
-
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { OrderService } from '../../../../shared/_services/order.service';
+import { Order } from '../../../../shared/_models/Order';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { environment } from '../../../../../environments/environment';
+import { UserService } from '../../../../shared/_services/user.service';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { CouponToken } from '../../../../shared/_models/CouponToken';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -56,6 +55,9 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
+
+
+      console.warn(this.orders);
 
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
@@ -102,10 +104,9 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
   }
 
-  redeem(coupon: Coupon) {
+  redeem(coupon: Coupon) { // TODO check if is the coupon still valid
     const cp = coupon;
     cp.quantity = 0;
-    cp.token = coupon.token;
 
     this.couponService.setCoupon(coupon);
 

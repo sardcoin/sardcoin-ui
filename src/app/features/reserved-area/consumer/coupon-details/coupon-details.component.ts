@@ -69,9 +69,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
     this.routeSubscription = this.router.events.subscribe(async event => {
-        console.log(event);
         if (event instanceof NavigationEnd) {
-          console.warn(event);
           await this.loadCoupon();
           this.addBreadcrumb();
         }

@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {environment} from '../../../../../../environments/environment';
-import {Coupon} from '../../../../../shared/_models/Coupon';
-import {BreadcrumbActions} from '../../../../../core/breadcrumb/breadcrumb.actions';
-import {CouponService} from '../../../../../shared/_services/coupon.service';
-import {Router} from '@angular/router';
-import {Breadcrumb} from '../../../../../core/breadcrumb/Breadcrumb';
-import {UserService} from '../../../../../shared/_services/user.service';
-import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { environment } from '../../../../../../environments/environment';
+import { Coupon } from '../../../../../shared/_models/Coupon';
+import { BreadcrumbActions } from '../../../../../core/breadcrumb/breadcrumb.actions';
+import { CouponService } from '../../../../../shared/_services/coupon.service';
+import { Router } from '@angular/router';
+import { Breadcrumb } from '../../../../../core/breadcrumb/Breadcrumb';
+import { UserService } from '../../../../../shared/_services/user.service';
+import { GlobalEventsManagerService } from '../../../../../shared/_services/global-event-manager.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { CouponToken } from '../../../../../shared/_models/CouponToken';
 
 @Component({
   selector: 'app-coupon-bought-detail',
@@ -36,14 +37,17 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   }
 
   ngOnInit() {
-
     this.couponService.currentMessage.subscribe(coupon => {
       if (coupon === null) {
         this.router.navigate(['/bought']);
       } else {
-        this.couponPass = coupon;
-        this.addBreadcrumb();
 
+        this.couponPass = coupon;
+        this.couponPass.qrToken = coupon.token.token || coupon.token;
+
+        console.warn('PASS', this.couponPass);
+
+        this.addBreadcrumb();
         this.getOwner();
       }
       this.globalEventService.desktopMode.subscribe(message => {
@@ -63,7 +67,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('I miei acquisti', '/bought/'));
-    bread.push(new Breadcrumb( this.couponPass.title , '/bought/myPurchases'));
+    bread.push(new Breadcrumb(this.couponPass.title, '/bought/myPurchases'));
     // english version
     // bread.push(new Breadcrumb(this.couponPass.title + ' myPurchases', '/bought/myPurchases'));
 
@@ -111,7 +115,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     }
   }
 
-  openModal(template: TemplateRef<any>){
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
