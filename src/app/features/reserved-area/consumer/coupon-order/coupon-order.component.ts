@@ -102,11 +102,10 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
   }
 
-  redeem(coupon: Coupon, token: CouponToken) {
-    console.log(token);
+  redeem(coupon: Coupon) {
     const cp = coupon;
     cp.quantity = 0;
-    cp.token = token;
+    cp.token = coupon.token;
 
     this.couponService.setCoupon(coupon);
 
