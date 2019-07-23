@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   modalRef: BsModalRef = null;
   userType = null;
   userStringType: string;
+  infoUserLink: string = '/';
   cart = null;
   isHide: boolean;
   hide = true;
@@ -57,12 +58,19 @@ export class HeaderComponent implements OnInit {
         switch (this.userType) {
           case '0': // admin
             this.userStringType = 'admin';
+            this.infoUserLink = '/reserved-area/admin/';
             break;
           case '1': // producer
             this.userStringType = 'producer';
+            this.infoUserLink = '/reserved-area/producer/';
             break;
           case '3': // verify
             this.userStringType = 'verify';
+            this.infoUserLink = '/reserved-area/verify/';
+            break;
+          case '4': // broker
+            this.userStringType = 'broker';
+            this.infoUserLink = '/reserved-area/broker/';
             break;
           case '2': // The user is assumed to be a consumer if it's not logged in
           default:
