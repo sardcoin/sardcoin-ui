@@ -27,23 +27,23 @@
                     <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="Card image cap">
                     <div class="quantity position-absolute rounded-circle bg-info">{{coupon.quantity}}</div>
                   </div>
-                  <div class="col-sm-9 col-6">
+                  <div class="col-sm-9 col-6 d-flex flex-column">
                     <h4 class="mb-0">{{coupon.title}} </h4>
                     <p class="small" *ngIf="order.vendor">Venduto da: {{order.vendor.company_name}}</p>
                     <h5 class="mb-0">{{formatPrice(coupon.price*coupon.quantity)}}</h5>
 
-                    <div class="buttons-bottom">
-                      <button class="btn btn-success mr-sm-2 mr-0" (click)="redeem(coupon)">
+                    <div class="buttons-bottom ml-auto mt-auto">
+                      <button *ngIf="coupon.type === ITEM_TYPE.COUPON" class="btn btn-success mr-sm-2 mr-0" (click)="redeem(coupon)">
                         <i class="fas fa-play mr-1 d-sm-inline d-none"></i>Riscatta
                       </button>
-                      <button class="btn btn-info text-white" (click)="details(coupon)">
+                      <!--<button class="btn btn-info text-white" (click)="details(coupon)">
                         <i class="fa fa-info-circle mr-sm-1"></i><span class="d-none d-sm-inline">Dettagli</span>
-                      </button>
+                      </button>-->
                     </div>
                   </div>
                 </div> <!-- Coupons -->
 
-                <hr class="my-3" *ngIf="(i+1) !== order.coupons.length">
+                <hr class="my-3 border-gray-sardcoin" *ngIf="(i+1) !== order.coupons.length">
 
               </ng-container>
             </div>

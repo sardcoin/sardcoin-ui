@@ -162,7 +162,7 @@ export class CartActions {
   }
 
   updateTotal(){
-    if(this.reduxCart || this.reduxCart.length > 0) {
+    if(this.reduxCart && this.reduxCart.length > 0) {
       const total = this.reduxCart.map(el => el.price * el.quantity).reduce((a, b) => a + b);
       this.ngRedux.dispatch({type: CART_UPDATE_TOTAL, total: total});
     }

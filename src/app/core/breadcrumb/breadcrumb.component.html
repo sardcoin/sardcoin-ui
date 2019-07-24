@@ -57,7 +57,7 @@
 
     <div *ngIf="userType == 2" class="col my-auto" style="margin-right: -0.5em; text-align: right">
       <div *ngIf="desktopMode">
-        <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
+        <a *ngIf="cart.length === 0" class="text-white">Il carrello <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">
           <span class="d-md-none d-lg-inline-block">{{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
             'coupon' : 'coupons'}}</b> nel tuo carrello.</span>
