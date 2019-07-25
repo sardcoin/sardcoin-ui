@@ -14,8 +14,6 @@ import { Coupon } from '../../../../shared/_models/Coupon';
 import { environment } from '../../../../../environments/environment';
 import { UserService } from '../../../../shared/_services/user.service';
 import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
-import { CouponToken } from '../../../../shared/_models/CouponToken';
-
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -59,6 +57,8 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
 
+      console.log('this.orders', JSON.parse(JSON.stringify(this.orders)));
+
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 
@@ -68,25 +68,29 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
         // Raggruppo i token per coupon_id
         coupons = _.groupBy(orderDetail.OrderCoupon, 'coupon_id');
 
-        for(const coupon_id of Object.keys(coupons)) {
+        console.log('details grouped by', JSON.parse(JSON.stringify(coupons)));
+
+        for (const coupon_id of Object.keys(coupons)) {
           token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
           verifier = coupons[coupon_id][0].verifier;
           type = coupons[coupon_id][0].coupon_token ? ITEM_TYPE.COUPON : ITEM_TYPE.PACKAGE;
 
           couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
           couponAux.quantity = coupons[coupon_id].length;
-          couponAux.token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
 
           for (const coup of coupons[coupon_id]){
-             if(coup.verifier == null) {
-                couponAux.token = coup.coupon_token || coup.package_token;
+            if(coup.verifier === null) {
+              couponAux.token = coup.coupon_token || coup.package_token;
             }
           }
+
 
           order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
       }
+
+      console.warn(this.orders);
     } catch (e) {
       console.error(e);
     }
