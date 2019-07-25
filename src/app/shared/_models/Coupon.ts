@@ -25,6 +25,7 @@ export interface Coupon {
   owner?: number;
   CouponTokens?: CouponToken[] | string;
   token?: CouponToken;
+  purchase_time?: Date | number;
   brokers?: User[];
   categories?: Category[];
   coupons?: Coupon[];

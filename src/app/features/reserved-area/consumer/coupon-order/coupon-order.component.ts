@@ -57,8 +57,6 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
 
-      console.log('this.orders', JSON.parse(JSON.stringify(this.orders)));
-
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 
@@ -67,8 +65,6 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
         // Raggruppo i token per coupon_id
         coupons = _.groupBy(orderDetail.OrderCoupon, 'coupon_id');
-
-        console.log('details grouped by', JSON.parse(JSON.stringify(coupons)));
 
         for (const coupon_id of Object.keys(coupons)) {
           token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
@@ -79,11 +75,8 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
           couponAux.quantity = coupons[coupon_id].length;
 
           for (const coup of coupons[coupon_id]){
-            if(coup.verifier === null) {
-              couponAux.token = coup.coupon_token || coup.package_token;
-            }
+            couponAux.token = coup.verifier === null ? (coup.coupon_token || coup.package_token) : null;
           }
-
 
           order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);

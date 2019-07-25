@@ -41,11 +41,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
       if (coupon === null) {
         this.router.navigate(['/bought']);
       } else {
-
+        console.warn(coupon);
         this.couponPass = coupon;
         this.couponPass.qrToken = coupon.token.token || coupon.token;
-
-        console.warn('PASS', this.couponPass);
 
         this.addBreadcrumb();
         this.getOwner();
@@ -86,7 +84,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     return until ? this.formatDate(until) : 'senza scadenza';
   }
 
-
   formatDate(inptuDate) {
     const date = inptuDate.toString().substring(0, inptuDate.indexOf('T'));
     const time = inptuDate.toString().substring(inptuDate.indexOf('T') + 1, inptuDate.indexOf('Z'));
@@ -104,7 +101,6 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     });
   }
 
-
   setClass() {
     if (!this.desktopMode) {
       this.classMx4 = 'card';
@@ -117,6 +113,10 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  }
+
+  isValid(coupon: Coupon) {
+    return !coupon.valid_until || (Date.now() < coupon.valid_until);
   }
 
 }

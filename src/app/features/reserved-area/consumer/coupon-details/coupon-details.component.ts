@@ -61,7 +61,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
-      console.log('this.desktopMode', this.desktopMode);
     });
 
   }
