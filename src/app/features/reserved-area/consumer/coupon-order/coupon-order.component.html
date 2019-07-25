@@ -33,9 +33,18 @@
                     <h5 class="mb-0">{{formatPrice(coupon.price*coupon.quantity)}}</h5>
 
                     <div class="buttons-bottom">
-                      <button class="btn btn-success mr-sm-2 mr-0" (click)="redeem(coupon)">
-                        <i class="fas fa-play mr-1 d-sm-inline d-none"></i>Riscatta
+
+                      <ng-container *ngIf="coupon.token; else elseBlock">
+                        <button class="btn btn-success mr-sm-2 mr-0" (click)="redeem(coupon)">
+                          <i class="fas fa-play mr-1 d-sm-inline d-none"></i>Riscatta
+                        </button>
+                      </ng-container>
+                      <ng-template #elseBlock>
+                      <button class="btn btn-danger mr-sm-2 mr-0" (click)="riscattato">
+                        <i class="fas fa-play mr-1 d-sm-inline d-none"></i>Riscattato
                       </button>
+                      </ng-template>
+
                       <button class="btn btn-info text-white" (click)="details(coupon)">
                         <i class="fa fa-info-circle mr-sm-1"></i><span class="d-none d-sm-inline">Dettagli</span>
                       </button>
