@@ -40,9 +40,11 @@ export class CouponService {
     return this.http.get<Coupon>(this.formatUrl('getById/' + id));
   }
 
-  // getBrokersFromId(id: number) {
-  //   return this.http.get<String[]>(this.formatUrl('getBrokersFromId/' + id));
-  // }
+
+
+  getBrokerFromCouponId(id: number) {
+    return this.http.get<String[]>(this.formatUrl('getBrokerFromCouponId/' + id));
+  }
 
   getCouponByToken(token: string, type: number) {
     return this.http.get<Coupon>(this.formatUrl('getByToken/' + token + '/' + type));

@@ -38,7 +38,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   isMax = false;
   producer = null;
   desktopMode: boolean;
-  error404: boolean = false;
+  error404 = false;
   userType: number;
   isUserLoggedIn: boolean;
   couponsPackage = null;
@@ -215,13 +215,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    let arrayUrl = this.router.url.slice(1).split('/');
-    let url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
+    const arrayUrl = this.router.url.slice(1).split('/');
+    const url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
     this.router.navigate([url + '/showcase']);
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Shopping', '/showcase'));
@@ -231,7 +231,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   getNumberCoupons() {
-    let values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+    const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
 
     return values.length > 0 ? values.reduce((a, b) => a + b) : '';
   }

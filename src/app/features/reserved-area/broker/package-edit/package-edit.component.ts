@@ -509,7 +509,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.imageSelected = reader.result;
-    }
+    };
   }
 
   getSelectedCategories(id) {

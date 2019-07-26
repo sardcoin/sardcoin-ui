@@ -44,7 +44,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   submitted = false;
 
   couponPass: Coupon;
-
+  categoriesUpdate = false
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
 
@@ -70,7 +70,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/producer/list']);
+      } else {
+        this.couponService.getBrokerFromCouponId(this.couponPass.id).subscribe(brokers => {
+
+          this.selectedBroker = brokers;
+          console.log('brokers for coupon', this.selectedBroker)
+        })
       }
+
     });
     this.couponService.checkFrom.subscribe(fromEdit => this.fromEdit = fromEdit);
 
@@ -91,7 +98,16 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     } else {
       this.imageURL = this.imageURL + this.couponPass.image;
       until = this.couponPass.valid_until === null ? '' : this.couponPass.valid_until;
-
+      this.categoriesService.getCategoryCoupon(this.couponPass.id).subscribe(catCp => {
+        this.categoriesService.getAll().subscribe(cat => {
+          this.categories = cat;
+          for (const c of catCp.category) {
+            const category = this.categories.find( el => el.id === c.category_id);
+            this.selectedCategories.push(category);
+          }
+          this.categoriesUpdate = true;
+        });
+      });
 
       this.initMarked();
 
