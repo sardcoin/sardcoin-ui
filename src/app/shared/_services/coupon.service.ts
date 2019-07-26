@@ -46,6 +46,10 @@ export class CouponService {
       .toString()
       .replace(new RegExp(',', 'g'), '-')}`;
 
+  getBrokerFromCouponId(id: number) {
+    return this.http.get<String[]>(this.formatUrl('getBrokerFromCouponId/' + id));
+  }
+
   getPurchasedCoupons = (): Observable<Array<Coupon>> =>
     this.http.get<Array<Coupon>>(this.formatUrl('getPurchasedCoupons'));
 
