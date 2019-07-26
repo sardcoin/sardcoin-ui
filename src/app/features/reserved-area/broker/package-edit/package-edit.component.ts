@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -9,10 +9,12 @@ import {StoreService} from '../../../../shared/_services/store.service';
 import {QuantityPackageValidation} from '../package-create/validator/QuantityPackageValidation.directive';
 import {environment} from '../../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
-import {Coupon} from '../../../../shared/_models/Coupon';
+import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
 import {DateValidation} from '../package-create/validator/DateValidation.directive';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {PackageService} from '../../../../shared/_services/package.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-edit-package',
@@ -38,9 +40,10 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   couponPass: any;
   coupons: Coupon[] = [];
   couponsAvailable: Coupon[];
-  selectedCoupons = [];
+  selectedCoupons: Array<PackItem> = [];
   selectedCategories = [];
   categories: any;
+  categoriesUpdate = false;
 
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
@@ -49,6 +52,17 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage',
     authToken: 'Bearer ' + this.storeService.getToken(),
   });
+
+  maxQuantity: number;
+  isMax: boolean;
+  modalRef: BsModalRef;
+  myForm: FormGroup;
+  modalCoupon: Coupon;
+  changeCoupon: boolean;
+  imageSelected = null;
+
+  @ViewChild('couponAdding') couponAdding;
+
 
   constructor(
     private router: Router,
@@ -59,39 +73,40 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private packageService: PackageService,
+    private modalService: BsModalService,
+
   ) {
-    this.categoriesService.getAll().subscribe(cat => {
-      this.categories = cat;
-    });
-    this.couponService.currentMessage.subscribe(coupon => {
+      this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/broker/list']);
         return;
       }
+      this.categoriesService.getCategoryCoupon(this.couponPass.id).subscribe(catCp => {
+        this.categoriesService.getAll().subscribe(cat => {
+          this.categories = cat;
+          for (const c of catCp.category) {
+            const category = this.categories.find( el => el.id === c.category_id);
+            this.selectedCategories.push(category);
+          }
+          this.categoriesUpdate = true;
+        });
+        });
     });
     this.couponService.checkFrom.subscribe(fromEdit => {
       this.fromEdit = fromEdit;
     });
 
-    if (this.fromEdit) {
-      this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
+    this.couponService.getBrokerCoupons().subscribe( cp => {
+      this.couponsAvailable = cp;
+    });
 
-        console.warn('GET COUPON PACKAGE: ', coupons);
 
-        // const cp = [];
-        // for (const coupon of coupons['coupons_array']) {
-        //   cp.push(coupon);
-        // }
-        this.selectedCoupons = coupons['coupons_array'];
-      });
-    } else {
-      this.setCoupons();
-    }
+
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // If the coupon passed does not exist, the user is been redirect to the list of coupons
     if (this.couponPass === null || this.couponPass === undefined) {
       this.router.navigate(['/reserved-area/broker/list']);
@@ -109,10 +124,10 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.packageForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
       description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-      image: [this.imagePath, Validators.required],
+      image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
-      coupons: [this.selectedCoupons,],
+      coupons: [this.selectedCoupons],
       selected: [this.selectedCoupons],
       categories: [this.selectedCategories],
       valid_from: [this.couponPass.valid_from, Validators.compose([Validators.required])],
@@ -125,6 +140,14 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
     });
 
+    if (this.fromEdit) {
+      this.packageForm.controls['coupons'].disable();
+      this.packageForm.controls['selected'].disable();
+    } else {
+    }
+    await this.setCoupons();
+
+
     this.addBreadcrumb();
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
@@ -136,17 +159,20 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   saveChange() {
     this.submitted = true;
-
+    if (this.selectedCoupons.length > 0) {
+      this.packageForm.get('coupons').disable();
+    }
     if (this.packageForm.invalid) {
+      this.packageForm.get('coupons').enable();
+
       return;
     }
 
-    const coupon: Coupon = {
+    const pack: Package = {
       id: this.couponPass.id,
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath ? this.imagePath : this.couponPass.image,
-      timestamp: this.couponPass.timestamp,
       price: this.markedFree ? 0 : this.f.price.value,
       visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
@@ -154,22 +180,27 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
       quantity: this.f.quantity.value,
-      coupons: this.selectedCoupons,
+      package: this.selectedCoupons,
       categories: this.selectedCategories,
-      type: 1
+      type: ITEM_TYPE.PACKAGE
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
     if (this.fromEdit) {
-      this.editCoupon(coupon);
+      this.editCoupon(pack);
     } else {
-      delete coupon.id;
-      this.createCopy(coupon);
+      delete pack.id;
+      this.createCopy(pack);
     }
   }
 
-  createCopy(coupon: Coupon) {
+  async createCopy(coupon: Coupon) {
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
+      return;
+    }
     this.couponService.create(coupon)
       .subscribe(data => {
 
@@ -185,10 +216,16 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  editCoupon(coupon: Coupon) {
+  async editCoupon(coupon: Coupon) {
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+
+      return;
+    }
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        if (data['status']) {
+        if (!data['updated']) {
           this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
         } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
@@ -304,17 +341,187 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   async setCoupons() {
     try {
-      this.coupons = await this.couponService.getBrokerCoupons().toPromise();
+        this.coupons = await this.couponService.getBrokerCoupons().toPromise();
+        this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
+
+            if (this.fromEdit) {
+              this.initSelectedCoupons(coupons['coupons_array']);
+              this.couponsAvailable = this.coupons;
+
+              for (const cp of coupons.coupons_array) {
+                this.couponsAvailable = this.couponsAvailable.filter(c => c.id !== cp.id);
+              }
+            }
+      });
 
       if (!this.coupons || this.coupons.length === 0) {
         this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
       }
 
-      this.couponsAvailable = this.coupons;
+
 
     } catch (e) {
       console.error(e);
       this.toastr.error('C\'è stato un errore recuperando i coupon disponibili. Per favore, riprova più tardi.', 'Errore recuperando i coupon dispobili.');
     }
+
+  }
+
+
+  openModal(template: TemplateRef<any>, coupon_id = null, edit = false) {
+    // this.modalCoupon = this.packageForm.get('coupons').value;
+
+    if (coupon_id != 0) {
+
+      coupon_id = coupon_id || this.packageForm.get('coupons').value;
+      // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
+
+      this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
+
+      if (this.modalCoupon) {
+        this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
+      } else {
+        this.modalCoupon = this.couponAdding;
+        this.maxQuantity = 2;
+      }
+
+      this.myForm = this.formBuilder.group({
+        quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
+      });
+
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+
+      if (this.maxQuantity > 0) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+      } else {
+        this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non disponibile');
+      }
+      this.changeCoupon = edit;
+    }
+  }
+
+  closeModal() {
+    this.modalRef.hide();
+  }
+
+  addToPackage(coupon: Coupon) {
+    console.warn(coupon);
+    if (this.changeCoupon) {
+      for (const el of this.selectedCoupons) {
+        if (el.coupon.id === coupon.id) {
+          el.quantity = this.myForm.value.quantity;
+        }
+      }
+    } else {
+      this.selectedCoupons.push({
+        coupon: coupon,
+        quantity: this.myForm.value.quantity
+      });
+
+      this.couponsAvailable = this.couponsAvailable.filter(cp => cp.id !== coupon.id);
+
+      if (this.couponsAvailable.length === 0) {
+        this.packageForm.get('coupons').disable();
+      }
+    }
+
+    this.closeModal();
+  }
+
+  deleteSelected(coupon_id: number) {
+    this.selectedCoupons = this.selectedCoupons.filter(el => el.coupon.id !== coupon_id);
+    this.couponsAvailable.push(this.coupons.find(coupon => coupon.id === coupon_id));
+
+    console.warn('FOUND', this.coupons.find(coupon => coupon.id === coupon_id));
+
+    if (!this.packageForm.get('coupons').enabled) {
+      this.packageForm.get('coupons').enable();
+      // document.getElementById('couponChoice')['value'] = 0;
+    }
+
+    // document.getElementById('couponChoice')['value'] = 0;
+  }
+
+  initSelectedCoupons(original) {
+
+     const array = original
+     const result = [];
+     const map = new Map();
+     for (const item of array) {
+       if(!map.has(item.id)){
+         map.set(item.id, true);    // set any value to Map
+         result.push({
+           coupon: item,
+           quantity: 1
+         });
+       } else {
+         for (let i = 0; i < result.length; i++) {
+           if (result[i].coupon.id == item.id) {
+             result[i].quantity = result[i].quantity + 1;
+           }
+         }
+
+       }
+     }
+    this.selectedCoupons = result;
+    return result;
+   }
+
+
+  changeCouponQuantity(type: boolean) {
+    if (type) {
+      this.myForm.controls.quantity.setValue((this.myForm.value.quantity + 1));
+      this.isMax = this.myForm.value.quantity === this.maxQuantity;
+    } else {
+      this.myForm.controls.quantity.setValue((this.myForm.value.quantity - 1));
+      this.isMax = false;
+    }
+  }
+
+  async uploadFiles(inputElement) {
+
+    if (inputElement.queue[0]) {
+
+      try {
+        inputElement.queue[0].upload();
+        this.imagePath = inputElement.queue[0]._file.name;
+        return true;
+      } catch (e) {
+        this.imagePath = null;
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  preview(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files[0].name;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imageSelected = reader.result;
+    }
+  }
+
+  getSelectedCategories(id) {
+
+
+      this.categoriesService.getCategoryCoupon(id).subscribe(cat => {
+        for (const c of cat.category) {
+          const category = this.categories.find( el => el.id === c.category_id);
+          this.selectedCategories.push(category);
+        }
+        return this.selectedCategories;
+      });
+
   }
 }

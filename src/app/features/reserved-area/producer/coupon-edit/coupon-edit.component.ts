@@ -191,6 +191,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   async editCoupon(coupon: Coupon) {
     const uploadDone = await this.uploadFiles(this.uploader);
+    console.log('uploadDone', uploadDone)
     if (!uploadDone) {
       this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
@@ -310,19 +311,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.markedFree = this.couponPass.price === 0;
     this.markedConstraints = this.couponPass.constraints === null;
     this.markedPrivate = this.couponPass.visible_from === null;
-  }
-
-
-  onSelectFile(event) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      reader.onload = (e: any) => { // called once readAsDataURL is completed
-        this.imageURL = String(e.target.result);
-      };
-    }
   }
 
   async uploadFiles(inputElement) {
