@@ -41,7 +41,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   error404: boolean = false;
   userType: number;
   isUserLoggedIn: boolean;
-  couponsPackage = {};
+  couponsPackage = null;
 
   routeSubscription: Subscription;
 
@@ -114,6 +114,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.error404 = true;
     }
+    console.log('couponsPackage', this.couponsPackage)
   }
 
   async addToCart() {

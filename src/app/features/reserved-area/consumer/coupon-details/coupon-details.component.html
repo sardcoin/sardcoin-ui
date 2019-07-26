@@ -41,7 +41,7 @@
               >
             </span>
         </p>
-        <div class="package-coupons" *ngIf="couponsPackage !== {}">
+        <div class="package-coupons" *ngIf="couponsPackage !== null">
           <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i></p>
           <div *ngFor="let cp of couponsPackage | keyvalue">
             <div class="striped d-block d-md-block d-xl-block">
