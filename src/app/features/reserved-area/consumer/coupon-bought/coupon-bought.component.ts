@@ -6,8 +6,8 @@ import { environment } from '../../../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Coupon } from '../../../../shared/_models/Coupon';
-import { CouponToken } from '../../../../shared/_models/CouponToken';
 import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { SortService } from '../../../../shared/_services/sort.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -24,6 +24,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     private globalEventService: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
+    private sortService: SortService,
     private _sanitizer: DomSanitizer,
     private router: Router,
   ) {
@@ -101,14 +102,12 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     return color;
   }
 
+  onSorted($event) {
+    this.coupons = this.sortService.getDataSortedByCriteria(this.coupons, $event);
+  }
+
   details(coupon: Coupon) {
-
-    // const cp = coupon;
-    // cp.quantity = 0;
-    // cp.token = token;
-
     this.couponService.setCoupon(coupon);
-
     this.router.navigate(['/bought/details']);
   }
 }
