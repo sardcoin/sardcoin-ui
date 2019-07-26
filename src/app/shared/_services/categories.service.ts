@@ -22,6 +22,10 @@ export class CategoriesService {
     return this.http.get<Category[]>(this.formatUrl('getAll'));
   }
 
+  getCategoryCoupon(id: number) {
+    return this.http.get<any>(this.formatUrl('getCategoryCoupon') + '/' + id );
+  }
+
   private formatUrl(methodName) {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/categories/' + methodName;
   }

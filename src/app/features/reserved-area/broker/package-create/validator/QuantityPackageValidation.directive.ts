@@ -12,17 +12,23 @@ export class QuantityPackageValidation {
     const packItems: PackItem[] = control.get('selected').value; // coupons
     const categories = control.get('categories').value;
     const quantity = control.get('quantity').value; // Number of packages to create
+    const purchasable = control.get('purchasable').value; // Number of packages to create
 
     let quantityError: boolean = false;
     let purchasableError: boolean = false;
+    let purchasableErrorQuantity: boolean = false;
 
     if (packItems) {
       for (const pack of packItems) {
         quantityError = quantityError || (pack.quantity * quantity > pack.coupon.quantity);
         purchasableError = purchasableError || (pack.quantity > pack.coupon.quantity);
       }
+      if (purchasable > quantity) {
+        purchasableErrorQuantity = true;
+      }
     }
 
+    control.get('purchasable').setErrors(purchasableErrorQuantity ? {PurchasableErrorQuantity: true} : null);
     control.get('coupons').setErrors(purchasableError ? {NumberCouponPurchasable: true} : null);
     control.get('coupons').setErrors(packItems.length === 0 ? {NoCouponSelected: true} : null);
     control.get('categories').setErrors(categories.length === 0 ? {NoCategoriesSelected: true} : null);

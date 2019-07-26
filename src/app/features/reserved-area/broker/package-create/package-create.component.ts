@@ -48,6 +48,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   bgColorPrivate = '#FFF';
 
   imagePath: string = null;
+  imageSelected = null;
 
   public uploader: FileUploader = new FileUploader({
     url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage', // fix for broker
@@ -86,7 +87,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       image: [this.imagePath, Validators.required],
       price: [0, Validators.required],
       published_from: [new Date()],
-      coupons: [this.selectedCoupons,],
+      coupons: [this.selectedCoupons],
       selected: [this.selectedCoupons],
       categories: [this.selectedCategories],
       valid_from: [new Date(), Validators.required],
@@ -119,8 +120,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   saveCoupon() {
 
-    console.log('chiamato SAVE');
-
     this.submitted = true;
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == null) {
@@ -152,8 +151,14 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.addPackage(pack);
   }
 
-  addPackage(pack: Coupon) {
-    console.log('RICEVUTO: ', pack);
+  async addPackage(pack: Coupon) {
+
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+
+      return;
+    }
     this.couponService.create(pack)
       .subscribe(data => {
         if (data['created']) {
@@ -239,9 +244,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+
   }
 
   addBreadcrumb() {
@@ -256,11 +259,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-
-  // async checking() {
-  //   this.check = await QuantityPackageValidation.CheckQuantityPackage;
-  //   return this.check;
-  // }
 
   async setCoupons() {
     try {
@@ -358,6 +356,40 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   closeModal() {
     // document.getElementById('couponChoice')['value'] = 0;
     this.modalRef.hide();
+  }
+
+  preview(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files[0].name;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imageSelected = reader.result;
+    }
+  }
+  async uploadFiles(inputElement) {
+
+    if (inputElement.queue[0]) {
+
+      try {
+        inputElement.queue[0].upload();
+        this.imagePath = inputElement.queue[0]._file.name;
+        return true;
+      } catch (e) {
+        console.log('error upload image', e);
+        this.imagePath = null;
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 }
 

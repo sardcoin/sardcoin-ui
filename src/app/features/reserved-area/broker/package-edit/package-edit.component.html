@@ -1,4 +1,4 @@
-<div *ngIf="couponPass !== null" class="container-fluid">
+<div *ngIf="couponPass !== null && categoriesUpdate" class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-xl-9">
       <div class="card">
@@ -6,12 +6,12 @@
           <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
           <h6 class="display-4" style="float:left; font-size:30pt;">{{fromEdit ? 'Modifica ' : 'Crea '}} un pacchetto</h6>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-5">
           <form [formGroup]="packageForm" (ngSubmit)="saveChange()">
 
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Titolo</label>
-              <div class="col-sm-10">
+              <div class="col-lg-10 col-sm-8">
                 <input type="text" formControlName="title" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
@@ -20,8 +20,8 @@
               </div>
             </div> <!-- Title -->
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Descrizione:</label>
-              <div class="col-sm-10">
+              <label class="col-lg-2 col-sm-4 col-form-label">Descrizione:</label>
+              <div class="col-lg-10 col-sm-8">
                 <textarea type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
@@ -31,45 +31,21 @@
             </div> <!-- Description -->
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Immagine</label>
-              <div class="col-sm-10">
-                <div id="yourImage">
-                  <img src="{{imageURL}}">
-                </div>
+              <label class="col-lg-2 col-sm-4 col-form-label">Immagine</label>
 
-                <input  type="file" class="col-sm-6 p-0" formControlName="image" ng2FileSelect [uploader]="uploader"
+              <div class="col-lg-2 col-sm-4 col-form-label" id="yourImage">
+                <img src="{{imageSelected? imageSelected: imageURL}}">
+              </div>
+              <div >
+                <label  class="col-lg-3 col-sm-6 col-form-label" style="padding-right: 8px">Cambia immagine </label>
+
+                <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" type="file"  formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
 
-                <div *ngFor="let item of uploader.queue" class="col-sm-6 p-0 mr-0 float-right">
-                  <div>
-                    <button type="button" class="btn btn-success btn-sm ml-1"
-                            (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                      <span class="glyphicon glyphicon-upload"></span> Aggiorna
-                    </button>
-                    <button type="button" class="btn btn-warning btn-sm ml-1"
-                            (click)="item.cancel()" [disabled]="!item.isUploading">
-                      <span class="glyphicon glyphicon-ban-circle"></span> Annulla
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm ml-1"
-                            (click)="item.remove()">
-                      <span class="glyphicon glyphicon-trash"></span> Rimuovi
-                    </button>
-                  </div>
-                </div>
-
-              <div class="mt-2">
-                Attendi:
-                <div class="progress" style="width: 75%;">
-                  <div class="progress-bar" role="progressbar"
-                       [ngStyle]="{ 'width': uploader.progress + '%' }">
-                  </div>
-                </div>
               </div>
 
-                <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
-                  <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Immagine obbligatoria.</div>
-                </div>
+              <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
+                <div>Immagine obbligatoria.</div>
               </div>
             </div> <!-- Image -->
             <div class="form-group row">
@@ -115,14 +91,16 @@
               <label class="col-sm-2 col-form-label">Seleziona coupons: </label>
               <div class="col-sm-12 col-lg-8">
 
-                <select id="couponChoice" class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"
-                        [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }">
+                <select class="form-control" formControlName="coupons" (change)="openModal(couponAdding)">
                   <option value="" selected>Scegli un coupon...</option>
                   <option *ngFor="let coupon of couponsAvailable" [value]="coupon.id">{{coupon.title}}</option>
                 </select>
-                <div class="invalid-feedback" *ngIf="submitted">
-                  <div *ngIf="f.coupons.errors?.NumberCouponPurchasable">Hai selezionato più coupon rispetto ai disponibili all'acquisto in un unico pacchetto.</div>
-                  <div *ngIf="f.coupons.errors?.NoCouponSelected">Seleziona almeno un coupon da inserire nel pacchetto.</div>
+                <div  class="custom-invalid-feedback form-group row">
+                  <ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-group pr-0" *ngIf="submitted">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="text-left" *ngIf="! selectedCoupons.length >0 ">Seleziona almeno un coupon da inserire nel pacchetto.</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div> <!-- Coupons -->
@@ -132,12 +110,13 @@
                   <span class="text-left">{{el.coupon.title}}</span>
                   <span class="text-right">
                     <span class="badge badge-primary badge-pill mr-1">{{el.quantity}}</span>
-                    <i class="fas fa-edit mr-1 text-secondary cursor-pointer" (click)="openModal(couponAdding, el.coupon.id, true)"></i>
-                    <i class="fas fa-trash-alt text-danger cursor-pointer" (click)="deleteSelected(el.coupon.id)"></i>
+                      <i *ngIf="!fromEdit" class="fas fa-edit mr-1 text-secondary cursor-pointer" (click)="openModal(couponAdding, el.coupon.id, true)"></i>
+                      <i *ngIf="!fromEdit" class="fas fa-trash-alt text-danger cursor-pointer" (click)="deleteSelected(el.coupon.id)"></i>
                   </span>
                 </li>
               </ul>
             </div> <!-- Coupons list -->
+
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
               <div class="col-sm-8">
@@ -150,8 +129,8 @@
                            placeholder="Seleziona categorie"
                            [(ngModel)]="selectedCategories">
                 </ng-select>
+                <div *ngIf="submitted && f.categories.errors?.NoCategoriesSelected" class="text-danger" style="font-size: 80%;">Seleziona almeno una categoria.</div>
               </div>
-
             </div> <!-- Categories -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Valido da:</label>
@@ -217,7 +196,7 @@
                   <div *ngIf="f.quantity.errors?.MatchErrorQuantity">Valore richiesto o incorretto</div>
                 </div>
                 <div class="invalid-feedback"
-                     *ngIf="submitted && f.quantity.errors?.QuantityArrayCoupons">
+                     *ngIf="submitted && f.quantity.errors?.QuantityCouponPurchasable">
                   <div>La quantità dei pacchetti da creare sono troppi rispetto ai coupons disponibili.</div>
                 </div>
               </div>
@@ -229,7 +208,7 @@
                 <input type="number" formControlName="purchasable" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
-                  <div *ngIf="f.purchasable.errors">Questo valore deve essere inferiore o uguale alla quantità creata</div>
+                  <div *ngIf="f.purchasable.errors?.PurchasableErrorQuantity">Questo valore deve essere inferiore o uguale alla quantità creata</div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
@@ -290,3 +269,40 @@
     </div>
   </div>
 </div>
+
+<ng-template #couponAdding>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>{{editCoupon ? 'Modifica ' : 'Aggiungi '}} "{{modalCoupon.title.length > 20 ?
+      modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" {{editCoupon ? 'nel ' : 'al '}} pacchetto</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="myForm" class="container">
+      <div class="form-group row">
+        <label class="col-sm-7 my-auto" style="font-size: 16px;">Inserisci la quantità: <i class="text-info">
+          ({{maxQuantity}} disponibil{{maxQuantity > 1 ? 'i' : 'e' }})</i></label>
+
+        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
+               max="{{modalCoupon.max_quantity}}"/>
+
+        <button class="btn btn-secondary col-sm-1 ml-1" (click)="changeCouponQuantity(false)" [disabled]="myForm.value.quantity === 1">
+          <i class="fas fa-minus text-white"></i>
+        </button>
+        <button class="btn btn-primary col-sm-1 ml-1" (click)="changeCouponQuantity(true)" [disabled]="isMax"><i class="fas fa-plus text-white"></i></button>
+
+        <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Inserire una quantità valida!</div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="addToPackage(modalCoupon)">
+      {{changeCoupon ? 'Modifica' : 'Aggiungi'}}
+    </button>
+  </div>
+</ng-template>
+

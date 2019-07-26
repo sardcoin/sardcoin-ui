@@ -55,9 +55,7 @@ export class PackageService {
     return this.http.get<any>(this.formatUrl('getCouponsPackage/' + id));
   }
 
-  getBrokerCoupons() {
-    return this.http.get<Package[]>(this.formatUrl('getBrokerCoupons'));
-  }
+
 
   // deleteCoupon(cp: number) {
   //   return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});

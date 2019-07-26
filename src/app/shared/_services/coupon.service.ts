@@ -85,10 +85,13 @@ export class CouponService {
   }
 
   editCoupon(coupon: Coupon) {
+    console.log('cpEdit', coupon)
     return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
   }
 
   create(coupon: Coupon) {
+    console.log('create', coupon)
+
     return this.http.post(this.formatUrl('create'), coupon);
   }
 
