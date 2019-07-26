@@ -63,7 +63,7 @@
                 <div *ngIf="this.userType"> <!-- this.userType != '3' -->
                   <div class="align-items-start">
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
+                    <span (click)="clickEvent(infoUserLink + '/payment-details')"
                           class="menu-collapsed">Dati di fatturazione</span>
                     </a>
                   </div>
@@ -74,6 +74,7 @@
         </div>
       </nav>
     </div>
+
     <div class="rounded mr-auto d-block">
       <img [ngStyle]="{'margin-left' : isUserLoggedIn ? (userType == 2 ? '55px' : '-5px') : '0px'}" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
            class="crop-logo img-fluid cursor-pointer">

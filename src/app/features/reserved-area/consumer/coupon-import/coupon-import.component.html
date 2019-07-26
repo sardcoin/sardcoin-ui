@@ -1,39 +1,35 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-xl-8 col-lg-10 col-md-12">
+    <div class="col-xl-7 col-lg-10 col-md-12">
+      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+        <h4 class="text-white text-center text-uppercase mb-0">Importa coupon</h4>
+      </div>
       <div class="card">
-        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
-          <!--<img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>-->
-          <i class="fas fa-file-import fa-3x mr-4 text-primary"></i>
-          <h6 class="display-4 d-inline-block" style="font-size:30pt;">Importa coupon</h6>
-        </div>
         <div class="card-body px-5 pt-4">
           <p class="text-justify" style="font-size: 16px;">In questa pagina puoi importare un coupon ricevuto
             aggiungendo il suo codice o scansionando il suo codice QR.</p>
 
           <form [formGroup]="tokenForm">
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il Token</label>
-              <div class="col-lg-3 col-md-4 col-sm-3">
-                <input type="text" formControlName="token" class="form-control"
+              <div class="col-sm-4">
+                <input type="text" formControlName="token" class="form-control" placeholder="Inserisci il token"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
                 <div *ngIf="submitted && f.token.errors " class="invalid-feedback">
                   <div *ngIf="f.token.errors">Inserisci un Token valido!</div>
                 </div>
               </div>
 
-              <div class="col-lg-2 col-md-2 col-sm-2 text-center">
-                <h5>oppure</h5>
+              <div class="col-md-2 col-sm-3 my-2 my-sm-0 text-center">
+                <h5 class="mb-0">oppure</h5>
               </div>
 
-              <div class="w-100 d-lg-none d-md-block d-none"></div>
+              <!--<div class="w-100 d-lg-none d-md-block d-none"></div>-->
 
-              <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
+              <div class="col-md-4 col-sm-5 mt-xl-0 mt-lg-0 text-sm-left text-center">
                 <button class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
               </div>
 
             </div>
-
             <div style="padding-bottom: 1em" class="col">
               <div *ngIf="isScan">
                 <div *ngIf="availableDevices">
@@ -53,16 +49,13 @@
                 </div>
               </div>
             </div>
-
-
-            <div class="col-sm-6 mb-4 rounded container d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
+            <div class="col-sm-6 mb-4 rounded d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
               <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
               <zxing-scanner
                 #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
                 (scanSuccess)="handleQrCodeResult($event)">
               </zxing-scanner>
             </div>
-
             <div class="col-md-12 text-sm-right text-center p-0">
               <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success"><i
                 class="fas fa-plus-circle mr-3"></i>Aggiungi ai tuoi acquisti

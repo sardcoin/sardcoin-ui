@@ -2,10 +2,9 @@
 
   <div *ngIf="showcasePage || !userType || userType == 2"
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
-       [ngStyle]="{'padding': isUserLoggedIn ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}"
+       [ngStyle]="{'padding': isUserLoggedIn && desktopMode ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}"
        style="max-height: 49px">
-    <div class="row col-md-9 my-auto">
-
+    <div class="row col-lg-9 col-md-11 my-auto">
       <div class="" dropdown>
         <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light"
                 style="border-radius: 0.25rem 0 0 0.25rem" (change)="onChange($event.target.value)">
@@ -14,15 +13,13 @@
             <option [value]="category.id">{{category.name}}</option>
           </ng-container>
         </select>
-      </div>
-
-      <div class="col-md-8 p-0">
+      </div> <!-- Category selection -->
+      <div class="col-md-8 p-0 search-input">
         <form (submit)="searchCoupons(); showListSuggestions(false)">
           <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
                  style="border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."
                  [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="giveSuggestions()"/>
-
-        </form>
+        </form> <!-- Input form -->
         <ul id="search-suggestions" class="rounded-bottom"
             *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)">
           <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
@@ -39,7 +36,7 @@
                 <b class="text-capitalize">{{coupon.title}}</b>
               </ng-template>
 
-              <ng-container *ngIf="isOccurrenceInText(coupon.description); else noDescriptionOccurrence">
+              <ng-container *ngIf="isOccurrenceInText(coupon.description) && desktopMode; else noDescriptionOccurrence">
                 - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon,
                 2)}}
               </ng-container>
@@ -52,20 +49,18 @@
           <ng-container *ngIf="(coupons | filter:searchText).length === 0">
             <li>Nessun elemento trovato.</li>
           </ng-container>
-        </ul>
-
+        </ul> <!-- Suggestions list -->
       </div>
       <button class="btn btn-primary" (click)="searchCoupons()" style="border-radius: 0 0.25rem 0.25rem 0"><span
-        class="fas fa-search"></span>
-      </button> <!-- Search button -->
-    </div>
+        class="fas fa-search"></span></button> <!-- Search button -->
+    </div> <!-- Search bar -->
 
     <div *ngIf="userType == 2" class="col my-auto" style="margin-right: -0.5em; text-align: right">
       <div *ngIf="desktopMode">
-        <a *ngIf="cart.length === 0" class="text-white">Il tuo carrello <b class="text-info">è vuoto</b>! </a>
+        <a *ngIf="cart.length === 0" class="text-white">Il carrello <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">
-          {{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
-          'coupon' : 'coupons'}}</b> nel tuo carrello.
+          <span class="d-md-none d-lg-inline-block">{{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
+            'coupon' : 'coupons'}}</b> nel tuo carrello.</span>
           <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
         </a>
       </div>
@@ -73,7 +68,7 @@
   </div>
 
   <!-- NAVIGATION breadcrumb only for producers and if they are not in showcase page-->
-  <ol *ngIf="userType == 1 || userType === 4 && !showcasePage"
+  <ol *ngIf="(userType == 1 || userType == 4) && !showcasePage"
       class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">

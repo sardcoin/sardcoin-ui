@@ -1,24 +1,24 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {environment} from '../../../../../environments/environment';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {ToastrService} from 'ngx-toastr';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../../../shared/_services/user.service';
-import {CartActions} from '../cart/redux-cart/cart.actions';
-import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
-import {select} from '@angular-redux/store';
-import {Observable, Subscription} from 'rxjs';
-import {LoginState} from '../../../authentication/login/login.model';
-import {LocalStorage} from '@ngx-pwa/local-storage';
-import {StoreService} from '../../../../shared/_services/store.service';
-import {PackageService} from '../../../../shared/_services/package.service';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { environment } from '../../../../../environments/environment';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ToastrService } from 'ngx-toastr';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../../../shared/_services/user.service';
+import { CartActions } from '../cart/redux-cart/cart.actions';
+import { CartItem, ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { select } from '@angular-redux/store';
+import { Observable, Subscription } from 'rxjs';
+import { LoginState } from '../../../authentication/login/login.model';
+import { StoreService } from '../../../../shared/_services/store.service';
+import { PackageService } from '../../../../shared/_services/package.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-coupon-details',
@@ -41,7 +41,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   error404: boolean = false;
   userType: number;
   isUserLoggedIn: boolean;
-  couponsPackage: Coupon[] = [];
+  couponsPackage = {};
 
   routeSubscription: Subscription;
 
@@ -58,11 +58,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private packageService: PackageService
-
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
-      console.log('this.desktopMode', this.desktopMode);
     });
 
   }
@@ -71,9 +69,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
     this.routeSubscription = this.router.events.subscribe(async event => {
-        console.log(event);
         if (event instanceof NavigationEnd) {
-          console.warn(event);
           await this.loadCoupon();
           this.addBreadcrumb();
         }
@@ -98,35 +94,26 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
-        if (this.couponPass.type === 1) {
+        if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
-          this.couponsPackage = couponsIncluded.coupons_array;
-
-
+          this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
         }
+
         // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
         if (this.couponPass === null || this.couponPass.title !== title || !title) {
           this.error404 = true;
         } else {
-
           if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
-
-
           this.getOwner();
         }
-      } catch (e) {
+      } catch (e) { // TODO edit
         console.error(e);
       }
     } else {
       this.error404 = true;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbActions.deleteBreadcrumb();
-    this.routeSubscription.unsubscribe();
   }
 
   async addToCart() {
@@ -137,6 +124,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     const item: CartItem = {
       id: this.couponPass.id,
       quantity: this.myForm.value.quantity,
+      price: this.couponPass.price,
       type: this.couponPass.type
     };
 
@@ -148,6 +136,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this.viewCart();
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbActions.deleteBreadcrumb();
+    this.routeSubscription.unsubscribe();
   }
 
   get f() {
@@ -236,4 +229,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
+  getNumberCoupons() {
+    let values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+
+    return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+  }
 }

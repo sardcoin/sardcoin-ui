@@ -1,20 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
-import {OrderService} from '../../../../shared/_services/order.service';
-import {Order} from '../../../../shared/_models/Order';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {environment} from '../../../../../environments/environment';
-import {UserService} from '../../../../shared/_services/user.service';
-import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
-
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { OrderService } from '../../../../shared/_services/order.service';
+import { Order } from '../../../../shared/_models/Order';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { environment } from '../../../../../environments/environment';
+import { UserService } from '../../../../shared/_services/user.service';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -26,6 +25,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   orders: Order[];
   isDesktop: boolean;
+  ITEM_TYPE = ITEM_TYPE;
 
   constructor(
     private couponService: CouponService,
@@ -52,6 +52,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     let orderDetail: Order;
     let couponAux: Coupon;
     let coupons;
+    let verifier;
     let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
@@ -65,19 +66,24 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
         // Raggruppo i token per coupon_id
         coupons = _.groupBy(orderDetail.OrderCoupon, 'coupon_id');
 
-        for(const coupon_id of Object.keys(coupons)) {
+        for (const coupon_id of Object.keys(coupons)) {
           token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
+          verifier = coupons[coupon_id][0].verifier;
           type = coupons[coupon_id][0].coupon_token ? ITEM_TYPE.COUPON : ITEM_TYPE.PACKAGE;
 
           couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
           couponAux.quantity = coupons[coupon_id].length;
 
+          for (const coup of coupons[coupon_id]){
+            couponAux.token = coup.verifier === null ? (coup.coupon_token || coup.package_token) : null;
+          }
 
-
-          order.total = coupons[coupon_id].length * coupons[coupon_id][0].price;
+          order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
       }
+
+      console.warn(this.orders);
     } catch (e) {
       console.error(e);
     }
@@ -99,6 +105,15 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
   details(coupon: Coupon) {
     this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
+  }
+
+  redeem(coupon: Coupon) { // TODO check if is the coupon still valid
+    const cp = coupon;
+    cp.quantity = 0;
+
+    this.couponService.setCoupon(coupon);
+
+    this.router.navigate(['/bought/details']);
   }
 
   addBreadcrumb() {

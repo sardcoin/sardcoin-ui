@@ -13,6 +13,7 @@ export const CART_ADD_PROD = 'CART_ADD_PROD';
 export const CART_DEL_PROD = 'CART_DEL_PROD';
 export const CART_CHANGE_QNT = 'CART_CHANGE_QNT';
 export const CART_UPDATE = 'CART_UPDATE';
+export const CART_UPDATE_TOTAL = 'CART_UPDATE_TOTAL';
 export const CART_EMPTY = 'CART_EMPTY';
 
 @Injectable()
@@ -38,6 +39,7 @@ export class CartActions {
         this.storeService.setCart([]);
       }
       this.ngRedux.dispatch({type: CART_INIT, list: cartStored === null ? [] : cartStored});
+      this.updateTotal();
     });
   }
 
@@ -47,6 +49,7 @@ export class CartActions {
     let purchasedCoupon: PurchasedCoupon;
     let couponToCheck: Coupon;
     let isValid: boolean;
+    let response = false;
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
@@ -64,16 +67,17 @@ export class CartActions {
       if (index >= 0) { // If the coupon already exists, it updates the quantity in the cart
         this.ngRedux.dispatch({type: CART_CHANGE_QNT, index: index, item: item});
         await this.updateItemInCartStorage(item);
-        return true;
+      } else {
+        // If the coupon doesn't exists in the cart, it adds it
+        this.ngRedux.dispatch({type: CART_ADD_PROD, item: item});
+        await this.addItemInCartStorage(item);
       }
+      this.updateTotal();
 
-      // If the coupon doesn't exists in the cart, it adds it
-      this.ngRedux.dispatch({type: CART_ADD_PROD, item: item});
-      await this.addItemInCartStorage(item);
-      return true;
+      response = true;
     }
 
-    return false;
+    return response;
   }
 
   async deleteElement(id: number) {
@@ -82,6 +86,7 @@ export class CartActions {
     if (item) {
       this.ngRedux.dispatch({type: CART_DEL_PROD, id: id});
       await this.deleteItemInCartStorage(item);
+      this.updateTotal();
       return true;
     }
 
@@ -91,6 +96,7 @@ export class CartActions {
   updateCart(cart: CartItem[]) {
     this.ngRedux.dispatch({type: CART_INIT, list: cart});
     this.storeService.setCart(cart);
+    this.updateTotal();
   }
 
   emptyCart() {
@@ -155,4 +161,10 @@ export class CartActions {
     return this.reduxCart.length;
   }
 
+  updateTotal(){
+    if(this.reduxCart && this.reduxCart.length > 0) {
+      const total = this.reduxCart.map(el => el.price * el.quantity).reduce((a, b) => a + b);
+      this.ngRedux.dispatch({type: CART_UPDATE_TOTAL, total: total});
+    }
+  }
 }

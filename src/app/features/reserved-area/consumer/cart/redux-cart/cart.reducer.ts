@@ -1,5 +1,5 @@
 import {CartState, CART_INITIAL_STATE} from './cart.model';
-import {CART_INIT, CART_ADD_PROD, CART_DEL_PROD, CART_CHANGE_QNT, CART_UPDATE, CART_EMPTY} from './cart.actions';
+import {CART_INIT, CART_ADD_PROD, CART_DEL_PROD, CART_CHANGE_QNT, CART_UPDATE, CART_EMPTY, CART_UPDATE_TOTAL} from './cart.actions';
 import {CartItem} from '../../../../../shared/_models/CartItem';
 
 export function CartReducer(state: CartState = CART_INITIAL_STATE, action): CartState {
@@ -28,7 +28,10 @@ export function CartReducer(state: CartState = CART_INITIAL_STATE, action): Cart
       return Object.assign({}, state,{list: action.list});
 
     case CART_EMPTY:
-      return Object.assign({}, state,{list: []});
+      return Object.assign({}, state,{list: [], total: 0});
+
+    case CART_UPDATE_TOTAL:
+      return Object.assign({}, state, {total: action.total});
 
     default:
       return state;

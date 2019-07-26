@@ -18,12 +18,14 @@ export interface Coupon {
   valid_until: Date | number;
   purchasable: number;
   constraints: string;
+  qrToken?: any;
   quantity?: number;
   quantity_pack?: number;
   max_quantity?: number;
   owner?: number;
-  CouponTokens?: CouponToken[];
+  CouponTokens?: CouponToken[] | string;
   token?: CouponToken;
+  purchase_time?: Date | number;
   brokers?: User[];
   categories?: Category[];
   coupons?: Coupon[];

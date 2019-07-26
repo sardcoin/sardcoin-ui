@@ -136,7 +136,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     this.showSuggestions.next(this.searchText && this.searchText.length > 0);
   }
 
-  showListSuggestions(show) {
+  showListSuggestions(show: boolean) {
     this.showSuggestions.next(show);
   }
 

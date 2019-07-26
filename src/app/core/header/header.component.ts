@@ -13,7 +13,6 @@ import {Observable} from 'rxjs';
 import {LoginState} from '../../features/authentication/login/login.model';
 import {ToastrService} from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-core-header',
   templateUrl: './header.component.html',
@@ -30,6 +29,7 @@ export class HeaderComponent implements OnInit {
   modalRef: BsModalRef = null;
   userType = null;
   userStringType: string;
+  infoUserLink: string = '/';
   cart = null;
   isHide: boolean;
   hide = true;
@@ -58,12 +58,19 @@ export class HeaderComponent implements OnInit {
         switch (this.userType) {
           case '0': // admin
             this.userStringType = 'admin';
+            this.infoUserLink = '/reserved-area/admin/';
             break;
           case '1': // producer
             this.userStringType = 'producer';
+            this.infoUserLink = '/reserved-area/producer/';
             break;
           case '3': // verify
             this.userStringType = 'verify';
+            this.infoUserLink = '/reserved-area/verify/';
+            break;
+          case '4': // broker
+            this.userStringType = 'broker';
+            this.infoUserLink = '/reserved-area/broker/';
             break;
           case '2': // The user is assumed to be a consumer if it's not logged in
           default:
@@ -98,9 +105,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.globalEventService.hideSource.subscribe(message => this.isHide = message);
-    this.globalEventService.desktopMode.subscribe(message => {this.isDesktop = message;
-    console.log('this.isDesktop', this.isDesktop);}
-    );
+    this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
   }
 
   clickEvent(link?: string) {

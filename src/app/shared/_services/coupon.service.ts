@@ -29,7 +29,7 @@ export class CouponService {
   }
 
   getPurchasedCoupons() {
-    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCoupons'));
+    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
   }
 
   getPurchasedCouponsById(id: number) {
@@ -73,8 +73,6 @@ export class CouponService {
   }
 
   setCoupon(cp: Coupon) {
-    console.log(cp);
-
     this.couponSource.next(cp);
   }
 

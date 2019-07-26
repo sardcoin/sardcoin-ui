@@ -28,7 +28,8 @@
           </p>
 
           <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I miei acquisti</button>
-          <button class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice</button>
+          <button *ngIf="!couponPass.token.verifier && isValid(couponPass)" class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice</button>
+          <button *ngIf="couponPass.token.verifier || !isValid(couponPass)" class="btn btn-warning btn-retry">Non più valido</button>
         </div>
 
       </div>
@@ -41,7 +42,7 @@
     <button type="button" class="close pull-right mb-4" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h3 class="mb-3">Codice coupon: {{couponPass.token.token}}</h3>
-    <qrcode class="d-table mx-auto" [qrdata]="couponPass.token.token" [size]="qrSize" [level]="'L'"></qrcode>
+    <h3 class="mb-3">Codice coupon: {{couponPass.qrToken}}</h3>
+    <qrcode class="d-table mx-auto" [qrdata]="couponPass.qrToken" [size]="qrSize" [level]="'L'"></qrcode>
   </div>
 </ng-template>

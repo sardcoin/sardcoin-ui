@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {environment} from '../../../../../environments/environment';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {CouponToken} from '../../../../shared/_models/CouponToken';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { environment } from '../../../../../environments/environment';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { CouponToken } from '../../../../shared/_models/CouponToken';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -17,7 +17,7 @@ import {GlobalEventsManagerService} from '../../../../shared/_services/global-ev
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
-  coupons: any;
+  coupons: Coupon[] = [];
   isDesktop: boolean;
 
   constructor(
@@ -56,6 +56,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
         this.coupons = coupons;
+        this.coupons = this.coupons.sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
       }, err => {
         console.log(err);
       });
@@ -66,25 +67,45 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   }
 
   formatPrice(price) {
-    if (price === 0) {
-      return 'Gratis';
-    }
-    return '€ ' + price.toFixed(2);
+    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
   }
 
-  formatState(state) {
-    if (state !== null) {
-      return 'Consumato';
-    } else {
-      return 'Riscattabile';
+  formatState(coupon: Coupon) {
+    let state = null, valid_until = null;
+
+    if(coupon) {
+      valid_until = coupon.valid_until ? (new Date(coupon.valid_until).getTime()) : null;
+      state = coupon.token.verifier ? 'Consumato' : ((valid_until && Date.now() > valid_until) ? 'Scaduto' : 'Disponibile');
     }
+
+    return state;
   }
 
-  details(coupon: Coupon, token: CouponToken) {
+  formatDate(inputDate) {
+    const auxDate = inputDate.slice(0, 10).split('-');
+    const date = auxDate[2] + '/' + auxDate[1] + '/' + auxDate[0];
+    const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
+    return date + ' ' + time;
+  }
 
-    const cp = coupon;
-    cp.quantity = 0;
-    cp.token = token;
+  getStateColor(state: string) { // === 'Disponibile' ? '#28a745' : '#dc3545'
+    let color = '#28a745';
+
+    switch (state) {
+      case 'Scaduto': color = '#dc3545';
+        break;
+      case 'Consumato': color = '#ffc107';
+        break;
+    }
+
+    return color;
+  }
+
+  details(coupon: Coupon) {
+
+    // const cp = coupon;
+    // cp.quantity = 0;
+    // cp.token = token;
 
     this.couponService.setCoupon(coupon);
 

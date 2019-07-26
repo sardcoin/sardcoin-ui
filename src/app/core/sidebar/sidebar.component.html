@@ -23,10 +23,10 @@
           <div class="text-center d-inline-block producer-icon"><span class="fas fa-plus-circle icon-dimension"></span></div>
           <span class="menu-collapsed">Aggiungi coupon</span>
         </a>
-        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action gray-sardcoin">
+<!--        <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block producer-icon"><span class="fas fa-chart-bar icon-dimension"></span></div>
           <span class="menu-collapsed">Reports</span>
-        </a>
+        </a>-->
       </div>
 
       <a *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
@@ -80,10 +80,10 @@
           <div class="text-center d-inline-block producer-icon"><span class="fas fa-plus-circle icon-dimension"></span></div>
           <span class="menu-collapsed">Crea pacchetto</span>
         </a>
-        <a [routerLink]="['/reserved-area/broker/report']" class="list-group-item list-group-item-action gray-sardcoin">
+        <!--<a [routerLink]="['/reserved-area/broker/report']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block producer-icon"><span class="fas fa-chart-bar icon-dimension"></span></div>
           <span class="menu-collapsed">Reports</span>
-        </a>
+        </a>-->
       </div>
       <div *ngIf="this.userType != '3'">
 

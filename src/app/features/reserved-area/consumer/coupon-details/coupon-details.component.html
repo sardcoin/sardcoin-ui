@@ -1,6 +1,6 @@
 <div *ngIf="couponPass && !error404" class="container-fluid px-0">
   <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
-    <div class="card mx-4" style="padding: 5px">
+    <div class="card mx-md-3" style="padding: 5px">
       <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
       <div class="card-body p-4">
         <h3 class="card-title mb-0">{{couponPass.title}}</h3>
@@ -18,7 +18,8 @@
         <p class="card-text mt-3">{{couponPass.description}}</p>
         <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
 
-        <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Bassa disponibilità</i></p>
+        <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Bassa
+          disponibilità</i></p>
 
         <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
           <i style="color:#FF0000">
@@ -40,27 +41,25 @@
               >
             </span>
         </p>
-        <p *ngIf="couponsPackage.length > 0"><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{couponsPackage.length}})</i></p>
-        <div   style=" background-color: snow" *ngFor="let cp of couponsPackage">
-          <div  class="striped container-fluid d-block d-md-block d-xl-block">
-            <div  id="center">
-              <i style="color: #999; font-size: 15px;">{{cp.title}} alla finesivince con tanto sacrificio ma all fine è quello che conta col culo a mascherina</i>
-            </div>
-            <div>
-              <div  class="container-image-map"  id="right">
-                <img class=" crop-package centered-and-cropped-package text-center" src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
-                <h5 class="centered-text-image-map" *ngIf="cp.constraints == null"> Mappa assente</h5>
+        <div class="package-coupons" *ngIf="couponsPackage !== {}">
+          <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i></p>
+          <div *ngFor="let cp of couponsPackage | keyvalue">
+            <div class="striped d-block d-md-block d-xl-block">
+              <i class="d-block my-1" style="color: #999; font-size: 15px;">{{cp.value[0].title}} ({{cp.value.length}})</i>
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid" src="{{imageURL + cp.value[0].image}}">
               </div>
-              <div   id="left">
-                <img  class=" crop-package centered-and-cropped-package"  src="{{imageURL + cp.image}}" >
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid"
+                     src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.value[0].constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
+                <!--<h5 class="centered-text-image-map" *ngIf="couponsPackage[key].constraints == null"> Mappa assente</h5>-->
               </div>
             </div>
-            <br>
+            <!--<hr *ngIf="(i+1) < Object.keys(couponsPackage).length"/>-->
           </div>
-          <hr/>
         </div>
 
-        <div style="padding-top: 30px" *ngIf="desktopMode">
+        <div class="mt-4" *ngIf="desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
                   class="btn btn-lg btn-success float-right ml-2"
                   [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
@@ -69,7 +68,7 @@
           <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i
             class="fas fa-shopping-cart"></i> Go to cart
           </button>
-          <button  class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna allo shopping</button>
+          <button class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna allo shopping</button>
         </div>
 
         <div *ngIf="!desktopMode">
@@ -79,13 +78,14 @@
             <i class="fas fa-cart-plus"> </i> Aggiungi
           </button>
           <button *ngIf="inCart(couponPass.id)" class="btn btn-success float-right ml-2" (click)="viewCart()">
-            <i class="fas fa-shopping-cart"> </i> Carrello</button>
+            <i class="fas fa-shopping-cart"> </i> Carrello
+          </button>
           <button class="btn  btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket">
-            </i> Shopping</button>
+          </i> Shopping
+          </button>
         </div>
 
       </div>
-
     </div>
   </div>
 </div>
