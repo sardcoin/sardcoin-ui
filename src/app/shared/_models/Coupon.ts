@@ -31,6 +31,7 @@ export interface Coupon {
   coupons?: Coupon[];
   type?: number;
   assigned?: number;
+  state?: string;
 }
 
 export interface PackItem {

@@ -4,6 +4,12 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class SortService {
 
+  stateWeight = {
+    'Scaduto': 0,
+    'Consumato': 1,
+    'Disponibile': 2
+  };
+
   constructor() {
   }
 
@@ -17,17 +23,19 @@ export class SortService {
 
   getDataSortedByCriteria<T>(data: T[], criteria: ColumnSortedEvent): T[] {
     return data.sort((a: T, b: T) => {
-      // console.log(this.getCriteria(a[criteria.sortColumn], a[criteria.sortColumn]));
-      // console.log(this.isString(a[criteria.sortColumn]));
-      return criteria.sortDirection === 'desc' ? this.getCriteria(a[criteria.sortColumn], b[criteria.sortColumn]) : this.getCriteria(b[criteria.sortColumn], a[criteria.sortColumn]);
+      return criteria.sortDirection === 'desc'
+        ? this.getCriteria(a[criteria.sortColumn], b[criteria.sortColumn], criteria.sortColumn)
+        : this.getCriteria(b[criteria.sortColumn], a[criteria.sortColumn], criteria.sortColumn);
     });
   }
 
-  private getCriteria(a, b): number {
+  private getCriteria(a, b, sortColumn): number {
     let result;
 
     switch (typeof a) {
       case 'string':
+        a = sortColumn === 'state' ? this.stateWeight[a] : a;
+        b = sortColumn === 'state' ? this.stateWeight[b] : b;
         result = a > b ? 1 : -1;
         break;
       case 'number':
@@ -37,6 +45,8 @@ export class SortService {
 
     return result;
   }
+
+
 
 }
 
