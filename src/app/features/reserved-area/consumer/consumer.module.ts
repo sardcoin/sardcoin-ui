@@ -31,6 +31,7 @@ import {FilterActions} from './coupon-showcase/redux-filter/filter.actions';
 import {IsAuthenticatedGuard} from '../../../shared/_guards/is-authenticated.guard';
 import {UserService} from '../../../shared/_services/user.service';
 import {PackageService} from '../../../shared/_services/package.service';
+import { SortService } from '../../../shared/_services/sort.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {PackageService} from '../../../shared/_services/package.service';
     FilterActions,
     PaypalService,
     OrderService,
-    PackageService
+    PackageService,
+    SortService
   ],
   exports: [
     CouponDetailsComponent,

@@ -19,6 +19,8 @@ import {ClickOutsideModule} from 'ng-click-outside';
 import {FilterActions} from '../features/reserved-area/consumer/coupon-showcase/redux-filter/filter.actions';
 import {ToastrModule} from 'ngx-toastr';
 import {StoreService} from '../shared/_services/store.service';
+import { SortableColumnComponent } from './sortable-table/sortable-column.component';
+import { SortableTableDirective } from './sortable-table/sortable-table.directive';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {StoreService} from '../shared/_services/store.service';
     FooterComponent,
     SidebarComponent,
     BreadcrumbComponent,
-    GooglePlacesDirective
+    GooglePlacesDirective,
+    SortableColumnComponent,
+    SortableTableDirective
   ],
   imports: [
     RouterModule,
@@ -53,7 +57,9 @@ import {StoreService} from '../shared/_services/store.service';
     FooterComponent,
     SidebarComponent,
     BreadcrumbComponent,
-    GooglePlacesDirective
+    GooglePlacesDirective,
+    SortableColumnComponent,
+    SortableTableDirective
   ]
 })
 

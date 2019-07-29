@@ -326,3 +326,7 @@ table {
 tbody > tr.bg-blue > td {
   padding: 2px;
 }
+
+th[sortable-column] {
+  cursor: pointer;
+}
