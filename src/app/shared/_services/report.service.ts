@@ -1,12 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Coupon} from '../_models/Coupon';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {StoreService} from './store.service';
-import {BehaviorSubject, Observable, observable} from 'rxjs';
-import {NavigationEnd, Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {AssignsCoupon} from '../_models/AssignsCoupon';
-import {Package} from '../_models/Package';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 
@@ -14,32 +10,24 @@ export class ReportService {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
-    private localStore: StoreService
+    private http: HttpClient
   ) {
   }
 
+  getReportProducerCoupons = (): Observable<any> =>
+    this.http.get<any>(this.formatUrl('getReportProducerCoupons'));
 
-  getReportProducerCouponFromId(id: number) {
-    return this.http.get<any>(this.formatUrl('getReportProducerCouponFromId/' + id));
-  }
+  getReportBrokerProducerCoupons = (): Observable<any> =>
+    this.http.get<any>(this.formatUrl('getReportBrokerProducerCoupons'));
 
-  getReportProducerCoupons() {
-    return this.http.get<any>(this.formatUrl('getReportProducerCoupons'));
-  }
-  getReportBrokerProducerCouponFromId(id: number) {
-    return this.http.get<any>(this.formatUrl('getReportBrokerProducerCouponFromId/' + id));
-  }
+  // UNUSED
+  // getReportBrokerProducerCouponFromId = (id: number): Observable<any> =>
+  //   this.http.get<any>(this.formatUrl(`getReportBrokerProducerCouponFromId/${id}`));
 
-  getReportBrokerProducerCoupons() {
-    return this.http.get<any>(this.formatUrl('getReportBrokerProducerCoupons'));
-  }
+  // getReportProducerCouponFromId = (id: number): Observable<any> =>
+  //   this.http.get<any>(this.formatUrl(`getReportProducerCouponFromId/${id}`));
 
-  private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/reports/' + methodName;
-  }
-
+  private formatUrl = (methodName: string) =>
+    `${environment.protocol}://${environment.host}:${environment.port}/reports/${methodName}`;
 
 }
-
-

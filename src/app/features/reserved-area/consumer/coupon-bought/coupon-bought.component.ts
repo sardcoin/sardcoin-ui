@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
-import { CouponService } from '../../../../shared/_services/coupon.service';
-import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
-import { environment } from '../../../../../environments/environment';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../../shared/_models/Coupon';
+import { CouponService } from '../../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
-import { SortService } from '../../../../shared/_services/sort.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -17,16 +16,15 @@ import { SortService } from '../../../../shared/_services/sort.service';
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
-  coupons: Coupon[] = [];
+  coupons: Array<Coupon> = [];
   isDesktop: boolean;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
     private breadcrumbActions: BreadcrumbActions,
     private couponService: CouponService,
-    private sortService: SortService,
     private _sanitizer: DomSanitizer,
-    private router: Router,
+    private router: Router
   ) {
   }
 
@@ -40,75 +38,78 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     this.removeBreadcrumb();
   }
 
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+  addBreadcrumb = (): void => {
+    const bread: Array<Breadcrumb> = [];
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('I miei acquisti', '/bought'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
+  };
 
-  removeBreadcrumb() {
+  removeBreadcrumb = (): void => {
     this.breadcrumbActions.deleteBreadcrumb();
-  }
+  };
 
-  loadCoupons() {
+  loadCoupons = (): void => {
     this.couponService.getPurchasedCoupons()
       .subscribe(coupons => {
-        this.coupons = coupons;
-        this.coupons = this.coupons.sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
+        this.coupons = coupons
+          .sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
         this.coupons.forEach(el => el.state = this.formatState(el));
       }, err => {
+        // tslint:disable-next-line:no-console
         console.log(err);
       });
-  }
+  };
 
-  imageUrl(path) {
-    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
-  }
+  imageUrl = (path): SafeUrl =>
+    this._sanitizer.bypassSecurityTrustUrl(`${environment.protocol}://${environment.host}:${environment.port}/${path}`);
 
-  formatPrice(price) {
-    return price === 0 ? 'Gratis' : '€ ' + price.toFixed(2);
-  }
+  formatPrice = (price): string =>
+    price === 0 ? 'Gratis' : `€ ${price.toFixed(2)}`;
 
-  formatState(coupon: Coupon) {
-    let state = null, valid_until = null;
+  formatState = (coupon: Coupon): string => {
+    let state;
+    let validUntil;
 
-    if(coupon) {
-      valid_until = coupon.valid_until ? (new Date(coupon.valid_until).getTime()) : null;
-      state = coupon.token.verifier ? 'Consumato' : ((valid_until && Date.now() > valid_until) ? 'Scaduto' : 'Disponibile');
+    if (coupon) {
+      validUntil = coupon.valid_until ? (new Date(coupon.valid_until).getTime()) : undefined;
+      state = coupon.token.verifier ? 'Consumato' : ((validUntil && Date.now() > validUntil) ? 'Scaduto' : 'Disponibile');
     }
 
     return state;
-  }
+  };
 
-  formatDate(inputDate) {
-    const auxDate = inputDate.slice(0, 10).split('-');
-    const date = auxDate[2] + '/' + auxDate[1] + '/' + auxDate[0];
-    const time = inputDate.toString().substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
-    return date + ' ' + time;
-  }
+  formatDate = (inputDate): string => {
+    const auxDate = inputDate.slice(0, 10)
+      .split('-');
+    const date = `${auxDate[2]}/${auxDate[1]}/${auxDate[0]}`;
+    const time = inputDate.toString()
+      .substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
 
-  getStateColor(state: string) { // === 'Disponibile' ? '#28a745' : '#dc3545'
-    let color = '#28a745';
+    return `${date} ${time}`;
+  };
+
+  getStateColor = (state: string): string => { // === 'Disponibile' ? '#28a745' : '#dc3545'
+    let color;
 
     switch (state) {
-      case 'Scaduto': color = '#dc3545';
+      case 'Scaduto':
+        color = '#dc3545';
         break;
-      case 'Consumato': color = '#ffc107';
+      case 'Consumato':
+        color = '#ffc107';
         break;
+      default:
+        color = '#28a745';
     }
 
     return color;
-  }
+  };
 
-  onSorted($event) {
-    this.coupons = this.sortService.getDataSortedByCriteria(this.coupons, $event);
-  }
-
-  details(coupon: Coupon) {
+  details = (coupon: Coupon): void => {
     this.couponService.setCoupon(coupon);
     this.router.navigate(['/bought/details']);
-  }
+  };
 }

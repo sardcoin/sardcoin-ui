@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class GlobalEventsManagerService {
-  public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-  public userType: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  public hideSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  public desktopMode: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(undefined);
+  userType: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+  hideSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  desktopMode: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  changeHide(hide: boolean) {
+  changeHide = (hide: boolean): void =>
     this.hideSource.next(hide);
-  }
-  changeView(desktop: boolean) {
+
+  changeView = (desktop: boolean): void =>
     this.desktopMode.next(desktop);
-  }
 }

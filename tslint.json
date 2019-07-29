@@ -321,7 +321,7 @@
     "no-redundant-jsdoc": true,
     "ban-ts-ignore": true,
     "no-console": [
-      true,
+      false,
       "log",
       "debug",
       "info",

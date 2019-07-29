@@ -1,118 +1,99 @@
-import {Injectable} from '@angular/core';
-import {Coupon} from '../_models/Coupon';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {StoreService} from './store.service';
-import {BehaviorSubject, Observable, observable} from 'rxjs';
-import {NavigationEnd, Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {CartItem, PurchasedCoupon} from '../_models/CartItem';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { CartItem, PurchasedCoupon } from '../_models/CartItem';
+import { Coupon } from '../_models/Coupon';
+import { User } from '../_models/User';
 
 @Injectable()
 
 export class CouponService {
-  private boolFormEdit = new BehaviorSubject<boolean>(null);
-  private couponSource = new BehaviorSubject<Coupon>(null);
-  private couponUser = new BehaviorSubject(null);
+  currentMessage: Observable<Coupon>;
+  currentUserCoupon: Observable<Coupon>;
+  checkFrom: Observable<boolean>;
 
-  public currentMessage: Observable<Coupon> = this.couponSource.asObservable();
-  currentUserCoupon = this.couponUser.asObservable();
-  checkFrom = this.boolFormEdit.asObservable();
+  private boolFormEdit = new BehaviorSubject<boolean>(undefined);
+  private couponSource = new BehaviorSubject<Coupon>(undefined);
+  private couponUser = new BehaviorSubject(undefined);
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private http: HttpClient
   ) {
+    this.currentMessage = this.couponSource.asObservable();
+    this.currentUserCoupon = this.couponUser.asObservable();
+    this.checkFrom = this.boolFormEdit.asObservable();
   }
 
-  getCouponDetailsURL(coupon: Coupon) {
-    return '/details/' + coupon.id + '-' + coupon.title.split(' ').toString().replace(new RegExp(',', 'g'), '-');
-  }
+  // Open methods
+  getAvailableCoupons = (): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl('getAvailableCoupons'));
 
-  getPurchasedCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getPurchasedCoupons'));
-  }
+  getAvailableCouponsByCategoryId = (categoryId: number): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl(`getAvailableByCatId/${categoryId}`));
 
-  getPurchasedCouponsById(id: number) {
-    return this.http.get<PurchasedCoupon>(this.formatUrl('getPurchasedCouponsById/' + id));
-  }
+  getAvailableByTextAndCatId = (text: string, categoryId: number): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl(`getAvailableByTextAndCatId/'${text}/${categoryId}`));
 
-  getCouponById(id: number) {
-    return this.http.get<Coupon>(this.formatUrl('getById/' + id));
-  }
+  getCouponById = (id: number): Observable<Coupon> =>
+    this.http.get<Coupon>(this.formatUrl(`getById/${id}`));
 
-  // getBrokersFromId(id: number) {
-  //   return this.http.get<String[]>(this.formatUrl('getBrokersFromId/' + id));
-  // }
+  // Consumer methods
+  getCouponDetailsURL = (coupon: Coupon): string =>
+    `/details/${coupon.id}-${coupon.title.split(' ')
+      .toString()
+      .replace(new RegExp(',', 'g'), '-')}`;
 
-  getCouponByToken(token: string, type: number) {
-    return this.http.get<Coupon>(this.formatUrl('getByToken/' + token + '/' + type));
-  }
+  getPurchasedCoupons = (): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl('getPurchasedCoupons'));
 
-  getAvailableCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableCoupons'));
-  }
+  getPurchasedCouponsById = (id: number): Observable<PurchasedCoupon> =>
+    this.http.get<PurchasedCoupon>(this.formatUrl(`getPurchasedCouponsById/${id}`));
 
-  getAvailableCouponsByCategoryId(category_id: number) {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByCatId/' + category_id));
-  }
+  getCouponByToken = (token: string, type: number): Observable<Coupon> =>
+    this.http.get<Coupon>(this.formatUrl(`getByToken/${token}/${type}`));
 
-  getAvailableByTextAndCatId(text: string, category_id: number) {
-    return this.http.get<Coupon[]>(this.formatUrl('getAvailableByTextAndCatId/' + text + '/' + category_id));
-  }
+  buyCoupons = (cart: Array<CartItem>): Observable<any> =>
+    this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
 
-  getProducerCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getProducerCoupons'));
-  }
+  // Producer methods
+  getProducerCoupons = (): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl('getProducerCoupons'));
 
-  getBrokerCoupons() {
-    return this.http.get<Coupon[]>(this.formatUrl('getBrokerCoupons'));
-  }
+  // Broker methods
+  getBrokerCoupons = (): Observable<Array<Coupon>> =>
+    this.http.get<Array<Coupon>>(this.formatUrl('getBrokerCoupons'));
 
-  deleteCoupon(cp: number) {
-    return this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: cp}});
-  }
+  // Mixed auth methods (producer + broker)
+  deleteCoupon = (couponId: number): Observable<any> =>
+    this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: couponId}});
 
-  setCoupon(cp: Coupon) {
-    this.couponSource.next(cp);
-  }
+  editCoupon = (coupon: Coupon): Observable<any> =>
+    this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
 
-  setUserCoupon(user: any) {
+  create = (coupon: Coupon): Observable<any> =>
+    this.http.post(this.formatUrl('create'), coupon);
+
+  importOfflineCoupon = (coupon: any): Observable<any> =>
+    this.http.request('put', this.formatUrl('importOfflineCoupon'), {body: coupon});
+
+  redeemCoupon = (token: string): Observable<any> =>
+    this.http.request('put', this.formatUrl('redeemCoupon'), {body: {token}});
+
+  // Observable SET methods
+  setCoupon = (coupon: Coupon): void =>
+    this.couponSource.next(coupon);
+
+  setUserCoupon = (user: User): void =>
     this.couponUser.next(user);
-  }
 
-  setFromEdit(fromEdit: boolean) {
+  setFromEdit = (fromEdit: boolean): void =>
     this.boolFormEdit.next(fromEdit);
-  }
 
-  editCoupon(coupon: Coupon) {
-    console.log('cpEdit', coupon)
-    return this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
-  }
-
-  create(coupon: Coupon) {
-    console.log('create', coupon)
-
-    return this.http.post(this.formatUrl('create'), coupon);
-  }
-
-  buyCoupons(cart: CartItem[]) {
-    return this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
-  }
-
-  importOfflineCoupon(cp: any) {
-    return this.http.request('put', this.formatUrl('importOfflineCoupon'), {body: cp});
-  }
-
-  redeemCoupon(token: any) {
-    const body = {token: token};
-    return this.http.request('put', this.formatUrl('redeemCoupon'), {body: body});
-  }
-
-  private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/' + methodName;
-  }
-
+  // Private methods
+  private formatUrl = (methodName: string) =>
+    `${environment.protocol}://${environment.host}:${environment.port}/coupons/${methodName}`;
 
 }
-
-
