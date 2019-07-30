@@ -1,14 +1,14 @@
-import {Component, TemplateRef, OnDestroy, OnInit} from '@angular/core';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {Router} from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {Coupon} from '../../../../shared/_models/Coupon';
+import { Component, TemplateRef, OnDestroy, OnInit } from '@angular/core';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { environment } from '../../../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Coupon } from '../../../../shared/_models/Coupon';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -97,7 +97,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
     return '€ ' + price.toFixed(2);
   }
-
 
   control() {
     this.couponService.getProducerCoupons().subscribe(

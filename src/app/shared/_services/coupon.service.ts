@@ -11,7 +11,7 @@ import { User } from '../_models/User';
 
 export class CouponService {
   currentMessage: Observable<Coupon>;
-  currentUserCoupon: Observable<Coupon>;
+  currentUserCoupon: Observable<User>;
   checkFrom: Observable<boolean>;
 
   private boolFormEdit = new BehaviorSubject<boolean>(undefined);

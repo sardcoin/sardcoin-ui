@@ -28,15 +28,15 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit = (): void => {
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
     this.addBreadcrumb();
     this.loadCoupons();
-  }
+  };
 
-  ngOnDestroy(): void {
+  ngOnDestroy = (): void => {
     this.removeBreadcrumb();
-  }
+  };
 
   addBreadcrumb = (): void => {
     const bread: Array<Breadcrumb> = [];

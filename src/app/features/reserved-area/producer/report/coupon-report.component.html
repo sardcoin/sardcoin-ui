@@ -1,12 +1,25 @@
-<h1 class="text-center">Coupons Report</h1>
-
-<select [ngModel]="rangeSelected" class='form-control'
-         (change)="ChangingRange($event)">
-      <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
-</select>
-<google-chart [data]="barChart"></google-chart>
-<p></p>
-<google-chart  [data]="stackedColumnChart"></google-chart>
-<p></p>
-<google-chart [data]="pieChart"></google-chart>
-
+<div class="container-fluid mb-0">
+  <div class="row">
+    <div class="col-lg-12 col-xl-12">
+      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
+           style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+        <h4 class="text-white text-center text-uppercase mb-0">Coupon Report</h4>
+      </div>
+      <div class="card">
+        <div class="p-4">
+          <div class="row col-md-2 d-flex ml-auto">
+            <select [ngModel]="rangeSelected" class='form-control'
+                    (change)="ChangingRange($event)">
+              <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
+            </select>
+          </div>
+          <div class="row">
+            <google-chart [data]="barChart" class="col-md-6 mb-2"></google-chart>
+            <google-chart [data]="stackedColumnChart" class="col-md-6 mb-2"></google-chart>
+            <google-chart [data]="pieChart" class="col-md-6 mb-2"></google-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
