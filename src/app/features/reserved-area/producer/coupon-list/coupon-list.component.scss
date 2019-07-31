@@ -20,6 +20,10 @@ td {
   border: 0 !important;
 }
 
+tr.mat-header-row {
+  border-bottom: 5px solid #20a8d8 !important;
+}
+
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #edf5fd !important;
 }
