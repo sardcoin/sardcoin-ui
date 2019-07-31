@@ -1,27 +1,29 @@
-import {NgModule} from '@angular/core';
-import {FeatureReservedAreaCouponListComponent} from './coupon-list.component';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {SharedModule} from '../../../../shared/shared.module';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
-
-import {ModalBackdropComponent} from 'ngx-bootstrap';
+import { NgModule } from '@angular/core';
+import { MatPaginatorIntl, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
+import { BsDropdownModule, ModalModule } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { SharedModule } from '../../../../shared/shared.module';
+import { FeatureReservedAreaCouponListComponent } from './coupon-list.component';
 
 @NgModule({
   declarations: [
-    FeatureReservedAreaCouponListComponent,
+    FeatureReservedAreaCouponListComponent
   ],
   imports: [
     SharedModule,
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    MatSortModule,
+    MatTableModule,
+    MatPaginatorModule,
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   exports: [
-    FeatureReservedAreaCouponListComponent,
+    FeatureReservedAreaCouponListComponent
   ],
   providers: [
-    BreadcrumbActions,
-    BsModalService
+    BsModalService,
+    BreadcrumbActions
   ]
 })
 export class FeatureReservedAreaCouponListModule {

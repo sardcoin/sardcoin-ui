@@ -1,4 +1,4 @@
-/** INTERNAL MODULES **/
+// INTERNAL MODULES
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-/** INTERNAL COMPONENTS **/
+// INTERNAL COMPONENTS
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { CoreModule } from './core/core.module';
@@ -17,13 +17,15 @@ import { StoreService } from './shared/_services/store.service';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { StoreModule } from './shared/store/store.module';
 
-/** EXTERNAL LIBRARIES **/
+// EXTERNAL LIBRARIES
+import { MatPaginatorIntl } from '@angular/material';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ToastrModule } from 'ngx-toastr';
+import { getItalianPaginatorIntl } from './shared/_translations/italian-paginator-intl.translation';
 
 @NgModule({
   imports: [
@@ -49,12 +51,15 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
     GlobalEventsManagerService,
     CouponService,
     StoreService,
-    CartActions
+    CartActions,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {
+      provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl()
+    }
   ],
   bootstrap: [AppComponent]
 })
