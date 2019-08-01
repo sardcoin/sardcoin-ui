@@ -1,9 +1,10 @@
-import {CouponToken} from './CouponToken';
-import {User} from './User';
-import {Category} from './Category';
+// noinspection TsLint
+import { Category } from './Category';
+import { CouponToken } from './CouponToken';
+import { User } from './User';
 
 export interface Package extends Coupon {
-  package: PackItem[]
+  package: Array<PackItem>;
 }
 
 export interface Coupon {
@@ -11,7 +12,7 @@ export interface Coupon {
   title: string;
   description: string;
   image: string;
-  timestamp?:  Date | number;
+  timestamp?: Date | number;
   price: number;
   visible_from: Date | number;
   valid_from: Date | number;
@@ -23,12 +24,12 @@ export interface Coupon {
   quantity_pack?: number;
   max_quantity?: number;
   owner?: number;
-  CouponTokens?: CouponToken[] | string;
+  CouponTokens?: Array<CouponToken> | string;
   token?: CouponToken;
   purchase_time?: Date | number;
-  brokers?: User[];
-  categories?: Category[];
-  coupons?: Coupon[];
+  brokers?: Array<User>;
+  categories?: Array<Category>;
+  coupons?: Array<Coupon>;
   type?: number;
   assigned?: number;
   state?: string;

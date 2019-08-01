@@ -1,25 +1,25 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {StoreService} from '../../../../shared/_services/store.service';
-import {QuantityPackageValidation} from '../package-create/validator/QuantityPackageValidation.directive';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
-import {DateValidation} from '../package-create/validator/DateValidation.directive';
-import {CategoriesService} from '../../../../shared/_services/categories.service';
-import {PackageService} from '../../../../shared/_services/package.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon, Package, PackItem } from '../../../../shared/_models/Coupon';
+import { CategoriesService } from '../../../../shared/_services/categories.service';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { PackageService } from '../../../../shared/_services/package.service';
+import { StoreService } from '../../../../shared/_services/store.service';
+import { DateValidation } from '../package-create/validator/DateValidation.directive';
+import { QuantityPackageValidation } from '../package-create/validator/QuantityPackageValidation.directive';
 
 @Component({
   selector: 'app-edit-package',
   templateUrl: './package-edit.component.html',
-  styleUrls: ['./package-edit.component.scss'],
+  styleUrls: ['./package-edit.component.scss']
 })
 
 export class PackageEditComponent implements OnInit, OnDestroy {
@@ -38,8 +38,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   submitted = false;
 
   couponPass: any;
-  coupons: Coupon[] = [];
-  couponsAvailable: Coupon[];
+  coupons: Array<Coupon> = [];
+  couponsAvailable: Array<Coupon>;
   selectedCoupons: Array<PackItem> = [];
   selectedCategories = [];
   categories: any;
@@ -48,9 +48,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
 
-  public uploader: FileUploader = new FileUploader({
+  uploader: FileUploader = new FileUploader({
     url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage',
-    authToken: 'Bearer ' + this.storeService.getToken(),
+    authToken: 'Bearer ' + this.storeService.getToken()
   });
 
   maxQuantity: number;
@@ -63,7 +63,6 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('couponAdding') couponAdding;
 
-
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -73,7 +72,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private packageService: PackageService,
-    private modalService: BsModalService,
+    private modalService: BsModalService
 
   ) {
       this.couponService.currentMessage.subscribe(coupon => {
@@ -87,22 +86,20 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.categoriesService.getAll().subscribe(cat => {
           this.categories = cat;
           for (const c of catCp.category) {
-            const category = this.categories.find( el => el.id === c.category_id);
+            const category = this.categories.find(el => el.id === c.category_id);
             this.selectedCategories.push(category);
           }
           this.categoriesUpdate = true;
         });
         });
     });
-    this.couponService.checkFrom.subscribe(fromEdit => {
+      this.couponService.checkFrom.subscribe(fromEdit => {
       this.fromEdit = fromEdit;
     });
 
-    this.couponService.getBrokerCoupons().subscribe( cp => {
+      this.couponService.getBrokerCoupons().subscribe(cp => {
       this.couponsAvailable = cp;
     });
-
-
 
   }
 
@@ -141,12 +138,11 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.fromEdit) {
-      this.packageForm.controls['coupons'].disable();
-      this.packageForm.controls['selected'].disable();
+      this.packageForm.controls.coupons.disable();
+      this.packageForm.controls.selected.disable();
     } else {
     }
     await this.setCoupons();
-
 
     this.addBreadcrumb();
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
@@ -204,7 +200,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.couponService.create(coupon)
       .subscribe(data => {
 
-        if (data['created']) {
+        if (data.created) {
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);
         } else {
@@ -225,7 +221,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     }
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        if (!data['updated']) {
+        if (!data.updated) {
           this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
         } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
@@ -238,7 +234,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/reserved-area/broker/'));
     bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/broker/edit/'));
@@ -345,7 +341,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
 
             if (this.fromEdit) {
-              this.initSelectedCoupons(coupons['coupons_array']);
+              this.initSelectedCoupons(coupons.coupons_array);
               this.couponsAvailable = this.coupons;
 
               for (const cp of coupons.coupons_array) {
@@ -354,11 +350,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
             }
       });
 
-      if (!this.coupons || this.coupons.length === 0) {
+        if (!this.coupons || this.coupons.length === 0) {
         this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
       }
-
-
 
     } catch (e) {
       console.error(e);
@@ -366,7 +360,6 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     }
 
   }
-
 
   openModal(template: TemplateRef<any>, coupon_id = null, edit = false) {
     // this.modalCoupon = this.packageForm.get('coupons').value;
@@ -414,7 +407,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       }
     } else {
       this.selectedCoupons.push({
-        coupon: coupon,
+        coupon,
         quantity: this.myForm.value.quantity
       });
 
@@ -444,11 +437,11 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   initSelectedCoupons(original) {
 
-     const array = original
+     const array = original;
      const result = [];
      const map = new Map();
      for (const item of array) {
-       if(!map.has(item.id)){
+       if (!map.has(item.id)) {
          map.set(item.id, true);    // set any value to Map
          result.push({
            coupon: item,
@@ -463,10 +456,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
        }
      }
-    this.selectedCoupons = result;
-    return result;
+     this.selectedCoupons = result;
+     return result;
    }
-
 
   changeCouponQuantity(type: boolean) {
     if (type) {
@@ -500,24 +492,23 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       return;
     }
     const mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
+    if (mimeType.match(/image\/*/) == undefined) {
       return;
     }
 
     const reader = new FileReader();
     this.imagePath = files[0].name;
     reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
+    reader.onload = _event => {
       this.imageSelected = reader.result;
-    }
+    };
   }
 
   getSelectedCategories(id) {
 
-
       this.categoriesService.getCategoryCoupon(id).subscribe(cat => {
         for (const c of cat.category) {
-          const category = this.categories.find( el => el.id === c.category_id);
+          const category = this.categories.find(el => el.id === c.category_id);
           this.selectedCategories.push(category);
         }
         return this.selectedCategories;

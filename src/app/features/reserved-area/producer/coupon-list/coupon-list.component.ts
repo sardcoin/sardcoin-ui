@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -10,13 +10,6 @@ import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../../shared/_models/Coupon';
 import { CouponService } from '../../../../shared/_services/coupon.service';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -30,7 +23,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   modalRef: BsModalRef;
   modalCoupon: Coupon;
 
-  dataSource: MatTableDataSource<Coupon>; // = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
 
   @ViewChild('template') template: ElementRef;
@@ -46,10 +39,9 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     private toastr: ToastrService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.control();
     this.addBreadcrumb();
-    // this.translatePaginator();
   }
 
   onEdit = (coupon: Coupon): void => {
@@ -108,21 +100,11 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   control = (): void => {
     this.couponService.getProducerCoupons()
       .subscribe(data => {
-          // this.couponArray = data;
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }, error => console.log(error)
       );
-  };
-
-  translatePaginator = (): void => {
-    this.paginator._intl.itemsPerPageLabel = 'Numero di elementi: ';
-    this.paginator._intl.firstPageLabel = 'Prima pagina';
-    this.paginator._intl.lastPageLabel = 'Ultima pagina';
-    this.paginator._intl.nextPageLabel = 'Pagina successiva';
-    this.paginator._intl.previousPageLabel = 'Pagina precedente';
-    this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => `${page} di ${length}`;
   };
 
   openModal = (coupon: Coupon): void => {
