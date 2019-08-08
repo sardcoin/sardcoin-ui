@@ -17,8 +17,8 @@ export class ReportService {
   getReportProducerCoupons = (): Observable<any> =>
     this.http.get<any>(this.formatUrl('getReportProducerCoupons'));
 
-  getReportBrokerProducerCoupons = (): Observable<any> =>
-    this.http.get<any>(this.formatUrl('getReportBrokerProducerCoupons'));
+  getReportBoughtProducerCoupons = (): Observable<any> =>
+    this.http.get<any>(this.formatUrl('getReportBoughtProducerCoupons'));
 
   // UNUSED
   // getReportBrokerProducerCouponFromId = (id: number): Observable<any> =>

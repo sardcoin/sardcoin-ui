@@ -112,6 +112,7 @@ export class CartActions {
     return !!this.reduxCart;
   }
 
+  //TODO fix for package
   async getQuantityAvailableForUser(coupon_id: number) {
     let availableCoupons: Coupon[];
     let purchasedCoupon: PurchasedCoupon;

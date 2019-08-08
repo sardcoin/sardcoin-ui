@@ -1,10 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {ReportService} from '../../../../shared/_services/report.service';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import {getFullYear} from 'ngx-bootstrap/chronos/utils/date-getters';
-import {getMonth} from 'ngx-bootstrap/chronos';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { getMonth } from 'ngx-bootstrap/chronos';
+import { getFullYear } from 'ngx-bootstrap/chronos/utils/date-getters';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ReportService } from '../../../../shared/_services/report.service';
+import * as _ from 'lodash';
+import { ChartErrorEvent } from 'ng2-google-charts';
 
 @Component({
   selector: 'app-feature-reserved-area-producer-report',
@@ -13,41 +15,99 @@ import {getMonth} from 'ngx-bootstrap/chronos';
 })
 export class FeatureReservedAreaProducerCouponReportComponent implements OnInit, OnDestroy {
 
-  public range = ['year', 'month', 'day'];
-  public rangeSelected: string;
-  public reportCoupons: any = null;
-  public reportCouponsYear: any = null;
-  public reportCouponsMonth: any = null;
-  public reportCouponsDay: any = null;
+  range = ['year', 'month', 'day'];
+  rangeSelected: string;
+  reportCoupons: any = null;
+  reportCouponsYear: any = null;
+  reportCouponsMonth: any = null;
+  reportCouponsDay: any = null;
 
-  public reportCouponsWithBroker: any = null;
-  public reportCouponsWithBrokerYear: any = null;
-  public reportCouponsWithBrokerMonth: any = null;
-  public reportCouponsWithBrokerDay: any = null;
+  reportCouponsWithBroker: any = null;
+  reportCouponsWithBrokerYear: any = null;
+  reportCouponsWithBrokerMonth: any = null;
+  reportCouponsWithBrokerDay: any = null;
 
-  public barChart: any = null;
-  public stackedColumnChart: any = null;
-  public pieChart: any = null;
 
-  ngOnInit() {
+  barChart: any  = {
+    chartType: 'Bar',
+    dataTable: [],
+    options: {
+      chart: {
+        title: 'Grafico Coupons',
+        subtitle: 'Grafico Coupons distinti in base al loro stato ( attivi, venduti, consumati, scaduti)'
+      },
+      width: 510,
+      height: 340
+    }
+  };
+
+  barChartNull: any  = {
+    chartType: 'Bar',
+    dataTable: [['', '']],
+    options: {
+      chart: {
+        title: 'Grafico Coupons',
+        subtitle: 'Nessun dato nel periodo selezionato'
+      },
+      width: 510,
+      height: 340
+    }
+  };
+  barChartForBoughtProducer: any = {
+      chartType: 'Bar',
+      dataTable: [],
+      options: {
+        chart: {
+          title: 'Grafico incassi (euro)',
+          subtitle: ''
+        },
+        width: 510,
+        height: 340
+      }
+
+    }
+  barChartForBoughtProducerNull: any = {
+    chartType: 'Bar',
+    dataTable: [['', '']],
+    options: {
+      chart: {
+        title: 'Grafico incassi (euro)',
+        subtitle: 'Nessun dato nel periodo selezionato'
+      },
+      width: 510,
+      height: 340
+    }
+
+  }
+  pieChart: any  = {
+      chartType: 'PieChart',
+      dataTable: [],
+      options: {
+        title: 'Coupons venduti ',
+        slices: {
+          0: {offset: 0.3},
+          1: {offset: 0.2}
+        }
+      }
+    };
+    ngOnInit() {
     this.addBreadcrumb();
 
   }
 
-  constructor(
+    constructor(
     private breadcrumbActions: BreadcrumbActions,
     private reportService: ReportService
   ) {
     this.init();
   }
 
-
-  ngOnDestroy() {
+    ngOnDestroy() {
     this.removeBreadcrumb();
   }
 
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    addBreadcrumb() {
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Report', '/reserved-area/producer/report'));
@@ -55,25 +115,27 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
-  removeBreadcrumb() {
+    removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-  groupBy(xs, key) {
+    groupBy(xs, key) {
 
     if (xs) {
-      return xs.reduce(function (rv, x) {
+      return xs.reduce(function(rv, x) {
         (rv[x[key]] = rv[x[key]] || []).push(x);
+
         return rv;
       }, {});
+    } else {
+      return null;
     }
   }
 
-
-  ChangingRange(event?) {
+    ChangingRange(event?) {
     if (event) {
       this.rangeSelected = event.target.value;
     } else {
-      this.rangeSelected = this.range[2];
+      this.rangeSelected = this.range[0];
     }
     switch (this.rangeSelected) {
 
@@ -112,106 +174,56 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         this.reportCouponsWithBroker = this.reportCouponsWithBrokerDay;
       }
     }
-     this.setBarChart(this.reportCoupons, this.rangeSelected);
+    this.setBarChart(this.reportCoupons, this.rangeSelected);
     this.setPieChart(this.reportCouponsWithBroker, this.rangeSelected);
-    this.setStackedColumnChart(this.reportCouponsWithBroker, this.rangeSelected);
-
-
-
+    this.setBarChartBoughtProducerBroker(this.reportCouponsWithBroker, this.rangeSelected);
 
   }
 
-  setBarChart(report, range) {
+    setBarChart(report, range) {
     if (range == 'year' || range == '0: year') {
-      this.barChart = {
-        chartType: 'Bar',
-        dataTable: this.convertJsonToArrayForBar(report, range),
-        options: {
-          chart: {
-            title: 'Grafico Coupons',
-            subtitle: 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per anno'
-          }
-        }
-      };
-
+      this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
+      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per anno';
+      this.barChart = Object.create(this.barChart);
 
     } else if (range == 'month' || range == '1: month') {
-      this.barChart = {
-        chartType: 'Bar',
-        dataTable: this.convertJsonToArrayForBar(report, range),
-        options: {
-          chart: {
-            title: 'Grafico Coupons',
-            subtitle: 'Grafico Coupons distinti in base al loro stato ( attivi, venduti, consumati, scaduti) nell\'anno corrente'
-          }
-        }
-      };
+      this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
+      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per mese (anno corrente)';
+      this.barChart = Object.create(this.barChart);
 
     } else {
-      this.barChart = {
-        chartType: 'Bar',
-        dataTable: this.convertJsonToArrayForBar(report, range),
-        options: {
-          chart: {
-            title: 'Grafico Coupons',
-            subtitle: 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) nel mese corrente'
-          }
-        }
-      };
+      this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
+      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per giorno (mese corrente)';
+      this.barChart = Object.create(this.barChart);
+
     }
   }
 
-  setStackedColumnChart(report, range) {
+    setBarChartBoughtProducerBroker(report, range) {
     if (range == 'year' || range == '0: year') {
-      this.stackedColumnChart = {
-        chartType: 'ColumnChart',
-        dataTable: this.convertJsonToArrayForColumn(report, range),
-        options: {
-          width: 600,
-          height: 400,
-          legend: { position: 'top', maxLines: 3 },
-          bar: { groupWidth: '75%' },
-          isStacked: true,
-          title: 'Grafico incassi (euro) raggrupati per anno (incassi totali)',
-        }
-      };
+      this.barChartForBoughtProducer.dataTable = this.convertJsonToArrayForBoughtProducer(report, range);
+      this.barChartForBoughtProducer.options.chart.subtitle = 'Grafico incassi (euro) raggrupati per anno (incassi totali)'
+      this.barChartForBoughtProducer = Object.create(this.barChartForBoughtProducer);
+
 
     } else if (range == 'month' || range == '1: month') {
-      this.stackedColumnChart = {
-        chartType: 'ColumnChart',
-        dataTable: this.convertJsonToArrayForColumn(report, range),
-        options: {
-          width: 600,
-          height: 400,
-          legend: { position: 'top', maxLines: 3 },
-          bar: { groupWidth: '75%' },
-          isStacked: true,
-          title: 'Grafico incassi (euro) raggrupati per mesi (anno corrente)',
+      this.barChartForBoughtProducer.dataTable = this.convertJsonToArrayForBoughtProducer(report, range);
+      this.barChartForBoughtProducer.options.chart.subtitle = 'Grafico incassi (euro) raggrupati per mese (incassi anno corrente)'
+      this.barChartForBoughtProducer = Object.create(this.barChartForBoughtProducer);
 
-        }
-      };
 
     } else {
-      this.stackedColumnChart = {
-        chartType: 'ColumnChart',
-        dataTable: this.convertJsonToArrayForColumn(report, range),
-        options: {
-          width: 600,
-          height: 400,
-          legend: { position: 'top', maxLines: 3 },
-          bar: { groupWidth: '75%' },
-          isStacked: true,
-          title: 'Grafico incassi (euro) raggrupati per giorni (mese corrente)',
+      this.barChartForBoughtProducer.dataTable = this.convertJsonToArrayForBoughtProducer(report, range);
+      this.barChartForBoughtProducer.options.chart.subtitle = 'Grafico incassi (euro) raggrupati per giorno (incassi mese corrente)'
+      this.barChartForBoughtProducer = Object.create(this.barChartForBoughtProducer);
 
-        }
-      };
     }
   }
 
-  setPieChart(report, range) {
+    setPieChart(report, range) {
       this.pieChart = {
         chartType: 'PieChart',
-        dataTable: this.convertJsonToArrayForPie(report, range),
+        dataTable: [], // this.convertJsonToArrayForPie(report, range) da mettere
         options: {
           title: 'Coupons venduti ' + this.setTitlePie(range),
           slices: {
@@ -220,45 +232,62 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
           }
         }
     };
-
-  }
-
-  init() {
+      this.pieChart = Object.create(this.pieChart);
 
 
-    this.reportService.getReportBrokerProducerCoupons().subscribe( couponsBroker => {
-      if (couponsBroker) {
-        console.log('cp for pie', couponsBroker);
-        this.reportCouponsWithBrokerYear = this.groupBy(couponsBroker, 'year');
-        this.reportCouponsWithBrokerMonth = this.groupBy(this.reportCouponsWithBrokerYear[getFullYear(new Date())], 'month');
-        this.reportCouponsWithBrokerDay = this.groupBy(this.reportCouponsWithBrokerMonth[getMonth(new Date()) + 1], 'day');
+    }
+
+    init() {
+
+    this.reportService.getReportBoughtProducerCoupons().subscribe(couponsBougth => {
+      if (couponsBougth) {
+        console.log('getReportBougthProducerCoupons', couponsBougth);
+        if (couponsBougth) {
+          this.reportCouponsWithBrokerYear = _.groupBy(couponsBougth, 'year');
+          console.log('this.reportCouponsWithBrokerYear', this.reportCouponsWithBrokerYear);
+
+          if (this.reportCouponsWithBrokerYear) {
+            this.reportCouponsWithBrokerMonth = _.groupBy(this.reportCouponsWithBrokerYear[getFullYear(new Date())], 'month');
+            console.log('this.reportCouponsWithBrokerMonth', this.reportCouponsWithBrokerMonth);
+
+            if (this.reportCouponsWithBrokerMonth) {
+              this.reportCouponsWithBrokerDay = _.groupBy(this.reportCouponsWithBrokerMonth[getMonth(new Date()) + 1], 'day');
+              console.log('this.reportCouponsWithBrokerDay', this.reportCouponsWithBrokerDay);
+
+            }
+          }
+        }
 
         this.reportService.getReportProducerCoupons().subscribe(coupons => {
-          console.log('cp for bar', coupons);
+          console.log('getReportProducerCoupons', coupons);
           if (coupons) {
             this.reportCouponsYear = this.groupBy(coupons, 'year');
-            this.reportCouponsMonth = this.groupBy(this.reportCouponsYear[getFullYear(new Date())], 'month');
-            this.reportCouponsDay = this.groupBy(this.reportCouponsMonth[getMonth(new Date()) + 1], 'day');
-            this.ChangingRange();
+            if (this.reportCouponsYear) {
+              this.reportCouponsMonth = this.groupBy(this.reportCouponsYear[getFullYear(new Date())], 'month');
+              if (this.reportCouponsMonth) {
+                this.reportCouponsDay = this.groupBy(this.reportCouponsMonth[getMonth(new Date()) + 1], 'day');
+              }
+            }
+
+          console.log();
           }
+          this.ChangingRange();
         });
       }
     });
 
   }
 
-  convertJsonToArrayForBar(report, range) {
+    convertJsonToArrayForBar(report, range) {
 
     console.log('reportBar', report);
     if (!report) {
-      return null;
+      return [];
     }
 
     const totalArray = [];
     let singleArray = [];
-    if (range == 'year' || range == '0: year') {singleArray = ['Anno', 'Attivi', 'Venduti', 'Consumati', 'scaduti']; }
-    if (range == 'month' || range == '1: month') {singleArray = ['Mese', 'Attivi', 'Venduti', 'Consumati', 'scaduti']; }
-    if (range == 'day' || range == '2: day' ) {singleArray = ['Giorno', 'Attivi', 'Venduti', 'Consumati', 'scaduti']; }
+    singleArray = ['Anno', 'Attivi', 'Venduti', 'Consumati', 'scaduti'];
     totalArray.push(singleArray);
     for (const key in report) {
       let active = 0;
@@ -276,19 +305,18 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
           expired += arr.expired;
         }
         singleArray = [this.convertMonth(key.valueOf()), active.valueOf(),
-                        buyed.valueOf() , verify.valueOf(), expired.valueOf()];
+                       buyed.valueOf() , verify.valueOf(), expired.valueOf()];
         totalArray.push(singleArray);
       }
     }
-    console.log('barTotalArray', totalArray)
+    console.log('barTotalArray', totalArray);
 
     return totalArray;
   }
 
-
-  convertJsonToArrayForPie(report, range) {
+    convertJsonToArrayForPie(report, range) {
     if (!report) {
-      return null;
+      return [];
     }
     const totalArray = [];
     let singleArray = [];
@@ -299,77 +327,96 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
-          broker = arr.username == null ? 'Senza Broker' : arr.username;
+          broker = arr.username == undefined ? 'Senza Broker' : arr.username;
           singleArray = [broker, arr.buyed.valueOf()];
           totalArray.push(singleArray);
         }
 
       }
     }
+
     return totalArray;
   }
 
-  convertJsonToArrayForColumn(report, range) {
-    console.log('reportColumn', report);
-    console.log('reportBar', report);
-    if (!report) {
-      return null;
+    convertJsonToArrayForBoughtProducer(report, range) {
+    console.log('range', range);
+      if (!report) {
+      return [];
     }
     const totalArray = [];
-    let singleArray = [];
-    const arrayHeader = []
-    if (report) {
-      arrayHeader.push('Di:');
+    let singleArray = [range == 'year' || range == '0: year' ?
+      'anno' : range == 'month' || range == '1: month' ?
+        'mese' : 'giorno',
+       'Senza Broker', 'Con Broker'];
+    totalArray.push(singleArray);
+    const arrayHeader = [];
 
-    }
     for (const key in report) {
-      let broker = '';
+      let totalWithBroker = 0;
+      let totalWithoutBroker = 0;
 
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
-          broker = arr.username == null ? 'Senza Broker' : arr.username;
-          arrayHeader.push(broker);
-        }
-      }
-    }
-    totalArray.push(arrayHeader);
-    for (const key in report) {
-      singleArray.push(this.convertMonth(key.valueOf()))
-      for (let i = 1; i < arrayHeader.length; i++) {
-        singleArray.push(0);
-      }
-      if (report.hasOwnProperty(key)) {
+         if (arr.package) {
+           totalWithBroker += (arr.price * arr.bought);
+         } else {
 
-
-        for (let i = 0; i < report[key].length; i++) {
-              const username = report[key][i].username;
-               const receipt = report[key][i].receipt;
-
-          for (let j = 0; j < arrayHeader.length; j++) {
-                console.log('i', i, 'report[key][i].username', username, 'j', j,  'arrayHeader[j]', arrayHeader[j])
-                  if (username == arrayHeader[j] || (username == null && arrayHeader[j] == 'Senza Broker')) {
-
-                    singleArray[j] = receipt;
-                  }
-              }
+           totalWithoutBroker += (arr.price * arr.bought);
+         }
         }
 
+        singleArray = [this.convertMonth(key.valueOf()), totalWithoutBroker,
+                       totalWithBroker]
+        totalArray.push(singleArray);
+
       }
-      totalArray.push(singleArray);
-      singleArray = [];
     }
+    // totalArray.push(arrayHeader);
+    // for (const key in report) {
+    //   singleArray.push(key);
+    //   console.log('key', key)
+    //   // singleArray.push(this.convertMonth(key.valueOf())); for month
+    //
+    //   for (let i = 1; i < arrayHeader.length; i++) {
+    //     singleArray.push('0');
+    //   }
+    //   if (report.hasOwnProperty(key)) {
+    //
+    //     for (let i = 0; i < report[key].length; i++) {
+    //           const pack = report[key][i].package;
+    //           const receipt = report[key][i].price;
+    //
+    //           for (let j = 0; j < arrayHeader.length; j++) {
+    //             // console.log('i', i, 'report[key][i].username', pack, 'j', j,  'arrayHeader[j]', arrayHeader[j]);
+    //             if (pack ) {
+    //
+    //                 singleArray[j] = receipt;
+    //               } else {
+    //               singleArray[j] = receipt;
+    //
+    //             }
+    //           }
+    //     }
+    //
+    //   }
+    //   totalArray.push(singleArray);
+    //   singleArray = [];
+    // }
+      if (totalArray.length == 1) {
+      return [];
+      }
     return totalArray;
   }
 
-  setTitlePie(range) {
+    setTitlePie(range) {
 
     if (range == 'year' || range == '0: year') {return ' totali'; }
     if (range == 'month' || range == '1: month') {return ' nell\' anno';  }
-    if (range == 'day' || range == '2: day' ) {return ' nel mese';  }
+    if (range == 'day' || range == '2: day') {return ' nel mese';  }
 
   }
 
-  translate(item) {
+    translate(item) {
     switch (item) {
 
       case 'year': return 'anni';
@@ -379,7 +426,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     }
   }
 
-  convertMonth(range) {
+    convertMonth(range) {
     if (this.reportCoupons == this.reportCouponsMonth) {
       switch (Number(range)) {
         case 1:
@@ -412,4 +459,30 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       return range;
     }
   }
-}
+
+  public error(event: ChartErrorEvent) {
+    console.log('erroooooooorrrrreeeeee')
+    event.message = 'Nessun Dato';
+    event.id = 'producer-broker';
+    const barChartForBoughtProducer = {
+      chartType: 'Bar',
+      dataTable: [],
+      options: {
+        chart: {
+          title: 'Grafico incassi (euro)',
+          subtitle: 'Nessun Dato presente in questa data'
+        },
+        width: 510,
+        height: 340
+      }
+
+    }
+    //this.setBaseNullData(barChartForBoughtProducer)
+  }
+  public setBaseNullData(barChartForBoughtProducer) {
+
+
+    // this.barChartForBoughtProducer = Object.create(this.barChartForBoughtProducer);
+    return this.barChartForBoughtProducer
+  }
+};

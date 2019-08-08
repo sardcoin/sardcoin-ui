@@ -13,13 +13,24 @@
               <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
             </select>
           </div>
-          <div class="row">
-            <google-chart [data]="barChart" class="col-md-6 mb-2"></google-chart>
-            <google-chart [data]="stackedColumnChart" class="col-md-6 mb-2"></google-chart>
-            <google-chart [data]="pieChart" class="col-md-6 mb-2"></google-chart>
+          <div class="container">
+            <div class="row">
+              <google-chart   *ngIf="barChart.dataTable.length !== 0" [data]="barChart" class="col "></google-chart>
+              <google-chart   *ngIf="barChart.dataTable.length === 0" [data]="barChartNull" class="col "></google-chart>
+              <google-chart *ngIf="barChartForBoughtProducer.dataTable.length !== 0" [data]="barChartForBoughtProducer" class="col"></google-chart>
+              <google-chart *ngIf="barChartForBoughtProducer.dataTable.length === 0" [data]="barChartForBoughtProducerNull" class="col"></google-chart>
+
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
+              <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  {{barChartForBoughtProducer.dataTable.length}}
 </div>
