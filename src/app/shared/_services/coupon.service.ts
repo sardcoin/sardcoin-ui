@@ -46,6 +46,7 @@ export class CouponService {
       .toString()
       .replace(new RegExp(',', 'g'), '-')}`;
 
+
   getBrokerFromCouponId(id: number) {
     return this.http.get<String[]>(this.formatUrl('getBrokerFromCouponId/' + id));
   }
