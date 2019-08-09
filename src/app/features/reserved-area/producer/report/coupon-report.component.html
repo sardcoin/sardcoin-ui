@@ -7,22 +7,20 @@
       </div>
       <div class="card">
         <div class="p-4">
-          <div class="row col-md-2 d-flex ml-auto">
+          <div class="row col-md-4 d-flex ml-auto">
             <select [ngModel]="rangeSelected" class='form-control'
                     (change)="ChangingRange($event)">
               <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
             </select>
           </div>
-          <div class="container">
+          <div class="container mt-2">
             <div class="row">
-              <google-chart   *ngIf="barChart.dataTable.length !== 0" [data]="barChart" class="col "></google-chart>
-              <google-chart   *ngIf="barChart.dataTable.length === 0" [data]="barChartNull" class="col "></google-chart>
-              <google-chart *ngIf="barChartForBoughtProducer.dataTable.length !== 0" [data]="barChartForBoughtProducer" class="col"></google-chart>
-              <google-chart *ngIf="barChartForBoughtProducer.dataTable.length === 0" [data]="barChartForBoughtProducerNull" class="col"></google-chart>
+              <google-chart   [data]="barChart" class="col "></google-chart>
+              <google-chart  [data]="barChartForBoughtProducerMoney" class="col"></google-chart>
 
             </div>
           </div>
-          <div class="container">
+          <div class="container mt-2">
             <div class="row">
               <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
               <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
@@ -32,5 +30,5 @@
       </div>
     </div>
   </div>
-  {{barChartForBoughtProducer.dataTable.length}}
+  {{barChartForBoughtProducerMoney.dataTable.length}}
 </div>
