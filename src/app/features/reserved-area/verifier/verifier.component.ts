@@ -1,21 +1,22 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
-import {ToastrService} from 'ngx-toastr';
-import {CouponService} from '../../../shared/_services/coupon.service';
-import {StoreService} from '../../../shared/_services/store.service';
-import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
-import {ZXingScannerComponent} from '@zxing/ngx-scanner';
-import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
-import {Result} from '@zxing/library';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Result } from '@zxing/library';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { ToastrService } from 'ngx-toastr';
+
+// Local imports
+import { Breadcrumb } from '../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../core/breadcrumb/breadcrumb.actions';
+import { CouponService } from '../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-verifier',
   templateUrl: './verifier.component.html',
   styleUrls: ['./verifier.component.scss']
 })
-export class VerifierComponent implements OnInit, OnDestroy {
+export class VerifierComponent implements OnInit, OnDestroy { // TODO check after holidays if works on smartphones
   tokenForm: FormGroup;
   submitted = false;
   coupon: any;
@@ -27,7 +28,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   hasCameras = false;
   hasPermission: boolean;
   qrResultString: string;
-  availableDevices: MediaDeviceInfo[];
+  availableDevices: Array<MediaDeviceInfo>;
   selectedDevice: MediaDeviceInfo;
   desktopMode: boolean;
 
@@ -36,7 +37,6 @@ export class VerifierComponent implements OnInit, OnDestroy {
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
-    public storeService: StoreService,
     private globalEventService: GlobalEventsManagerService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
@@ -44,10 +44,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newCamera();
     this.tokenForm = this.formBuilder.group({
-      token: [null, Validators.required]
+      token: [undefined, Validators.required]
     });
 
     this.addBreadcrumb();
@@ -58,89 +58,83 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  get f() {
+  get f(): any {
     return this.tokenForm.controls;
   }
 
-  verify() {
+  verify = (): void => {
     this.submitted = true;
 
     if (this.tokenForm.invalid) {
       return;
     }
 
-    this.couponService.redeemCoupon(this.tokenForm.controls['token'].value)
+    this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
-        this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+        this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon vidimato!');
       }, err => {
         console.error(err);
-        this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+        this.toastr.error('Il token del coupon inserito non è valido oppure è scaduto.', 'Coupon non valido!');
       });
-  }
+  };
 
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+  addBreadcrumb = (): void => {
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verify/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
+  };
 
-  removeBreadcrumb() {
+  removeBreadcrumb = (): void => {
     this.breadcrumbActions.deleteBreadcrumb();
-  }
+  };
 
-  scan() {
+  scan = (): void => {
     this.isScan = true;
-  }
+  };
 
-  qrCodeReadSuccess() {
+  qrCodeReadSuccess = (): void => {
     this.toastr.success('Qr-code letto correttamente!');
-  }
+  };
 
+  newCamera = (): void => {
+    if (this.scanner) {
+      this.scanner.camerasFound.subscribe((devices: Array<MediaDeviceInfo>) => {
+        this.hasCameras = true;
+        this.availableDevices = devices;
+      });
 
-  newCamera() {
+      this.scanner.camerasNotFound.subscribe((devices: Array<MediaDeviceInfo>) => {
+        console.error('Errore fotocamera.');
+      });
 
-    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-      this.hasCameras = true;
+      this.scanner.scanComplete.subscribe((result: Result) => {
+        this.qrResult = result;
+        console.log(result);
+      });
 
+      this.scanner.permissionResponse.subscribe((answer: boolean) => {
+        this.hasPermission = answer;
+      });
+    }
+  };
 
-      this.availableDevices = devices;
-    });
-
-    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-      console.error('Errore fotocamera.');
-    });
-
-    this.scanner.scanComplete.subscribe((result: Result) => {
-      this.qrResult = result;
-      console.log(result);
-    });
-
-    this.scanner.permissionResponse.subscribe((answer: boolean) => {
-      this.hasPermission = answer;
-      // console.log('permission', this.hasPermission );
-    });
-
-  }
-
-  handleQrCodeResult(resultString: string) {
-    console.log('Result: ', resultString);
+  handleQrCodeResult = (resultString: string): void => {
     this.qrResultString = resultString;
-    this.tokenForm.controls['token'].setValue(resultString);
+    this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
     this.isScan = false;
-    this.selectedDevice = null;
-  }
+    this.selectedDevice = undefined;
+  };
 
-  onDeviceSelectChange(selectedValue: string) {
-    // console.log('Selection changed: ', selectedValue);
+  onDeviceSelectChange = (selectedValue: string): void => {
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
-  }
+  };
 
 }

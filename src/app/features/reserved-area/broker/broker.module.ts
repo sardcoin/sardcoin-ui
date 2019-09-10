@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -23,7 +24,6 @@ import { FeatureReservedAreaPackageCreateComponent } from './package-create/pack
 import { PackageEditComponent } from './package-edit/package-edit.component';
 import { FeatureReservedAreaPackageListComponent } from './package-list/package-list.component';
 import { FeatureReservedAreaBrokerPackageReportComponent } from './report/package-report.component';
-import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 
 @NgModule({
   declarations: [

@@ -35,7 +35,7 @@ export class CouponService {
     this.http.get<Array<Coupon>>(this.formatUrl(`getAvailableByCatId/${categoryId}`));
 
   getAvailableByTextAndCatId = (text: string, categoryId: number): Observable<Array<Coupon>> =>
-    this.http.get<Array<Coupon>>(this.formatUrl(`getAvailableByTextAndCatId/'${text}/${categoryId}`));
+    this.http.get<Array<Coupon>>(this.formatUrl(`getAvailableByTextAndCatId/${text}/${categoryId}`));
 
   getCouponById = (id: number): Observable<Coupon> =>
     this.http.get<Coupon>(this.formatUrl(`getById/${id}`));

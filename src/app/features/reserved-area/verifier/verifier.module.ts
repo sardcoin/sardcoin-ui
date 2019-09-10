@@ -1,21 +1,17 @@
-import {ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {CoreModule} from '../../../core/core.module';
-import {SharedModule} from '../../../shared/shared.module';
-import {AppFooterModule} from '@coreui/angular';
-import {CouponService} from '../../../shared/_services/coupon.service';
-import {NgModule} from '@angular/core';
-import {VerifierComponent} from './verifier.component';
-import {VerifierRoutingModule} from './verifier.routing';
-import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppFooterModule } from '@coreui/angular';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { CoreModule } from '../../../core/core.module';
+import { CouponService } from '../../../shared/_services/coupon.service';
+import { SharedModule } from '../../../shared/shared.module';
+import { VerifierComponent } from './verifier.component';
+import { VerifierRoutingModule } from './verifier.routing';
 
 @NgModule({
   declarations: [
     VerifierComponent
-
-
-
-
   ],
   imports: [
     SharedModule,
@@ -27,9 +23,8 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
     ZXingScannerModule.forRoot()
   ],
   providers: [
-    CouponService,
+    CouponService
   ],
-
 
   exports: [
     VerifierComponent

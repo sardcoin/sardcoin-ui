@@ -24,8 +24,7 @@
 
                 <div class="row">
                   <div class="col-sm-3 col-6 pb-2 pr-2">
-                    <div *ngIf="coupon.type === ITEM_TYPE.PACKAGE" class="coupon-package text-uppercase"
-                         style="margin-left: 15px;">
+                    <div *ngIf="coupon.type === ITEM_TYPE.PACKAGE" class="coupon-package text-uppercase">
                       <i class="fas fa-box-open mr-1"></i>
                     </div>
                     <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="Card image cap">
