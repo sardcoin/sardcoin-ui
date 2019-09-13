@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
@@ -9,6 +9,9 @@ import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
 import {Result} from '@zxing/library';
+import {Coupon} from '../../../shared/_models/Coupon';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-verifier',
@@ -20,6 +23,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
   submitted = false;
   coupon: any;
   isScan = false;
+  modalCoupons: any;
+  modalRef: BsModalRef;
 
   @ViewChild('scanner')
   scanner: ZXingScannerComponent;
@@ -40,7 +45,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
     private globalEventService: GlobalEventsManagerService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: BsModalService
   ) {
   }
 
@@ -66,7 +72,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  verify() {
+  verify(template: TemplateRef<any>) {
     this.submitted = true;
 
     if (this.tokenForm.invalid) {
@@ -75,7 +81,13 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.redeemCoupon(this.tokenForm.controls['token'].value)
       .subscribe(result => {
-        this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+          if (result.coupons) {
+              console.log('result', result);
+              this.modalCoupons = result.coupons;
+              this.openModal(template, this.modalCoupons);
+          } else {
+              this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+          }
       }, err => {
         console.error(err);
         this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
@@ -141,6 +153,11 @@ export class VerifierComponent implements OnInit, OnDestroy {
   onDeviceSelectChange(selectedValue: string) {
     // console.log('Selection changed: ', selectedValue);
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
+  }
+
+  openModal(template: TemplateRef<any>, coupons: any) {
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+
   }
 
 }

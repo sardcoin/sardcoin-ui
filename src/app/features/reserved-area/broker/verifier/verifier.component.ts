@@ -75,8 +75,12 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.redeemCoupon(this.tokenForm.controls['token'].value)
       .subscribe(result => {
-        this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
-      }, err => {
+        if (result.coupons) {
+          console.log('result', result);
+        } else {
+            this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+        }
+        }, err => {
         console.error(err);
         this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
       });

@@ -7,7 +7,7 @@
           <h6 class="display-4" style="float:left; font-size:30pt;">Vidima coupon</h6>
         </div>
         <div class="card-body p-5">
-          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
+          <form [formGroup]="tokenForm" (ngSubmit)="openModal(template, null)">
             <div class="form-group row">
               <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il codice</label>
               <div class="col-lg-3 col-md-4 col-sm-3">
@@ -66,51 +66,45 @@
             </div>
             <div class="center text-center ">
               <button *ngIf="!desktopMode" class="btn btn-lg btn-success"><i
-                class="fas fa-plus-circle mr-3"></i>Vidima
+                class="fas fa-plus-circle mr-3"></i>Vidimas
+              </button>
+            </div>
+            <div class="col-md-12 text-center p-0">
+              <button (click)="openModal(template, null)" class="btn btn-lg btn-success"><i
+                      class="fas fa-plus-circle mr-3"></i>apri modal
               </button>
             </div>
           </form>
-<!--          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
-            <div class="form-group row">
-              <label class="col-lg-4 col-sm-4 col-form-label">Inserisci il Token</label>
-              <div class="col-lg-4 col-sm-4">
-
-                <input type="text" formControlName="token" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
-                <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
-                  <div *ngIf="f.token.errors">Inserisci un Token valido!</div>
-                </div>
-              </div>
-              <div class="form group col-lg-4 col-sm-4">
-                <button class="btn btn-block btn-success btn-redeems">Verifica</button>
-              </div>
-            </div>
-          </form>
-          <div class="form-group row">
-            <div class="col-lg-8 col-sm-8">
-              <div *ngIf="isScan">
-                <div *ngIf="availableDevices">
-                  <select (change)="onDeviceSelectChange($event.target.value)">
-                    <option value="" [selected]="!selectedDevice">Seleziona</option>
-                    <option *ngFor="let device of availableDevices" [value]="device.deviceId"
-                            [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{device.label}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form group col-lg-4 col-sm-4">
-              <button class="btn btn-block btn-success btn-redeems" (click)="scan()">Scansiona il QR code</button>
-            </div>
-          </div>
-          <div class="form-group row">
-            <zxing-scanner #scanner class="test-class" start="true" [device]="selectedDevice"
-                           (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
-          </div>-->
         </div>
       </div>
     </div>
   </div>
 </div>
-
+<div class="col-md-12 text-center p-0">
+  <button (click)="openModal(template, null)" class="btn btn-lg btn-success"><i
+          class="fas fa-plus-circle mr-3"></i>apri modal
+  </button>
+</div>
+<ng-template #template>
+  <!--<ul class="list-group">-->
+    <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
+      <!--Cras justo odio-->
+      <!--<span class="badge badge-primary badge-pill">14</span>-->
+    <!--</li>-->
+    <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
+      <!--Dapibus ac facilisis in-->
+      <!--<span class="badge badge-primary badge-pill">2</span>-->
+    <!--</li>-->
+    <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
+      <!--Morbi leo risus-->
+      <!--<span class="badge badge-primary badge-pill">1</span>-->
+    <!--</li>-->
+  <!--</ul>-->
+  <div class="modal-header">
+    ciao
+  </div>
+  <div class="modal-header">
+    arciao
+  </div>
+</ng-template>
 
