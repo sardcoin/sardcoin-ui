@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {BreadcrumbActions} from '../../../core/breadcrumb/breadcrumb.actions';
-import {ToastrService} from 'ngx-toastr';
-import {CouponService} from '../../../shared/_services/coupon.service';
-import {StoreService} from '../../../shared/_services/store.service';
-import {Breadcrumb} from '../../../core/breadcrumb/Breadcrumb';
-import {ZXingScannerComponent} from '@zxing/ngx-scanner';
-import {GlobalEventsManagerService} from '../../../shared/_services/global-event-manager.service';
-import {Result} from '@zxing/library';
-import {Coupon} from '../../../shared/_models/Coupon';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Result } from '@zxing/library';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ToastrService } from 'ngx-toastr';
+import { Breadcrumb } from '../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../core/breadcrumb/breadcrumb.actions';
+import { Coupon } from '../../../shared/_models/Coupon';
+import { CouponService } from '../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../shared/_services/global-event-manager.service';
+import { StoreService } from '../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-verifier',
@@ -32,7 +32,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   hasCameras = false;
   hasPermission: boolean;
   qrResultString: string;
-  availableDevices: MediaDeviceInfo[];
+  availableDevices: Array<MediaDeviceInfo>;
   selectedDevice: MediaDeviceInfo;
   desktopMode: boolean;
 
@@ -72,21 +72,29 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  verify(template: TemplateRef<any>) {
+  verify(template?: TemplateRef<any>) {
     this.submitted = true;
 
     if (this.tokenForm.invalid) {
       return;
     }
 
-    this.couponService.redeemCoupon(this.tokenForm.controls['token'].value)
+    this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
-          if (result.coupons) {
-              console.log('result', result);
-              this.modalCoupons = result.coupons;
-              this.openModal(template, this.modalCoupons);
-          } else {
-              this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+        if (result) {
+            if (result.coupons) {
+                this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
+
+                console.log('result', result);
+                this.modalCoupons = result.coupons;
+                console.log('this.modalCoupons', this.modalCoupons);
+                // this.openModal(template, this.modalCoupons);
+            } else {
+                this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+
+            }
+        } else {
+            this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
           }
       }, err => {
         console.error(err);
@@ -94,8 +102,29 @@ export class VerifierComponent implements OnInit, OnDestroy {
       });
   }
 
+  verifyFromPackage(token) {
+        this.submitted = true;
+
+        if (this.tokenForm.invalid) {
+            return;
+        }
+
+        this.couponService.redeemCoupon(token)
+            .subscribe(result => {
+                if (result) {
+                  this.verifyCouponFromModal(token)
+                  this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+                } else {
+                    this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+                }
+            }, err => {
+                console.error(err);
+                this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+            });
+  }
+
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verify/'));
@@ -115,17 +144,15 @@ export class VerifierComponent implements OnInit, OnDestroy {
     this.toastr.success('Qr-code letto correttamente!');
   }
 
-
   newCamera() {
 
-    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+    this.scanner.camerasFound.subscribe((devices: Array<MediaDeviceInfo>) => {
       this.hasCameras = true;
-
 
       this.availableDevices = devices;
     });
 
-    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+    this.scanner.camerasNotFound.subscribe((devices: Array<MediaDeviceInfo>) => {
       console.error('Errore fotocamera.');
     });
 
@@ -144,7 +171,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   handleQrCodeResult(resultString: string) {
     console.log('Result: ', resultString);
     this.qrResultString = resultString;
-    this.tokenForm.controls['token'].setValue(resultString);
+    this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
     this.isScan = false;
     this.selectedDevice = null;
@@ -156,8 +183,54 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>, coupons: any) {
-      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+    console.log('cp', coupons);
+    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
 
   }
 
+  verifyCouponFromModal(token) {
+    const modalRefresh = this.modalCoupons;
+    for (const arr of modalRefresh) {
+      for (const cp of arr) {
+        if (cp.token === token) {
+
+          arr.pop();
+
+        }
+
+      }
+
+    }
+    this.modalCoupons = modalRefresh;
+    this.controlEmptyModalCoupon();
+    console.log('this.modalCoupons dopo', this.modalCoupons);
+  }
+
+  closeModal() {
+
+      this.modalRef.hide();
+
+  }
+
+  exitPackage() {
+    this.modalCoupons = undefined;
+    }
+
+  controlEmptyModalCoupon() {
+
+    let empty;
+    for (const arr of this.modalCoupons) {
+      for (const cp of arr) {
+        if (cp.length === 0) {
+          empty = true;
+        } else {
+          empty = false;
+        }
+      }
+    }
+    console.log('empty', empty)
+    if (empty === undefined) {
+      this.modalCoupons = undefined;
+    }
+  }
 }
