@@ -21,7 +21,7 @@ import {ReportService} from '../../../shared/_services/report.service';
 @NgModule({
   declarations: [
     FeatureReservedAreaProducerComponent,
-    FeatureReservedAreaProducerCouponReportComponent,
+    FeatureReservedAreaProducerCouponReportComponent
   ],
   imports: [
     SharedModule,

@@ -37,7 +37,9 @@ export class IsConsumerGuard implements CanActivate {
           return true;
         case '3': // verify
           this.eventEmitter.userType.next('3');
-          return false;
+          this.router.navigate(['reserved-area/verifier']);
+
+            return false;
         case '4': // broker
           this.eventEmitter.userType.next('4');
           this.router.navigate(['reserved-area/broker']);

@@ -12,10 +12,6 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
 @NgModule({
   declarations: [
     VerifierComponent
-
-
-
-
   ],
   imports: [
     SharedModule,
@@ -27,10 +23,8 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
     ZXingScannerModule.forRoot()
   ],
   providers: [
-    CouponService,
+    CouponService
   ],
-
-
   exports: [
     VerifierComponent
   ]

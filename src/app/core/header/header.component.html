@@ -5,7 +5,7 @@
 
 <!--*********per desktop********************-->
 
-<div class="fixed-top ">
+<div  class="fixed-top ">
   <nav class="fixed-top " class="navbar navbar-expand-md navbar-light bg-white ">
     <div data-toggle="dropdown">
       <button href="menu" role="button" class="fixed-top " *ngIf="true" type="button"
@@ -34,7 +34,7 @@
                     </a>
                   </div>
 
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                  <a  *ngIf="this.userType != '3'" class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                       <span (click)="clickEvent('/showcase')"
                             class="menu-collapsed">Shopping</span>
                   </a>
@@ -55,12 +55,12 @@
 
                   <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                      <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Redimi coupon</span>
+                      <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Vidima coupon</span>
                     </a>
                   </div>
 
                 </div>
-                <div *ngIf="this.userType"> <!-- this.userType != '3' -->
+                <div *ngIf="this.userType != 3"> <!-- this.userType != '3' -->
                   <div class="align-items-start">
                     <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                     <span (click)="clickEvent(infoUserLink + '/payment-details')"
