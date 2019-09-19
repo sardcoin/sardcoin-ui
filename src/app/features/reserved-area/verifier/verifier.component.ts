@@ -85,9 +85,9 @@ export class VerifierComponent implements OnInit, OnDestroy {
             if (result.coupons) {
                 this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
 
-                console.log('result', result);
+                //console.log('result', result);
                 this.modalCoupons = result.coupons;
-                console.log('this.modalCoupons', this.modalCoupons);
+                //console.log('this.modalCoupons', this.modalCoupons);
                 // this.openModal(template, this.modalCoupons);
             } else {
                 this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
@@ -158,7 +158,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.scanner.scanComplete.subscribe((result: Result) => {
       this.qrResult = result;
-      console.log(result);
+      //console.log(result);
     });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
@@ -169,7 +169,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.log('Result: ', resultString);
+    //console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
@@ -183,7 +183,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>, coupons: any) {
-    console.log('cp', coupons);
+    //console.log('cp', coupons);
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
 
   }
@@ -203,7 +203,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
     }
     this.modalCoupons = modalRefresh;
     this.controlEmptyModalCoupon();
-    console.log('this.modalCoupons dopo', this.modalCoupons);
+    //console.log('this.modalCoupons dopo', this.modalCoupons);
   }
 
   closeModal() {
@@ -228,9 +228,11 @@ export class VerifierComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log('empty', empty)
+    //console.log('empty', empty)
     if (empty === undefined) {
       this.modalCoupons = undefined;
     }
   }
 }
+
+
