@@ -87,7 +87,11 @@ export class CouponService {
   redeemCoupon = (token: string): Observable<any> =>
     this.http.request('put', this.formatUrl('redeemCoupon'), {body: {token}});
 
-  // Observable SET methods
+  isCouponFromToken = (token: string): Observable<any> =>
+        this.http.request('get', this.formatUrl(`isCouponFromToken/${token}`));
+
+
+    // Observable SET methods
   setCoupon = (coupon: Coupon): void =>
     this.couponSource.next(coupon);
 

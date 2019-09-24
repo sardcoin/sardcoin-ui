@@ -37,6 +37,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   desktopMode: boolean;
 
   qrResult;
+  titlePackage: string;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -72,24 +73,28 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  verify(template?: TemplateRef<any>) {
+   verify() {
     this.submitted = true;
 
     if (this.tokenForm.invalid) {
       return;
     }
 
+
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
         if (result) {
             if (result.coupons) {
                 this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
+                this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
+                    .subscribe(cp => {
+                this.titlePackage = cp.title;
+                });
 
-                //console.log('result', result);
                 this.modalCoupons = result.coupons;
-                //console.log('this.modalCoupons', this.modalCoupons);
-                // this.openModal(template, this.modalCoupons);
+
             } else {
+
                 this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
 
             }
@@ -100,6 +105,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
         console.error(err);
         this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
       });
+    if (this.modalRef) {
+        this.modalRef.hide();
+    }
+
   }
 
   verifyFromPackage(token) {
@@ -112,8 +121,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
         this.couponService.redeemCoupon(token)
             .subscribe(result => {
                 if (result) {
-                  this.verifyCouponFromModal(token)
-                  this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+                    this.verifyCouponQuantity(token);
+                    this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
                 } else {
                     this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
                 }
@@ -121,6 +130,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
                 console.error(err);
                 this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
             });
+        this.modalRef.hide();
   }
 
   addBreadcrumb() {
@@ -158,7 +168,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.scanner.scanComplete.subscribe((result: Result) => {
       this.qrResult = result;
-      //console.log(result);
+      // console.log(result);
     });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
@@ -169,7 +179,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   handleQrCodeResult(resultString: string) {
-    //console.log('Result: ', resultString);
+    // console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
@@ -182,13 +192,24 @@ export class VerifierComponent implements OnInit, OnDestroy {
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
   }
 
-  openModal(template: TemplateRef<any>, coupons: any) {
-    //console.log('cp', coupons);
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+  async openModal(template: TemplateRef<any>, token) {
+      const isCoupon = await this.couponService.isCouponFromToken(token)
+          .toPromise();
+      console.log('token', token);
+      if (isCoupon) {
+          if (!isCoupon.error) {
+
+              this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+          } else {
+              this.verify();
+          }
+      } else {
+          this.verify();
+      }
 
   }
 
-  verifyCouponFromModal(token) {
+  verifyCouponQuantity(token) {
     const modalRefresh = this.modalCoupons;
     for (const arr of modalRefresh) {
       for (const cp of arr) {
@@ -203,14 +224,20 @@ export class VerifierComponent implements OnInit, OnDestroy {
     }
     this.modalCoupons = modalRefresh;
     this.controlEmptyModalCoupon();
-    //console.log('this.modalCoupons dopo', this.modalCoupons);
+    // console.log('this.modalCoupons dopo', this.modalCoupons);
   }
 
-  closeModal() {
+    openModalCouponFromPackage(token, template) {
 
-      this.modalRef.hide();
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
 
-  }
+
+    }
+
+  closeModalFalse() {
+        this.modalRef.hide();
+
+    }
 
   exitPackage() {
     this.modalCoupons = undefined;
@@ -228,11 +255,9 @@ export class VerifierComponent implements OnInit, OnDestroy {
         }
       }
     }
-    //console.log('empty', empty)
+    // console.log('empty', empty)
     if (empty === undefined) {
       this.modalCoupons = undefined;
     }
   }
 }
-
-
