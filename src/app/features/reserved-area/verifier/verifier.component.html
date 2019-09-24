@@ -78,7 +78,7 @@
             <div class="row col-12 ">
               <div class="row col-10" style="padding-bottom: 10px; padding-left: 5%"><h4 style="padding-top: 1%">
                 Coupons del pacchetto <strong>"{{titlePackage}}"</strong> vidimabili</h4></div>
-              <div class="col-2"><button (click)="exitPackage()" type="button" class="btn btn-danger">Esci</button></div>
+              <div class="col-2"><button (click)="exitPackage()" type="button" class="btn btn-danger">Chiudi</button></div>
             </div>
             <div *ngFor="let cp of modalCoupons">
               <div *ngIf="cp.length > 0" class="card text-center">
