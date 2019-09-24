@@ -12,7 +12,7 @@
                 <div  class="form-group row">
                   <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il codice</label>
                   <div class="col-lg-3 col-md-4 col-sm-3">
-                    <input type="text" formControlName="token" class="form-control"
+                    <input [attr.disabled]="modalCoupons != undefined ? true: null " type="text" formControlName="token" class="form-control"
                            [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
                     <div *ngIf="submitted && f.token.errors " class="invalid-feedback">
                       <div *ngIf="f.token.errors">Inserisci un token valido!</div>
