@@ -7,6 +7,7 @@ import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.action
 import { Coupon } from '../../../../shared/_models/Coupon';
 import { CouponService } from '../../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-bought',
@@ -18,6 +19,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
   coupons: Array<Coupon> = [];
   isDesktop: boolean;
+  ITEM_TYPE = ITEM_TYPE;
 
   constructor(
     private globalEventService: GlobalEventsManagerService,
@@ -28,11 +30,11 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   ) {
   }
 
-  ngOnInit = (): void => {
+  ngOnInit(): void {
     this.globalEventService.desktopMode.subscribe(message => this.isDesktop = message);
     this.addBreadcrumb();
     this.loadCoupons();
-  };
+  }
 
   ngOnDestroy = (): void => {
     this.removeBreadcrumb();

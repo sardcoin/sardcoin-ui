@@ -15,7 +15,7 @@ export class CategoriesService {
     this.http.get<Array<Category>>(this.formatUrl('getAll'));
 
   getCategoryCoupon = (id: number): Observable<any> =>
-    this.http.get<any>(`${this.formatUrl('getCategoryCoupon')}/'${id}`);
+    this.http.get<any>(this.formatUrl(`getCategoryCoupon/${id}`));
 
   private formatUrl = (methodName): string =>
     `${environment.protocol}://${environment.host}:${environment.port}/categories/${methodName}`;

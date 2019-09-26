@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
-import {StoreService} from '../_services/store.service';
-import {GlobalEventsManagerService} from '../_services/global-event-manager.service';
-import {LoginActions} from '../../features/authentication/login/login.actions';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { LoginActions } from '../../features/authentication/login/login.actions';
+import { GlobalEventsManagerService } from '../_services/global-event-manager.service';
+import { StoreService } from '../_services/store.service';
 
 @Injectable()
 
@@ -20,7 +20,7 @@ export class IsVerifierGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     // If the token exists, then the user is logged in and can carry on
-    if (this.localStore.getToken() != null) {
+    if (this.localStore.getToken() !== null) {
 
       // this.eventEmitter.isUserLoggedIn.next(true);
       this.loginActions.userLogged();
@@ -28,18 +28,25 @@ export class IsVerifierGuard implements CanActivate {
       switch (this.localStore.getType()) {
         case '0': // admin
           this.eventEmitter.userType.next('0');
+
           return true;
         case '1': // producer
           this.eventEmitter.userType.next('1');
+
           return true;
         case '2': // consumer
           this.eventEmitter.userType.next('2');
+
           return false;
         case '3': // verify
           this.eventEmitter.userType.next('3');
+
           return true;
         case '4': // broker
           this.eventEmitter.userType.next('4');
+
+          return false;
+        default:
           return false;
       }
     }

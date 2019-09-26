@@ -57,9 +57,7 @@ import { getItalianPaginatorIntl } from './shared/_translations/italian-paginato
     CartActions,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {
-      provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl()
-    }
+    {provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl()}
   ],
   bootstrap: [AppComponent]
 })

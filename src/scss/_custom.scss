@@ -191,7 +191,7 @@ angular-file-uploader div.container {
 
 .coupon-price, .coupon-package {
   position: absolute;
-  top: 0;
+  //top: 0;
   font-size: 1.25em;
   font-weight: bold;
   padding: 5px 10px;
@@ -201,13 +201,14 @@ angular-file-uploader div.container {
 
 .coupon-price {
   background-color: #4dbd74;
+  top: 0;
   right: 0;
 }
 
 .coupon-package {
   color: #fff;
   background-color: #bd0a0d;
-  left: 0;
+  //left: 0;
   box-shadow: 1px 1px 5px gray;
 }
 
