@@ -86,15 +86,7 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
                 default:
                   this.router.navigate(['/']);
                   break;
-                // case '3':
-                //   this.router.navigate(['reserved-area/verify']);
-                //   break;
-                // case '4':
-                //   this.router.navigate(['reserved-area/broker']);
-                //   break;
-                // default:
-                //   this.router.navigate(['reserved-area']);
-                //   break;
+
               }
 
             }
