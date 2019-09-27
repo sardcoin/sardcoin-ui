@@ -77,6 +77,8 @@ export class FeatureAuthenticationLoginFormComponent implements OnInit {
               switch (this.userType) {
                 case '1':
                 case '3':
+                    this.router.navigate(['reserved-area/verifier']);
+                    break;
                 case '4':
                   this.router.navigate(['reserved-area']);
                   break;
