@@ -20,7 +20,7 @@ export class UserService {
     this.http.put(this.formatUrl('update'), user);
 
   getProducerFromId = (id: number) =>
-    this.http.get<User>(this.formatUrl(`getProducerFromId/'${id}`));
+    this.http.get<User>(this.formatUrl(`getProducerFromId/${id}`));
 
   getBrokers = (): Observable<any> =>
     this.http.get<Array<User>>(this.formatUrl('getBrokers/'));
