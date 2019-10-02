@@ -175,8 +175,10 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   details(coupon: Coupon) {
-    this.couponService.setCoupon(coupon);
-    this.router.navigate(['/myPurchases']);
+      this.couponService.setCoupon(coupon);
+      let url = this.router.url.includes('reserved-area') ? this.router.url.substr(0, this.router.url.lastIndexOf('/')) : '';
+      url += this.couponService.getCouponDetailsURL(coupon);
+      this.router.navigate([url])
   }
 
   openModal(template: TemplateRef<any>) {
