@@ -33,6 +33,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   coupons: Coupon[] = [];
   user: User;
   modalRef: BsModalRef;
+  modalRefAwaitConfirmPayment: BsModalRef;
   totalAmount = 0;
   clientId = null;
   owner = null;
@@ -139,13 +140,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.warn(this.cart);
 
 
-      this.openModal(this.buyWait);
+      //this.openModalAwaitConfirmPayment(this.buyWait, true);
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
       // payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
-      this.closeModal();
+      //this.closeModalAwaitConfirmPayment();
       this.cartActions.emptyCart();
       this.router.navigate(['/bought']);
     } catch (e) {
@@ -163,7 +164,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.error(e.error);
 
       this.toastr.error(message, title);
-      this.closeModal();
+      // this.closeModal();
     }
   }
 
@@ -174,6 +175,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   closeModal() {
     this.modalRef.hide();
   }
+
+  openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
+        this.modalRefAwaitConfirmPayment = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
+    }
+
+  closeModalAwaitConfirmPayment() {
+        this.modalRefAwaitConfirmPayment.hide();
+        this.modalService.hide(0);
+    }
+
 
   retry() {
     this.router.navigate(['/cart']);

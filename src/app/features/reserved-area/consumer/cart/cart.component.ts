@@ -55,6 +55,7 @@ export class CartComponent implements OnInit, OnDestroy {
       }
 
       this.cart = elements.list;
+      console.log('elements', elements)
       this.totalAmount = elements.total;
     });
 
