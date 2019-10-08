@@ -22,33 +22,38 @@
         </form> <!-- Input form -->
         <ul id="search-suggestions" class="rounded-bottom"
             *ngIf="showSuggestions | async" (clickOutside)="showListSuggestions(false)">
-          <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
-            <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)"
-                class="cursor-pointer">
+          <div *ngIf="coupons">
+            <ng-container *ngFor="let coupon of coupons | filter:searchText; let i = index">
+              <li *ngIf="i < MAX_SUGGESTIONS" (click)="goToCouponDetails(coupon); showListSuggestions(false)"
+                  class="cursor-pointer">
 
-              <ng-container *ngIf="isOccurrenceInText(coupon.title); else noTitleOccurrence">
-                <b class="text-capitalize">
-                  {{getTitleOccurrence(coupon.title, true)}}<span class="text-danger">{{searchText}}</span>{{getTitleOccurrence(coupon.title,
-                  false)}}
-                </b>
-              </ng-container>
-              <ng-template #noTitleOccurrence>
-                <b class="text-capitalize">{{coupon.title}}</b>
-              </ng-template>
+                <ng-container *ngIf="isOccurrenceInText(coupon.title); else noTitleOccurrence">
+                  <b class="text-capitalize">
+                    {{getTitleOccurrence(coupon.title, true)}}<span class="text-danger">{{searchText}}</span>{{getTitleOccurrence(coupon.title,
+                    false)}}
+                  </b>
+                </ng-container>
+                <ng-template #noTitleOccurrence>
+                  <b class="text-capitalize">{{coupon.title}}</b>
+                </ng-template>
 
-              <ng-container *ngIf="isOccurrenceInText(coupon.description) && desktopMode; else noDescriptionOccurrence">
-                - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon,
-                2)}}
-              </ng-container>
-              <ng-template #noDescriptionOccurrence>
-                - {{getListElement(coupon)}}
-              </ng-template>
-            </li>
-          </ng-container>
+                <ng-container *ngIf="isOccurrenceInText(coupon.description) && desktopMode; else noDescriptionOccurrence">
+                  - {{getListElement(coupon, 1)}}<span class="text-danger">{{searchText}}</span>{{getListElement(coupon,
+                  2)}}
+                </ng-container>
+                <ng-template #noDescriptionOccurrence>
+                  - {{getListElement(coupon)}}
+                </ng-template>
+              </li>
+            </ng-container>
 
-          <ng-container *ngIf="(coupons | filter:searchText).length === 0">
-            <li>Nessun elemento trovato.</li>
-          </ng-container>
+            <ng-container *ngIf="(coupons | filter:searchText).length === 0">
+              <li>Nessun elemento trovato.</li>
+            </ng-container>
+            <ng-container *ngIf="!(coupons | filter:searchText)">
+              <li>Nessun elemento trovato.</li>
+            </ng-container>
+          </div>
         </ul> <!-- Suggestions list -->
       </div>
       <button class="btn btn-primary" (click)="searchCoupons()" style="border-radius: 0 0.25rem 0.25rem 0"><span
