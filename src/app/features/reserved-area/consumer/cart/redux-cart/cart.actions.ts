@@ -121,10 +121,16 @@ export class CartActions {
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
+      console.log('availableCoupons', availableCoupons)
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
-      quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
-    } catch (e) {
+      if (couponToCheck.type === 0) {
+          quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+      } else {
+          quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity_pack : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+
+      }
+      } catch (e) {
       console.log(e);
       console.log('Error retrieving available coupons on cart actions');
     }
