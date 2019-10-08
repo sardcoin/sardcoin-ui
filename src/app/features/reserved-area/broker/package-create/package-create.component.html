@@ -260,7 +260,7 @@
           ({{maxQuantity}} disponibil{{maxQuantity > 1 ? 'i' : 'e' }})</i></label>
 
         <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
-               max="{{modalCoupon.max_quantity}}"/>
+               max="{{maxQuantity}}"/>
 
         <button class="btn btn-secondary col-sm-1 ml-1" (click)="changeCouponQuantity(false)" [disabled]="myForm.value.quantity === 1">
           <i class="fas fa-minus text-white"></i>

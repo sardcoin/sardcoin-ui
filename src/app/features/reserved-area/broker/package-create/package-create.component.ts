@@ -332,11 +332,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
       this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
-
-      // this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
-      this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
-
-      // this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+      this.maxQuantity = this.modalCoupon.quantity ;
 
       this.myForm = this.formBuilder.group({
         quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
