@@ -61,16 +61,46 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-  importCoupon = (): void => {
-    this.submitted = true;
+  importToken = (): void => {
+      this.submitted = true;
 
-    this.data = {
-      token: this.tokenForm.value.token
+      this.data = {
+          token: this.tokenForm.value.token
+      };
+
+      if (this.tokenForm.invalid) {
+          return;
+      }
+      this.couponService.isCouponFromToken(this.data.token).subscribe(isTokenCoupon => {
+          console.log('isTokenCoupon', isTokenCoupon)
+        if (isTokenCoupon.error === true) {
+          this.importPackage();
+        } else {
+          this.importCoupon();
+        }
+
+      });
+
+  };
+
+  importPackage = (): void => {
+
+        this.couponService.importOfflinePackage(this.data)
+            .subscribe(data => {
+                    if (data !== null) {
+                        this.toastr.success('Coupon importato con successo!');
+                        this.router.navigate(['/bought']);
+                    } else {
+                        this.toastError();
+                    }
+                }, error => {
+                    this.toastError();
+                    console.log(error);
+                }
+            );
     };
 
-    if (this.tokenForm.invalid) {
-      return;
-    }
+  importCoupon = (): void => {
 
     this.couponService.importOfflineCoupon(this.data)
       .subscribe(data => {

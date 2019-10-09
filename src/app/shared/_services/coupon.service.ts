@@ -84,6 +84,9 @@ export class CouponService {
   importOfflineCoupon = (coupon: any): Observable<any> =>
     this.http.request('put', this.formatUrl('importOfflineCoupon'), {body: coupon});
 
+  importOfflinePackage = (coupon: any): Observable<any> =>
+        this.http.request('put', this.formatUrl('importOfflinePackage'), {body: coupon});
+
   redeemCoupon = (token: string): Observable<any> =>
     this.http.request('put', this.formatUrl('redeemCoupon'), {body: {token}});
 

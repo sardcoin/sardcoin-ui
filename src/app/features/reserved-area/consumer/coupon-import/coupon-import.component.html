@@ -47,7 +47,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="hasCameras" class="col-sm-6 mb-4 rounded d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
+            <div  class="col-sm-6 mb-4 rounded d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
               <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
               <zxing-scanner
                 #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
@@ -55,12 +55,12 @@
               </zxing-scanner>
             </div>
             <div class="col-md-12 text-sm-right text-center p-0">
-              <button *ngIf="desktopMode" (click)="import()" class="btn btn-lg btn-success mt-5">
+              <button *ngIf="desktopMode" (click)="importToken()" class="btn btn-lg btn-success mt-5">
                 <i class="fas fa-plus-circle mr-3"></i>Aggiungi ai tuoi acquisti
               </button>
             </div>
             <div class="center text-center ">
-              <button *ngIf="!desktopMode" (click)="importCoupon()" class="btn btn-lg btn-success">
+              <button *ngIf="!desktopMode" (click)="importToken()" class="btn btn-lg btn-success">
                 <i class="fas fa-plus-circle mr-3"></i>Importa
               </button>
             </div>
