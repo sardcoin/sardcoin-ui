@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { environment } from '../../../../../../environments/environment';
 import { Breadcrumb } from '../../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../../core/breadcrumb/breadcrumb.actions';
+import { ITEM_TYPE } from '../../../../../shared/_models/CartItem';
 import { Coupon } from '../../../../../shared/_models/Coupon';
 import { CouponService } from '../../../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../../../shared/_services/global-event-manager.service';
+import { PackageService } from '../../../../../shared/_services/package.service';
 import { UserService } from '../../../../../shared/_services/user.service';
 
 @Component({
@@ -22,6 +25,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   desktopMode: boolean;
   classMx4: string;
   qrSize: number;
+  couponsPackage = null;
 
   modalRef: BsModalRef;
 
@@ -31,17 +35,23 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     private router: Router,
     private userService: UserService,
     private modalService: BsModalService,
-    private globalEventService: GlobalEventsManagerService
+    private globalEventService: GlobalEventsManagerService,
+    private packageService: PackageService
+
   ) {
   }
 
   ngOnInit(): void {
-    this.couponService.currentMessage.subscribe(coupon => {
+    this.couponService.currentMessage.subscribe(async coupon => {
       if (!coupon) {
         this.router.navigate(['/bought']);
       } else {
         console.warn(coupon);
         this.couponPass = coupon;
+        if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
+              const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
+              this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
+          }
         console.log('cp', this.couponPass);
         this.couponPass.qrToken = coupon.token.token || coupon.token;
 
@@ -121,5 +131,12 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   };
 
   isValid = (coupon: Coupon): boolean =>
-      !coupon.valid_until || (Date.now() < (new Date(coupon.valid_until)).getTime())
+      !coupon.valid_until || (Date.now() < (new Date(coupon.valid_until)).getTime());
+
+  getNumberCoupons() {
+        const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+
+        return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+    }
+
 }
