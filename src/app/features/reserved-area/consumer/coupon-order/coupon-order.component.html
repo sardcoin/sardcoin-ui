@@ -36,16 +36,11 @@
                     <h5 class="mb-0">{{formatPrice(coupon.price*coupon.quantity)}}</h5>
 
                     <div class="buttons-bottom ml-auto mt-auto">
-                      <button *ngIf="coupon.type === ITEM_TYPE.COUPON && coupon.token"
+                      <button
                               class="btn btn-success mr-sm-2 mr-0" (click)="redeem(coupon)">
-                        <i class="fas fa-play mr-1 d-sm-inline d-none"></i>Riscatta
+                        <i class="fas fa-info-circle mr-1 d-sm-inline d-none"></i>Dettagli
                       </button>
-                      <button *ngIf="!coupon.token && coupon.type !== ITEM_TYPE.PACKAGE" class="btn btn-danger mr-sm-2 mr-0">
-                        Riscattato
-                      </button>
-                      <!--<button class="btn btn-info text-white" (click)="details(coupon)">
-                        <i class="fa fa-info-circle mr-sm-1"></i><span class="d-none d-sm-inline">Dettagli</span>
-                      </button>-->
+
                     </div>
                   </div>
                 </div> <!-- Coupons -->

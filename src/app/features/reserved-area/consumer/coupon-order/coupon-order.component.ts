@@ -56,7 +56,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
-
+      console.log('orders', this.orders)
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 

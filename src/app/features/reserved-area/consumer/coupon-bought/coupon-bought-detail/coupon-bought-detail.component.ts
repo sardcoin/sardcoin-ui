@@ -42,6 +42,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
       } else {
         console.warn(coupon);
         this.couponPass = coupon;
+        console.log('cp', this.couponPass);
         this.couponPass.qrToken = coupon.token.token || coupon.token;
 
         this.addBreadcrumb();
@@ -93,6 +94,10 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     this.router.navigate(['/bought']);
   };
 
+  retryOrder = (): void => {
+        this.router.navigate(['/order']);
+    };
+
   getOwner = (): void => {
     this.userService.getProducerFromId(this.couponPass.owner)
       .subscribe(user => {
@@ -116,6 +121,5 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   };
 
   isValid = (coupon: Coupon): boolean =>
-    !coupon.valid_until || (Date.now() < coupon.valid_until);
-
+      !coupon.valid_until || (Date.now() < (new Date(coupon.valid_until)).getTime())
 }
