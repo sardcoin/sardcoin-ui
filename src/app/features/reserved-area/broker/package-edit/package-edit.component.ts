@@ -367,8 +367,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>, coupon_id = null, edit = false) {
     // this.modalCoupon = this.packageForm.get('coupons').value;
 
-    if (coupon_id != 0) {
-
+    if (coupon_id != null) {
+      console.log('lo fai')
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
 

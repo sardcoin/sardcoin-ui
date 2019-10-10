@@ -55,7 +55,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   onCopy = (pack: Coupon): void => {
     this.couponService.setCoupon(pack);
     this.couponService.setFromEdit(false);
-    this.router.navigate(['reserved-area/broker/edit']);
+    this.router.navigate(['reserved-area/broker/create']);
   };
 
   onDelete = (coupon: Coupon): void => {
