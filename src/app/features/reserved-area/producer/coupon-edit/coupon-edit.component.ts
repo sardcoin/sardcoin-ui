@@ -213,6 +213,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       return;
     }
+    console.log('editCoupon', coupon)
     await this.couponService.editCoupon(coupon)
       .subscribe(data => {
         // if (data['status']) {

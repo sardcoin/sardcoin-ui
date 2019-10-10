@@ -175,6 +175,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,
       purchasable: this.markedQuantity ? null : this.f.purchasable.value,
+      brokers: [],
+      timestamp: undefined,
       quantity: this.f.quantity.value,
       package: this.selectedCoupons,
       categories: this.selectedCategories,
@@ -219,6 +221,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
       return;
     }
+    console.log('coupon', coupon)
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
         if (!data.updated) {

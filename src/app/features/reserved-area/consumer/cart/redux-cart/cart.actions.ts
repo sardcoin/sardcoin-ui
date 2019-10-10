@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {NgRedux, select} from '@angular-redux/store';
-import {IAppState} from '../../../../../shared/store/model';
-import {StoreService} from '../../../../../shared/_services/store.service';
-import {Observable} from 'rxjs';
-import {CartItem, PurchasedCoupon} from '../../../../../shared/_models/CartItem';
-import {CouponService} from '../../../../../shared/_services/coupon.service';
-import {Coupon} from '../../../../../shared/_models/Coupon';
-import {GlobalEventsManagerService} from '../../../../../shared/_services/global-event-manager.service';
+import { NgRedux, select } from '@angular-redux/store';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CartItem, PurchasedCoupon } from '../../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../../shared/_models/Coupon';
+import { CouponService } from '../../../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../../../shared/_services/global-event-manager.service';
+import { StoreService } from '../../../../../shared/_services/store.service';
+import { IAppState } from '../../../../../shared/store/model';
 
 export const CART_INIT = 'CART_INIT';
 export const CART_ADD_PROD = 'CART_ADD_PROD';
@@ -20,7 +20,7 @@ export const CART_EMPTY = 'CART_EMPTY';
 export class CartActions {
 
   @select() cart: Observable<any>;
-  reduxCart: CartItem[];
+  reduxCart: Array<CartItem>;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
@@ -29,7 +29,7 @@ export class CartActions {
     private GEmanager: GlobalEventsManagerService
   ) {
     this.cart.subscribe(elements => {
-      this.reduxCart = elements['list'];
+      this.reduxCart = elements.list;
     });
   }
 
@@ -45,7 +45,7 @@ export class CartActions {
 
   async addElement(item: CartItem) {
 
-    let availableCoupons: Coupon[];
+    let availableCoupons: Array<Coupon>;
     let purchasedCoupon: PurchasedCoupon;
     let couponToCheck: Coupon;
     let isValid: boolean;
@@ -65,11 +65,11 @@ export class CartActions {
       const index = this.isInCart(item.id);
 
       if (index >= 0) { // If the coupon already exists, it updates the quantity in the cart
-        this.ngRedux.dispatch({type: CART_CHANGE_QNT, index: index, item: item});
+        this.ngRedux.dispatch({type: CART_CHANGE_QNT, index, item});
         await this.updateItemInCartStorage(item);
       } else {
         // If the coupon doesn't exists in the cart, it adds it
-        this.ngRedux.dispatch({type: CART_ADD_PROD, item: item});
+        this.ngRedux.dispatch({type: CART_ADD_PROD, item});
         await this.addItemInCartStorage(item);
       }
       this.updateTotal();
@@ -81,19 +81,20 @@ export class CartActions {
   }
 
   async deleteElement(id: number) {
-    const item = this.reduxCart.find((item) => item.id == id); // It searches if the item in the cart exists. If it's true, the index in the array is been given.
+    const item = this.reduxCart.find(item => item.id == id); // It searches if the item in the cart exists. If it's true, the index in the array is been given.
 
     if (item) {
-      this.ngRedux.dispatch({type: CART_DEL_PROD, id: id});
+      this.ngRedux.dispatch({type: CART_DEL_PROD, id});
       await this.deleteItemInCartStorage(item);
       this.updateTotal();
+
       return true;
     }
 
     return false;
   }
 
-  updateCart(cart: CartItem[]) {
+  updateCart(cart: Array<CartItem>) {
     this.ngRedux.dispatch({type: CART_INIT, list: cart});
     this.storeService.setCart(cart);
     this.updateTotal();
@@ -104,7 +105,7 @@ export class CartActions {
     this.storeService.setCart([]);
   }
 
-  isInCart(coupon_id: number){
+  isInCart(coupon_id: number) {
     return this.reduxCart.findIndex((item: CartItem) => item.id === coupon_id);
   }
 
@@ -112,22 +113,31 @@ export class CartActions {
     return !!this.reduxCart;
   }
 
-  //TODO fix for package
+  // TODO fix for package
   async getQuantityAvailableForUser(coupon_id: number) {
-    let availableCoupons: Coupon[];
+    let availableCoupons: Array<Coupon>;
     let purchasedCoupon: PurchasedCoupon;
     let couponToCheck: Coupon;
     let quantityAvailable: number;
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
-      console.log('availableCoupons', availableCoupons)
+      console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
       if (couponToCheck.type === 0) {
-          quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+          quantityAvailable = couponToCheck.purchasable === null ?
+              couponToCheck.quantity -  purchasedCoupon.bought :
+              couponToCheck.purchasable > couponToCheck.quantity ?
+              couponToCheck.quantity  - purchasedCoupon.bought :
+              couponToCheck.purchasable - purchasedCoupon.bought;
+          // It calculates the quantity available for the user
       } else {
-          quantityAvailable = couponToCheck.purchasable === null ? couponToCheck.quantity_pack : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+          quantityAvailable = couponToCheck.purchasable === null ?
+              couponToCheck.quantity_pack -  purchasedCoupon.bought :
+              couponToCheck.purchasable > couponToCheck.quantity_pack ?
+              couponToCheck.quantity_pack  - purchasedCoupon.bought :
+              couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
 
       }
       } catch (e) {
@@ -138,6 +148,17 @@ export class CartActions {
     return quantityAvailable < 0 ? 0 : quantityAvailable; // It returns 0 if you can't nothing in the cart
   }
 
+  getQuantityCart() {
+    return this.reduxCart.length;
+  }
+
+  updateTotal() {
+    if (this.reduxCart && this.reduxCart.length > 0) {
+      const total = this.reduxCart.map(el => el.price * el.quantity).reduce((a, b) => a + b);
+      this.ngRedux.dispatch({type: CART_UPDATE_TOTAL, total});
+    }
+  }
+
   private async addItemInCartStorage(item: CartItem) {
     const newCart = await this.storeService.getCart();
     newCart.push(item);
@@ -145,8 +166,8 @@ export class CartActions {
   }
 
   private async updateItemInCartStorage(item: CartItem) {
-    const newCart: CartItem[] = await this.storeService.getCart();
-    const index = newCart.findIndex((element) => element.id === item.id);
+    const newCart: Array<CartItem> = await this.storeService.getCart();
+    const index = newCart.findIndex(element => element.id === item.id);
     newCart[index] = item;
 
     this.storeService.setCart(newCart);
@@ -154,7 +175,7 @@ export class CartActions {
 
   private async deleteItemInCartStorage(itemToDelete: CartItem) {
     let newCart = await this.storeService.getCart();
-    newCart = newCart.filter((item) => item.id !== itemToDelete.id )
+    newCart = newCart.filter(item => item.id !== itemToDelete.id);
     this.storeService.setCart(newCart);
   }
 
@@ -162,16 +183,5 @@ export class CartActions {
     return purchasable === null
       ? (availableQuantity >= quantityToAdd)
       : ((availableQuantity >= quantityToAdd) && (bought + quantityToAdd <= purchasable));
-  }
-
-  getQuantityCart() {
-    return this.reduxCart.length;
-  }
-
-  updateTotal(){
-    if(this.reduxCart && this.reduxCart.length > 0) {
-      const total = this.reduxCart.map(el => el.price * el.quantity).reduce((a, b) => a + b);
-      this.ngRedux.dispatch({type: CART_UPDATE_TOTAL, total: total});
-    }
   }
 }
