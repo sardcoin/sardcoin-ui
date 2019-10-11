@@ -17,6 +17,7 @@ import {FeatureReservedAreaPersonalInfoModule} from '../personal-info/personal-i
 import {FeatureReservedAreaConsumerModule} from '../consumer/consumer.module';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import {ReportService} from '../../../shared/_services/report.service';
+import {FeatureReservedAreaCouponOfflineModule} from './coupon-offline/coupon-offline.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {ReportService} from '../../../shared/_services/report.service';
     FeatureReservedAreaConsumerModule,
     FeatureReservedAreaCouponListModule,
     FeatureReservedAreaCouponCreateModule,
+    FeatureReservedAreaCouponOfflineModule,
     FeatureReservedAreaCouponEditModule,
     FeatureReservedAreaPaymentDetailsModule,
     FeatureReservedAreaPersonalInfoModule,

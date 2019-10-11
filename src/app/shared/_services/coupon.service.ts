@@ -67,9 +67,12 @@ export class CouponService {
   getProducerCoupons = (): Observable<Array<Coupon>> =>
     this.http.get<Array<Coupon>>(this.formatUrl('getProducerCoupons'));
 
+  getProducerCouponsOffline = (): Observable<Array<Coupon>> =>
+        this.http.get<Array<Coupon>>(this.formatUrl('getProducerCouponsOffline'));
+
   // Broker methods
   getBrokerCoupons = (): Observable<Array<Coupon>> =>
-    this.http.get<Array<Coupon>>(this.formatUrl('getBrokerCoupons'));
+    this.http.get<Array<Coupon>>(this.formatUrl('getProducerCouponsOffline'));
 
   // Mixed auth methods (producer + broker)
   deleteCoupon = (couponId, type = 0): Observable<any> =>
