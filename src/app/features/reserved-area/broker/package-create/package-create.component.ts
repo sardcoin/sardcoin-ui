@@ -133,6 +133,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   ngOnDestroy() {
     this.removeBreadcrumb();
+      this.couponService.setCoupon(null);
   }
 
   get f() {

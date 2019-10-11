@@ -125,6 +125,7 @@ export class CartActions {
       console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
+      console.log('couponToCheckcouponToCheck', couponToCheck)
       if (couponToCheck.type === 0) {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity -  purchasedCoupon.bought :

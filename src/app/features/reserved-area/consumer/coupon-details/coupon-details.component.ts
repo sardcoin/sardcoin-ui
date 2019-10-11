@@ -93,6 +93,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     if (!isNaN(id)) {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
+          console.log('this.couponPass',this.couponPass)
 
         if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
@@ -100,11 +101,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         }
 
         // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
-        if (this.couponPass === null || this.couponPass.title !== title || !title) {
-          this.error404 = true;
+        if (this.couponPass === null) { // prima era if (this.couponPass === null || this.couponPass.title !== title || !title)
+            this.error404 = true;
         } else {
+            console.log(this.couponPass.max_quantity, this.isUserLoggedIn, this.userType )
           if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
+            console.log('this.couponPass.max_quantity',this.couponPass.max_quantity)
           }
           this.getOwner();
         }

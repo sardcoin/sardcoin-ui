@@ -59,7 +59,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   };
 
   onDelete = (coupon: Coupon): void => {
-    this.couponService.deleteCoupon(coupon.id)
+    this.couponService.deleteCoupon(coupon.id, 1)
       .subscribe(data => {
         if (data.deleted) {
           this.toastr.success('', 'Coupon eliminato!');

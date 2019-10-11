@@ -72,7 +72,7 @@ export class CouponService {
     this.http.get<Array<Coupon>>(this.formatUrl('getBrokerCoupons'));
 
   // Mixed auth methods (producer + broker)
-  deleteCoupon = (couponId: number): Observable<any> =>
+  deleteCoupon = (couponId, type = 0): Observable<any> =>
     this.http.request('delete', this.formatUrl('deleteCoupon'), {body: {id: couponId}});
 
   editCoupon = (coupon: Coupon): Observable<any> =>
