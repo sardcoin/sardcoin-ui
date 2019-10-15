@@ -46,9 +46,8 @@ export class CouponService {
       .toString()
       .replace(new RegExp(',', 'g'), '-')}`;
 
-
   getBrokerFromCouponId(id: number) {
-    return this.http.get<String[]>(this.formatUrl('getBrokerFromCouponId/' + id));
+    return this.http.get<Array<String>>(this.formatUrl('getBrokerFromCouponId/' + id));
   }
 
   getPurchasedCoupons = (): Observable<Array<Coupon>> =>
@@ -69,6 +68,12 @@ export class CouponService {
 
   getProducerCouponsOffline = (): Observable<Array<Coupon>> =>
         this.http.get<Array<Coupon>>(this.formatUrl('getProducerCouponsOffline'));
+
+  getProducerTokensOfflineById = (id: number): Observable<any> =>
+        this.http.get<any>(this.formatUrl(`getProducerTokensOfflineById/${id}`));
+
+  buyProducerTokensOfflineByToken = (token: string, id: number): Observable<any> =>
+        this.http.get<any>(this.formatUrl(`buyProducerTokensOfflineByToken/${token}/${id}`));
 
   // Broker methods
   getBrokerCoupons = (): Observable<Array<Coupon>> =>
@@ -95,7 +100,6 @@ export class CouponService {
 
   isCouponFromToken = (token: string): Observable<any> =>
         this.http.request('get', this.formatUrl(`isCouponFromToken/${token}`));
-
 
     // Observable SET methods
   setCoupon = (coupon: Coupon): void =>

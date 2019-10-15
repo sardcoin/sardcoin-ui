@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { token } from 'flatpickr/dist/utils/formatting';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +11,7 @@ import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../../shared/_models/Coupon';
 import { CouponService } from '../../../../shared/_services/coupon.service';
+import Arrays from '@zxing/library/esm5/core/util/Arrays';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-offline',
@@ -45,8 +47,13 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   }
 
   showToken = (coupon: Coupon): void => {
-    this.couponService.setCoupon(coupon);
-    this.router.navigate(['reserved-area/producer/offline']);
+    this.couponService.getProducerTokensOfflineById(coupon.id).subscribe(tokens => {
+      console.log('tokens', tokens);
+      coupon.CouponTokens = tokens;
+      this.couponService.setCoupon(coupon);
+      this.router.navigate(['reserved-area/producer/offline-details']);
+    });
+
   };
 
   formatState = (state): string => 'Attivo'; // TODO fix
@@ -78,10 +85,12 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   control = (): void => {
     this.couponService.getProducerCouponsOffline()
       .subscribe(data => {
-          console.log('data', data)
-          this.dataSource = new MatTableDataSource(data);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          console.log('data', data);
+          if (data) {
+              this.dataSource = new MatTableDataSource(data);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+          }
         }, error => console.log(error)
       );
   };
