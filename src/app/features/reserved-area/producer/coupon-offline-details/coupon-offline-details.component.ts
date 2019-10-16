@@ -159,9 +159,9 @@ export class CouponOfflineDetailsComponent implements OnInit, OnDestroy {
 
             const pdf = new PdfMakeWrapper();
             pdf.info({
-                title: this.couponPass.CouponTokens[0].token,
+                title: this.couponPass.title,
                 author: 'pdfmake-wrapper',
-                subject: this.couponPass.title
+                subject: this.couponPass.description
             });
             pdf.defaultStyle({
                 alignment: 'center',
