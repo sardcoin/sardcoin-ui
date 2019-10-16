@@ -125,20 +125,20 @@ export class CartActions {
       console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
-      console.log('couponToCheckcouponToCheck', couponToCheck)
+      console.log('couponToCheckcouponToCheck', couponToCheck);
       if (couponToCheck.type === 0) {
           quantityAvailable = couponToCheck.purchasable === null ?
-              couponToCheck.quantity -  purchasedCoupon.bought :
-              couponToCheck.purchasable > couponToCheck.quantity ?
-              couponToCheck.quantity  - purchasedCoupon.bought :
-              couponToCheck.purchasable - purchasedCoupon.bought;
+              couponToCheck.quantity :
+              couponToCheck.purchasable <= couponToCheck.quantity ?
+              couponToCheck.purchasable  - purchasedCoupon.bought :
+              couponToCheck.quantity;
           // It calculates the quantity available for the user
       } else {
           quantityAvailable = couponToCheck.purchasable === null ?
-              couponToCheck.quantity_pack -  purchasedCoupon.bought :
-              couponToCheck.purchasable > couponToCheck.quantity_pack ?
-              couponToCheck.quantity_pack  - purchasedCoupon.bought :
-              couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+              couponToCheck.quantity_pack :
+              couponToCheck.purchasable <= couponToCheck.quantity_pack ?
+              couponToCheck.purchasable  - purchasedCoupon.bought :
+              couponToCheck.quantity_pack; // It calculates the quantity available for the user
 
       }
       } catch (e) {
