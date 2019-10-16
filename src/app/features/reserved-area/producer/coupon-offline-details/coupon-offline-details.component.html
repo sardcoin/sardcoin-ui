@@ -1,0 +1,95 @@
+<div *ngIf="couponPass && !error404" class="container-fluid px-0">
+  <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
+    <div class="card mx-md-3" style="padding: 5px">
+      <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
+      <div class="card-body p-4">
+        <h3 class="card-title mb-0">{{couponPass.title}}</h3>
+
+
+        <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
+
+
+        <p class="card-text mt-3">{{couponPass.description}}</p>
+        <p *ngIf="couponPass.CouponTokens.length > 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
+
+        <p *ngIf="couponPass.CouponTokens.length > 4 && couponPass.CouponTokens.length < 10" class="card-text"><i style="color:#ffd51c">Bassa
+          disponibilità ({{couponPass.CouponTokens.length}})</i></p>
+
+        <p *ngIf="couponPass.CouponTokens.length > 0 && couponPass.CouponTokens.length < 5" class="card-text">
+          <i style="color:#FF0000">
+            Solo {{couponPass.CouponTokens.length}} disponibil{{couponPass.CouponTokens.length === 1 ? 'e' : 'i'}}
+          </i>
+        </p>
+        <p *ngIf="couponPass.CouponTokens.length < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)">Esauriti</i>
+        </p>
+
+        <p class="card-text">
+          <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
+          <br/>
+
+          <span *ngIf="couponPass.constraints">
+              <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
+
+              <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
+                   src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}"
+              >
+            </span>
+        </p>
+        <div class="package-coupons" *ngIf="couponsPackage !== null">
+          <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i></p>
+          <div *ngFor="let cp of couponsPackage | keyvalue">
+            <div class="striped d-block d-md-block d-xl-block">
+              <i class="d-block my-1" style="color: #999; font-size: 15px;">{{cp.value[0].title}} ({{cp.value.length}})</i>
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid" src="{{imageURL + cp.value[0].image}}">
+              </div>
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid"
+                     src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.value[0].constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
+                <!--<h5 class="centered-text-image-map" *ngIf="couponsPackage[key].constraints == null"> Mappa assente</h5>-->
+              </div>
+            </div>
+            <!--<hr *ngIf="(i+1) < Object.keys(couponsPackage).length"/>-->
+          </div>
+        </div>
+
+        <div class="mt-4" *ngIf="desktopMode">
+          <button class="btn btn-lg btn-success float-right ml-2" (click)="openModal(template)">Vendi</button>
+
+          <button class="btn btn-lg btn-primary float-right ml-2" (click)="retry()">Ritorna alla Lista</button>
+
+        </div>
+
+        <div *ngIf="!desktopMode">
+          <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0 && isUserLoggedIn"
+                  class="btn  btn-success float-right ml-2"
+                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
+            <i class="fas fa-cart-plus"> </i> Aggiungi
+          </button>
+          <button class="btn  btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket">
+          </i> Lista
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vuoi vendere e stampare un token del coupon "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) +
+      '...' :
+      couponPass.title}}"?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="sell()">Conferma</button>
+  </div>
+</ng-template>
