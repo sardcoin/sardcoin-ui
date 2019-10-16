@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import * as _ from 'lodash';
-import { ChartErrorEvent } from 'ng2-google-charts';
 import { getMonth } from 'ngx-bootstrap/chronos';
 import { getFullYear } from 'ngx-bootstrap/chronos/utils/date-getters';
 import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
@@ -14,6 +13,8 @@ import { ReportService } from '../../../../shared/_services/report.service';
   styleUrls: ['./coupon-report.component.scss']
 })
 export class FeatureReservedAreaProducerCouponReportComponent implements OnInit, OnDestroy {
+
+  loading = true;
 
   range = ['year', 'month', 'day'];
   rangeSelected: string;
@@ -37,72 +38,83 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   reportBrokerMonthQuantity: any = null;
   reportBrokerDayQuantity: any = null;
 
-  barChart: any  = {
+  barChart = {
     chartType: 'Bar',
     dataTable: [],
     options: {
+      legend: {position: 'none'},
       chart: {
-        title: 'Grafico Coupons',
-        subtitle: 'Grafico Coupons distinti in base al loro stato ( attivi, venduti, consumati, scaduti)'
+        title: 'Statistiche generali',
+        subtitle: 'Coupon attivi, venduti, consumati e scaduti'
       },
-      width: 510,
+      width: 300,
       height: 340
     }
   };
 
   barChartForBoughtProducerMoney: any = {
-      chartType: 'Bar',
-      dataTable: [],
-      options: {
-        chart: {
-          title: 'Grafico incassi (euro)',
-          subtitle: ''
-        },
-        width: 510,
-        height: 340
-      }
+    chartType: 'Bar',
+    dataTable: [],
+    options: {
+      legend: {position: 'none'},
+      chart: {
+        title: 'Incassi',
+        subtitle: ''
+      },
+      width: 300,
+      height: 340
+    }
 
-    };
+  };
 
   barChartForBoughtProducerQuantity: any = {
     chartType: 'Bar',
     dataTable: [],
     options: {
+      legend: {position: 'none'},
       chart: {
-        title: 'Grafico Coupons venduti',
+        title: 'Quantità vendute',
         subtitle: ''
       },
-      width: 510,
+      width: 300,
       height: 340
     }
 
   };
 
   barChartForBoughtBrokersQuantity: any = {
-        chartType: 'Bar',
-        dataTable: [],
-        options: {
-            chart: {
-                title: 'Grafico Brokers',
-                subtitle: ''
-            },
-            width: 510,
-            height: 340
-        }
+    chartType: 'Bar',
+    dataTable: [],
+    options: {
+      legend: {position: 'none'},
+      chart: {
+        title: 'Statistiche vendita broker',
+        subtitle: ''
+      },
+      width: 300,
+      height: 340
+    }
 
-    };
+  };
 
-  pieChart: any  = {
-      chartType: 'PieChart',
-      dataTable: [],
-      options: {
-        title: 'Coupons venduti ',
-        slices: {
-          0: {offset: 0.3},
-          1: {offset: 0.2}
-        }
+  pieChart: any = {
+    chartType: 'PieChart',
+    dataTable: [],
+    options: {
+      title: 'Coupons venduti ',
+      slices: {
+        0: {offset: 0.3},
+        1: {offset: 0.2}
       }
-    };
+    }
+  };
+
+  areDataAvailable = (): boolean =>
+    this.barChart.dataTable.length > 0 &&
+    this.barChartForBoughtProducerMoney.dataTable.length > 0 &&
+    this.barChartForBoughtProducerQuantity.dataTable.length > 0 &&
+    this.barChartForBoughtBrokersQuantity.dataTable.length > 0;
+
   ngOnInit() {
     this.addBreadcrumb();
 
@@ -131,6 +143,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
+
   groupBy(xs, key) {
 
     if (xs) {
@@ -213,22 +226,22 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     this.setBarChartBoughtProducerBrokerMoney(this.reportCouponsWithBrokerMoney, this.rangeSelected);
     this.setBarChartBoughtProducerBrokerQuantity(this.reportCouponsWithBrokerQuantity, this.rangeSelected);
     this.setBarChartBoughtForBrokerQuantity(this.reportBrokerQuantity, this.rangeSelected);
-    }
+  }
 
   setBarChart(report, range) {
     if (range == 'year' || range == '0: year') {
       this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
-      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per anno';
+      // this.barChart.options.chart.subtitle = 'Raggruppamento per stato e per anno';
       this.barChart = Object.create(this.barChart);
 
     } else if (range == 'month' || range == '1: month') {
       this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
-      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per mese (anno corrente)';
+      // this.barChart.options.chart.subtitle = 'Raggruppamento per stato e per mese dell\'anno corrente';
       this.barChart = Object.create(this.barChart);
 
     } else {
       this.barChart.dataTable = this.convertJsonToArrayForBar(report, range);
-      this.barChart.options.chart.subtitle = 'Grafico Coupons distinti in base al loro stato (attivi, venduti, consumati, scaduti) raggruppati per giorno (mese corrente)';
+      // this.barChart.options.chart.subtitle = 'Raggruppamento per stato e per giorno del mese corrente';
       this.barChart = Object.create(this.barChart);
 
     }
@@ -237,104 +250,96 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   setBarChartBoughtProducerBrokerMoney(report, range) {
     if (range == 'year' || range == '0: year') {
       this.barChartForBoughtProducerMoney.dataTable = this.convertJsonToArrayForBoughtProducerMoney(report, range);
-      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Grafico incassi (euro) raggruppati per anno (incassi totali)';
+      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Ricavi totali raggruppati per anno, con o senza broker.';
       this.barChartForBoughtProducerMoney = Object.create(this.barChartForBoughtProducerMoney);
 
     } else if (range == 'month' || range == '1: month') {
       this.barChartForBoughtProducerMoney.dataTable = this.convertJsonToArrayForBoughtProducerMoney(report, range);
-      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Grafico incassi (euro) raggruppati per mese (incassi anno corrente)';
+      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Ricavi totali raggruppati per mese dell\'anno corrente, con o senza broker.';
       this.barChartForBoughtProducerMoney = Object.create(this.barChartForBoughtProducerMoney);
 
     } else {
       this.barChartForBoughtProducerMoney.dataTable = this.convertJsonToArrayForBoughtProducerMoney(report, range);
-      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Grafico incassi (euro) raggruppati per giorno (incassi mese corrente)';
+      this.barChartForBoughtProducerMoney.options.chart.subtitle = 'Ricavi totali raggruppati per giorno del mese corrente, con o senza broker.';
       this.barChartForBoughtProducerMoney = Object.create(this.barChartForBoughtProducerMoney);
 
     }
   }
+
   setBarChartBoughtProducerBrokerQuantity(report, range) {
     if (range == 'year' || range == '0: year') {
       this.barChartForBoughtProducerQuantity.dataTable = this.convertJsonToArrayForBoughtProducerQuantity(report, range);
-      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Grafico quantità Coupons venduti raggruppati per anno (coupons totali)';
+      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Coupon venduti raggruppati per anno, con o senza broker.';
       this.barChartForBoughtProducerQuantity = Object.create(this.barChartForBoughtProducerQuantity);
 
     } else if (range == 'month' || range == '1: month') {
       this.barChartForBoughtProducerQuantity.dataTable = this.convertJsonToArrayForBoughtProducerQuantity(report, range);
-      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Grafico quantità Coupons venduti raggruppati per mese (coupons anno corrente)';
+      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Coupon venduti raggruppati per mese dell\'anno corrente, con o senza broker.';
       this.barChartForBoughtProducerQuantity = Object.create(this.barChartForBoughtProducerQuantity);
 
     } else {
       this.barChartForBoughtProducerQuantity.dataTable = this.convertJsonToArrayForBoughtProducerQuantity(report, range);
-      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Grafico quantità Coupons venduti raggruppati per giorno (coupons mese corrente)';
+      this.barChartForBoughtProducerQuantity.options.chart.subtitle = 'Coupon venduti raggruppati per giorno del mese corrente, con o senza broker.';
       this.barChartForBoughtProducerQuantity = Object.create(this.barChartForBoughtProducerQuantity);
 
     }
-    console.log('this.barChartForBoughtBrokersQuantity.dataTable', this.barChartForBoughtProducerQuantity.dataTable);
 
   }
 
   async setBarChartBoughtForBrokerQuantity(report, range) {
     if (range == 'year' || range == '0: year') {
       this.barChartForBoughtBrokersQuantity.dataTable = await this.convertJsonToArrayForBoughtBrokerQuantity(report, range);
-      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Grafico Coupons venduti da brokers raggruppati per anno (coupons totali)';
+      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Quantità di coupon venduti da ogni broker, raggruppati per anno';
       this.barChartForBoughtBrokersQuantity = Object.create(this.barChartForBoughtBrokersQuantity);
 
     } else if (range == 'month' || range == '1: month') {
       this.barChartForBoughtBrokersQuantity.dataTable = await this.convertJsonToArrayForBoughtBrokerQuantity(report, range);
-      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Grafico Coupons venduti da brokers raggruppati per mese (coupons anno corrente)';
+      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Quantità di coupon venduti da ogni broker, raggruppati per mesi dell\'anno corrente';
       this.barChartForBoughtBrokersQuantity = Object.create(this.barChartForBoughtBrokersQuantity);
 
     } else {
       this.barChartForBoughtBrokersQuantity.dataTable = await this.convertJsonToArrayForBoughtBrokerQuantity(report, range);
-      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Grafico Coupons venduti da brokers raggruppati per giorno (coupons mese corrente)';
+      this.barChartForBoughtBrokersQuantity.options.chart.subtitle = 'Quantità di coupon venduti da ogni broker, raggruppati per giorni del mese corrente';
       this.barChartForBoughtBrokersQuantity = Object.create(this.barChartForBoughtBrokersQuantity);
 
     }
-    console.log('this.barChartForBoughtBrokersQuantity.dataTable', this.barChartForBoughtBrokersQuantity.dataTable);
   }
 
   setPieChart(report, range) {
-      this.pieChart = {
-        chartType: 'PieChart',
-        dataTable: [], // this.convertJsonToArrayForPie(report, range) da mettere
-        options: {
-          title: 'Coupons venduti ' + this.setTitlePie(range),
-          slices: {
-            0: {offset: 0.3},
-            1: {offset: 0.2}
-          }
+    this.pieChart = {
+      chartType: 'PieChart',
+      dataTable: [], // this.convertJsonToArrayForPie(report, range) da mettere
+      options: {
+        title: 'Coupons venduti ' + this.setTitlePie(range),
+        slices: {
+          0: {offset: 0.3},
+          1: {offset: 0.2}
         }
+      }
     };
-      this.pieChart = Object.create(this.pieChart);
+    this.pieChart = Object.create(this.pieChart);
 
-    }
+  }
 
   init() {
 
     this.reportService.getReportBoughtProducerCoupons().subscribe(couponsBougth => {
       if (couponsBougth) {
-        console.log('getReportBougthProducerCoupons', couponsBougth);
-        if (couponsBougth) {
-          this.reportCouponsWithBrokerYearMoney = _.groupBy(couponsBougth, 'year');
-          this.reportCouponsWithBrokerYearQuantity = _.groupBy(couponsBougth, 'year');
-          console.log('this.reportCouponsWithBrokerYearMoney', this.reportCouponsWithBrokerYearMoney);
+        this.reportCouponsWithBrokerYearMoney = _.groupBy(couponsBougth, 'year');
+        this.reportCouponsWithBrokerYearQuantity = _.groupBy(couponsBougth, 'year');
 
-          if (this.reportCouponsWithBrokerYearMoney) {
-            this.reportCouponsWithBrokerMonthMoney = _.groupBy(this.reportCouponsWithBrokerYearMoney[getFullYear(new Date())], 'month');
-            this.reportCouponsWithBrokerMonthQuantity = _.groupBy(this.reportCouponsWithBrokerYearQuantity[getFullYear(new Date())], 'month');
-            console.log('this.reportCouponsWithBrokerMonthMoney', this.reportCouponsWithBrokerMonthMoney);
+        if (this.reportCouponsWithBrokerYearMoney) {
+          this.reportCouponsWithBrokerMonthMoney = _.groupBy(this.reportCouponsWithBrokerYearMoney[getFullYear(new Date())], 'month');
+          this.reportCouponsWithBrokerMonthQuantity = _.groupBy(this.reportCouponsWithBrokerYearQuantity[getFullYear(new Date())], 'month');
 
-            if (this.reportCouponsWithBrokerMonthMoney) {
-              this.reportCouponsWithBrokerDayMoney = _.groupBy(this.reportCouponsWithBrokerMonthMoney[getMonth(new Date()) + 1], 'day');
-              this.reportCouponsWithBrokerDayQuantity = _.groupBy(this.reportCouponsWithBrokerMonthQuantity[getFullYear(new Date())], 'month');
-              console.log('this.reportCouponsWithBrokerDayMoney', this.reportCouponsWithBrokerDayMoney);
+          if (this.reportCouponsWithBrokerMonthMoney) {
+            this.reportCouponsWithBrokerDayMoney = _.groupBy(this.reportCouponsWithBrokerMonthMoney[getMonth(new Date()) + 1], 'day');
+            this.reportCouponsWithBrokerDayQuantity = _.groupBy(this.reportCouponsWithBrokerMonthQuantity[getFullYear(new Date())], 'month');
 
-            }
           }
         }
 
         this.reportService.getReportProducerCoupons().subscribe(coupons => {
-          console.log('getReportProducerCoupons', coupons);
           if (coupons) {
             this.reportCouponsYear = this.groupBy(coupons, 'year');
             if (this.reportCouponsYear) {
@@ -343,11 +348,12 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
                 this.reportCouponsDay = this.groupBy(this.reportCouponsMonth[getMonth(new Date()) + 1], 'day');
               }
             }
-
-            console.log();
           }
+          this.loading = false;
           this.ChangingRange();
         });
+      } else {
+        this.loading = false;
       }
     });
 
@@ -355,14 +361,13 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
   convertJsonToArrayForBar(report, range) {
 
-    console.log('reportBar', report);
     if (!report) {
       return [];
     }
 
     const totalArray = [];
     let singleArray = [];
-    singleArray = ['Anno', 'Attivi', 'Venduti', 'Consumati', 'scaduti'];
+    singleArray = ['Anno', 'Attivi', 'Venduti', 'Consumati', 'Scaduti'];
     totalArray.push(singleArray);
     for (const key in report) {
       let active = 0;
@@ -374,20 +379,18 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
           active += arr.active;
-          buyed += arr.buyed;
+          buyed += arr.bougth;
           generated += arr.generated;
           verify += arr.verify;
           expired += arr.expired;
         }
-        singleArray = [this.convertDate(key.valueOf()), active.valueOf(),
-                       buyed.valueOf() , verify.valueOf(), expired.valueOf()];
+        singleArray = [this.convertDate(key.valueOf()), active.valueOf(), buyed.valueOf(), verify.valueOf(), expired.valueOf()];
         totalArray.push(singleArray);
       }
     }
-    console.log('barTotalArray', totalArray);
     if (totalArray.length == 1) {
-        return [['', 'Nessun Valore'], ['Nessun valore da visualizzare', 0]];
-      }
+      return [['', 'Nessun Valore'], ['Nessun valore da visualizzare', 0]];
+    }
 
     return totalArray;
   }
@@ -417,7 +420,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   }
 
   convertJsonToArrayForBoughtProducerMoney(report, range) {
-    console.log('range', range);
     if (!report) {
       return [];
     }
@@ -425,7 +427,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     let singleArray = [range == 'year' || range == '0: year' ?
       'Anno' : range == 'month' || range == '1: month' ?
         'mese' : 'giorno',
-                       'Senza Broker', 'Con Broker'];
+      'Senza Broker', 'Con Broker'];
     totalArray.push(singleArray);
     const arrayHeader = [];
 
@@ -435,16 +437,16 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
-         if (arr.package) {
-           totalWithBroker += (arr.price * arr.bought);
-         } else {
+          if (arr.package) {
+            totalWithBroker += (arr.price * arr.bought);
+          } else {
 
-           totalWithoutBroker += (arr.price * arr.bought);
-         }
+            totalWithoutBroker += (arr.price * arr.bought);
+          }
         }
 
         singleArray = [this.convertDate(key.valueOf()), totalWithoutBroker,
-                       totalWithBroker];
+          totalWithBroker];
         totalArray.push(singleArray);
 
       }
@@ -481,14 +483,13 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     //   singleArray = [];
     // }
     if (totalArray.length == 1) {
-      return [['', 'Nessun Valore'], [ 'Nessun valore da visualizzare', 0]];
-      }
+      return [['', 'Nessun Valore'], ['Nessun valore da visualizzare', 0]];
+    }
 
     return totalArray;
   }
 
   async convertJsonToArrayForBoughtBrokerQuantity(report, range) {
-    console.log('range', range);
     if (!report) {
       return [];
     }
@@ -499,11 +500,11 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     for (const key in report) {
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
-            if (arr.package) {
+          if (arr.package) {
             const br = await this.reportService.getBrokerFromCouponId(arr.coupon_id).toPromise();
             if (singleArrayHeader.indexOf(br.username) === -1) {
-                singleArrayHeader.push(br.username);
-                // singleArray.push(arr.bought);
+              singleArrayHeader.push(br.username);
+              // singleArray.push(arr.bought);
             }
           }
         }
@@ -512,49 +513,43 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     totalArray.push(singleArrayHeader);
     let arrayData = [];
     for (const i of singleArrayHeader) {
-         arrayData.push(0);
+      arrayData.push(0);
     }
-      console.log(
-          'arrayData',arrayData
-      )
     const singleArray = arrayData;
     for (const key in report) {
-        console.log('reppooooeffdjfdjfdf', report)
-          arrayData[0] = this.convertDate(key.valueOf());
+      arrayData[0] = this.convertDate(key.valueOf());
 
-          if (report.hasOwnProperty(key)) {
-              for (const arr of report[key]) {
-                  if (arr.package !== null) {
-                      const br = await this.reportService.getBrokerFromCouponId(arr.coupon_id).toPromise();
-                      if (arrayData[singleArrayHeader.indexOf(br.username)] == 0) {
-                          arrayData[singleArrayHeader.indexOf(br.username)] = arr.bought;
-                      } else {
-                          const actual = Number(arrayData[singleArrayHeader.indexOf(br.username)]);
-                          const now = Number(arr.bought);
-                          const current = actual + now;
-                          arrayData[singleArrayHeader.indexOf(br.username)] = current;
-                      }
-                  }
-              }
-              totalArray.push(arrayData);
-              arrayData = [];
-              for (const i of singleArrayHeader) {
-                  arrayData.push(0);
-              }
+      if (report.hasOwnProperty(key)) {
+        for (const arr of report[key]) {
+          if (arr.package !== null) {
+            const br = await this.reportService.getBrokerFromCouponId(arr.coupon_id).toPromise();
+            if (arrayData[singleArrayHeader.indexOf(br.username)] == 0) {
+              arrayData[singleArrayHeader.indexOf(br.username)] = arr.bought;
+            } else {
+              const actual = Number(arrayData[singleArrayHeader.indexOf(br.username)]);
+              const now = Number(arr.bought);
+              const current = actual + now;
+              arrayData[singleArrayHeader.indexOf(br.username)] = current;
+            }
           }
-
+        }
+        totalArray.push(arrayData);
+        arrayData = [];
+        for (const i of singleArrayHeader) {
+          arrayData.push(0);
+        }
       }
 
-    if (totalArray.length == 1) {
-      return [['', 'Nessun Valore'], [ 'Nessun valore da visualizzare', 0]];
     }
-    console.log('totalArray', totalArray);
+
+    if (totalArray.length == 1) {
+      return [['', 'Nessun Valore'], ['Nessun valore da visualizzare', 0]];
+    }
 
     return totalArray;
   }
 
   convertJsonToArrayForBoughtProducerQuantity(report, range) {
-    console.log('range', range);
     if (!report) {
       return [];
     }
@@ -580,15 +575,14 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         }
 
         singleArray = [this.convertDate(key.valueOf()), totalWithoutBroker,
-                       totalWithBroker];
+          totalWithBroker];
         totalArray.push(singleArray);
 
       }
     }
-    console.log('totalArrayProducer', totalArray);
 
     if (totalArray.length == 1) {
-      return [['', 'Nessun Valore'], [ 'Nessun valore da visualizzare', 0]];
+      return [['', 'Nessun Valore'], ['Nessun valore da visualizzare', 0]];
     }
 
     return totalArray;
@@ -596,18 +590,27 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
   setTitlePie(range) {
 
-    if (range == 'year' || range == '0: year') {return ' totali'; }
-    if (range == 'month' || range == '1: month') {return ' nell\' anno';  }
-    if (range == 'day' || range == '2: day') {return ' nel mese';  }
+    if (range == 'year' || range == '0: year') {
+      return ' totali';
+    }
+    if (range == 'month' || range == '1: month') {
+      return ' nell\' anno';
+    }
+    if (range == 'day' || range == '2: day') {
+      return ' nel mese';
+    }
 
   }
 
   translate(item) {
     switch (item) {
 
-      case 'year': return 'Analisi Coupons dalla data di inizio a oggi';
-      case  'month': return 'Analisi Coupons nell\'anno corrente';
-      case 'day': return 'Analisi Coupons nel mese corrente';
+      case 'year':
+        return 'Tutti i coupon';
+      case  'month':
+        return 'Anno corrente';
+      case 'day':
+        return 'Mese corrente';
 
     }
   }
@@ -645,4 +648,23 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       return range;
     }
   }
+
+
+  /*
+    @HostListener('window:resize', ['$event'])
+    onWindowResize = (event: any) => {
+      if (event.target.innerWidth >= 1300) {
+        this.barChart.options.width = 400;
+        this.barChart.options.height = 300;
+      } else {
+        this.barChart.options.width = 300;
+        this.barChart.options.height = 300;
+      }
+      this.barChart.component.draw();
+
+      // this.barChart1.draw();
+      // you can remove two lines that preserve selection if you don't need them
+    };*/
+
+
 }
