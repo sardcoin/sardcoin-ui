@@ -33,7 +33,7 @@
             <td>{{formatPrice(coupon.price)}}</td>
             <td>{{formatDate(coupon.purchase_time)}}</td>
             <td [ngStyle]="{color: getStateColor(formatState(coupon))}" class="text-uppercase td-state font-weight-bold">
-              {{coupon.state}}
+              {{formatState(coupon)}}
             </td>
             <td class="text-center">
               <button type="button" (click)="details(coupon)" class="btn btn-info text-white">

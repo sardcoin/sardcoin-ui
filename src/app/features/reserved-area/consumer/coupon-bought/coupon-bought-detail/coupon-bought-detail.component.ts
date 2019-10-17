@@ -1,7 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { filter, pairwise } from 'rxjs/operators';
 import { environment } from '../../../../../../environments/environment';
 import { Breadcrumb } from '../../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../../core/breadcrumb/breadcrumb.actions';
@@ -25,9 +27,12 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   desktopMode: boolean;
   classMx4: string;
   qrSize: number;
-  couponsPackage = null;
+  couponsPackage;
+
+  ITEM_TYPE = ITEM_TYPE;
 
   modalRef: BsModalRef;
+  isBoughtPath: boolean;
 
   constructor(
     private breadcrumbActions: BreadcrumbActions,
@@ -36,8 +41,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     private userService: UserService,
     private modalService: BsModalService,
     private globalEventService: GlobalEventsManagerService,
-    private packageService: PackageService
-
+    private packageService: PackageService,
+    private location: Location
   ) {
   }
 
@@ -46,22 +51,20 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
       if (!coupon) {
         this.router.navigate(['/bought']);
       } else {
-        console.warn(coupon);
         this.couponPass = coupon;
         if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
-              const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
-              this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
-          }
-        console.log('cp', this.couponPass);
+          const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
+          this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
+        }
         this.couponPass.qrToken = coupon.token.token || coupon.token;
 
         this.addBreadcrumb();
         this.getOwner();
       }
+
       this.globalEventService.desktopMode.subscribe(message => {
         this.desktopMode = message;
         this.setClass();
-
       });
     });
   }
@@ -101,12 +104,8 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   };
 
   retry = (): void => {
-    this.router.navigate(['/bought']);
+    this.location.back();
   };
-
-  retryOrder = (): void => {
-        this.router.navigate(['/order']);
-    };
 
   getOwner = (): void => {
     this.userService.getProducerFromId(this.couponPass.owner)
@@ -131,12 +130,12 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
   };
 
   isValid = (coupon: Coupon): boolean =>
-      !coupon.valid_until || (Date.now() < (new Date(coupon.valid_until)).getTime());
+    !coupon.valid_until || (Date.now() < (new Date(coupon.valid_until)).getTime());
 
-  getNumberCoupons() {
-        const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+  getNumberCoupons = () => {
+    const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
 
-        return values.length > 0 ? values.reduce((a, b) => a + b) : '';
-    }
+    return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+  };
 
 }

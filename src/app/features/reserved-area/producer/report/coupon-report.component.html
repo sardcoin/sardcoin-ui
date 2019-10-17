@@ -1,40 +1,44 @@
 <div class="container-fluid mb-0">
   <div class="row">
-    <div class="col-lg-12 col-xl-12">
+    <div class="col-xl-8 col-lg-11 col-md-12">
       <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
            style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
         <h4 class="text-white text-center text-uppercase mb-0">Coupon Report</h4>
       </div>
       <div class="card">
-        <div class="p-4">
-          <div class="row col-md-4 d-flex ml-auto">
+        <div *ngIf="areDataAvailable() && !loading" class="p-4">
+          <div class="row col-4 d-flex ml-auto">
             <select [ngModel]="rangeSelected" class='form-control'
                     (change)="ChangingRange($event)">
               <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
             </select>
           </div>
-          <div class="container mt-2">
-            <div class="row">
-              <google-chart   [data]="barChart" class="col "></google-chart>
-              <google-chart  [data]="barChartForBoughtProducerMoney" class="col"></google-chart>
-
-            </div>
+          <div class="row mx-auto">
+            <google-chart
+              [data]="barChart"
+              class="col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
+            ></google-chart>
+            <google-chart
+              [data]="barChartForBoughtProducerMoney"
+              class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
+            ></google-chart>
           </div>
-          <div class="container mt-2">
-            <div class="row">
-              <google-chart  [data]="barChartForBoughtProducerQuantity" class="col"></google-chart>
-              <google-chart  [data]="barChartForBoughtBrokersQuantity" class="col"></google-chart>
-            </div>
+          <div class="row">
+            <google-chart [data]="barChartForBoughtProducerQuantity"
+                          class="col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
+            <google-chart [data]="barChartForBoughtBrokersQuantity" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
           </div>
-          <div class="container mt-2">
-            <div class="row">
-              <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
-              <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart" class=" col"></google-chart>
-            </div>
+          <div class="row">
+            <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart"
+                          class="col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
+            <google-chart *ngIf="pieChart.dataTable.length !== 0" [data]="pieChart"
+                          class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
           </div>
+        </div>
+        <div *ngIf="!areDataAvailable() && !loading" class="p-4">
+          <h3>Non sono presenti abbastanza dati per mostrare delle statistiche a riguardo.</h3>
         </div>
       </div>
     </div>
   </div>
-  {{barChartForBoughtProducerMoney.dataTable.length}}
 </div>

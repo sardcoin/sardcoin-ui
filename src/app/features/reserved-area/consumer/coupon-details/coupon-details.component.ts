@@ -66,7 +66,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-
     // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
     this.routeSubscription = this.router.events.subscribe(async event => {
         if (event instanceof NavigationEnd) {
@@ -93,7 +92,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     if (!isNaN(id)) {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
-          console.log('this.couponPass',this.couponPass)
 
         if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
@@ -104,10 +102,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
         if (this.couponPass === null) { // prima era if (this.couponPass === null || this.couponPass.title !== title || !title)
             this.error404 = true;
         } else {
-            console.log(this.couponPass.max_quantity, this.isUserLoggedIn, this.userType )
           if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
-            console.log('this.couponPass.max_quantity',this.couponPass.max_quantity)
           }
           this.getOwner();
         }
@@ -117,7 +113,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.error404 = true;
     }
-    console.log('couponsPackage', this.couponsPackage)
   }
 
   async addToCart() {

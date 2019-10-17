@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
+import { environment } from '../../../../../environments/environment';
 import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
-import { CouponService } from '../../../../shared/_services/coupon.service';
 import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { Order } from '../../../../shared/_models/Order';
+import { CouponService } from '../../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 import { OrderService } from '../../../../shared/_services/order.service';
-import { Order } from '../../../../shared/_models/Order';
-import { Coupon } from '../../../../shared/_models/Coupon';
-import { environment } from '../../../../../environments/environment';
 import { UserService } from '../../../../shared/_services/user.service';
-import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -23,7 +23,7 @@ import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
 
 export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy { // TODO complete with packages and redeem button
 
-  orders: Order[];
+  orders: Array<Order>;
   isDesktop: boolean;
   ITEM_TYPE = ITEM_TYPE;
 
@@ -34,7 +34,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     private _sanitizer: DomSanitizer,
     private userService: UserService,
     private router: Router,
-    private globalEventService: GlobalEventsManagerService,
+    private globalEventService: GlobalEventsManagerService
   ) {
   }
 
@@ -56,7 +56,6 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
-      console.log('orders', this.orders)
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 
@@ -74,16 +73,13 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
           couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
           couponAux.quantity = coupons[coupon_id].length;
 
-          for (const coup of coupons[coupon_id]){
-            couponAux.token = coup.verifier === null ? (coup.coupon_token || coup.package_token) : null;
-          }
+          couponAux.token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
 
           order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
       }
 
-      console.warn(this.orders);
     } catch (e) {
       console.error(e);
     }
@@ -100,7 +96,8 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   formatDate(inputDate) {
     const auxDate = inputDate.slice(0, 10).split('-');
     const date = auxDate[2] + ' ' + (new Date(inputDate)).toLocaleString('it', {month: 'long'}) + ' ' + auxDate[0];
-    return date;// + ' ' + time;
+
+    return date; // + ' ' + time;
   }
 
   details(coupon: Coupon) {
@@ -117,7 +114,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('I miei ordini', '/order'));
@@ -128,6 +125,5 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-
 
 }
