@@ -81,8 +81,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
+    console.log('error', error)
+    console.log('token', token)
 
-    if (error && error === 'true') {
+      if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
       this.token = null;
     } else {
@@ -119,11 +121,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async setCheckout() {
     let response;
     this.loading = true;
+      console.log('response null', response)
 
     this.openModal(this.paymentModal, true);
 
     try {
       response = await this.paypalService.setCheckout(this.cart).toPromise();
+      console.log('response', response['link'])
       window.location.href = response['link'];
     } catch (e) {
       console.error(e);
@@ -134,7 +138,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async confirmPayment() { // It performs
     let payResponse, buyResponse;
     let title = '', message = '';
-
+      console.log('confirmPaymentconfirmPayment')
     try {
 
       console.warn(this.cart);
@@ -144,7 +148,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
       // payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
-
+      console.log('buyResponse', buyResponse)
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       //this.closeModalAwaitConfirmPayment();
       this.cartActions.emptyCart();
@@ -177,7 +181,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-        this.modalRefAwaitConfirmPayment = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
+        this.modalRefAwaitConfirmPayment = this.modalService.show(template,
+            {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
     }
 
   closeModalAwaitConfirmPayment() {

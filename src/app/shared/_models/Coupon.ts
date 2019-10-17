@@ -24,7 +24,7 @@ export interface Coupon {
   quantity_pack?: number;
   max_quantity?: number;
   owner?: number;
-  CouponTokens?: Array<CouponToken> | string;
+  CouponTokens?: Array<CouponToken> | any;
   token?: CouponToken;
   purchase_time?: Date | number;
   brokers?: Array<User>;

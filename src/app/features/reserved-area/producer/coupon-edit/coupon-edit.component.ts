@@ -115,8 +115,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
       this.couponForm = this.formBuilder.group({
-        title: [this.couponPass.title, Validators.compose([Validators.maxLength(40), Validators.minLength(5), Validators.required])],
-        description: [this.couponPass.description, Validators.compose([Validators.maxLength(200), Validators.minLength(5), Validators.required])],
+        title: [this.couponPass.title, Validators.compose([Validators.maxLength(70), Validators.minLength(5), Validators.required])],
+        description: [this.couponPass.description, Validators.compose([Validators.maxLength(255), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
           value: this.markedFree ? 0 : this.couponPass.price.toFixed(2),
