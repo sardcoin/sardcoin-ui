@@ -131,14 +131,14 @@ export class CartActions {
               couponToCheck.quantity :
               couponToCheck.purchasable <= couponToCheck.quantity ?
               couponToCheck.purchasable  - purchasedCoupon.bought :
-              couponToCheck.quantity;
+              couponToCheck.quantity - purchasedCoupon.bought;
           // It calculates the quantity available for the user
       } else {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity_pack :
               couponToCheck.purchasable <= couponToCheck.quantity_pack ?
               couponToCheck.purchasable  - purchasedCoupon.bought :
-              couponToCheck.quantity_pack; // It calculates the quantity available for the user
+              couponToCheck.quantity_pack - purchasedCoupon.bought; // It calculates the quantity available for the user
 
       }
       } catch (e) {
@@ -146,6 +146,7 @@ export class CartActions {
       console.log('Error retrieving available coupons on cart actions');
     }
 
+    console.log('quantityAvailable', quantityAvailable)
     return quantityAvailable < 0 ? 0 : quantityAvailable; // It returns 0 if you can't nothing in the cart
   }
 
