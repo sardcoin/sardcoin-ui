@@ -59,6 +59,9 @@ export class CouponService {
   getCouponByToken = (token: string, type: number): Observable<Coupon> =>
     this.http.get<Coupon>(this.formatUrl(`getByToken/${token}/${type}`));
 
+  getByTokenNotBougth = (token: string, type: number): Observable<Coupon> =>
+        this.http.get<Coupon>(this.formatUrl(`getByTokenNotBougth/${token}/${type}`));
+
   buyCoupons = (cart: Array<CartItem>): Observable<any> =>
     this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
 

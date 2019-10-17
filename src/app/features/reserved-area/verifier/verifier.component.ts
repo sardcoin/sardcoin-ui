@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Breadcrumb } from '../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../shared/_models/Coupon';
+import { CouponToken } from '../../../shared/_models/CouponToken';
 import { CouponService } from '../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../shared/_services/global-event-manager.service';
 import { StoreService } from '../../../shared/_services/store.service';
@@ -73,13 +74,12 @@ export class VerifierComponent implements OnInit, OnDestroy {
     return this.tokenForm.controls;
   }
 
-   verify() {
+  verify() {
     this.submitted = true;
 
     if (this.tokenForm.invalid) {
       return;
     }
-
 
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
@@ -88,8 +88,10 @@ export class VerifierComponent implements OnInit, OnDestroy {
                 this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
                 this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
                     .subscribe(cp => {
-                this.titlePackage = cp.title;
+                        console.log('cp', cp);
+                        this.titlePackage = cp.title;
                 });
+
 
                 this.modalCoupons = result.coupons;
 
@@ -227,10 +229,9 @@ export class VerifierComponent implements OnInit, OnDestroy {
     // console.log('this.modalCoupons dopo', this.modalCoupons);
   }
 
-    openModalCouponFromPackage(token, template) {
+  openModalCouponFromPackage(token, template) {
 
       this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-
 
     }
 
