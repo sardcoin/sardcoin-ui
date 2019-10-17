@@ -25,8 +25,8 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
         component: FeatureReservedAreaCouponListComponent
       },
       {
-          path: 'offline',
-          component: FeatureReservedAreaCouponOfflineComponent
+        path: 'offline',
+        component: FeatureReservedAreaCouponOfflineComponent
       },
       {
         path: 'create',

@@ -25,9 +25,7 @@ export class CartActions {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private storeService: StoreService,
-    private couponService: CouponService,
-    private GEmanager: GlobalEventsManagerService
-  ) {
+    private couponService: CouponService) {
     this.cart.subscribe(elements => {
       this.reduxCart = elements.list;
     });
@@ -122,26 +120,24 @@ export class CartActions {
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
-      console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
-      console.log('couponToCheckcouponToCheck', couponToCheck)
       if (couponToCheck.type === 0) {
-          quantityAvailable = couponToCheck.purchasable === null ?
-              couponToCheck.quantity -  purchasedCoupon.bought :
-              couponToCheck.purchasable > couponToCheck.quantity ?
-              couponToCheck.quantity  - purchasedCoupon.bought :
-              couponToCheck.purchasable - purchasedCoupon.bought;
-          // It calculates the quantity available for the user
+        quantityAvailable = couponToCheck.purchasable === null ?
+          couponToCheck.quantity - purchasedCoupon.bought :
+          couponToCheck.purchasable > couponToCheck.quantity ?
+            couponToCheck.quantity - purchasedCoupon.bought :
+            couponToCheck.purchasable - purchasedCoupon.bought;
+        // It calculates the quantity available for the user
       } else {
-          quantityAvailable = couponToCheck.purchasable === null ?
-              couponToCheck.quantity_pack -  purchasedCoupon.bought :
-              couponToCheck.purchasable > couponToCheck.quantity_pack ?
-              couponToCheck.quantity_pack  - purchasedCoupon.bought :
-              couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
+        quantityAvailable = couponToCheck.purchasable === null ?
+          couponToCheck.quantity_pack - purchasedCoupon.bought :
+          couponToCheck.purchasable > couponToCheck.quantity_pack ?
+            couponToCheck.quantity_pack - purchasedCoupon.bought :
+            couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
 
       }
-      } catch (e) {
+    } catch (e) {
       console.log(e);
       console.log('Error retrieving available coupons on cart actions');
     }

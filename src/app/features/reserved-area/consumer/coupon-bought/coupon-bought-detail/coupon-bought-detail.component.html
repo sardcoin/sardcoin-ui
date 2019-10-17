@@ -1,58 +1,67 @@
 <div *ngIf="couponPass && producer" class="container-fluid px-0">
   <!--<div class="row">-->
-    <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
-      <div [class]="classMx4" style="padding: 5px">
-        <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
-        <div class="card-body p-4">
-          <h3 class="card-title mb-0">{{couponPass.title}}</h3>
-          <p *ngIf="couponPass.owner">di
-            <i [routerLink]="['/producer-info']"
-               class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null : producer.company_name}}</i>
-          </p>
+  <div class="col-xl-6 col-lg-10 col-md-10 col-sm-12 pl-md-0">
+    <div [class]="classMx4" style="padding: 5px">
+      <img class="card-img-top crop centered-and-cropped" src="{{imageURL + couponPass.image}}" alt="Card image cap">
+      <div class="card-body p-4">
+        <h3 class="card-title mb-0">{{couponPass.title}}</h3>
+        <p *ngIf="couponPass.owner">di
+          <i [routerLink]="['/producer-info']"
+             class="font-weight-bold text-primary cursor-pointer">{{producer === null ? null :
+            producer.company_name}}</i>
+        </p>
 
-          <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
+        <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
-          <p class="card-text mt-3">{{couponPass.description}}</p>
+        <p class="card-text mt-3">{{couponPass.description}}</p>
 
-          <p class="card-text">
-            <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
-            <br/>
+        <p class="card-text">
+          <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
+          <br/>
 
-            <span *ngIf="couponPass.constraints">
+          <span *ngIf="couponPass.constraints">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
 
               <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
                    src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' +
                     couponPass.constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
             </span>
+        </p>
+        <div class="package-coupons" *ngIf="couponsPackage !== null">
+          <p *ngIf="couponPass.type === ITEM_TYPE.PACKAGE">
+            <i class="fas fa-fw fa-box-open text-secondary"></i> Coupon inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i>
           </p>
-          <div class="package-coupons" *ngIf="couponsPackage !== null">
-                <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i></p>
-                <div *ngFor="let cp of couponsPackage | keyvalue">
-                    <div class="striped d-block d-md-block d-xl-block">
-                        <i class="d-block my-1" style="color: #999; font-size: 15px;">{{cp.value[0].title}} ({{cp.value.length}})</i>
-                        <div class="w-50 d-inline-block">
-                            <img class="img-fluid" src="{{imageURL + cp.value[0].image}}">
-                        </div>
-                        <div class="w-50 d-inline-block">
-                            <img class="img-fluid"
-                                 src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.value[0].constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
-                            <!--<h5 class="centered-text-image-map" *ngIf="couponsPackage[key].constraints == null"> Mappa assente</h5>-->
-                        </div>
-                    </div>
-                    <!--<hr *ngIf="(i+1) < Object.keys(couponsPackage).length"/>-->
-                </div>
-          </div>
-          <div class="mt-4">
-              <button *ngIf="couponPass.state" class="btn btn-danger btn-retry mr-2" (click)="retry()"><i class="fas fa-arrow-circle-left"></i> I miei acquisti</button>
-              <button *ngIf="!couponPass.state" class="btn btn-danger btn-retry mr-2" (click)="retryOrder()"><i class="fas fa-arrow-circle-left"></i> I miei ordini</button>
-              <button *ngIf="!couponPass.token.verifier && isValid(couponPass) && couponPass.state" class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice</button>
-              <button *ngIf="couponPass.token.verifier || !isValid(couponPass)" class="btn btn-warning btn-retry">Non più valido</button>
+          <div *ngFor="let cp of couponsPackage | keyvalue">
+            <div class="striped d-block d-md-block d-xl-block">
+              <i class="d-block my-1" style="color: #999; font-size: 15px;">{{cp.value[0].title}}
+                ({{cp.value.length}})</i>
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid" src="{{imageURL + cp.value[0].image}}">
+              </div>
+              <div class="w-50 d-inline-block">
+                <img class="img-fluid"
+                     src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.value[0].constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
+                <!--<h5 class="centered-text-image-map" *ngIf="couponsPackage[key].constraints == null"> Mappa assente</h5>-->
+              </div>
+            </div>
+            <!--<hr *ngIf="(i+1) < Object.keys(couponsPackage).length"/>-->
           </div>
         </div>
-
+        <div class="mt-4">
+          <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i
+            class="fas fa-arrow-circle-left"></i> Torna indietro
+          </button>
+          <button *ngIf="!couponPass.token.verifier && isValid(couponPass)"
+                  class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice
+          </button>
+          <button *ngIf="couponPass.token.verifier || !isValid(couponPass)" class="btn btn-warning btn-retry">Non più
+            valido
+          </button>
+        </div>
       </div>
+
     </div>
+  </div>
   <!--</div>-->
 </div>
 
