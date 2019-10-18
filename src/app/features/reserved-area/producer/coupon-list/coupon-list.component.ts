@@ -115,4 +115,6 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   decline = (): void => {
     this.modalRef.hide();
   };
+
+  dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

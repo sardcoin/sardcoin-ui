@@ -1,5 +1,5 @@
 <!-- Table -->
-<div class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
+<div *ngIf="dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
   <table mat-table [dataSource]="dataSource" matSort class="table-striped w-100 mt-4 mt-md-0">
 
     <!-- Title Column -->
@@ -27,8 +27,8 @@
 
     <!-- State Column -->
     <ng-container matColumnDef="state">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-lg-table-cell d-none" >Stato</th>
-      <td mat-cell *matCellDef="let coupon" class="d-lg-table-cell d-none p-1"> {{formatState(0)}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-lg-table-cell d-none">Stato</th>
+      <td mat-cell *matCellDef="let coupon" class="d-lg-table-cell d-none p-1"> {{formatState(0)}}</td>
     </ng-container>
 
     <!-- Quantity Column -->
@@ -56,7 +56,8 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
+              class="fas fa-edit text-info"></i>
               Modifica</a></li>
             <li role="menuitem"><a class="dropdown-item" (click)="openModal(coupon)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
@@ -73,31 +74,39 @@
 </div>
 
 <!-- SM CARD -->
-<div class="container-fluid d-block d-md-none mb-5 mt-4">
-  <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0">
-    <div *ngFor="let coupon of dataSource.data" style="background-color: snow" class="card flex-row flex-wrap">
-      <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
-        <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+<div *ngIf="dataExists()" class="container-fluid d-block d-md-none mb-5 mt-4">
+  <div *ngFor="let coupon of dataSource.data" style="background-color: snow" class="card flex-row flex-wrap">
+    <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
+      <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+    </div>
+    <div class="col-8 card-header border-0" style="background-color: snow;">
+      <h5 class="card-text truncate ">{{coupon.title}}</h5>
+    </div>
+    <div class="col-12 mb-1 text-justify">
+      <p class="card-text truncate ">{{coupon.description}}</p>
+    </div>
+    <div class="card-footer w-100">
+      <div class="float-left">
+        <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i>
+        </button>
+        <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
+          class="fas fa-edit"></i>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
+        </button>
       </div>
-      <div class="col-8 card-header border-0" style="background-color: snow;">
-        <h5 class="card-text truncate ">{{coupon.title}}</h5>
-      </div>
-      <div class="col-12 mb-1 text-justify">
-        <p class="card-text truncate ">{{coupon.description}}</p>
-      </div>
-      <div class="card-footer w-100">
-        <div class="float-left">
-          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
-          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
-          </button>
-          <button type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-        <div class="float-right card-price">
-          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
-        </div>
+      <div class="float-right card-price">
+        <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
       </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="!dataExists()" class="container-fluid d-none d-md-block">
+  <h2>I miei coupon</h2>
+
+  <div class="alert alert-primary text-left p-2" style="max-width: 400px;" role="alert">
+    <h4 class="mb-0">Non hai ancora creato coupon.</h4>
   </div>
 </div>
 

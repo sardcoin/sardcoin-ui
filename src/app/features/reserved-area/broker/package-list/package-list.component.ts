@@ -118,4 +118,6 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   decline = (): void => {
     this.modalRef.hide();
   };
+
+  dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

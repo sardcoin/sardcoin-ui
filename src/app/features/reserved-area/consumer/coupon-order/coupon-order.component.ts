@@ -23,7 +23,7 @@ import { UserService } from '../../../../shared/_services/user.service';
 
 export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy { // TODO complete with packages and redeem button
 
-  orders: Array<Order>;
+  orders: Array<Order> = [];
   isDesktop: boolean;
   ITEM_TYPE = ITEM_TYPE;
 

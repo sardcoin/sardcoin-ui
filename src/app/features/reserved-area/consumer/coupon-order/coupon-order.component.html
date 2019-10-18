@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h2 class="">I miei ordini</h2>
-  <div class="row ml-0">
+  <div *ngIf="orders.length > 0" class="row ml-0">
     <ng-container *ngFor="let order of orders">
       <div class="col-lg-8 col-md-10 col-sm-10 col-11 ml-1 mb-2 px-0 bg-white">
         <div class="w-100 pl-0">
@@ -51,5 +51,8 @@
         </div>
       </div>
     </ng-container>
+  </div>
+  <div *ngIf="orders.length === 0" class="container-fluid alert alert-primary text-left p-2 ml-1" style="max-width: 400px;" role="alert">
+    <h4 class="mb-0">Non hai ancora effettuato ordini.</h4>
   </div>
 </div>
