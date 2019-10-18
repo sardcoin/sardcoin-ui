@@ -129,16 +129,14 @@ export class CartActions {
       if (couponToCheck.type === 0) {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity :
-              couponToCheck.purchasable <= couponToCheck.quantity ?
-              couponToCheck.purchasable  - purchasedCoupon.bought :
-              couponToCheck.quantity - purchasedCoupon.bought;
+              couponToCheck.purchasable - purchasedCoupon.bought >= couponToCheck.quantity ?
+              couponToCheck.quantity : couponToCheck.purchasable - purchasedCoupon.bought;
           // It calculates the quantity available for the user
       } else {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity_pack :
-              couponToCheck.purchasable <= couponToCheck.quantity_pack ?
-              couponToCheck.purchasable  - purchasedCoupon.bought :
-              couponToCheck.quantity_pack - purchasedCoupon.bought; // It calculates the quantity available for the user
+              couponToCheck.purchasable - purchasedCoupon.bought >= couponToCheck.quantity_pack ?
+              couponToCheck.quantity_pack : couponToCheck.purchasable - purchasedCoupon.bought; // It calculates the quantity available for the user
 
       }
       } catch (e) {
