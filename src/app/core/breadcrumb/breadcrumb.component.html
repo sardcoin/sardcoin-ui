@@ -65,7 +65,7 @@
         <a *ngIf="cart.length === 0" class="text-white">Il carrello <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">
           <span class="d-md-none d-lg-inline-block">{{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
-            'coupon' : 'coupons'}}</b> nel tuo carrello.</span>
+            'articolo' : 'articoli'}}</b> nel tuo carrello.</span>
           <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
         </a>
       </div>
