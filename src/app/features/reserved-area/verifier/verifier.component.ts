@@ -83,6 +83,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
+          console.log('result ooooo', result)
         if (result) {
             if (result.coupons) {
                 this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
@@ -95,7 +96,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
                 this.modalCoupons = result.coupons;
 
-            } else {
+            } else if (result.redeemed) {
 
                 this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
 
@@ -197,7 +198,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   async openModal(template: TemplateRef<any>, token) {
       const isCoupon = await this.couponService.isCouponFromToken(token)
           .toPromise();
-      console.log('token', token);
+      console.log('isCoupon', isCoupon);
       if (isCoupon) {
           if (!isCoupon.error) {
 

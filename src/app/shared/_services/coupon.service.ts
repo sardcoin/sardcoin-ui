@@ -104,6 +104,9 @@ export class CouponService {
   isCouponFromToken = (token: string): Observable<any> =>
         this.http.request('get', this.formatUrl(`isCouponFromToken/${token}`));
 
+  isCouponOrPackageFromTokenVerifiable = (token: string): Observable<any> =>
+        this.http.request('get', this.formatUrl(`isCouponOrPackageFromTokenVerifiable/${token}`));
+
     // Observable SET methods
   setCoupon = (coupon: Coupon): void =>
     this.couponSource.next(coupon);
