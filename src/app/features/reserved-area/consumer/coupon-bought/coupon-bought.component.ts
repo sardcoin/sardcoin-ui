@@ -59,6 +59,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
         this.coupons = coupons
           .sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
         // this.coupons.forEach(el => el.state = this.formatState(el));
+          console.log('this.coupons', this.coupons)
       }, err => {
         // tslint:disable-next-line:no-console
         console.log(err);
@@ -77,7 +78,9 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
 
     if (coupon) {
       validUntil = coupon.valid_until ? (new Date(coupon.valid_until).getTime()) : undefined;
-      state = coupon.token.verifier ? 'Consumato' : ((validUntil && Date.now() > validUntil) ? 'Scaduto' : 'Disponibile');
+      state = coupon.type === this.ITEM_TYPE.COUPON ? (coupon.token.verifier ?
+          'Consumato' : ((validUntil && Date.now() > validUntil) ? 'Scaduto' : 'Disponibile')) :
+          coupon.verifiable === 0 ? 'Consumato' : coupon.consumed > 0 ? 'In uso' : 'Disponibile' ;
     }
 
     return state;
@@ -103,6 +106,9 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
       case 'Consumato':
         color = '#ffc107';
         break;
+      case 'In uso':
+          color = '#98c8ff';
+          break;
       default:
         color = '#28a745';
     }

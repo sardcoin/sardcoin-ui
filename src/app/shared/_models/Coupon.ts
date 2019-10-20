@@ -33,6 +33,9 @@ export interface Coupon {
   type?: number;
   assigned?: number;
   state?: string;
+  consumed?: number;
+  verifiable?: number;
+
 }
 
 export interface PackItem {

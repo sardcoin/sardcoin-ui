@@ -51,10 +51,10 @@
           <button class="btn btn-danger btn-retry mr-2" (click)="retry()"><i
             class="fas fa-arrow-circle-left"></i> Torna indietro
           </button>
-          <button *ngIf="!couponPass.token.verifier && isValid(couponPass)"
+          <button *ngIf="couponPass.verifiable > 0 && isValid(couponPass)"
                   class="btn btn-success btn-retry" (click)="openModal(qrModal)">Ottieni codice
           </button>
-          <button *ngIf="couponPass.token.verifier || !isValid(couponPass)" class="btn btn-warning btn-retry">Non più
+          <button *ngIf="couponPass.verifiable === 0 || !isValid(couponPass)" class="btn btn-warning btn-retry">Non più
             valido
           </button>
         </div>
