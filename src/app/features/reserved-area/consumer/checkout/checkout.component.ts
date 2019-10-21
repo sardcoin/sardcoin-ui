@@ -83,6 +83,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const error = this.route.snapshot.queryParamMap.get('err');
     console.log('error', error);
     console.log('token', token);
+    console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
 
     if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
@@ -143,9 +144,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     try {
       console.warn(this.cart);
 
-      this.openModal(this.buyWait);
+      //this.openModal(this.buyWait);
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      this.closeModal();
+      //this.closeModal();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       this.cartActions.emptyCart();
