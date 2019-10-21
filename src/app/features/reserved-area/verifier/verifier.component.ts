@@ -22,7 +22,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   submitted = false;
   coupon: any;
   isScan = false;
-  modalCoupons: Array<Array<Coupon>>;
+  modalCoupons;
   modalRef: BsModalRef;
 
   @ViewChild('scanner')
@@ -237,20 +237,17 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   controlEmptyModalCoupon() {
-
     let empty;
-    for (const arr of this.modalCoupons) {
-      for (const cp of arr) {
-        if (cp.length === 0) {
-          empty = true;
-        } else {
-          empty = false;
+
+    if (this.modalCoupons) {
+      for (const arr of this.modalCoupons) {
+        for (const cp of arr) {
+          empty = cp.length === 0;
         }
       }
-    }
-    // console.log('empty', empty)
-    if (empty === undefined) {
+    } else {
       this.modalCoupons = undefined;
     }
   }
+
 }
