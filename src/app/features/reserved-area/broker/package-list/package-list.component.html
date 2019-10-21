@@ -1,5 +1,5 @@
 <!-- Table -->
-<div *ngIf="dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
+<div [hidden]="dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
   <table [dataSource]="dataSource" class="table-striped w-100 mt-4 mt-md-0" mat-table matSort>
 
     <!-- Title Column -->

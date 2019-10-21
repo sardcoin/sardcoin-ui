@@ -1,5 +1,5 @@
 <!-- Table -->
-<div *ngIf="dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
+<div [hidden]="!dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
   <table mat-table [dataSource]="dataSource" matSort class="table-striped w-100 mt-4 mt-md-0">
 
     <!-- Title Column -->
@@ -70,7 +70,7 @@
 
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
 </div>
 
 <!-- SM CARD -->

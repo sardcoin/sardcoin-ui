@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -36,7 +36,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private _sanitizer: DomSanitizer,
-    private toastr: ToastrService) {
+    private toastr: ToastrService
+  ) {
   }
 
   ngOnInit(): void {

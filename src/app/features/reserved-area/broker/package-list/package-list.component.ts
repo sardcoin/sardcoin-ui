@@ -102,7 +102,6 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   control = (): void => {
     this.packageService.getBrokerPackages()
       .subscribe(data => {
-          console.warn(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
