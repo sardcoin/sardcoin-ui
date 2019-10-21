@@ -140,6 +140,7 @@
                        [noCalendar]="false"
                        [convertModelValue]="true"
                        [enableTime]="true"
+                       [placeholder]="'Seleziona data di scadenza'"
                        dateFormat="Y-m-d H:i" formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid':  submitted && f.valid_until.errors?.MatchDateFromUntil }"
                        mwlFlatpickr/>

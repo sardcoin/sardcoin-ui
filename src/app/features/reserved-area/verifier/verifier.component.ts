@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Result } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
@@ -49,7 +49,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newCamera();
     this.tokenForm = this.formBuilder.group({
       token: [null, Validators.required]
@@ -63,11 +63,11 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  get f() {
+  get f(): any {
     return this.tokenForm.controls;
   }
 
