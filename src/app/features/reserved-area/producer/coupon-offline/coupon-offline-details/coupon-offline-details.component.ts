@@ -75,7 +75,7 @@ export class CouponOfflineDetailsComponent implements OnInit, OnDestroy {
   loadCoupon() {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
-      if (!this.couponPas || !this.couponPass.CouponTokens) {
+      if (!this.couponPass || !this.couponPass.CouponTokens) {
         this.router.navigate(['reserved-area/producer/offline']);
       } else {
         this.getOwner();
