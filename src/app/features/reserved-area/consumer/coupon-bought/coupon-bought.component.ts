@@ -17,7 +17,7 @@ import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
 
 export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDestroy {
 
-  coupons: Array<Coupon> = [];
+  coupons: Array<Coupon> ;
   isDesktop: boolean;
   ITEM_TYPE = ITEM_TYPE;
 
