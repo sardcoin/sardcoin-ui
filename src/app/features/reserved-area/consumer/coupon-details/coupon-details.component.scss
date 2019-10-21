@@ -67,3 +67,20 @@ hr {
   border-top: 1px solid #bd0a0d;
 }
 
+.coupon-border-detail {
+  border-radius: 15px;
+  background-color: #efefef;
+
+  b {
+    font-size: 15px;
+    color: #333;
+  }
+}
+
+.package-coupons .coupon-border-detail {
+  margin-bottom: 1.5rem;
+}
+
+.package-coupons .coupon-border-detail:last-child {
+  margin-bottom: 0;
+}

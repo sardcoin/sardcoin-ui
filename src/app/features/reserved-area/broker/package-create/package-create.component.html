@@ -1,12 +1,11 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-12 col-xl-9">
+    <div class="col-xl-10 col-md-12">
+      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
+           style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+        <h4 class="text-white text-center text-uppercase mb-0">Aggiungi pacchetto</h4>
+      </div>
       <div class="card">
-        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
-            <img src="assets/img/add_coupon.png" alt="Add new coupon" style="width:50px; float:left; margin-right:30px"/>
-            <h6 class="display-4" style="float:left; font-size:30pt;">Crea un Pacchetto</h6>
-        </div>
-
         <div class="card-body p-5">
           <form [formGroup]="packageForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">

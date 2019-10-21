@@ -85,7 +85,6 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   control = (): void => {
     this.couponService.getProducerCouponsOffline()
       .subscribe(data => {
-          console.log('data', data);
           if (data) {
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.paginator = this.paginator;
@@ -103,4 +102,6 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   decline = (): void => {
     this.modalRef.hide();
   };
+
+  dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

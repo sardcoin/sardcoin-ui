@@ -43,6 +43,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   isUserLoggedIn: boolean;
   couponsPackage = null;
 
+  ITEM_TYPE = ITEM_TYPE;
+
   routeSubscription: Subscription;
 
   constructor(

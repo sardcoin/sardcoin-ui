@@ -42,14 +42,14 @@
             </span>
         </p>
         <div class="package-coupons" *ngIf="couponsPackage !== null">
-          <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupons inclusi nel pacchetto: <i style="color: #999;">({{getNumberCoupons()}})</i></p>
-          <div *ngFor="let cp of couponsPackage | keyvalue">
+          <p><i class="fas fa-fw fa-box-open text-secondary"></i> Coupon inclusi nel pacchetto: <b>{{getNumberCoupons()}}</b></p>
+          <div *ngFor="let cp of couponsPackage | keyvalue" class="coupon-border-detail p-3">
             <div class="striped d-block d-md-block d-xl-block">
-              <i class="d-block my-1" style="color: #999; font-size: 15px;">{{cp.value[0].title}} ({{cp.value.length}})</i>
-              <div class="w-50 d-inline-block">
+              <b class="d-block my-1">{{cp.value[0].title}} ({{cp.value.length}})</b>
+              <div class="w-50 d-inline-block p-2">
                 <img class="img-fluid" src="{{imageURL + cp.value[0].image}}">
               </div>
-              <div class="w-50 d-inline-block">
+              <div class="w-50 d-inline-block p-2">
                 <img class="img-fluid"
                      src="{{'https://maps.googleapis.com/maps/api/staticmap?size=600x300&zoom=18&maptype=roadmap&markers=size:mid%7C' + cp.value[0].constraints + 'color:red%7&key=AIzaSyAjKzYOB3pXeI79ONHTp066mDb3xzTtUKc'}}">
                 <!--<h5 class="centered-text-image-map" *ngIf="couponsPackage[key].constraints == null"> Mappa assente</h5>-->

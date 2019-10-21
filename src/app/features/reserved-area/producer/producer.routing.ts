@@ -7,7 +7,7 @@ import { PersonalInfoComponent } from '../personal-info/personal-info.component'
 import { FeatureReservedAreaCouponCreateComponent } from './coupon-create/coupon-create.component';
 import { CouponEditComponent } from './coupon-edit/coupon-edit.component';
 import { FeatureReservedAreaCouponListComponent } from './coupon-list/coupon-list.component';
-import { CouponOfflineDetailsComponent } from './coupon-offline-details/coupon-offline-details.component';
+import { CouponOfflineDetailsComponent } from './coupon-offline/coupon-offline-details/coupon-offline-details.component';
 import { FeatureReservedAreaCouponOfflineComponent } from './coupon-offline/coupon-offline.component';
 import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
 

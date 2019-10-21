@@ -1,5 +1,5 @@
 <!-- Table -->
-<div class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
+<div [hidden]="!dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
   <table mat-table [dataSource]="dataSource" matSort class="table-striped w-100 mt-4 mt-md-0">
 
     <!-- Title Column -->
@@ -48,7 +48,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let coupon" class="p-1">
         <div >
-          <button (click)="showToken(coupon)"  type="button" class="btn btn-primary "
+          <button *ngIf="coupon.CouponTokens" (click)="showToken(coupon)"  type="button" class="btn btn-primary "
                   aria-controls="action-button">
             <span class="fas fa-coins"></span> Token
           </button>
@@ -85,6 +85,14 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="!dataExists()" class="container-fluid d-none d-md-block">
+  <h2>Vendita offline</h2>
+
+  <div class="alert alert-primary text-left p-2" style="max-width: fit-content;" role="alert">
+    <h4 class="mb-0">Per fornire offline dei token, dovresti prima renderli privati.</h4>
   </div>
 </div>
 

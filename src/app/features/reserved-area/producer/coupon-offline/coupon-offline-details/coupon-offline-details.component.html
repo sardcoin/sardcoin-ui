@@ -80,12 +80,14 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Vuoi vendere e stampare un token del coupon "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) +
-      '...' :
-      couponPass.title}}"?</h4>
+    <h4>Vendita offline <b>{{couponPass.title}}</b></h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
+  </div>
+
+  <div class="modal-body">
+    <p>Sei sicuro di voler vendere offline il token? L'operazione è irreversibile.</p>
   </div>
 
   <div class="modal-footer">
