@@ -5,15 +5,15 @@
 
 <!--*********per desktop********************-->
 
-<div  class="fixed-top ">
+<div   class="fixed-top ">
   <nav class="fixed-top " class="navbar navbar-expand-md navbar-light bg-white ">
-    <div data-toggle="dropdown">
+    <div *ngIf="this.userType" data-toggle="dropdown">
       <button href="menu" role="button" class="fixed-top " *ngIf="true" type="button"
               id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)"> <!-- TODO there was check to user logged in-->
         <span class="navbar-toggler-icon"></span>
       </button>
       <nav>
-        <div id="menu" class=" border-menu  fixed-top dropdown-menu">
+        <div   id="menu" class=" border-menu  fixed-top dropdown-menu">
           <ul class="nav navbar-nav scrollable-menu">
             <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
               <div class="border" style="background-color: white">
