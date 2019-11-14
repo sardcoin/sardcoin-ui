@@ -4,8 +4,8 @@
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
        [ngStyle]="{'padding': isUserLoggedIn && desktopMode ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}"
        style="max-height: 49px">
-    <div class="row col-lg-9 col-md-11 my-auto">
-      <div class="" dropdown>
+    <div  class="row col-lg-9 col-md-11 my-auto">
+      <div class="dropdown" >
         <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light"
                 style="border-radius: 0.25rem 0 0 0.25rem" (change)="onChange($event.target.value)">
           <option value="0">Tutte le categorie</option>
@@ -17,7 +17,7 @@
       <div class="col-md-8 p-0 search-input">
         <form (submit)="searchCoupons(); showListSuggestions(false)">
           <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
-                 style="border-radius: 0; border-right: 0" placeholder="Cerca un coupon..."
+                 style="border-radius: 0; border-right: 0" placeholder="Cerca..."
                  [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="giveSuggestions()"/>
         </form> <!-- Input form -->
         <ul id="search-suggestions" class="rounded-bottom"
