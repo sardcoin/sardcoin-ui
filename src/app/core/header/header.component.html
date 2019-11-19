@@ -87,9 +87,17 @@
                       <span (click)="clickEvent('/reserved-area/producer/create')"
                             class="menu-collapsed">Aggiungi un coupon</span>
                       </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/offline')"
+                            class="menu-collapsed">Vendi offline</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/report')"
+                            class="menu-collapsed">Reports</span>
+                      </a>
                     </div>
 
-                    <a  *ngIf="this.userType != '3'" class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                    <a  *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                         <span (click)="clickEvent('/showcase')"
                               class="menu-collapsed">Shopping</span>
                     </a>

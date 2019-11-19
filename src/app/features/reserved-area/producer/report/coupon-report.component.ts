@@ -42,13 +42,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     chartType: 'Bar',
     dataTable: [],
     options: {
-      legend: {position: 'none'},
+      legend: true,
       chart: {
         title: 'Statistiche generali',
         subtitle: 'Coupon attivi, venduti, consumati e scaduti'
       },
       width: 300,
-      height: 340
+      height: 340,
+      responsive: true,
+      maintainAspectRatio: false
     }
   };
 
@@ -56,13 +58,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     chartType: 'Bar',
     dataTable: [],
     options: {
-      legend: {position: 'none'},
+      legend: true,
       chart: {
         title: 'Incassi',
         subtitle: ''
       },
       width: 300,
-      height: 340
+      height: 340,
+      marginHeight: 12
+
     }
 
   };
@@ -71,13 +75,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     chartType: 'Bar',
     dataTable: [],
     options: {
-      legend: {position: 'none'},
+      legend: true,
       chart: {
         title: 'Quantità vendute',
         subtitle: ''
       },
       width: 300,
-      height: 340
+      height: 340,
+      marginHeight: 12
+
     }
 
   };
@@ -86,13 +92,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     chartType: 'Bar',
     dataTable: [],
     options: {
-      legend: {position: 'none'},
+      legend: true,
       chart: {
         title: 'Statistiche vendita broker',
         subtitle: ''
       },
       width: 300,
-      height: 340
+      height: 340,
+      marginHeight: 12
+
     }
 
   };
@@ -109,7 +117,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     }
   };
 
-  areDataAvailable = (): boolean =>
+  areaDataAvailable = (): boolean =>
     this.barChart.dataTable.length > 0 &&
     this.barChartForBoughtProducerMoney.dataTable.length > 0 &&
     this.barChartForBoughtProducerQuantity.dataTable.length > 0 &&
@@ -367,7 +375,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
     const totalArray = [];
     let singleArray = [];
-    singleArray = ['Anno', 'Attivi', 'Venduti', 'Consumati', 'Scaduti'];
+    singleArray = ['', 'Attivi', 'Venduti', 'Consumati', 'Scaduti'];
     totalArray.push(singleArray);
     for (const key in report) {
       let active = 0;
@@ -425,8 +433,8 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     }
     const totalArray = [];
     let singleArray = [range == 'year' || range == '0: year' ?
-      'Anno' : range == 'month' || range == '1: month' ?
-        'mese' : 'giorno',
+      '' : range == 'month' || range == '1: month' ?
+        '' : '',
       'Senza Broker', 'Con Broker'];
     totalArray.push(singleArray);
     const arrayHeader = [];
@@ -495,16 +503,18 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     }
     const totalArray = [];
     const singleArrayHeader = [range == 'year' || range == '0: year' ?
-      'Anno' : range == 'month' || range == '1: month' ?
-        'mese' : 'giorno'];
+      '' : range == 'month' || range == '1: month' ?
+        '' : ''];
     for (const key in report) {
       if (report.hasOwnProperty(key)) {
         for (const arr of report[key]) {
           if (arr.package) {
             const br = await this.reportService.getBrokerFromCouponId(arr.coupon_id).toPromise();
-            if (singleArrayHeader.indexOf(br.username) === -1) {
-              singleArrayHeader.push(br.username);
-              // singleArray.push(arr.bought);
+            if (br) {
+              if (singleArrayHeader.indexOf(br.username) === -1) {
+                singleArrayHeader.push(br.username);
+                // singleArray.push(arr.bought);
+              }
             }
           }
         }
@@ -523,13 +533,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         for (const arr of report[key]) {
           if (arr.package !== null) {
             const br = await this.reportService.getBrokerFromCouponId(arr.coupon_id).toPromise();
-            if (arrayData[singleArrayHeader.indexOf(br.username)] == 0) {
-              arrayData[singleArrayHeader.indexOf(br.username)] = arr.bought;
-            } else {
-              const actual = Number(arrayData[singleArrayHeader.indexOf(br.username)]);
-              const now = Number(arr.bought);
-              const current = actual + now;
-              arrayData[singleArrayHeader.indexOf(br.username)] = current;
+            if (br) {
+              if (arrayData[singleArrayHeader.indexOf(br.username)] == 0) {
+                arrayData[singleArrayHeader.indexOf(br.username)] = arr.bought;
+              } else {
+                const actual = Number(arrayData[singleArrayHeader.indexOf(br.username)]);
+                const now = Number(arr.bought);
+                const current = actual + now;
+                arrayData[singleArrayHeader.indexOf(br.username)] = current;
+              }
             }
           }
         }
@@ -555,8 +567,8 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     }
     const totalArray = [];
     let singleArray = [range == 'year' || range == '0: year' ?
-      'Anno' : range == 'month' || range == '1: month' ?
-        'mese' : 'giorno', 'Senza Broker', 'Con Broker'];
+      '' : range == 'month' || range == '1: month' ?
+        '' : '', 'Senza Broker', 'Con Broker'];
     totalArray.push(singleArray);
     const arrayHeader = [];
 
