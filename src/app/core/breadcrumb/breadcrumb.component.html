@@ -81,7 +81,8 @@
       </li>
     </ng-container>
 
-    <select style="height: 3em;" class="custom-select mr-sm-2 mb-sm-0 col-5" *ngIf="!desktopMode"
+
+    <select style="height: 2.3em;" class="custom-select mr-sm-2 mb-sm-0 col-5" *ngIf="!desktopMode"
             (change)="navigateTo($event.target.value)">
       <option><a selected>Seleziona...</a></option>
       <option *ngFor="let item of breadList" value='{{item.url}}'>
