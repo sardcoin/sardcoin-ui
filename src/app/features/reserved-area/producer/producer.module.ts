@@ -28,7 +28,6 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
   imports: [
     SharedModule,
     CoreModule,
-    AppFooterModule,
     ProducerRoutingModule,
     FeatureReservedAreaConsumerModule,
     FeatureReservedAreaCouponListModule,

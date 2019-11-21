@@ -16,7 +16,6 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
   imports: [
     SharedModule,
     CoreModule,
-    AppFooterModule,
     VerifierRoutingModule,
     CommonModule,
     ReactiveFormsModule,
