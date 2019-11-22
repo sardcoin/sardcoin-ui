@@ -11,7 +11,7 @@
             aggiungendo il suo codice o scansionando il suo codice QR.</p>
           <form [formGroup]="tokenForm" (ngSubmit)="openModal(verifier, f.token.value)">
             <div class="form-group row">
-              <div class="col-md-4">
+              <div class="col-md-4  col-sm-12">
                 <input [attr.disabled]="modalCoupons != undefined ? true: null " type="text" formControlName="token"
                        class="form-control" placeholder="Inserisci il token"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
@@ -20,25 +20,24 @@
                 </div>
               </div>
 
-              <div *ngIf="hasCameras" class="col-md-2 col-sm-3 my-2 my-sm-0 text-center">
+              <div *ngIf="hasCameras" class="col-md-4 col-sm-12 my-2 my-sm-0 text-center">
                 <h5>oppure</h5>
               </div>
 
-              <div *ngIf="hasCameras" class="col-md-4 col-sm-5 mt-xl-0 mt-lg-0 text-sm-left text-center">
+              <div *ngIf="hasCameras" class="col-md-4 col-sm-12 mt-xl-0 mt-lg-0  text-center">
                 <button [disabled]="modalCoupons" class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
               </div>
-
             </div>
 
-            <div [hidden]="modalCoupons" style="padding-bottom: 1em" class="col">
+            <div [hidden]="modalCoupons" style="margin-bottom: 1.7em!important;"  class="col-xl-6 col-md-6 col-sm-6">
               <div *ngIf="isScan">
                 <div *ngIf="availableDevices">
                   <select
-                    class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
+                    class="btn btn-light col offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
                     (change)="onDeviceSelectChange($event.target.value)">
                     <option
                       class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
-                      value="" [selected]="!selectedDevice">Seleziona
+                      value="" [selected]="!selectedDevice">Seleziona camera
                     </option>
                     <option
                       class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
@@ -52,7 +51,7 @@
 
 
             <div [hidden]="modalCoupons"
-                 class="col-sm-6 mb-4 rounded d-flex align-items-center justify-content-center bg-hover"
+                 class="col-xl-6 col-md-6 col-sm-12 mb-4 rounded d-flex align-items-center justify-content-center bg-hover"
                  (click)="scan()" style="background-color: #eee;">
               <div [hidden]="modalCoupons" *ngIf="!selectedDevice" class="position-absolute"><i
                 class="fas fa-3x fa-camera"></i></div>
