@@ -47,8 +47,9 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         title: 'Statistiche generali',
         subtitle: 'Coupon attivi, venduti, consumati e scaduti'
       },
-      width: 350,
+      width: 300,
       height: 340,
+      size: 9,
       responsive: true,
       maintainAspectRatio: false
     }
@@ -63,9 +64,9 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         title: 'Incassi',
         subtitle: ''
       },
-      width: 350,
+      width: 300,
       height: 340,
-      marginHeight: 12
+      size: 9,
 
     }
 
@@ -80,9 +81,9 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         title: 'Quantità vendute',
         subtitle: ''
       },
-      width: 350,
+      width: 300,
       height: 340,
-      marginHeight: 12
+      size: 9,
 
     }
 
@@ -97,9 +98,9 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         title: 'Statistiche vendita broker',
         subtitle: ''
       },
-      width: 350,
+      width: 300,
       height: 340,
-      marginHeight: 12
+      size: 9,
 
     }
 
