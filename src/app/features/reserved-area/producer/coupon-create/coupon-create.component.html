@@ -136,7 +136,6 @@
                        [noCalendar]="false"
                        [convertModelValue]="true"
                        [enableTime]="true"
-                       [placeholder]="'Seleziona data di scadenza'"
                        dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
@@ -194,7 +193,7 @@
               </div>
               <div class="col-sm-4 col-lg-2 mt-2">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="quantityCheck"
+                  <input  type="checkbox" class="custom-control-input" id="quantityCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
                   <label class="custom-control-label" for="quantityCheck">Senza limiti</label>
                 </div>

@@ -55,7 +55,7 @@ export class LoginActions {
       this.storeLocal.removeType();
       this.storeLocal.removeUserNames();
       this.storeLocal.removeCart();
-
+      this.eventManager.userType.next(undefined);
       this.router.navigate(['/']);
     }
   }

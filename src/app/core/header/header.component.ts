@@ -45,7 +45,8 @@ export class HeaderComponent implements OnInit {
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
     private modalService: BsModalService,
-    private filterActions: FilterActions
+    private filterActions: FilterActions,
+
   ) {
 
     this.login$.subscribe(login => {
