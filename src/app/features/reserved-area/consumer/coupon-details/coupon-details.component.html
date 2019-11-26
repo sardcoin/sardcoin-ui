@@ -33,7 +33,7 @@
           <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
           <br/>
 
-          <span *ngIf="couponPass.constraints && couponPass.type === ITEM_TYPE.COUPON">
+          <span *ngIf="couponPass.constraints && couponPass.type === item_type.COUPON">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
 
               <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"
