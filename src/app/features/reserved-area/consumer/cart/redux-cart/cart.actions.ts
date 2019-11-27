@@ -160,7 +160,7 @@ export class CartActions {
   }
 
   private async addItemInCartStorage(item: CartItem) {
-    const newCart = await this.storeService.getCart();
+    const newCart = await this.storeService.getCart()
     newCart.push(item);
     this.storeService.setCart(newCart);
   }
