@@ -23,6 +23,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
+  data;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -103,7 +104,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.packageService.getBrokerPackages()
       .subscribe(data => {
           console.warn(data);
-          this.dataSource = new MatTableDataSource(data);
+        this.data = true;
+        this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }, error => console.log(error)

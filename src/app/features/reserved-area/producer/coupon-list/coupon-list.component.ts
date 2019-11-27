@@ -22,6 +22,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
+  data;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -100,6 +101,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   control = (): void => {
     this.couponService.getProducerCoupons()
       .subscribe(data => {
+          this.data = true;
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
