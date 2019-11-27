@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {Router} from '@angular/router';
-import {User} from '../../../../shared/_models/User';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { Router } from '@angular/router';
+import { User } from '../../../../shared/_models/User';
 
 @Component({
   selector: 'app-producer-info-coupon',
@@ -24,7 +24,7 @@ export class ProducerInfoComponent implements OnInit, OnDestroy { // TODO render
   ngOnInit() {
     this.couponService.currentUserCoupon.subscribe(user => {
 
-      if(user){
+      if (user) {
         this.producer = user;
         this.addBreadcrumb();
       } else {

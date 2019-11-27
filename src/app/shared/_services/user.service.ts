@@ -1,35 +1,31 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 import { User } from '../_models/User';
-import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class UserService {
-  constructor(private http: HttpClient) { }
-
-  register(user: User) {
-    return this.http.post(this.formatUrl('create'), user);
+  constructor(private http: HttpClient) {
   }
 
-  getUserById() {
-    return this.http.get<User>(this.formatUrl('getFromToken'));
-  }
+  register = (user: User): Observable<any> =>
+    this.http.post(this.formatUrl('create'), user);
 
-  update(user: User) {
-    return this.http.put(this.formatUrl('update'), user);
+  getUserById = (): Observable<User> =>
+    this.http.get<User>(this.formatUrl('getFromToken'));
 
-  }
-  getProducerFromId(id) {
-    return this.http.get<User>(this.formatUrl('getProducerFromId/') + id);
-  }
+  update = (user: User): Observable<any> =>
+    this.http.put(this.formatUrl('update'), user);
 
-  getBrokers() {
-    return this.http.get<User[]>(this.formatUrl('getBrokers/') );
-  }
+  getProducerFromId = (id: number) =>
+    this.http.get<User>(this.formatUrl(`getProducerFromId/${id}`));
 
-  private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/users/' + methodName;
-  }
+  getBrokers = (): Observable<any> =>
+    this.http.get<Array<User>>(this.formatUrl('getBrokers/'));
+
+  private formatUrl = (methodName: string) =>
+    `${environment.protocol}://${environment.host}:${environment.port}/users/${methodName}`;
 
 }

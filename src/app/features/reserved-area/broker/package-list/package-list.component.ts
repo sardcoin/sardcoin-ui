@@ -1,34 +1,42 @@
-import {Component, TemplateRef, OnDestroy, OnInit} from '@angular/core';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {Router} from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {PackageService} from '../../../../shared/_services/package.service';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { PackageService } from '../../../../shared/_services/package.service';
 
 @Component({
   selector: 'app-feature-reserved-area-package-list',
   templateUrl: './package-list.component.html',
-  styleUrls: ['./package-list.component.css']
+  styleUrls: ['./package-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestroy {
 
   modalRef: BsModalRef;
-  modalPackage: Coupon;
-  packageArray: any;
+  modalCoupon: Coupon;
+
+  dataSource: MatTableDataSource<Coupon>;
+  displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
+
+  @ViewChild('template') template: ElementRef;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private modalService: BsModalService,
+    private couponService: CouponService,
     private packageService: PackageService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
-    private couponService: CouponService,
     private _sanitizer: DomSanitizer,
     private toastr: ToastrService) {
   }
@@ -38,82 +46,78 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.addBreadcrumb();
   }
 
-  onEdit(pack: Coupon) {
+  onEdit = (pack: Coupon): void => {
     this.couponService.setCoupon(pack);
     this.couponService.setFromEdit(true);
     this.router.navigate(['reserved-area/broker/edit']);
-  }
+  };
 
-  onCopy(pack: Coupon) {
+  onCopy = (pack: Coupon): void => {
     this.couponService.setCoupon(pack);
     this.couponService.setFromEdit(false);
-    this.router.navigate(['reserved-area/broker/edit']);
-  }
+    this.router.navigate(['reserved-area/broker/create']);
+  };
 
-  onDelete(pack: any) {
-    this.couponService.deleteCoupon(pack.id).subscribe((data) => {
-
-      if (data['deleted']) {
-        this.toastr.success('', 'Coupon eliminato!');
-        this.control();
-      }
-    }, error => {
-      console.log(error);
-      this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
-    });
+  onDelete = (coupon: Coupon): void => {
+    this.couponService.deleteCoupon(coupon.id, 1)
+      .subscribe(data => {
+        if (data.deleted) {
+          this.toastr.success('', 'Coupon eliminato!');
+          this.control();
+        }
+      }, error => {
+        console.log(error);
+        this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
+      });
 
     this.modalRef.hide();
-  }
+  };
 
-  formatState(state) { // TODO fixme
-    return 'Attivo';
-  }
+  formatState = (state): string => 'Attivo'; // TODO fix
 
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+  addBreadcrumb = (): void => {
+    const bread: Array<Breadcrumb> = [];
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('I miei pacchetti', '/reserved-area/producer/list/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
+  };
 
-  removeBreadcrumb() {
+  removeBreadcrumb = (): void => {
     this.breadcrumbActions.deleteBreadcrumb();
-  }
+  };
 
-  ngOnDestroy() {
+  ngOnDestroy = (): void => {
     this.removeBreadcrumb();
-  }
+  };
 
-  imageUrl(path) {
+  imageUrl = (path): SafeUrl =>
     // return correct address and port backend plus name image
-    return this._sanitizer.bypassSecurityTrustUrl(environment.protocol + '://' + environment.host + ':' + environment.port + '/' + path);
-  }
+    this._sanitizer.bypassSecurityTrustUrl(`${environment.protocol}://${environment.host}:${environment.port}/${path}`);
 
-  formatPrice(price) {
-    if (price === 0) {
-      return 'Gratis';
-    }
+  formatPrice = (price): string =>
+    price === 0 ? 'Gratis' : `€ ${price.toFixed(2)}`;
 
-    return (price === 0) ? 'Gratis' : '€ ' + price.toFixed(2);
-  }
+  control = (): void => {
+    this.packageService.getBrokerPackages()
+      .subscribe(data => {
+          console.warn(data);
+          this.dataSource = new MatTableDataSource(data);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }, error => console.log(error)
+      );
+  };
 
-  control() {
-    this.packageService.getBrokerPackages().subscribe(
-      data => {
-        this.packageArray = data;
-        console.log(this.packageArray);
-      }, error => console.log(error)
-    );
-  }
+  openModal = (coupon: Coupon): void => {
+    this.modalCoupon = coupon;
+    this.modalRef = this.modalService.show(this.template, {class: 'modal-md modal-dialog-centered'});
+  };
 
-  openModal(template: TemplateRef<any>, coupon: Coupon) {
-    this.modalPackage = coupon;
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
-  }
-
-  decline(): void {
+  decline = (): void => {
     this.modalRef.hide();
-  }
+  };
+
+  dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

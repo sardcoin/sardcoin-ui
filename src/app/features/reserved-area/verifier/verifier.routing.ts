@@ -1,19 +1,19 @@
-import {RouterModule} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {VerifierComponent} from './verifier.component';
+import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { VerifierComponent } from './verifier.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       {
         path: '',
-        // redirectTo: 'verifier',
-        // pathMatch: 'full'
-      // },
-      // {
-      //   path: 'verifier',
-        component: VerifierComponent
+        redirectTo: 'check',
+        pathMatch: 'full'
       },
+      {
+        path: 'check',
+        component: VerifierComponent
+      }
     ])
   ],
   exports: [RouterModule]

@@ -1,44 +1,43 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-12 col-xl-9">
+    <div class="col-xl-7 col-lg-10 col-md-12">
+      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
+           style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+        <h4 class="text-white text-center text-uppercase mb-0">Vidima coupon</h4>
+      </div>
       <div class="card">
-        <div class="card-body p-4 b-b-1" style="background:#e0e0e0">
-          <img src="assets/img/add_coupon.png" alt="Vidima coupon" style="width:50px; float:left; margin-right:30px"/>
-          <h6 class="display-4" style="float:left; font-size:30pt;">Vidima coupon</h6>
-        </div>
-        <div class="card-body p-5">
-          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
+        <div class="card-body px-5 pt-4">
+          <p class="text-justify" style="font-size: 16px;">In questa pagina puoi riscattere i coupon dei tuoi clienti
+            aggiungendo il suo codice o scansionando il suo codice QR.</p>
+          <form [formGroup]="tokenForm" (ngSubmit)="openModal(verifier, f.token.value)">
             <div class="form-group row">
-              <label class="col-lg-3 col-md-4 col-sm-3 col-form-label text-sm-left text-center">Inserisci il codice</label>
-              <div class="col-lg-3 col-md-4 col-sm-3">
-                <input type="text" formControlName="token" class="form-control"
+              <div class="col-md-4  col-sm-12">
+                <input [attr.disabled]="modalCoupons != undefined ? true: null " type="text" formControlName="token"
+                       class="form-control" placeholder="Inserisci il token"
                        [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
                 <div *ngIf="submitted && f.token.errors " class="invalid-feedback">
                   <div *ngIf="f.token.errors">Inserisci un token valido!</div>
                 </div>
               </div>
 
-              <div class="col-lg-2 col-md-2 col-sm-2 text-center">
+              <div *ngIf="hasCameras" class="col-md-4 col-sm-12 my-2 my-sm-0 text-center">
                 <h5>oppure</h5>
               </div>
 
-              <div class="w-100 d-lg-none d-md-block d-none"></div>
-
-              <div class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center">
-                <button class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
+              <div *ngIf="hasCameras" class="col-md-4 col-sm-12 mt-xl-0 mt-lg-0  text-center">
+                <button [disabled]="modalCoupons" class="btn btn-primary" (click)="scan()">Scansiona il QR code</button>
               </div>
-
             </div>
 
-            <div style="padding-bottom: 1em" class="col">
+            <div [hidden]="modalCoupons" style="margin-bottom: 1.7em!important;"  class="col-xl-6 col-md-6 col-sm-6">
               <div *ngIf="isScan">
                 <div *ngIf="availableDevices">
                   <select
-                    class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
+                    class="btn btn-light col offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
                     (change)="onDeviceSelectChange($event.target.value)">
                     <option
                       class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
-                      value="" [selected]="!selectedDevice">Seleziona
+                      value="" [selected]="!selectedDevice">Seleziona camera
                     </option>
                     <option
                       class="col-lg-2 col-md-3 col-sm-3 offset-xl-0 offset-md-0 mt-xl-0 mt-lg-0 text-sm-left text-center"
@@ -51,66 +50,117 @@
             </div>
 
 
-            <div class="col-sm-6 mb-4 rounded container d-flex align-items-center justify-content-center bg-hover" (click)="scan()" style="background-color: #eee;">
-              <div *ngIf="!selectedDevice" class="position-absolute"><i class="fas fa-3x fa-camera"></i></div>
-              <zxing-scanner
-                #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
-                (scanSuccess)="handleQrCodeResult($event)">
+            <div [hidden]="modalCoupons"
+                 class="col-xl-6 col-md-6 col-sm-12 mb-4 rounded d-flex align-items-center justify-content-center bg-hover"
+                 (click)="scan()" style="background-color: #eee;">
+              <div [hidden]="modalCoupons" *ngIf="!selectedDevice" class="position-absolute"><i
+                class="fas fa-3x fa-camera"></i></div>
+              <zxing-scanner [hidden]="modalCoupons"
+                             #scanner style="margin-top: 5px;" class="test-class" start="true" [device]="selectedDevice"
+                             (scanSuccess)="handleQrCodeResult($event)">
               </zxing-scanner>
             </div>
 
-            <div class="col-md-12 text-center p-0">
-              <button *ngIf="desktopMode" class="btn btn-lg btn-success"><i
+            <div [hidden]="modalCoupons" class="col-md-12 text-sm-right text-center p-0">
+              <button [disabled]="modalCoupons" *ngIf="desktopMode" class="btn btn-lg btn-success mt-5"><i
                 class="fas fa-plus-circle mr-3"></i>Vidima
               </button>
             </div>
-            <div class="center text-center ">
-              <button *ngIf="!desktopMode" class="btn btn-lg btn-success"><i
+            <div [hidden]="modalCoupons" class="center text-center">
+              <button [disabled]="modalCoupons" *ngIf="!desktopMode" class="btn btn-lg btn-success"><i
                 class="fas fa-plus-circle mr-3"></i>Vidima
               </button>
             </div>
           </form>
-<!--          <form [formGroup]="tokenForm" (ngSubmit)="verify()">
-            <div class="form-group row">
-              <label class="col-lg-4 col-sm-4 col-form-label">Inserisci il Token</label>
-              <div class="col-lg-4 col-sm-4">
+        </div>
+        <!--Coupons from package-->
 
-                <input type="text" formControlName="token" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.token.errors }"/>
-                <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
-                  <div *ngIf="f.token.errors">Inserisci un Token valido!</div>
-                </div>
-              </div>
-              <div class="form group col-lg-4 col-sm-4">
-                <button class="btn btn-block btn-success btn-redeems">Verifica</button>
-              </div>
-            </div>
-          </form>
-          <div class="form-group row">
-            <div class="col-lg-8 col-sm-8">
-              <div *ngIf="isScan">
-                <div *ngIf="availableDevices">
-                  <select (change)="onDeviceSelectChange($event.target.value)">
-                    <option value="" [selected]="!selectedDevice">Seleziona</option>
-                    <option *ngFor="let device of availableDevices" [value]="device.deviceId"
-                            [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{device.label}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form group col-lg-4 col-sm-4">
-              <button class="btn btn-block btn-success btn-redeems" (click)="scan()">Scansiona il QR code</button>
+        <div *ngIf="modalCoupons" class="card-header" style="margin-top: 5%; background-color: rgba(184,232,245,0.11)">
+          <div class="row col-12 ">
+            <div class="row col-10" style="padding-bottom: 10px; padding-left: 5%"><h4 style="padding-top: 1%">
+              Coupons del pacchetto <strong>"{{titlePackage}}"</strong> vidimabili</h4></div>
+            <div class="col-2">
+              <button (click)="exitPackage()" type="button" class="btn btn-danger">Chiudi</button>
             </div>
           </div>
-          <div class="form-group row">
-            <zxing-scanner #scanner class="test-class" start="true" [device]="selectedDevice"
-                           (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
-          </div>-->
+          <div *ngFor="let cp of modalCoupons">
+            <div *ngIf="cp.length > 0" class="card text-center">
+              <div class="card-header">
+                {{cp[0].Coupons[0].title}}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{cp[0].Coupons[0].description}}</p>
+                <a (click)="openModalCouponFromPackage(cp[0].token, verifierFromPackage)"
+                   class="btn btn-success mr-1"><i class="fas fa-plus-circle mr-3"></i>Vidima</a>
+              </div>
+              <div class="card-footer text-muted">
+                Quantità: {{cp.length}}
+              </div>
+            </div>
+
+            <ng-template #verifierFromPackage>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Vidimare il coupon?</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalFalse()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                Attenzione! <strong>L'operazione è irreversibile!</strong>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closeModalFalse()">No</button>
+                <button type="button" class="btn btn-success" (click)="verifyFromPackage(cp[0].token)">
+                  Si
+                </button>
+              </div>
+            </ng-template>
+
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!--<ng-template  #template>-->
+<!--<div *ngIf="modalCoupons" class="modal-header">-->
+<!--<h4 class="modal-title pull-left">-->
+<!--Seleziona il coupon-->
+<!--</h4>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+<!--<ul  class="list-group" *ngFor="let cp of modalCoupons">-->
+<!--<button *ngIf="cp.length > 0" class="button" (click)="verifyCouponQuantity(cp[0].token)">-->
+<!--<li   class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--{{cp[0].Coupons[0].title}}-->
+<!--<span  class="badge badge-primary badge-pill">{{cp.length}}</span>-->
+<!--</li>-->
+<!--<span class="border-top my-3"></span>-->
+<!--</button>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</ng-template>-->
+<ng-template #verifier>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vidimare il coupon?</h4>
+
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalFalse()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    Attenzione! <strong>L'operazione è irreversibile!</strong>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModalFalse()">No</button>
+    <button type="button" class="btn btn-success" (click)="verify()">
+      Si
+    </button>
+  </div>
+</ng-template>
 

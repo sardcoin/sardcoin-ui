@@ -1,16 +1,15 @@
-import {NgModule} from '@angular/core';
-import {FeatureComponent} from './feature.component';
-import {FeatureRoutingModule} from './feature.routing';
-import {SharedModule} from '../shared/shared.module';
-import {CoreModule} from '../core/core.module';
-import {IsAuthenticatedGuard} from '../shared/_guards/is-authenticated.guard';
-import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import {P404Component} from '../errors/404.component';
-import {P500Component} from '../errors/500.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {IsConsumerGuard} from '../shared/_guards/is-consumer.guard';
-
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { CoreModule } from '../core/core.module';
+import { P404Component } from '../errors/404.component';
+import { P500Component } from '../errors/500.component';
+import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
+import { IsConsumerGuard } from '../shared/_guards/is-consumer.guard';
+import { SharedModule } from '../shared/shared.module';
+import { FeatureComponent } from './feature.component';
+import { FeatureRoutingModule } from './feature.routing';
 
 @NgModule({
   declarations: [
@@ -30,9 +29,8 @@ import {IsConsumerGuard} from '../shared/_guards/is-consumer.guard';
     IsAuthenticatedGuard,
     IsConsumerGuard
   ],
-  exports: [
-
-  ]
+  exports: []
 })
 
-export class FeatureModule { }
+export class FeatureModule {
+}

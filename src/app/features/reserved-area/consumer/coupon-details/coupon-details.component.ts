@@ -1,24 +1,24 @@
+import { select } from '@angular-redux/store';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
-import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
-import { CouponService } from '../../../../shared/_services/coupon.service';
-import { environment } from '../../../../../environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
-import { Coupon } from '../../../../shared/_models/Coupon';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../../../shared/_services/user.service';
-import { CartActions } from '../cart/redux-cart/cart.actions';
-import { CartItem } from '../../../../shared/_models/CartItem';
-import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
-import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
-import { LoginState } from '../../../authentication/login/login.model';
-import { StoreService } from '../../../../shared/_services/store.service';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { CartItem, ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 import { PackageService } from '../../../../shared/_services/package.service';
-
+import { StoreService } from '../../../../shared/_services/store.service';
+import { UserService } from '../../../../shared/_services/user.service';
+import { LoginState } from '../../../authentication/login/login.model';
+import { CartActions } from '../cart/redux-cart/cart.actions';
 @Component({
   selector: 'app-coupon-details',
   templateUrl: './coupon-details.component.html',
@@ -37,10 +37,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   isMax = false;
   producer = null;
   desktopMode: boolean;
-  error404: boolean = false;
+  error404 = false;
   userType: number;
   isUserLoggedIn: boolean;
-  couponsPackage: Coupon[] = [];
+  couponsPackage = null;
+  item_type;
 
   routeSubscription: Subscription;
 
@@ -60,18 +61,16 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
-      console.log('this.desktopMode', this.desktopMode);
+
+      this.item_type = ITEM_TYPE;
     });
 
   }
 
   async ngOnInit() {
-
     // If the user is already in coupon details and choose another coupon, then in order to change coupon there is to listen to the route change
     this.routeSubscription = this.router.events.subscribe(async event => {
-        console.log(event);
         if (event instanceof NavigationEnd) {
-          console.warn(event);
           await this.loadCoupon();
           this.addBreadcrumb();
         }
@@ -96,35 +95,26 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
 
-        if (this.couponPass.type === 1) {
+        if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
-          this.couponsPackage = couponsIncluded.coupons_array;
-
-
+          this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
         }
-        // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
-        if (this.couponPass === null || this.couponPass.title !== title || !title) {
-          this.error404 = true;
-        } else {
 
+        // If a coupon with the passed ID does not exist, or the title has not been passed, or the title it is different from the real coupon, it returns 404
+        if (this.couponPass === null) { // prima era if (this.couponPass === null || this.couponPass.title !== title || !title)
+            this.error404 = true;
+        } else {
           if (!this.couponPass.max_quantity && this.isUserLoggedIn && this.userType === 2) {
             this.couponPass.max_quantity = await this.cartActions.getQuantityAvailableForUser(this.couponPass.id);
           }
-
-
           this.getOwner();
         }
-      } catch (e) {
+      } catch (e) { // TODO edit
         console.error(e);
       }
     } else {
       this.error404 = true;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbActions.deleteBreadcrumb();
-    this.routeSubscription.unsubscribe();
   }
 
   async addToCart() {
@@ -149,6 +139,11 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.viewCart();
   }
 
+  ngOnDestroy(): void {
+    this.breadcrumbActions.deleteBreadcrumb();
+    this.routeSubscription.unsubscribe();
+  }
+
   get f() {
     return this.myForm.controls;
   }
@@ -157,6 +152,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     if (this.couponPass.max_quantity === 0) {
       this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non aggiunto');
+
       return;
     }
 
@@ -220,13 +216,13 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   }
 
   retry() {
-    let arrayUrl = this.router.url.slice(1).split('/');
-    let url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
+    const arrayUrl = this.router.url.slice(1).split('/');
+    const url = arrayUrl.includes('reserved-area') ? arrayUrl[0] + '/' + arrayUrl[1] : '';
     this.router.navigate([url + '/showcase']);
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Shopping', '/showcase'));
@@ -235,4 +231,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
+  getNumberCoupons() {
+    const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
+
+    return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+  }
 }

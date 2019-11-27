@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {environment} from '../../../../../environments/environment';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
-import {StoreService} from '../../../../shared/_services/store.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Coupon} from '../../../../shared/_models/Coupon';
+import { Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import { environment} from '../../../../../environments/environment';
+import { BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import { Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import { CouponService} from '../../../../shared/_services/coupon.service';
+import { DomSanitizer} from '@angular/platform-browser';
+import { BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService} from 'ngx-bootstrap/modal';
+import { ActivatedRoute, Router} from '@angular/router';
+import { ToastrService} from 'ngx-toastr';
+import { CartItem, ITEM_TYPE} from '../../../../shared/_models/CartItem';
+import { StoreService} from '../../../../shared/_services/store.service';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Coupon} from '../../../../shared/_models/Coupon';
 import {CartActions} from '../cart/redux-cart/cart.actions';
 import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
 import {FilterActions} from './redux-filter/filter.actions';
@@ -28,10 +28,10 @@ import {PackageService} from '../../../../shared/_services/package.service';
 })
 export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnDestroy {
 
-  @select() filter$: Observable<Coupon[]>;
+  @select() filter$: Observable<Array<Coupon>>;
   @select() login$: Observable<LoginState>;
 
-  coupons: Coupon[] = [];
+  coupons: Array<Coupon> = [];
   category: Category;
   modalCoupon: Coupon;
   modalRef: BsModalRef;
@@ -95,11 +95,13 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         for (let cp = 0; cp < coupons.length; cp++) {
-          if (coupons[cp].type === 1) {
+          if (coupons[cp].type === ITEM_TYPE.PACKAGE) {
             this.packageService.getCouponsPackage(coupons[cp].id).subscribe(coup => {
-              const volatileCoupons: Coupon = coupons[cp];
-              volatileCoupons.quantity_pack = coup.coupons_count;
-              this.coupons.push(volatileCoupons);
+              if (coup) {
+                  const volatileCoupons: Coupon = coupons[cp];
+                  volatileCoupons.quantity_pack = coup.coupons_count;
+                  this.coupons.push(volatileCoupons);
+              }
             });
           } else {
               this.coupons.push(coupons[cp]);
@@ -112,7 +114,6 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   async openModal(template: TemplateRef<any>, coupon: Coupon) {
 
-    console.log('into', this.isUserLoggedIn, this.toastr)
     if (!this.isUserLoggedIn) {
       this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {

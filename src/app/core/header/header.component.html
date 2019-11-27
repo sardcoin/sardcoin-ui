@@ -5,93 +5,15 @@
 
 <!--*********per desktop********************-->
 
-<div class="fixed-top ">
+<div  *ngIf="isDesktop" class="fixed-top ">
   <nav class="fixed-top " class="navbar navbar-expand-md navbar-light bg-white ">
-    <div data-toggle="dropdown">
-      <button href="menu" role="button" class="fixed-top " *ngIf="true" type="button"
-              id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)"> <!-- TODO there was check to user logged in-->
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <nav>
-        <div id="menu" class=" border-menu  fixed-top dropdown-menu">
-          <ul class="nav navbar-nav scrollable-menu">
-            <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
-              <div class="border" style="background-color: white">
-                <div (click)="clickEvent(null)" class="dropdown-header">
-                  <span class="fa fa-arrow-left fa-fw mr-3"></span>
-                  <strong class="text-capitalize">Menu</strong>
-                </div>
-                <div class=" align-items-start">
-
-                  <div *ngIf="this.userType == '1' || this.userType == '0'">
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                      <span (click)="clickEvent('/reserved-area/producer/list')"
-                            class="menu-collapsed ">I miei coupon</span>
-                    </a>
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/producer/create')"
-                          class="menu-collapsed">Aggiungi un coupon</span>
-                    </a>
-                  </div>
-
-                  <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                      <span (click)="clickEvent('/showcase')"
-                            class="menu-collapsed">Shopping</span>
-                  </a>
-
-                  <div *ngIf="this.userType == '2' || this.userType == '0'">
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/bought')"
-                          class="menu-collapsed">I miei Acquisti</span>
-                    </a>
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                    <span (click)="clickEvent('/order')"
-                          class="menu-collapsed">I miei Ordini</span>
-                    </a>
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
-                      <span (click)="clickEvent('/coupon-import')" class="menu-collapsed">Importa coupon</span>
-                    </a>
-                  </div>
-
-                  <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                      <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Redimi coupon</span>
-                    </a>
-                  </div>
-
-                </div>
-                <div *ngIf="this.userType"> <!-- this.userType != '3' -->
-                  <div class="align-items-start">
-                    <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
-                    <span (click)="clickEvent('/reserved-area/' + userStringType +'/payment-details')"
-                          class="menu-collapsed">Dati di fatturazione</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
     <div class="rounded mr-auto d-block">
-      <img [ngStyle]="{'margin-left' : isUserLoggedIn ? (userType == 2 ? '55px' : '-5px') : '0px'}" *ngIf="isDesktop" src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
+      <img [ngStyle]="{'margin-left' : isUserLoggedIn ? (userType == 2 ? '55px' : '-5px') : '0px'}"  src="assets/img/brand/sardcoin-logo-full.png" [routerLink]="['/']" (click)="resetShowcase()"
            class="crop-logo img-fluid cursor-pointer">
     </div>
-    <div *ngIf="!isDesktop" class="left col-4">
-      <img src="assets/img/brand/sardcoin-logo-full.png" class="img-fluid crop-logo-small cursor-pointer" (click)="resetShowcase()" [routerLink]="['/']">
-    </div>
-    <div class="right" id="navbarNavDropdown">
       <div style="float: left">
-        <ng-container *ngIf="!isDesktop && (userType == 2 || userType === null)"> <!-- *ngIf="!isDesktop && userType == 2 && isUserLoggedIn" -->
-          <button style="font-size : 2em;  " (click)="viewCart()"
-                  type="button" class="btn-transparent ml-auto ">
-        <span class="fas fa-shopping-cart text-warning">
-          <a style=" font-size : 0.5em; text-decoration-style: solid" class="text-danger">{{quantityCart()}}</a></span>
-          </button>
-        </ng-container>
-      </div>
-      <div style="float: right" *ngIf="!isUserLoggedIn">
+
+      <div style="float: right" *ngIf="!isUserLoggedIn" >
         <ul class="navbar-nav">
           <li class="col-6 text-right">
             <button type="button" class="btn btn-link px-0" [routerLink]="['/authentication/register']">Registrati
@@ -104,18 +26,17 @@
         </ul>
       </div>
 
-
       <div style="float: right" *ngIf="isUserLoggedIn">
         <ul class="nav navbar-nav ">
           <li class="nav-item dropdown">
 
             <a aria-haspopup="true" aria-expanded="false" href="menu_small" role="button" class="nav-link btn-group pr-0"
                data-toggle="dropdown">
-              <i *ngIf="isDesktop">Benvenuto, <b>{{username}}</b>!</i>
+              <i>Benvenuto, <b>{{username}}</b>!</i>
               <!--<i class="fa fa-2x fa-user-tie"></i>-->
-              <img class="img-avatar mr-0" src="assets/img/avatars/8.jpg" alt="{{username}}">
+              <img class="img-avatar mr-0" src="assets/img/avatars/8.png" alt="{{username}}">
             </a>
-            <div id="menu_small" class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
+            <div  class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
               <div class="dropdown-header text-center">
                 <strong class="text-capitalize ">Impostazioni</strong>
               </div>
@@ -133,6 +54,146 @@
     </div>
   </nav>
 </div>
+
+
+
+<!--*********per mobile********************-->
+
+<div  *ngIf="!isDesktop" class="fixed-top ">
+  <nav  class="navbar navbar-expand-md navbar-light bg-white ">
+    <div id="container" >
+      <div id="left" class="left" *ngIf="this.userType" data-toggle="dropdown">
+        <button href="menu" role="button" class="fixed-top " *ngIf="true" type="button"
+                id="sidebarCollapse" class="navbar-toggler " (click)="clickEvent(null)"> <!-- TODO there was check to user logged in-->
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav>
+          <div   id="menu" class=" border-menu  fixed-top dropdown-menu">
+            <ul class="nav navbar-nav scrollable-menu">
+              <li style="position: absolute; padding-left: -1em; padding-top: 4em" class="nav-item dropdown">
+                <div class="border" style="background-color: white">
+                  <div (click)="clickEvent(null)" class="dropdown-header">
+                    <span class="fa fa-arrow-left fa-fw mr-3"></span>
+                    <strong class="text-capitalize">Menu</strong>
+                  </div>
+                  <div class=" align-items-start">
+
+                    <div *ngIf="this.userType == '1' || this.userType == '0'">
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                        <span (click)="clickEvent('/reserved-area/producer/list')"
+                              class="menu-collapsed ">I miei coupon</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/create')"
+                            class="menu-collapsed">Aggiungi un coupon</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/offline')"
+                            class="menu-collapsed">Vendi offline</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/producer/report')"
+                            class="menu-collapsed">Reports</span>
+                      </a>
+                    </div>
+
+                    <a  *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                        <span (click)="clickEvent('/showcase')"
+                              class="menu-collapsed">Shopping</span>
+                    </a>
+
+                    <div *ngIf="this.userType == '2' || this.userType == '0'">
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                      <span (click)="clickEvent('/bought')"
+                            class="menu-collapsed">I miei Acquisti</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                      <span (click)="clickEvent('/order')"
+                            class="menu-collapsed">I miei Ordini</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item ">
+                        <span (click)="clickEvent('/coupon-import')" class="menu-collapsed">Importa coupon</span>
+                      </a>
+                    </div>
+
+                    <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                        <span (click)="clickEvent('/reserved-area/verifier')" class="menu-collapsed">Vidima coupon</span>
+                      </a>
+                    </div>
+
+                  </div>
+                  <div *ngIf="this.userType != 3"> <!-- this.userType != '3' -->
+                    <div class="align-items-start">
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent(infoUserLink + '/payment-details')"
+                            class="menu-collapsed">Dati di fatturazione</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div> <!--button menu-->
+      <div id="center"  class="center">
+        <img src="assets/img/brand/sardcoin-logo-full.png" class="img-fluid crop-logo-small cursor-pointer" (click)="resetShowcase()" [routerLink]="['/']">
+      </div> <!--logo-->
+      <div id="right" class="right fixed-top" >
+
+          <div style="float: left; width:110px; position:fixed;top:0%!important;right:0%!important;">
+            <ng-container *ngIf="(userType == 2 || userType === null)"> <!-- *ngIf="!isDesktop && userType == 2 && isUserLoggedIn" -->
+              <button style="font-size : 2em; padding-top: 0.26em  " (click)="viewCart()"
+                      type="button" class="btn-transparent ml-auto ">
+            <span class="fas fa-shopping-cart text-warning">
+              <a style=" font-size : 0.5em; text-decoration-style: solid" class="text-danger">{{quantityCart()}}</a></span>
+              </button>
+            </ng-container>
+          </div>
+          <div  style="float: right!important; width:80px; position:fixed;top:0%!important;right:0%!important;" *ngIf="!isUserLoggedIn " >
+            <ng-container>
+            <ul class="nav navbar-nav">
+              <li class="nav-item dropdown">
+                <button type="button" class="btn btn-sm btn-link " [routerLink]="['/authentication/register']">Registrati
+                </button>
+              </li>
+              <li class="nav-item dropdown">
+                <button type="button" class="btn btn-sm btn-link" [routerLink]="['/authentication/login']">Accedi
+                </button>
+              </li>
+            </ul>
+            </ng-container>
+          </div>
+          <div  style="float: right; width:65px; position:fixed;top:0%!important;right:0%!important;" *ngIf="isUserLoggedIn">
+            <ul class="nav navbar-nav ">
+              <li class="nav-item dropdown">
+
+                <a aria-haspopup="true" aria-expanded="false" href="menu_small" role="button" class="nav-link btn-group pr-0"
+                   data-toggle="dropdown">
+                  <img class="img-avatar mr-0" src="assets/img/avatars/8.png" alt="{{username}}">
+                </a>
+                <div id="menu_small" class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
+                  <div class="dropdown-header text-center">
+                    <strong class="text-capitalize ">Impostazioni</strong>
+                  </div>
+                  <a class="dropdown-item"
+                     [routerLink]="['/reserved-area/' + userStringType +'/personal-info']">
+                    <i class="fa fa-user"></i> Il mio profilo</a>
+                  <a class="dropdown-item menu-collapsed text-secondary ">
+                    <i class="fa fa-wrench"></i> Impostazioni</a>
+                  <a class="dropdown-item " (click)="openModal(template)">
+                    <i class="fa fa-lock"></i> Esci</a>
+                </div>
+              </li>
+            </ul>
+        </div>
+    </div> <!--login, logout or icon setting and cart(for consumer and admin)-->
+    </div>
+  </nav>
+</div>
+
+
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Logout</h4>
@@ -145,7 +206,7 @@
     <p>Attenzione: effettuando il logout perderai il contenuto del carrello.</p>
   </div>
 
-  <div class="modal-footer">
+  <div  class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="logout()">Esci</button>
     <button type="button" class="btn btn-success" (click)="decline()">Annulla</button>
   </div>

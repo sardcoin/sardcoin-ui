@@ -162,6 +162,7 @@ app-core-breadcrumb nav {
 
 #select-category {
   height: 35px;
+  width: 155px!important;
 }
 
 @media only screen and (max-width: 768px){
@@ -191,7 +192,7 @@ angular-file-uploader div.container {
 
 .coupon-price, .coupon-package {
   position: absolute;
-  top: 0;
+  //top: 0;
   font-size: 1.25em;
   font-weight: bold;
   padding: 5px 10px;
@@ -201,13 +202,14 @@ angular-file-uploader div.container {
 
 .coupon-price {
   background-color: #4dbd74;
+  top: 0;
   right: 0;
 }
 
 .coupon-package {
   color: #fff;
   background-color: #bd0a0d;
-  left: 0;
+  //left: 0;
   box-shadow: 1px 1px 5px gray;
 }
 
@@ -294,6 +296,10 @@ table {
   color: rgb(204, 51, 0) !important;
 }
 
+.bg-red-sardcoin {
+  background-color: rgb(204, 51, 0) !important;
+}
+
 .gray-sardcoin {
   color: rgb(51, 63, 80) !important;
 }
@@ -321,4 +327,8 @@ table {
 
 tbody > tr.bg-blue > td {
   padding: 2px;
+}
+
+th[sortable-column] {
+  cursor: pointer;
 }

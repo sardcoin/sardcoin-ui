@@ -1,19 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {FeatureReservedAreaBrokerComponent} from './broker.component';
-import {PersonalInfoComponent} from '../personal-info/personal-info.component';
-import {PaymentDetailsComponent} from '../payment-details/payment-details.component';
-import {FeatureReservedAreaProducerCouponReportComponent} from '../producer/report/coupon-report.component';
-import {FeatureReservedAreaCouponListComponent} from '../producer/coupon-list/coupon-list.component';
-import {FeatureReservedAreaCouponCreateComponent} from '../producer/coupon-create/coupon-create.component';
-import {FeatureReservedAreaPackageListComponent} from './package-list/package-list.component';
-import {FeatureReservedAreaPackageCreateComponent} from './package-create/package-create.component';
-import {FeatureReservedAreaBrokerPackageReportComponent} from './report/package-report.component';
-import {PackageEditComponent} from './package-edit/package-edit.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { PaymentDetailsComponent } from '../payment-details/payment-details.component';
+import { PersonalInfoComponent } from '../personal-info/personal-info.component';
+import { FeatureReservedAreaPackageCreateComponent } from './package-create/package-create.component';
+import { PackageEditComponent } from './package-edit/package-edit.component';
+import { FeatureReservedAreaPackageListComponent } from './package-list/package-list.component';
+import { FeatureReservedAreaBrokerPackageReportComponent } from './report/package-report.component';
 
-
-/** App Components **/
-
+// App Components
 
 @NgModule({
   imports: [
@@ -23,11 +17,6 @@ import {PackageEditComponent} from './package-edit/package-edit.component';
         component: FeatureReservedAreaPackageListComponent
       },
       {
-        path: 'verify',
-        redirectTo: 'verify',
-        pathMatch: 'full'
-      },
-      {
         path: 'list',
         component: FeatureReservedAreaPackageListComponent
       },
@@ -35,14 +24,13 @@ import {PackageEditComponent} from './package-edit/package-edit.component';
         path: 'create',
         component: FeatureReservedAreaPackageCreateComponent
       },
-
       {
         path: 'personal-info',
-        component: PersonalInfoComponent,
+        component: PersonalInfoComponent
       },
       {
         path: 'payment-details',
-        component: PaymentDetailsComponent,
+        component: PaymentDetailsComponent
       },
       {
         path: 'report',

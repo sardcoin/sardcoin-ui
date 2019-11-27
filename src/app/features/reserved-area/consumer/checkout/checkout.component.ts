@@ -1,22 +1,22 @@
-import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ToastrService} from 'ngx-toastr';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../../../../shared/_services/user.service';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {Observable} from 'rxjs';
-import {CartItem} from '../../../../shared/_models/CartItem';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {select} from '@angular-redux/store';
-import {CartActions} from '../cart/redux-cart/cart.actions';
-import {environment} from '../../../../../environments/environment';
-import {User} from '../../../../shared/_models/User';
-import {PaypalService} from '../../../../shared/_services/paypal.service';
-import {OrderService} from '../../../../shared/_services/order.service';
+import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../../../shared/_services/user.service';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { Observable } from 'rxjs';
+import { CartItem } from '../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { select } from '@angular-redux/store';
+import { CartActions } from '../cart/redux-cart/cart.actions';
+import { environment } from '../../../../../environments/environment';
+import { User } from '../../../../shared/_models/User';
+import { PaypalService } from '../../../../shared/_services/paypal.service';
+import { OrderService } from '../../../../shared/_services/order.service';
 
 @Component({
   selector: 'app-consumer-checkout',
@@ -33,12 +33,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   coupons: Coupon[] = [];
   user: User;
   modalRef: BsModalRef;
+  modalRefAwaitConfirmPayment: BsModalRef;
   totalAmount = 0;
   clientId = null;
   owner = null;
   token: string;
   paymentError = true;
-  lastId = 0
+  lastId = 0;
   loading = false;
 
   constructor(private _sanitizer: DomSanitizer,
@@ -64,8 +65,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.orderService.getLastOrder().subscribe( lastId => {
-      this.lastId = lastId.lastId + 1
+    this.orderService.getLastOrder().subscribe(lastId => {
+      this.lastId = lastId.lastId + 1;
       console.log('lastId', this.lastId);
     });
 
@@ -80,6 +81,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
+    console.log('error', error);
+    console.log('token', token);
+    console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
 
     if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
@@ -118,11 +122,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async setCheckout() {
     let response;
     this.loading = true;
+    console.log('response null', response);
 
     this.openModal(this.paymentModal, true);
 
     try {
       response = await this.paypalService.setCheckout(this.cart).toPromise();
+      console.log('response', response['link']);
       window.location.href = response['link'];
     } catch (e) {
       console.error(e);
@@ -130,32 +136,30 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  async confirmPayment() { // It performs
-    let payResponse, buyResponse;
-    let title = '', message = '';
+  confirmPayment = async () => { // It performs
+    let buyResponse;
+    let title = '';
+    let message = '';
 
     try {
-
       console.warn(this.cart);
 
-
-      this.openModal(this.buyWait);
-
+      //this.openModal(this.buyWait);
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      // payResponse = await this.paypalService.pay(this.token, buyResponse.order_id).toPromise();
+      //this.closeModal();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
-      this.closeModal();
       this.cartActions.emptyCart();
       this.router.navigate(['/bought']);
+
     } catch (e) {
 
-      if (e.error['call'] === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
+      if (e.error.call === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
         title = 'Errore finalizzando l\'ordine';
         message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.';
       }
 
-      if (e.error['call'] === 'pay') { // Errore durante il pagamento
+      if (e.error.call === 'pay') { // Errore durante il pagamento
         title = 'Errore durante il pagamento';
         message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.';
       }
@@ -163,9 +167,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.error(e.error);
 
       this.toastr.error(message, title);
-      this.closeModal();
+      // this.closeModal();
     }
-  }
+  };
 
   openModal(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
@@ -174,6 +178,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   closeModal() {
     this.modalRef.hide();
   }
+
+  openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
+    this.modalRefAwaitConfirmPayment = this.modalService.show(template,
+      {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
+  }
+
+  closeModalAwaitConfirmPayment() {
+    this.modalRefAwaitConfirmPayment.hide();
+    this.modalService.hide(0);
+  }
+
 
   retry() {
     this.router.navigate(['/cart']);

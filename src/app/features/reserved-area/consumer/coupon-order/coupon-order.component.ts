@@ -1,21 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
-import {OrderService} from '../../../../shared/_services/order.service';
-import {Order} from '../../../../shared/_models/Order';
-import {Coupon} from '../../../../shared/_models/Coupon';
-import {environment} from '../../../../../environments/environment';
-import {UserService} from '../../../../shared/_services/user.service';
-import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
-import {CouponToken} from '../../../../shared/_models/CouponToken';
-
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { Order } from '../../../../shared/_models/Order';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
+import { OrderService } from '../../../../shared/_services/order.service';
+import { UserService } from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-feature-reserved-area-consumer-order',
@@ -25,8 +23,9 @@ import {CouponToken} from '../../../../shared/_models/CouponToken';
 
 export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDestroy { // TODO complete with packages and redeem button
 
-  orders: Order[];
+  orders: Array<Order>;
   isDesktop: boolean;
+  ITEM_TYPE = ITEM_TYPE;
 
   constructor(
     private couponService: CouponService,
@@ -35,7 +34,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     private _sanitizer: DomSanitizer,
     private userService: UserService,
     private router: Router,
-    private globalEventService: GlobalEventsManagerService,
+    private globalEventService: GlobalEventsManagerService
   ) {
   }
 
@@ -53,10 +52,10 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
     let orderDetail: Order;
     let couponAux: Coupon;
     let coupons;
+    let verifier;
     let token, type;
     try {
       this.orders = await this.orderService.getOrdersByConsumer().toPromise();
-
       for (const order of this.orders) {
         orderDetail = await this.orderService.getOrderById(order.id).toPromise();
 
@@ -66,19 +65,21 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
         // Raggruppo i token per coupon_id
         coupons = _.groupBy(orderDetail.OrderCoupon, 'coupon_id');
 
-        for(const coupon_id of Object.keys(coupons)) {
+        for (const coupon_id of Object.keys(coupons)) {
           token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
+          verifier = coupons[coupon_id][0].verifier;
           type = coupons[coupon_id][0].coupon_token ? ITEM_TYPE.COUPON : ITEM_TYPE.PACKAGE;
 
           couponAux = await this.couponService.getCouponByToken(token, type).toPromise();
           couponAux.quantity = coupons[coupon_id].length;
-          couponAux.token = coupons[coupon_id][0].coupon_token ||  coupons[coupon_id][0].package_token;
 
+          couponAux.token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
 
           order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
       }
+
     } catch (e) {
       console.error(e);
     }
@@ -95,17 +96,17 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   formatDate(inputDate) {
     const auxDate = inputDate.slice(0, 10).split('-');
     const date = auxDate[2] + ' ' + (new Date(inputDate)).toLocaleString('it', {month: 'long'}) + ' ' + auxDate[0];
-    return date;// + ' ' + time;
+
+    return date; // + ' ' + time;
   }
 
   details(coupon: Coupon) {
     this.router.navigate([this.couponService.getCouponDetailsURL(coupon)]);
   }
 
-  redeem(coupon: Coupon) {
+  redeem(coupon: Coupon) { // TODO check if is the coupon still valid
     const cp = coupon;
     cp.quantity = 0;
-    cp.token = coupon.token;
 
     this.couponService.setCoupon(coupon);
 
@@ -113,7 +114,7 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('I miei ordini', '/order'));
@@ -124,6 +125,5 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-
 
 }

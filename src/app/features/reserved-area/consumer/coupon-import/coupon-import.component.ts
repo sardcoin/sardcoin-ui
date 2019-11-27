@@ -1,12 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {Router} from '@angular/router';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {ToastrService} from 'ngx-toastr';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {ZXingScannerComponent} from '@zxing/ngx-scanner';
-import {GlobalEventsManagerService} from '../../../../shared/_services/global-event-manager.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { ToastrService } from 'ngx-toastr';
+
+// Local imports
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 
 @Component({
   selector: 'app-coupon-token',
@@ -25,133 +27,144 @@ export class CouponImportComponent implements OnInit, OnDestroy {
   hasCameras = false;
   hasPermission: boolean;
   qrResultString: string;
-  availableDevices: MediaDeviceInfo[];
-  selectedDevice: MediaDeviceInfo = null;
+  availableDevices: Array<MediaDeviceInfo>;
+  selectedDevice: MediaDeviceInfo = undefined;
   desktopMode: boolean;
+
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
-    private globalEventService: GlobalEventsManagerService,
-
+    private globalEventService: GlobalEventsManagerService
   ) {
-
-
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newCamera();
     this.globalEventService.desktopMode.subscribe(message => {
-      this.desktopMode = message
+      this.desktopMode = message;
     });
     this.tokenForm = this.formBuilder.group({
-      token: [null, Validators.required]
+      token: [undefined, Validators.required]
     });
 
     this.addBreadcrumb();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.removeBreadcrumb();
   }
 
-  get f() {
+  get f(): any {
     return this.tokenForm.controls;
   }
 
-  import() {
-    this.submitted = true;
+  importToken = (): void => {
+      this.submitted = true;
 
+      this.data = {
+          token: this.tokenForm.value.token
+      };
 
-    this.data = {
-      token: this.tokenForm.value.token,
+      if (this.tokenForm.invalid) {
+          return;
+      }
+      this.couponService.isCouponFromToken(this.data.token).subscribe(isTokenCoupon => {
+          console.log('isTokenCoupon', isTokenCoupon)
+        if (isTokenCoupon.error === true) {
+          this.importPackage();
+        } else {
+          this.importCoupon();
+        }
+
+      });
+
+  };
+
+  importPackage = (): void => {
+
+        this.couponService.importOfflinePackage(this.data)
+            .subscribe(data => {
+                    if (data !== null) {
+                        this.toastr.success('Coupon importato con successo!');
+                        this.router.navigate(['/bought']);
+                    } else {
+                        this.toastError();
+                    }
+                }, error => {
+                    this.toastError();
+                    console.log(error);
+                }
+            );
     };
 
-    this.couponService.importOfflineCoupon(this.data).subscribe(
-      (data) => {
-        if (data !== null) {
-          this.toastValidate();
-          this.router.navigate(['/bought']);
-          return;
-        } else {
+  importCoupon = (): void => {
+
+    this.couponService.importOfflineCoupon(this.data)
+      .subscribe(data => {
+          if (data !== null) {
+            this.toastr.success('Coupon importato con successo!');
+            this.router.navigate(['/bought']);
+          } else {
+            this.toastError();
+          }
+        }, error => {
           this.toastError();
-          return;
+          console.log(error);
         }
-      }, error => {
-        this.toastError();
+      );
+  };
 
-        console.log(error);
-        return;
-      }
-    );
-
-
-  }
-
-  addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+  addBreadcrumb = (): void => {
+    const bread: Array<Breadcrumb> = [];
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Importa coupon', '/coupon-import/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
-  }
+  };
 
-  removeBreadcrumb() {
+  removeBreadcrumb = (): void => {
     this.breadcrumbActions.deleteBreadcrumb();
-  }
+  };
 
-  toastValidate() {
-    this.toastr.success('Coupon importato con sucesso!');
-  }
-
-  toastError() {
+  toastError = (): void => {
     this.toastr.error('Coupon non valido!');
-  }
+  };
 
-  scan() {
+  scan = (): void => {
     this.isScan = true;
+  };
 
+  newCamera = (): void => {
+    if (this.scanner) {
+      this.scanner.camerasFound.subscribe((devices: Array<MediaDeviceInfo>) => {
+        this.hasCameras = true;
+        this.availableDevices = devices;
+      });
 
-  }
+      this.scanner.camerasNotFound.subscribe(() => {
+        console.error('Errore fotocamera.');
+      });
 
+      this.scanner.permissionResponse.subscribe((answer: boolean) => {
+        this.hasPermission = answer;
+      });
+    }
+  };
 
-  qrCodeReadSuccess() {
-    this.toastr.success('Qr-code letto correttamente!');
-  }
-
-  newCamera() {
-
-    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-      this.hasCameras = true;
-
-
-      this.availableDevices = devices;
-    });
-
-    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-      console.error('Errore fotocamera.');
-    });
-
-    this.scanner.permissionResponse.subscribe((answer: boolean) => {
-      this.hasPermission = answer;
-    });
-
-  }
-
-  handleQrCodeResult(resultString: string) {
+  handleQrCodeResult = (resultString: string): void => {
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
-    this.qrCodeReadSuccess();
+    this.toastr.success('Qr-code letto correttamente!');
     this.isScan = false;
-    this.selectedDevice = null;
-  }
+    this.selectedDevice = undefined;
+  };
 
-  onDeviceSelectChange(selectedValue: string) {
+  onDeviceSelectChange = (selectedValue: string): void => {
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
-  }
-
+  };
 
 }

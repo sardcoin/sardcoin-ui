@@ -1,0 +1,40 @@
+// Material table
+button.mat-sort-header-button, th.mat-header-cell {
+  text-transform: uppercase !important;
+  font-weight: bold !important;
+  font-size: 15px;
+  color: black;
+}
+
+tr.mat-header-row {
+  border-bottom: 5px solid #20a8d8 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #edf5fd !important;
+}
+
+.img-thumbnail {
+  padding: 0 !important;
+  border: 0;
+  border-radius: 0 !important;
+}
+
+// Card for the SM view
+.card-price {
+  background-color: #4dbd74;
+  border-radius: 0.25rem;
+  font-size: 15px;
+  font-weight: bold;
+  min-width: 99px;
+  height: auto;
+  padding: 5px 10px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+td {
+  font-size: 16px !important;
+  border: 0 !important;
+}
+

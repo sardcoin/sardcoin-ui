@@ -1,31 +1,23 @@
-import {Injectable} from '@angular/core';
-import {Coupon} from '../_models/Coupon';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {StoreService} from './store.service';
-import {BehaviorSubject, Observable, observable} from 'rxjs';
-import {NavigationEnd, Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {CartItem, PurchasedCoupon} from '../_models/CartItem';
-import {Order} from '../_models/Order';
-import {Category} from '../_models/Category';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Category } from '../_models/Category';
 
 @Injectable()
 
 export class CategoriesService {
 
-  constructor(
-    private http: HttpClient,
-  ) {
+  constructor(private http: HttpClient) {
   }
 
-  getAll() {
-    return this.http.get<Category[]>(this.formatUrl('getAll'));
-  }
+  getAll = (): Observable<Array<Category>> =>
+    this.http.get<Array<Category>>(this.formatUrl('getAll'));
 
-  private formatUrl(methodName) {
-    return environment.protocol + '://' + environment.host + ':' + environment.port + '/categories/' + methodName;
-  }
+  getCategoryCoupon = (id: number): Observable<any> =>
+    this.http.get<any>(this.formatUrl(`getCategoryCoupon/${id}`));
+
+  private formatUrl = (methodName): string =>
+    `${environment.protocol}://${environment.host}:${environment.port}/categories/${methodName}`;
 
 }
-
-

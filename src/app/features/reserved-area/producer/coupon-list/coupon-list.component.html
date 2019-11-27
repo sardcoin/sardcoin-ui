@@ -1,107 +1,52 @@
-<div class="container-fluid d-none d-md-none d-xl-block">
-  <table class="table table-striped table-borderless">
-    <thead class="text-uppercase">
-    <tr>
-      <th style="width: 40%">Titolo</th>
-      <th style="width: 10%">Immagine</th>
-      <th style="width: 10%">Prezzo</th>
-      <th style="width: 10%">Stato</th>
-      <th style="width: 10%">Unità</th>
-      <th style="width: 5%">Venduto</th>
-      <th style="width: 5%"></th>
-      <th style="width: 5%"></th>
-      <th style="width: 5%"></th>
-    </tr>
-    </thead>
+<!-- Table -->
+<div *ngIf="dataExists()" class="container-fluid d-none d-md-block"> <!-- d-none d-md-none d-xl-block"> -->
+  <table mat-table [dataSource]="dataSource" matSort class="table-striped w-100 mt-4 mt-md-0">
 
-    <tr class="bg-blue">
-      <td colspan="9"></td>
-    </tr>
-
-    <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
-      <td>
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Titolo</th>
+      <td mat-cell *matCellDef="let coupon">
         <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
         <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
       </td>
-      <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
+    </ng-container>
+
+    <!-- Image Column -->
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef class="d-sm-table-cell d-none">Immagine</th>
+      <td mat-cell *matCellDef="let coupon" class="d-sm-table-cell d-none py-2 pr-2">
+        <img class="img-thumbnail" [src]="imageUrl(coupon.image)" alt="Coupon image" style="max-width: 150px;">
       </td>
-      <!--<td>{{coupon.price != 0 ? coupon.price : 'free'}}</td>-->
-      <td>{{formatPrice(coupon.price)}}</td>
-      <td>{{formatState(0)}}</td>
-      <td>{{coupon.quantity}}</td>
-      <td>{{coupon.buyed}}</td>
+    </ng-container>
 
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prezzo</th>
+      <td mat-cell *matCellDef="let coupon" class="p-1">{{formatPrice(coupon.price)}}</td>
+    </ng-container>
 
-      <td>
-        <button type="button" class="btn btn-primary" (click)="onCopy(coupon)"><i class="far fa-copy"></i> Copia</button>
-      </td>
-      <td>
-        <button type="button" class="btn btn-info text-white" (click)="onEdit(coupon)"><i class="fas fa-edit"></i> Modifica
-        </button>
-      </td>
-      <td>
-        <button type="button" class="btn btn-danger" (click)="openModal(template)"><i class="fas fa-trash-alt"></i>
-          Elimina
-        </button>
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-lg-table-cell d-none">Stato</th>
+      <td mat-cell *matCellDef="let coupon" class="d-lg-table-cell d-none p-1"> {{formatState(0)}}</td>
+    </ng-container>
 
-        <ng-template #template>
-          <div class="modal-header">
-            <h4 class="modal-title pull-left">Coupon delete</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-sm-table-cell d-none">Unità</th>
+      <td mat-cell *matCellDef="let coupon" class="p-1" class="d-sm-table-cell d-none">{{coupon.quantity}}</td>
+    </ng-container>
 
-          <div class="modal-body">
-            Sei sicuro di cancellare questo coupon? Questa operazione non è reversibile!
-          </div>
+    <!-- Sold Column -->
+    <ng-container matColumnDef="buyed">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-lg-table-cell d-none">Venduto</th>
+      <td mat-cell *matCellDef="let coupon" class="d-lg-table-cell d-none">{{coupon.buyed}}</td>
+    </ng-container>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="decline()">No</button>
-            <button type="button" class="btn btn-success" (click)="onDelete(coupon)">Yes</button>
-          </div>
-        </ng-template>
-      </td>
-    </tr>
-
-    </tbody>
-  </table>
-</div> <!-- XL TABLE -->
-<div class="container-fluid d-none d-md-none d-lg-block d-xl-none">
-  <table class="table table-striped table-borderless">
-    <thead class="text-uppercase">
-    <tr>
-      <th style="width: 40%">Titolo</th>
-      <th style="width: 10%">Immagine</th>
-      <th style="width: 10%">Prezzo</th>
-      <th style="width: 10%">Stato</th>
-      <th style="width: 10%">Unità</th>
-      <th style="width: 5%;">Venduto</th>
-      <th style="width: 15%;"></th>
-    </tr>
-    </thead>
-
-    <tr class="bg-blue">
-      <td colspan="7"></td>
-    </tr>
-
-    <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
-      <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-      </td>
-      <td>
-        <img class="img-thumbnail crop centered-and-cropped" [src]="imageUrl(coupon.image)" alt="Card image cap">
-      </td>
-      <td>{{formatPrice(coupon.price)}}</td>
-      <td>{{formatState(0)}}</td>
-      <td>{{coupon.quantity}}</td>
-      <td>{{coupon.buyed}}</td>
-
-      <td>
+    <!-- Buttons Column-->
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let coupon" class="p-1">
         <div class="btn-group" dropdown>
           <button id="action-button" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                   aria-controls="action-button">
@@ -111,100 +56,64 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
+              class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
+            <li role="menuitem"><a class="dropdown-item" (click)="openModal(coupon)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
           </ul>
         </div>
-      </td>
-    </tr>
+    </ng-container>
 
-    </tbody>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
   </table>
-</div> <!-- LG TABLE -->
-<div class="container-fluid d-none d-md-block d-lg-none">
-  <table class="table table-striped table-borderless">
-    <thead class="text-uppercase">
-    <tr>
-      <th style="width: 48%">Titolo</th>
-      <th style="width: 22%">Prezzo</th>
-      <th style="width: 10%">Stato</th>
-      <th style="width: 10%">Venduto</th>
-      <th style="width: 10%"></th>
-    </tr>
-    </thead>
 
-    <tr class="bg-blue">
-      <td colspan="5"></td>
-    </tr>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
 
-    <tbody class="striped">
-    <tr *ngFor="let coupon of couponArray">
-      <td>
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-      </td>
-      <td class="d-lg-block d-none">
-        <img class="img-thumbnail crop centered-and-cropped d-lg-block d-none" [src]="imageUrl(coupon.image)"
-             alt="Card image cap">
-      </td>
-      <td>{{formatPrice(coupon.price)}}</td>
-      <td>{{formatState(0)}}</td>
-      <td>{{coupon.buyed}}/{{coupon.quantity}}</td>
-      <td>
-        <div class="btn-group" dropdown>
-          <button id="action-button-2" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                  aria-controls="action-button-2">
-            Azioni <span class="caret"></span>
-          </button>
-          <ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-              aria-labelledby="action-button-2">
-            <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
-              class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i
-              class="fas fa-edit text-primary"></i> Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(template, coupon)"><i
-              class="fas fa-trash-alt text-primary"></i> Elimina</a></li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-
-    </tbody>
-  </table>
-</div> <!-- MD TABLE -->
-<div class="container-fluid d-block d-md-none mb-5">
-  <div *ngIf="couponArray && couponArray.length > 0">
-    <div *ngFor="let coupon of couponArray" style="background-color: snow" class="card flex-row flex-wrap">
-      <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
-        <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+<!-- SM CARD -->
+<div *ngIf="dataExists()" class="container-fluid d-block d-md-none mb-5 mt-4">
+  <div *ngFor="let coupon of dataSource.data" style="background-color: snow" class="card flex-row flex-wrap">
+    <div style="background-color:snow" class="card-header col-4 border-0 pr-0">
+      <img class="img-fluid" [src]="imageUrl(coupon.image)" alt="">
+    </div>
+    <div class="col-8 card-header border-0" style="background-color: snow;">
+      <h5 class="card-text truncate ">{{coupon.title}}</h5>
+    </div>
+    <div class="col-12 mb-1 text-justify">
+      <p class="card-text truncate ">{{coupon.description}}</p>
+    </div>
+    <div class="card-footer w-100">
+      <div class="float-left">
+        <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i>
+        </button>
+        <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
+          class="fas fa-edit"></i>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
+        </button>
       </div>
-      <div class="col-8 card-header border-0" style="background-color: snow;">
-        <h5 class="card-text truncate ">{{coupon.title}}</h5>
-      </div>
-      <div class="col-12 mb-1 text-justify">
-        <p class="card-text truncate ">{{coupon.description}}</p>
-      </div>
-      <div class="card-footer w-100">
-        <div class="float-left">
-          <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
-          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
-          </button>
-          <button type="button" class="btn btn-danger" (click)="openModal(template, coupon)"><i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-        <div class="float-right card-price">
-          <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
-        </div>
+      <div class="float-right card-price">
+        <i class="fas fa-tag mr-2" style="transform: rotate(135deg)"></i>{{formatPrice(coupon.price)}}
       </div>
     </div>
   </div>
-</div> <!-- SM CARD -->
+</div>
 
+<div *ngIf="!dataExists()" class="container-fluid d-none d-md-block">
+  <h2>I miei coupon</h2>
+
+  <div class="alert alert-primary text-left p-2" style="max-width: 400px;" role="alert">
+    <h4 class="mb-0">Non hai ancora creato coupon.</h4>
+  </div>
+</div>
+
+<!-- Modal deletion template -->
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Coupon delete</h4>
+    <h4 class="modal-title pull-left">Cancellazione di {{modalCoupon.title}}</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>

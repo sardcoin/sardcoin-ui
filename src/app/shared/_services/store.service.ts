@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {LocalStorage} from '@ngx-pwa/local-storage';
-import {CartItem} from '../_models/CartItem';
+import { Injectable } from '@angular/core';
+import { LocalStorage } from '@ngx-pwa/local-storage';
+import { CartItem } from '../_models/CartItem';
 
 @Injectable()
 export class StoreService {
@@ -58,10 +58,18 @@ export class StoreService {
   }
 
   async getCart() {
-    return this.externalStorage.getItem('cart').toPromise();
+    const cart = await this.externalStorage.getItem('cart').toPromise();
+    if (cart) {
+        return cart;
+    } else {
+      this.setCart([]);
+
+      return  this.externalStorage.getItem('cart').toPromise();
+    }
+
   }
 
-  setCart(cart: CartItem[]) {
+  setCart(cart: Array<CartItem>) {
     this.externalStorage.setItem('cart', cart).subscribe(() => {});
   }
 

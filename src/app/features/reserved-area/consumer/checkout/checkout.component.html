@@ -1,10 +1,12 @@
 <div *ngIf="user && cart.length > 0" class="container-fluid mb-0">
   <div class="row">
     <div class="col-lg-12 col-xl-12">
+      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
+           style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+        <h4 class="text-white text-center text-uppercase mb-0">Riepilogo dell'ordine</h4>
+      </div>
       <div class="card">
-        <div class="card-header" style="background:#e0e0e0">
-          <h6 class="display-4" style="font-size:30pt;">Riepilogo dell'ordine</h6>
-        </div>
+
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
             <div class="container-fluid d-none d-md-none d-xl-block">
@@ -46,9 +48,15 @@
               <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
               <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
               <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="!token" (click)="setCheckout()">
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
                 <i class="fas fa-euro-sign"></i>
-                Vai a pagare
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Conferma
               </button>
               <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
                       (click)="confirmPayment()">
@@ -102,9 +110,20 @@
               <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
               <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
 
-              <button class="btn btn-lg btn-success float-right ml-2" (click)="setCheckout()">
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
                 <i class="fas fa-euro-sign"></i>
                 Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Conferma
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
+                      (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Termina e paga
               </button>
               <button class="btn btn-lg btn-primary float-right" (click)="retry()">
                 <i class="fas fa-shopping-basket"></i>
@@ -151,9 +170,23 @@
               <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
               <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
               <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-              <button class="btn btn-lg btn-success float-right ml-2" (click)="setCheckout()">
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="!(token && !paymentError)"
+                      (click)="setCheckout()">
+                <button class="btn btn-lg btn-success float-right ml-2"
+                        *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
+                  <i class="fas fa-euro-sign"></i>
+                  Conferma e paga
+                </button>
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
                 <i class="fas fa-euro-sign"></i>
-                Conferma e paga
+                Conferma gratis
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
+                      (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Termina e paga
               </button>
               <button class="btn btn-lg btn-primary float-right" (click)="retry()">
                 <i class="fas fa-shopping-basket"></i>
@@ -192,9 +225,25 @@
               <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
               <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
               <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-              <button class="btn btn-lg btn-success p-2  float-right ml-2" (click)="setCheckout()">
+              <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"
+                      (click)="setCheckout()">
                 <i class="fas fa-euro-sign"></i>
                 Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-success p-2  float-right ml-2"
+                      *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
+                <i class="fas fa-euro-sign"></i>
+                Conferma e paga
+              </button>
+              <button class="btn btn-lg btn-success p-2  float-right ml-2"
+                      *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Conferma gratis
+              </button>
+              <button class="btn btn-lg btn-success p-2 float-right ml-2" *ngIf=" token && !paymentError"
+                      (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Termina e paga
               </button>
               <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
                 <i class="fas fa-shopping-basket"></i>
@@ -236,9 +285,23 @@
               <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
               <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
               <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-              <button class="btn btn-lg btn-success p-2  float-right ml-2" (click)="setCheckout()">
+              <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"
+                      (click)="setCheckout()">
+                <button class="btn btn-lg btn-success p-2  float-right ml-2"
+                        *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
+                  <i class="fas fa-euro-sign"></i>
+                  Paga
+                </button>
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2"
+                      *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
                 <i class="fas fa-euro-sign"></i>
-                Paga
+                Prendi
+              </button>
+              <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
+                      (click)="confirmPayment()">
+                <i class="fas fa-euro-sign"></i>
+                Concludi
               </button>
               <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
                 <i class="fas fa-shopping-basket"></i>

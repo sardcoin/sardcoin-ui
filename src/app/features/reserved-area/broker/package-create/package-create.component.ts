@@ -1,20 +1,20 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Coupon, Package, PackItem} from '../../../../shared/_models/Coupon';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CouponService} from '../../../../shared/_services/coupon.service';
-import {Router} from '@angular/router';
-import {DateValidation} from './validator/DateValidation.directive';
-import {StoreService} from '../../../../shared/_services/store.service';
-import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
-import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
-import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {QuantityPackageValidation} from './validator/QuantityPackageValidation.directive';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {CategoriesService} from '../../../../shared/_services/categories.service';
-import {PackageService} from '../../../../shared/_services/package.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon, Package, PackItem } from '../../../../shared/_models/Coupon';
+import { CategoriesService } from '../../../../shared/_services/categories.service';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { PackageService } from '../../../../shared/_services/package.service';
+import { StoreService } from '../../../../shared/_services/store.service';
+import { DateValidation } from './validator/DateValidation.directive';
+import { QuantityPackageValidation } from './validator/QuantityPackageValidation.directive';
 
 @Component({
   selector: 'app-feature-reserved-area-package-create',
@@ -25,11 +25,8 @@ import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
 
-  @ViewChild('couponAdding') couponAdding;
-
-  coupons: Coupon[] = [];
-  couponsAvailable: Coupon[] = [];
-
+  coupons: Array<Coupon> = [];
+  couponsAvailable: Array<Coupon> = [];
   packageForm: FormGroup;
   myForm: FormGroup;
   maxQuantity: number;
@@ -48,8 +45,9 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   bgColorPrivate = '#FFF';
 
   imagePath: string = null;
+  imageSelected = null;
 
-  public uploader: FileUploader = new FileUploader({
+  uploader: FileUploader = new FileUploader({
     url: environment.protocol + '://' + environment.host + ':' + environment.port + '/coupons/addImage', // fix for broker
     authToken: 'Bearer ' + this.storeService.getToken()
   });
@@ -62,6 +60,9 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   check = null;
 
+  couponPass: any;
+  imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -71,46 +72,68 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private modalService: BsModalService,
-    private packageService: PackageService,
+    private packageService: PackageService
   ) {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
+      this.couponService.currentMessage.subscribe(coupon => {
+            this.couponPass = coupon;
+            if (this.couponPass) {
+                this.packageForm = this.formBuilder.group({
+                    title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
+                    description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+                    image: [this.imagePath, Validators.required],
+                    price: [this.couponPass.price, Validators.required],
+                    published_from: [new Date()],
+                    coupons: [this.selectedCoupons],
+                    selected: [this.selectedCoupons],
+                    categories: [this.selectedCategories],
+                    valid_from: [new Date(), Validators.required],
+                    valid_until: [null],
+                    valid_until_empty: [this.markedUnlimited],
+                    quantity: [1, Validators.required],
+                    constraints: [this.couponPass.constraints],
+                    purchasable: [this.couponPass.purchasable, Validators.required]
+                }, {
+                    validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
+                });
+            }
+        });
     });
   }
 
   async ngOnInit() {
+      if (this.couponPass === null || this.couponPass === undefined) {
+          this.packageForm = this.formBuilder.group({
+              title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
+              description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+              image: [this.imagePath, Validators.required],
+              price: [0, Validators.required],
+              published_from: [new Date()],
+              coupons: [this.selectedCoupons],
+              selected: [this.selectedCoupons],
+              categories: [this.selectedCategories],
+              valid_from: [new Date(), Validators.required],
+              valid_until: [null],
+              valid_until_empty: [this.markedUnlimited],
+              quantity: [1, Validators.required],
+              constraints: [null],
+              purchasable: [1, Validators.required]
+          }, {
+              validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
+          });
+      }
+      await this.setCoupons();
 
-    this.packageForm = this.formBuilder.group({
-      title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-      image: [this.imagePath, Validators.required],
-      price: [0, Validators.required],
-      published_from: [new Date()],
-      coupons: [this.selectedCoupons,],
-      selected: [this.selectedCoupons],
-      categories: [this.selectedCategories],
-      valid_from: [new Date(), Validators.required],
-      valid_until: [null],
-      valid_until_empty: [this.markedUnlimited],
-      quantity: [1, Validators.required],
-      constraints: [null],
-      purchasable: [1, Validators.required]
-    }, {
-      validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
-    });
+      this.addBreadcrumb();
 
-    await this.setCoupons();
-
-
-
-    this.addBreadcrumb();
-
-    this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
-    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+      this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
+      this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
   }
 
   ngOnDestroy() {
     this.removeBreadcrumb();
+      this.couponService.setCoupon(null);
   }
 
   get f() {
@@ -119,16 +142,14 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
   saveCoupon() {
 
-    console.log('chiamato SAVE');
-
     this.submitted = true;
     // It stops here if form is invalid
-    if (this.packageForm.invalid || this.imagePath == null) {
+    if (this.packageForm.invalid || this.imagePath == undefined) {
       console.error('Errore nel form o nell\'immagine');
       console.warn(this.packageForm);
+
       return;
     }
-
 
     const pack: Package = {
       title: this.f.title.value,
@@ -146,17 +167,22 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       type: ITEM_TYPE.PACKAGE
     };
 
-
     console.warn('PACK', pack);
 
     this.addPackage(pack);
   }
 
-  addPackage(pack: Coupon) {
-    console.log('RICEVUTO: ', pack);
+  async addPackage(pack: Coupon) {
+
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+
+      return;
+    }
     this.couponService.create(pack)
       .subscribe(data => {
-        if (data['created']) {
+        if (data.created) {
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);
         } else {
@@ -239,13 +265,11 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let error = JSON.parse(response); //error server response
-    // console.log(response);
-    // console.log(this.uploader.queue[0]);
+
   }
 
   addBreadcrumb() {
-    const bread = [] as Breadcrumb[];
+    const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Aggiungi Pacchetto', '/reserved-area/broker/create/'));
@@ -256,11 +280,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   removeBreadcrumb() {
     this.breadcrumbActions.deleteBreadcrumb();
   }
-
-  // async checking() {
-  //   this.check = await QuantityPackageValidation.CheckQuantityPackage;
-  //   return this.check;
-  // }
 
   async setCoupons() {
     try {
@@ -281,14 +300,14 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   addToPackage(coupon: Coupon) {
     console.warn(coupon);
     if (this.editCoupon) {
-      for (let el of this.selectedCoupons) {
+      for (const el of this.selectedCoupons) {
         if (el.coupon.id === coupon.id) {
           el.quantity = this.myForm.value.quantity;
         }
       }
     } else {
       this.selectedCoupons.push({
-        coupon: coupon,
+        coupon,
         quantity: this.myForm.value.quantity
       });
 
@@ -334,11 +353,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
       this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
-
-      // this.modalCoupon = this.coupons.find(coupon => coupon.id == coupon_id);
-      this.maxQuantity = this.modalCoupon.purchasable === null ? this.modalCoupon.quantity : this.modalCoupon.quantity - this.modalCoupon.purchasable;
-
-      // this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
+      this.maxQuantity = this.modalCoupon.quantity ;
 
       this.myForm = this.formBuilder.group({
         quantity: [1, Validators.compose([Validators.min(1), Validators.max(this.maxQuantity), Validators.required])]
@@ -359,6 +374,40 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     // document.getElementById('couponChoice')['value'] = 0;
     this.modalRef.hide();
   }
+
+  preview(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == undefined) {
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files[0].name;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      this.imageSelected = reader.result;
+    };
+  }
+  async uploadFiles(inputElement) {
+
+    if (inputElement.queue[0]) {
+
+      try {
+        inputElement.queue[0].upload();
+        this.imagePath = inputElement.queue[0]._file.name;
+
+        return true;
+      } catch (e) {
+        console.log('error upload image', e);
+        this.imagePath = null;
+
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 }
-
-

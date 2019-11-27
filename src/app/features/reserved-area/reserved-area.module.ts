@@ -29,7 +29,7 @@ import {FeatureReservedAreaProducerCouponReportModule} from './producer/report/c
     FeatureReservedAreaRoutingModule,
     CommonModule,
     FeatureReservedAreaProducerCouponReportModule,
-    ModalModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     CouponService,
@@ -39,7 +39,7 @@ import {FeatureReservedAreaProducerCouponReportModule} from './producer/report/c
     IsBrokerGuard,
     BreadcrumbActions,
     UserService,
-    BsModalService,
+    BsModalService
   ],
   exports: [
     FeatureReservedAreaComponent,
