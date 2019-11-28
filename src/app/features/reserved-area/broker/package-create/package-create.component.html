@@ -11,8 +11,6 @@
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Titolo</label>
               <div class="col-lg-9 col-sm-9">
-                <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-loadCart"-->
-
                 <input type="text" formControlName="title" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
@@ -168,7 +166,7 @@
                   <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty"
                          class="custom-control-input" id="unlimitedCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="unlimitedCheck">Senza scadenza</label>
+                  <label class="custom-control-label" for="unlimitedCheck">Illimitato</label>
                 </div>
               </div>
             </div> <!-- Valid Until -->
