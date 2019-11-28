@@ -97,7 +97,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       this.categories = cat;
       this.couponService.currentMessage.subscribe(coupon => {
         this.couponPass = coupon;
-        if (this.check) {
+        if (this.check || !this.couponPass) {
           this.packageForm = this.formBuilder.group({
             title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
             description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
