@@ -37,8 +37,6 @@
 
                 <input accept="image/*" type="file" class="col-10 col-lg-10 col-md-10 col-sm-8 p-0 btn-sm" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
-
-
                 <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
                   <!--<div *ngIf="f.image.errors">Image is required</div>-->
                   <div>Immagine obbligatoria.</div>
@@ -96,6 +94,8 @@
                            placeholder="Seleziona categorie"
                            [(ngModel)]="selectedCategories">
                 </ng-select>
+                <div *ngIf="submitted && f.categories.errors?.NoCategoriesSelected" class="text-danger" style="font-size: 80%;">Seleziona almeno una categoria.</div>
+
               </div>
 
             </div>
