@@ -56,7 +56,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   onCopy = (pack: Coupon): void => {
     this.couponService.setCoupon(pack);
     this.couponService.setFromEdit(false);
-    this.router.navigate(['reserved-area/broker/create']);
+    this.router.navigate(['reserved-area/broker/create'], {queryParams: { fromMenu: '' }});
   };
 
   onDelete = (coupon: Coupon): void => {
@@ -104,8 +104,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.packageService.getBrokerPackages()
       .subscribe(data => {
           console.warn(data);
-        this.data = true;
-        this.dataSource = new MatTableDataSource(data);
+          this.data = true;
+          this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }, error => console.log(error)

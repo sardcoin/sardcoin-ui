@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -55,10 +55,8 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   selectedCoupons: Array<PackItem> = [];
   selectedCategories = [];
   modalCoupon: Coupon;
-
   modalRef: BsModalRef;
-
-  check = null;
+  check = true;
 
   couponPass: any;
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
@@ -72,68 +70,87 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private modalService: BsModalService,
-    private packageService: PackageService
+    private packageService: PackageService,
+    private route: ActivatedRoute
   ) {
+    this.router.events.subscribe(event => {
+      if (event) {
+        if (event['url'] !== undefined) {
+          const index = event['url'].indexOf('=');
+          if (index !== -1) {
+            this.check = Boolean(event['url'].substr(index + 1));
+            this.control();
+          }
+        }
+      }
+    });
+
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.control();
+
+  }
+
+  async control(): Promise<void> {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
       this.couponService.currentMessage.subscribe(coupon => {
-            this.couponPass = coupon;
-            if (this.couponPass) {
-                this.packageForm = this.formBuilder.group({
-                    title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-                    description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-                    image: [this.imagePath, Validators.required],
-                    price: [this.couponPass.price, Validators.required],
-                    published_from: [new Date()],
-                    coupons: [this.selectedCoupons],
-                    selected: [this.selectedCoupons],
-                    categories: [this.selectedCategories],
-                    valid_from: [new Date(), Validators.required],
-                    valid_until: [null],
-                    valid_until_empty: [this.markedUnlimited],
-                    quantity: [1, Validators.required],
-                    constraints: [this.couponPass.constraints],
-                    purchasable: [this.couponPass.purchasable, Validators.required]
-                }, {
-                    validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
-                });
-            }
-        });
-    });
-  }
-
-  async ngOnInit() {
-      if (this.couponPass === null || this.couponPass === undefined) {
+        this.couponPass = coupon;
+        if (this.check) {
           this.packageForm = this.formBuilder.group({
-              title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-              description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
-              image: [this.imagePath, Validators.required],
-              price: [0, Validators.required],
-              published_from: [new Date()],
-              coupons: [this.selectedCoupons],
-              selected: [this.selectedCoupons],
-              categories: [this.selectedCategories],
-              valid_from: [new Date(), Validators.required],
-              valid_until: [null],
-              valid_until_empty: [this.markedUnlimited],
-              quantity: [1, Validators.required],
-              constraints: [null],
-              purchasable: [1, Validators.required]
+            title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
+            description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+            image: [this.imagePath, Validators.required],
+            price: [0, Validators.required],
+            published_from: [new Date()],
+            coupons: [this.selectedCoupons],
+            selected: [this.selectedCoupons],
+            categories: [this.selectedCategories],
+            valid_from: [new Date(), Validators.required],
+            valid_until: [null],
+            valid_until_empty: [this.markedUnlimited],
+            quantity: [1, Validators.required],
+            constraints: [null],
+            purchasable: [1, Validators.required]
           }, {
-              validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
+            validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
           });
-      }
-      await this.setCoupons();
 
-      this.addBreadcrumb();
+        } else if (this.couponPass && !this.check) {
+          console.log('else');
+          this.packageForm = this.formBuilder.group({
+            title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
+            description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+            image: [this.imagePath, Validators.required],
+            price: [this.couponPass.price, Validators.required],
+            published_from: [new Date()],
+            coupons: [this.selectedCoupons],
+            selected: [this.selectedCoupons],
+            categories: [this.selectedCategories],
+            valid_from: [new Date(), Validators.required],
+            valid_until: [null],
+            valid_until_empty: [this.markedUnlimited],
+            quantity: [1, Validators.required],
+            constraints: [this.couponPass.constraints],
+            purchasable: [this.couponPass.purchasable, Validators.required]
+          }, {
+            validator: Validators.compose([DateValidation.CheckDateDay, QuantityPackageValidation.CheckQuantityPackage])
+          });
+        }
+      });
+    });
+    await this.setCoupons();
 
-      this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
-      this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+    this.addBreadcrumb();
+
+    this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
+    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
   }
 
   ngOnDestroy() {
     this.removeBreadcrumb();
-      this.couponService.setCoupon(null);
+    this.couponService.setCoupon(null);
   }
 
   get f() {
