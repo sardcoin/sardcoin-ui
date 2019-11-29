@@ -216,12 +216,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     console.log('editCoupon', coupon)
     await this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        // if (data['status']) {
-        //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
-        // } else {
+        if (data['bought']) {
+          this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
+        } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
-        // }
+       }
       }, err => {
         console.log(err);
         this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto...', 'Errore durante l\'aggiornamento');

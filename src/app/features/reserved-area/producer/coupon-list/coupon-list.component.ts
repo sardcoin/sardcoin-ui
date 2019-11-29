@@ -63,6 +63,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         if (data.deleted) {
           this.toastr.success('', 'Coupon eliminato!');
           this.control();
+        } else if (data.bought) {
+          this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più eliminarlo.', 'Errore durante l\'aggiornamento');
         }
       }, error => {
         console.log(error);

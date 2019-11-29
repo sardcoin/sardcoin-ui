@@ -63,12 +63,15 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
     this.couponService.deleteCoupon(coupon.id, 1)
       .subscribe(data => {
         if (data.deleted) {
-          this.toastr.success('', 'Coupon eliminato!');
+          this.toastr.success('Pacchetto acquistato da uno o più utenti, non puoi più eliminarlo.', 'Pacchetto eliminato!');
           this.control();
+        }
+        if (data.bought) {
+          this.toastr.success('', 'Pacchetto venduto!');
         }
       }, error => {
         console.log(error);
-        this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
+        this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 
     this.modalRef.hide();

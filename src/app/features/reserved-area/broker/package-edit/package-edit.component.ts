@@ -226,6 +226,10 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         if (!data.updated) {
           this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
+          if (data.bought) {
+            this.toastr.error('Pacchetto acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
+
+          }
         } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
