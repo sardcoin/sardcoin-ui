@@ -75,7 +75,6 @@ export class CouponOfflineDetailsComponent implements OnInit, OnDestroy {
   loadCoupon() {
     this.couponService.currentMessage.subscribe(coupon => {
         this.couponPass = coupon;
-        console.log('cp pass', this.couponPass);
         if (!this.couponPass) {
           this.router.navigate(['reserved-area/producer' + '/offline']);
         } else {
@@ -181,14 +180,11 @@ export class CouponOfflineDetailsComponent implements OnInit, OnDestroy {
 
             pdf.add(' ');
             const description = new Txt(this.couponPass.description).fontSize(20).end;
-            console.log('description', description);
 
             pdf.add(description);
             pdf.add(' ');
             const dateUntil = 'Scadenza: ' +  this.formatUntil(this.couponPass.valid_until);
-            console.log('dateUntil', dateUntil);
             const validUntil = new Txt(dateUntil.toString()).fontSize(20).bold().end;
-            console.log('validUntil', validUntil);
 
             pdf.add(validUntil);
             pdf.add(' ');
@@ -203,6 +199,7 @@ export class CouponOfflineDetailsComponent implements OnInit, OnDestroy {
             pdf.add(qrCode);
             pdf.create().download(this.couponPass.CouponTokens[0].token);
             this.toastr.success(this.couponPass.title, 'Token venduto');
+            this.modalRef.hide()
             this.couponService.getProducerTokensOfflineById(this.couponPass.id).subscribe( tokens => {
               this.couponPass.CouponTokens = tokens;
             })
