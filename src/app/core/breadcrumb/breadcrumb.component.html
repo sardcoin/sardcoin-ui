@@ -73,7 +73,7 @@
   </div>
 
   <!-- NAVIGATION breadcrumb only for producers and if they are not in showcase page-->
-  <ol *ngIf="(userType == 1 || userType == 4) && !showcasePage"
+  <ol *ngIf="(userType == 1 || userType == 4 || userType === 3) && !showcasePage"
       class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { element } from 'protractor';
 import {GlobalEventsManagerService} from '../../shared/_services/global-event-manager.service';
 import {NgRedux, select} from '@angular-redux/store';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -70,7 +71,10 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     this.globalEventService.desktopMode.subscribe(message => this.desktopMode = message);
     this.globalEventService.hideSource.subscribe(message => this.hide = message);
 
-    this.breadcrumb$.subscribe(elements => this.breadList = elements.list);
+    this.breadcrumb$.subscribe(elements => {
+      console.log('elements.list', elements.list)
+      this.breadList = elements.list;
+    });
     this.cart$.subscribe(elements => this.cart = elements.list);
 
     this.authPage = this.router.url.includes('authentication');

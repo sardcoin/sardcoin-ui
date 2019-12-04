@@ -162,7 +162,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
-    bread.push(new Breadcrumb('Dati di fatturazione', '/reserved-area/payment-myPurchases'));
+    bread.push(new Breadcrumb('Dati di fatturazione', '/reserved-area/producer/payment-details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

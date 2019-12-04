@@ -140,8 +140,8 @@ export class VerifierComponent implements OnInit, OnDestroy {
     const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verify/'));
-
+    bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verifier/check'));
+    console.log('bread verifier', bread)
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
