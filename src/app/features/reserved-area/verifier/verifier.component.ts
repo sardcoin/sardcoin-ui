@@ -83,13 +83,13 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
-          console.log('result ooooo', result)
+          //console.log('result ooooo', result)
         if (result) {
             if (result.coupons) {
                 this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
                 this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
                     .subscribe(cp => {
-                        console.log('cp', cp);
+                        //console.log('cp', cp);
                         this.titlePackage = cp.title;
                 });
 
@@ -141,7 +141,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verifier/check'));
-    console.log('bread verifier', bread)
+    //console.log('bread verifier', bread)
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
@@ -198,7 +198,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   async openModal(template: TemplateRef<any>, token) {
       const isCoupon = await this.couponService.isCouponFromToken(token)
           .toPromise();
-      console.log('isCoupon', isCoupon);
+      //console.log('isCoupon', isCoupon);
       if (isCoupon) {
           if (!isCoupon.error) {
 

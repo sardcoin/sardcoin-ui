@@ -11,20 +11,20 @@
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Titolo</label>
               <div class="col-lg-9 col-sm-9">
-                <input type="text" formControlName="title" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+                <textarea rows="2" type="text" formControlName="title" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.title.errors }"></textarea>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                  <div *ngIf="f.title.errors">Titolo obbligatorio, da 5 a 40 caratteri</div>
+                  <div *ngIf="f.title.errors">Titolo obbligatorio, da 5 a 80 caratteri</div>
                 </div>
               </div>
             </div> <!-- Title -->
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Descrizione</label>
               <div class="col-lg-9 col-sm-9">
-                <textarea type="text" formControlName="description" class="form-control"
+                <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 255 caratteri.
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri.
                   </div>
                 </div>
               </div>

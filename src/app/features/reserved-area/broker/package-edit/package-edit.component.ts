@@ -119,8 +119,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.packageForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+      title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
       image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
@@ -221,7 +221,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
       return;
     }
-    console.log('coupon', coupon)
+    //console.log('coupon', coupon)
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
         if (!data.updated) {
@@ -372,7 +372,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     // this.modalCoupon = this.packageForm.get('coupons').value;
 
     if (coupon_id != null) {
-      console.log('lo fai')
+      //console.log('lo fai')
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
 

@@ -87,7 +87,7 @@ export class RegisterFormProducerComponent implements OnInit {
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;
-          console.log(error);
+          //console.log(error);
           console.log('User or email already exists');
         }
       );

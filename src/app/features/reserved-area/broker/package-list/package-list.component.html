@@ -7,8 +7,11 @@
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Titolo</th>
       <td mat-cell *matCellDef="let coupon">
-        <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-        <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        <span *ngIf="coupon.description.length > 40" style="font-size: 17px;">{{coupon.title.substring(0,40)}}...</span>
+        <span *ngIf="coupon.description.length <= 40" class="card-text truncate " style="font-size: 17px;">{{coupon.title}}</span> <br/>
+        <i *ngIf="coupon.description.length > 100" style="color: #999; font-size: 15px;">{{coupon.description.substring(0,100)}}...</i>
+        <i *ngIf="coupon.description.length <= 100" style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+
       </td>
     </ng-container>
 

@@ -122,3 +122,4 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }
+

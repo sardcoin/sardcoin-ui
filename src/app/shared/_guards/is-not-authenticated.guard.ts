@@ -18,7 +18,7 @@ export class IsNotAuthenticatedGuard implements CanActivate {
     // Select the login item from the store
 
     if (this.localStore.getToken() === null) {
-      console.log('Non è loggato');
+      //console.log('Non è loggato');
       this.router.navigate(['authentication/login']);
       return true;
     }

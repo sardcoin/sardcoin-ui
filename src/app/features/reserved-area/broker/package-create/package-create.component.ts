@@ -99,8 +99,8 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
         this.couponPass = coupon;
         if (this.check || !this.couponPass) {
           this.packageForm = this.formBuilder.group({
-            title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-            description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+            title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+            description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [0, Validators.required],
             published_from: [new Date()],
@@ -118,10 +118,10 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           });
 
         } else if (this.couponPass && !this.check) {
-          console.log('else');
+          //console.log('else');
           this.packageForm = this.formBuilder.group({
-            title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-            description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+            title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+            description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [this.couponPass.price, Validators.required],
             published_from: [new Date()],

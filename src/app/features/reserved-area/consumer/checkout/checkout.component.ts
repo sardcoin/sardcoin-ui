@@ -67,7 +67,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.orderService.getLastOrder().subscribe(lastId => {
       this.lastId = lastId.lastId + 1;
-      console.log('lastId', this.lastId);
+      //console.log('lastId', this.lastId);
     });
 
   }
@@ -82,8 +82,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
     console.log('error', error);
-    console.log('token', token);
-    console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
+    //console.log('token', token);
+    //console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
 
     if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
@@ -122,13 +122,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async setCheckout() {
     let response;
     this.loading = true;
-    console.log('response null', response);
 
     this.openModal(this.paymentModal, true);
 
     try {
       response = await this.paypalService.setCheckout(this.cart).toPromise();
-      console.log('response', response['link']);
+      //console.log('response', response)
+      //console.log('response', response['link']);
       window.location.href = response['link'];
     } catch (e) {
       console.error(e);
