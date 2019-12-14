@@ -11,7 +11,7 @@
 
         <p class="card-text mt-3">{{couponPass.description}}</p>
         <div *ngIf="couponPass.CouponTokens">
-          <p *ngIf="couponPass.CouponTokens.length > 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
+          <p *ngIf="couponPass.CouponTokens.length >= 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
 
           <p *ngIf="couponPass.CouponTokens.length > 4 && couponPass.CouponTokens.length < 10" class="card-text"><i style="color:#ffd51c">Bassa
             disponibilità ({{couponPass.CouponTokens.length}})</i></p>
