@@ -94,7 +94,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     if (!isNaN(id)) {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
-
         if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
           this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
