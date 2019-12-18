@@ -44,7 +44,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   submitted = false;
 
   couponPass: Coupon;
-  categoriesUpdate = false
+  categoriesUpdate = false;
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
 
@@ -62,7 +62,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private userService: UserService,
     private categoriesService: CategoriesService,
-
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
@@ -75,7 +74,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
           this.selectedBroker = brokers;
           //console.log('brokers for coupon', this.selectedBroker)
-        })
+        });
       }
 
     });
@@ -84,7 +83,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
     });
-    this.userService.getBrokers().subscribe( brokers => {
+    this.userService.getBrokers().subscribe(brokers => {
       this.brokers = brokers;
     });
 
@@ -102,7 +101,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.categoriesService.getAll().subscribe(cat => {
           this.categories = cat;
           for (const c of catCp.category) {
-            const category = this.categories.find( el => el.id === c.category_id);
+            const category = this.categories.find(el => el.id === c.category_id);
             this.selectedCategories.push(category);
           }
           this.categoriesUpdate = true;
@@ -138,8 +137,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.addBreadcrumb();
       this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
       this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
-      }
     }
+  }
 
 
   get f() {
@@ -171,7 +170,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       type: 0,
 
 
-
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
@@ -194,8 +192,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         // if (data['created']) {
-          this.toastr.success('', 'Pacchetto creato con successo!');
-          this.router.navigate(['/reserved-area/producer/list']);
+        this.toastr.success('', 'Pacchetto creato con successo!');
+        this.router.navigate(['/reserved-area/producer/list']);
         // } else {
         //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
@@ -221,7 +219,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
-       }
+        }
       }, err => {
         console.log(err);
         this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto...', 'Errore durante l\'aggiornamento');
@@ -364,6 +362,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.imageSelected = reader.result;
-    }
+    };
   }
 }
