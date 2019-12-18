@@ -43,6 +43,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   couponsPackage = null;
   item_type;
 
+  ITEM_TYPE = ITEM_TYPE;
+
   routeSubscription: Subscription;
 
   constructor(

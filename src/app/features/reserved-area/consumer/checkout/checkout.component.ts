@@ -144,9 +144,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     try {
       console.warn(this.cart);
 
-      //this.openModal(this.buyWait);
+      this.openModal(this.buyWait);
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      //this.closeModal();
+      this.closeModal();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       this.cartActions.emptyCart();

@@ -332,3 +332,11 @@ tbody > tr.bg-blue > td {
 th[sortable-column] {
   cursor: pointer;
 }
+
+[hidden] {
+  display: none !important;
+}
+
+a.dropdown-item:hover {
+  cursor: pointer;
+}

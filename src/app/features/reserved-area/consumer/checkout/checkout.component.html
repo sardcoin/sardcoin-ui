@@ -33,7 +33,7 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
@@ -43,11 +43,13 @@
                 <h3 class="">Importo totale: {{formatPrice(totalAmount)}}</h3>
               </div>
 
-              <h2>Dati fatturazione</h2>
+              <div class="my-5">
+                <h2 class="mb-3">Dati fatturazione</h2>
 
-              <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-              <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-              <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+                <p class="mb-1"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
+                <p><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
+              </div>
+
               <button class="btn btn-lg btn-success float-right ml-2"
                       *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
                 <i class="fas fa-euro-sign"></i>
@@ -92,7 +94,7 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
@@ -154,7 +156,7 @@
                            alt="Card image cap"></td>
                   <td>{{formatPrice(coupon.price)}}</td>
                   <td>{{coupon.quantity}}</td>
-                  <td>{{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}</td>
+                  <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                 </tr>
 
                 </tbody>
@@ -204,7 +206,7 @@
                   </div>
                   <div class="div-description">{{coupon.description}}</div>
                   <div class="text-info div-validity">
-                    Scadenza: {{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}
+                    Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
                   </div>
                   <div class="card-footer w-100 text-muted div-quantity">
                     Quantità: {{coupon.quantity}}
@@ -262,7 +264,7 @@
                   </div>
                   <div class="div-description">{{coupon.description}}</div>
                   <div class="text-info div-validity">
-                    Scadenza: {{coupon.valid_until === null? 'Illimitato': formatUntil(coupon.valid_until) }}
+                    Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
 
                   </div>
                   <div class="card-footer w-100 text-muted div-quantity">
@@ -322,7 +324,7 @@
 
 <ng-template #paymentModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Pagamento n. #{{lastId}}</h4> <!-- TODO: fix order number -->
+    <h4 class="modal-title pull-left">Ordine di pagamento #{{lastId}}</h4>
   </div>
 
   <div class="modal-body">
