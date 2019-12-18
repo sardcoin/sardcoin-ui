@@ -1,20 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CouponService } from '../../../../shared/_services/coupon.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
-import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
-import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
-import { StoreService } from '../../../../shared/_services/store.service';
-import { QuantityCouponValidation } from '../coupon-create/validator/QuantityCouponValidation.directive';
-import { environment } from '../../../../../environments/environment';
-import { ToastrService } from 'ngx-toastr';
-import { Coupon } from '../../../../shared/_models/Coupon';
-import { DateValidation } from '../coupon-create/validator/DateValidation.directive';
-import { User } from '../../../../shared/_models/User';
-import { Category } from '../../../../shared/_models/Category';
-import { CategoriesService } from '../../../../shared/_services/categories.service';
-import { UserService } from '../../../../shared/_services/user.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CouponService} from '../../../../shared/_services/coupon.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Breadcrumb} from '../../../../core/breadcrumb/Breadcrumb';
+import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
+import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
+import {StoreService} from '../../../../shared/_services/store.service';
+import {QuantityCouponValidation} from '../coupon-create/validator/QuantityCouponValidation.directive';
+import {environment} from '../../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
+import {Coupon} from '../../../../shared/_models/Coupon';
+import {DateValidation} from '../coupon-create/validator/DateValidation.directive';
+import {User} from '../../../../shared/_models/User';
+import {Category} from '../../../../shared/_models/Category';
+import {CategoriesService} from '../../../../shared/_services/categories.service';
+import {UserService} from '../../../../shared/_services/user.service';
 
 @Component({
   selector: 'app-edit-coupon',
@@ -44,7 +44,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   submitted = false;
 
   couponPass: Coupon;
-  categoriesUpdate = false;
+  categoriesUpdate = false
   imageURL = environment.protocol + '://' + environment.host + ':' + environment.port + '/';
   imagePath: string = null;
 
@@ -62,9 +62,11 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private userService: UserService,
     private categoriesService: CategoriesService,
+
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
+      //console.log(this.couponPass)
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/producer/list']);
@@ -72,7 +74,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponService.getBrokerFromCouponId(this.couponPass.id).subscribe(brokers => {
 
           this.selectedBroker = brokers;
-        });
+          //console.log('brokers for coupon', this.selectedBroker)
+        })
       }
 
     });
@@ -81,7 +84,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     this.categoriesService.getAll().subscribe(cat => {
       this.categories = cat;
     });
-    this.userService.getBrokers().subscribe(brokers => {
+    this.userService.getBrokers().subscribe( brokers => {
       this.brokers = brokers;
     });
 
@@ -99,7 +102,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.categoriesService.getAll().subscribe(cat => {
           this.categories = cat;
           for (const c of catCp.category) {
-            const category = this.categories.find(el => el.id === c.category_id);
+            const category = this.categories.find( el => el.id === c.category_id);
             this.selectedCategories.push(category);
           }
           this.categoriesUpdate = true;
@@ -112,8 +115,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
       this.couponForm = this.formBuilder.group({
-        title: [this.couponPass.title, Validators.compose([Validators.maxLength(70), Validators.minLength(5), Validators.required])],
-        description: [this.couponPass.description, Validators.compose([Validators.maxLength(255), Validators.minLength(5), Validators.required])],
+        title: [this.couponPass.title, Validators.compose([Validators.maxLength(80), Validators.minLength(5), Validators.required])],
+        description: [this.couponPass.description, Validators.compose([Validators.maxLength(500), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
           value: this.markedFree ? 0 : this.couponPass.price.toFixed(2),
@@ -135,8 +138,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       this.addBreadcrumb();
       this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
       this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+      }
     }
-  }
 
 
   get f() {
@@ -168,6 +171,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       type: 0,
 
 
+
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
@@ -190,8 +194,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         // if (data['created']) {
-        this.toastr.success('', 'Pacchetto creato con successo!');
-        this.router.navigate(['/reserved-area/producer/list']);
+          this.toastr.success('', 'Pacchetto creato con successo!');
+          this.router.navigate(['/reserved-area/producer/list']);
         // } else {
         //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
@@ -203,21 +207,21 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   async editCoupon(coupon: Coupon) {
     const uploadDone = await this.uploadFiles(this.uploader);
-    console.log('uploadDone', uploadDone);
+    //console.log('uploadDone', uploadDone)
     if (!uploadDone) {
       this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
       return;
     }
-    console.log('editCoupon', coupon);
+    //console.log('editCoupon', coupon)
     await this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        // if (data['status']) {
-        //   this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon.', 'Errore durante l\'aggiornamento');
-        // } else {
-        this.toastr.success('', 'Pacchetto modificato con successo!');
-        this.router.navigate(['/reserved-area/producer/list']);
-        // }
+        if (data['bought']) {
+          this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
+        } else {
+          this.toastr.success('', 'Pacchetto modificato con successo!');
+          this.router.navigate(['/reserved-area/producer/list']);
+       }
       }, err => {
         console.log(err);
         this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto...', 'Errore durante l\'aggiornamento');
@@ -248,7 +252,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    console.log(response);
+    //console.log(response);
   }
 
   toggleCheckbox(e) {
@@ -328,7 +332,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   async uploadFiles(inputElement) {
 
-    console.log('inputElement', inputElement);
+    //console.log('inputElement', inputElement)
     if (inputElement.queue[0]) {
 
       try {
@@ -336,7 +340,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        console.log('error upload image', e);
+        //console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }
@@ -350,7 +354,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
     }
     const mimeType = files[0].type;
-    console.log('files[0]', files[0]);
+    //console.log('files[0]', files[0])
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
@@ -360,6 +364,6 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.imageSelected = reader.result;
-    };
+    }
   }
 }

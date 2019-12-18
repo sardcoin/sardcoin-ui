@@ -22,6 +22,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
+  data;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -63,6 +64,8 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         if (data.deleted) {
           this.toastr.success('', 'Coupon eliminato!');
           this.control();
+        } else if (data.bought) {
+          this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più eliminarlo.', 'Errore durante l\'aggiornamento');
         }
       }, error => {
         console.log(error);
@@ -101,6 +104,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   control = (): void => {
     this.couponService.getProducerCoupons()
       .subscribe(data => {
+          this.data = true;
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -119,3 +123,4 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
   dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }
+

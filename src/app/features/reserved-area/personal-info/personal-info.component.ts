@@ -156,8 +156,8 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Breadcrumb[];
     const type = Number(this.localService.getType());
-    const userType = type === 1 ? 'producer/' : 'consumer/';
-    const userLabel = type === 1 ? 'Producer' : 'Consumer';
+    const userType = type === 1 ? 'producer/' : type === 2 ? 'consumer/' : type === 4 ? 'broker/' : 'producer/';
+    // const userLabel = type === 1 ? 'Producer' : 'Consumer';
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
     bread.push(new Breadcrumb('Informazioni Personali', '/reserved-area/' + userType + 'personal-info'));

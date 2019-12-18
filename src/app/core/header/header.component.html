@@ -96,6 +96,24 @@
                             class="menu-collapsed">Reports</span>
                       </a>
                     </div>
+                    <div *ngIf="this.userType == '4' || this.userType == '0'">
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                        <span (click)="clickEvent('/reserved-area/broker/list')"
+                              class="menu-collapsed ">I miei pacchetti</span>
+                      </a>
+                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
+                      <span (click)="clickEvent('/reserved-area/broker/create')"
+                            class="menu-collapsed">Aggiungi un pacchetto</span>
+                      </a>
+<!--                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">-->
+<!--                      <span (click)="clickEvent('/reserved-area/producer/offline')"-->
+<!--                            class="menu-collapsed">Vendi offline</span>-->
+<!--                      </a>-->
+<!--                      <a class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">-->
+<!--                      <span (click)="clickEvent('/reserved-area/producer/report')"-->
+<!--                            class="menu-collapsed">Reports</span>-->
+<!--                      </a>-->
+                    </div>
 
                     <a  *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" class="list-group-item list-group-item-action padding-left-sidebar-mobile-item">
                         <span (click)="clickEvent('/showcase')"

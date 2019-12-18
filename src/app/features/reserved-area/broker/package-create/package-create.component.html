@@ -1,46 +1,43 @@
-<div class="container-fluid">
+<div *ngIf="packageForm" class="container-fluid mb-0">
   <div class="row">
-    <div class="col-xl-10 col-md-12">
-      <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin"
+    <div class="col-xl-8 col-lg-11 col-md-12">
+      <div class="col-sm-6 col-lg-5 col-md-6 p-3 bg-red-sardcoin"
            style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
-        <h4 class="text-white text-center text-uppercase mb-0">Aggiungi pacchetto</h4>
+        <h4 class="text-white text-center text-uppercase mb-0">Aggiungi un Pacchetto</h4>
       </div>
       <div class="card">
-        <div class="card-body p-5">
+        <div class="p-4">
           <form [formGroup]="packageForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Titolo</label>
-              <div class="col-lg-10 col-sm-8">
-                <!--<input value="{{couponPass.title}}" type="text" formControlName="title" class="form-loadCart"-->
-
-                <input type="text" formControlName="title" class="form-control"
-                       [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+              <label class="col-lg-3 col-sm-3 col-form-label">Titolo</label>
+              <div class="col-lg-9 col-sm-9">
+                <textarea rows="2" type="text" formControlName="title" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.title.errors }"></textarea>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                  <div *ngIf="f.title.errors">Titolo obbligatorio, da 5 a 40 caratteri</div>
+                  <div *ngIf="f.title.errors">Titolo obbligatorio, da 5 a 80 caratteri</div>
                 </div>
               </div>
             </div> <!-- Title -->
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Descrizione</label>
-              <div class="col-lg-10 col-sm-8">
-                <textarea type="text" formControlName="description" class="form-control"
+              <label class="col-lg-3 col-sm-3 col-form-label">Descrizione</label>
+              <div class="col-lg-9 col-sm-9">
+                <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 255 caratteri.
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri.
                   </div>
                 </div>
               </div>
             </div> <!-- Description -->
 
 
-            <div class="row">
-              <label  class="col-lg-2 col-sm-4 col-form-label">Seleziona immagine</label>
-
-
-              <div class="col-lg-10 col-sm-8 col-form-label">
-                <input (change)="preview(file.files)" #file  accept="image/*" type="file"  formControlName="image" ng2FileSelect [uploader]="uploader"
+            <div class="form-group row">
+              <label  class="col-lg-3 col-sm-3 col-form-label">Immagine</label>
+              <div  class="col-lg-9 col-sm-9">
+                <input (change)="preview(file.files)" #file  accept="image/*"
+                       type="file" class="col-10 col-lg-10 col-md-10 col-sm-8 p-0 btn-sm" formControlName="image" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
-                <div *ngIf="submitted && f.image.errors" >
+                <div *ngIf="submitted && f.image.errors" class="invalid-feedback" >
                   <div  class="custom-invalid-feedback form-group row">
                     <ul  *ngIf="submitted">
                       <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -54,15 +51,15 @@
 
             </div> <!-- Image -->
             <div class="form-group row">
-              <label class="col-lg-2 col-sm-4 col-form-label">Prezzo</label>
-              <div class="col-lg-8 col-sm-4">
+              <label class="col-12 col-3 col-lg-3 col-sm-3 col-form-label">Prezzo</label>
+              <div class="col-8 col-5 col-lg-7 col-sm-7">
                 <input type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }" min="0" />
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                   <div *ngIf="f.price.errors">Prezzo obbligatorio.</div>
                 </div>
               </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
+              <div class="col-4 col-sm-2 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="freeCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
@@ -72,8 +69,8 @@
             </div> <!-- Price -->
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Visibile da: </label>
-              <div class="col-sm-8">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Visibile da: </label>
+              <div class="col-8 col-lg-7 col-sm-7">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
@@ -83,7 +80,7 @@
                   <div *ngIf=" f.published_from.errors ">Data non valida</div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-4  col-sm-2 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" name="privateCheck" class="custom-control-input" id="privateCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
@@ -91,10 +88,25 @@
                 </div>
               </div>
             </div> <!-- Visible from -->
+            <div class="form-group row">
+              <label class="col-lg-3 col-sm-3 col-form-label">Seleziona categorie: </label>
+              <div class="col-sm-8">
+                <ng-select formControlName="categories"
+                           [items]="categories"
+                           [multiple]="true"
+                           [closeOnSelect]="true"
+                           [searchable]= "true"
+                           bindLabel="name"
+                           placeholder="Seleziona categorie"
+                           [ngClass]="{ 'is-invalid': submitted && f.categories.errors, 'ng-touched': submitted && f.categories.errors }">
+                </ng-select>
 
+                <div *ngIf="submitted && f.categories.errors?.NoCategoriesSelected" class="text-danger" style="font-size: 80%;">Seleziona almeno una categoria.</div>
+              </div>
+            </div><!-- Categories -->
             <div *ngIf="couponsAvailable" class="form-group row mb-0">
-              <label class="col-sm-2 col-form-label">Seleziona coupon: </label>
-              <div class="col-sm-12 col-lg-8">
+              <label class="col-lg-3 col-sm-3 col-form-label">Seleziona coupons: </label>
+              <div class="col-sm-8">
 
                 <select class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"
                         [ngClass]="{ 'is-invalid': submitted && f.coupons.errors }">
@@ -108,7 +120,8 @@
               </div>
             </div> <!-- Coupons -->
             <div *ngIf="selectedCoupons" class="form-group row">
-              <ul class="col-sm-12 col-lg-8 offset-lg-2 offset-0 list-group pr-0">
+              <label class="col-lg-3 col-sm-3 col-form-label"></label>
+              <ul  class="col-sm-8">
                 <li *ngFor="let el of selectedCoupons" class="list-group-item d-flex justify-content-between align-items-center">
                   <span class="text-left">{{el.coupon.title}}</span>
                   <span class="text-right">
@@ -119,26 +132,10 @@
                 </li>
               </ul>
             </div> <!-- Coupons list -->
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
-              <div class="col-sm-8">
-                <ng-select formControlName="categories"
-                           [items]="categories"
-                           [multiple]="true"
-                           [closeOnSelect]="true"
-                           [searchable]= "true"
-                           bindLabel="name"
-                           placeholder="Seleziona categorie"
-                           [ngClass]="{ 'is-invalid': submitted && f.categories.errors, 'ng-touched': submitted && f.categories.errors }">
-                           <!--[(ngModel)]="selectedCategories">-->
-                </ng-select>
 
-                <div *ngIf="submitted && f.categories.errors?.NoCategoriesSelected" class="text-danger" style="font-size: 80%;">Seleziona almeno una categoria.</div>
-              </div>
-            </div><!-- Categories -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Valido da</label>
+              <label class="col-lg-3 col-sm-3 col-form-label">Valido da</label>
               <div class="col-sm-8 col-lg-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
@@ -150,34 +147,33 @@
               </div>
             </div> <!-- Valid From -->
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Scadenza</label>
-              <div  class="col-sm-4 col-lg-8">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Scadenza</label>
+              <div  class="col-8 col-lg-7 col-sm-7">
                 <input type="text" mwlFlatpickr
                        [style.background]="bgColorCalendar"
                        [clickOpens]="true"
                        [noCalendar]="false"
                        [convertModelValue]="true"
                        [enableTime]="true"
-                       [placeholder]="'Seleziona data di scadenza'"
                        dateFormat="Y-m-d H:i"  formControlName="valid_until" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_until.errors?.MatchDateFromUntil }"/>
                 <div *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil" class="invalid-feedback">
                   <div *ngIf="f.valid_until.errors?.MatchDateFromUntil">Data non valida</div>
                 </div>
               </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
+              <div class="col-4 col-sm-2 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" formControlName="valid_until_empty" name="valid_until_empty"
                          class="custom-control-input" id="unlimitedCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="unlimitedCheck">Senza scadenza</label>
+                  <label class="custom-control-label" for="unlimitedCheck">Illimitato</label>
                 </div>
               </div>
             </div> <!-- Valid Until -->
 
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Luogo</label>
-              <div class="col-sm-4 col-lg-8">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Luogo</label>
+              <div class="col-8 col-lg-7 col-sm-7">
                 <input google-place type="text" formControlName="constraints" class="form-control" placeholder="Type to search.."
                   [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"
                        (onSelect)="setAddress($event)"/>
@@ -186,7 +182,7 @@
                   <div *ngIf="f.constraints.errors">Campo richiesto</div>
                 </div>
               </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
+              <div class="col-4 col-sm-2 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="constraintsCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>
@@ -195,8 +191,8 @@
               </div>
             </div> <!-- Place (constraints) -->
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Quantità</label>
-              <div class="col-sm-12 col-lg-8">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Quantità</label>
+              <div class="col-8 col-sm-9 col-lg-9">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"/>
                 <div class="invalid-feedback"
@@ -210,15 +206,15 @@
               </div>
             </div> <!-- Quantity -->
             <div class="form-group row">
-              <label class="col-sm-4 col-lg-2 col-form-label">Acquisto max per utente</label>
-              <div  class="col-sm-4 col-lg-8">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Acquisto max per utente</label>
+              <div  class="col-8 col-lg-7 col-sm-7">
                 <input  type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
                   <div *ngIf="f.purchasable.errors">Questo valore deve essere inferiore o uguale alla quantità creata</div>
                 </div>
               </div>
-              <div class="col-sm-4 col-lg-2 my-auto">
+              <div class="col-4 col-sm-2 col-lg-2 my-auto">
                 <div class="custom-control custom-checkbox">
                   <input  type="checkbox" class="custom-control-input" id="quantityCheck"
                          (change)="toggleCheckbox($event)" data-md-icheck>

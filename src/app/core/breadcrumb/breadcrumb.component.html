@@ -4,7 +4,7 @@
        class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0 h-100"
        [ngStyle]="{'padding': isUserLoggedIn && desktopMode ? (userType != 2 ? '0px 9px 0px 246px' : '0px 9px 0px 72px') : '0px 9px 0px 16px'}"
        style="max-height: 49px">
-    <div  class="row col-lg-9 col-md-11 my-auto">
+    <div  class="row col-lg-9 col-md-9 my-auto">
       <div class="dropdown" >
         <select name="select-category" id="select-category" class="btn icon-card mr-0 bg-light"
                 style="border-radius: 0.25rem 0 0 0.25rem" (change)="onChange($event.target.value)">
@@ -14,7 +14,7 @@
           </ng-container>
         </select>
       </div> <!-- Category selection -->
-      <div class="col-md-8 p-0 search-input">
+      <div class="col-md-6 p-0 search-input">
         <form (submit)="searchCoupons(); showListSuggestions(false)">
           <input type="text" class="form-control form-check-inline align-middle mr-0 p-2"
                  style="border-radius: 0; border-right: 0" placeholder="Cerca..."
@@ -64,8 +64,8 @@
       <div *ngIf="desktopMode">
         <a *ngIf="cart.length === 0" class="text-white">Il carrello <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">
-          <span class="d-md-none d-lg-inline-block">{{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
-            'articolo' : 'articoli'}}</b> nel tuo carrello.</span>
+          <span class=" d-lg-inline-block">{{cart.length === 1 ? "C'è" : 'Ci sono'}} <b class="text-info">{{cart.length}} {{cart.length === 1 ?
+            'articolo' : 'articoli'}}</b> nel carrello</span>
           <i style="font-size: 1.5em !important;" class="fas fa-shopping-cart text-warning"></i>
         </a>
       </div>
@@ -73,7 +73,7 @@
   </div>
 
   <!-- NAVIGATION breadcrumb only for producers and if they are not in showcase page-->
-  <ol *ngIf="(userType == 1 || userType == 4) && !showcasePage"
+  <ol *ngIf="(userType == 1 || userType == 4 || userType === 3) && !showcasePage"
       class="breadcrumb border bg-gray-sardcoin border-gray-sardcoin border-left-0 border-right-0">
     <ng-container *ngIf="desktopMode && isUserLoggedIn">
       <li *ngFor="let item of breadList" class="breadcrumb-item">

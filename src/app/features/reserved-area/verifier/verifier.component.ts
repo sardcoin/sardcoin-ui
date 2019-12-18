@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Result } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
@@ -9,8 +9,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Breadcrumb } from '../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../shared/_models/Coupon';
+import { CouponToken } from '../../../shared/_models/CouponToken';
 import { CouponService } from '../../../shared/_services/coupon.service';
 import { GlobalEventsManagerService } from '../../../shared/_services/global-event-manager.service';
+import { StoreService } from '../../../shared/_services/store.service';
 
 @Component({
   selector: 'app-verifier',
@@ -22,7 +24,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   submitted = false;
   coupon: any;
   isScan = false;
-  modalCoupons;
+  modalCoupons: any;
   modalRef: BsModalRef;
 
   @ViewChild('scanner')
@@ -41,6 +43,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   constructor(
     public formBuilder: FormBuilder,
     public couponService: CouponService,
+    public storeService: StoreService,
     private globalEventService: GlobalEventsManagerService,
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
@@ -49,7 +52,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.newCamera();
     this.tokenForm = this.formBuilder.group({
       token: [null, Validators.required]
@@ -63,11 +66,11 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.removeBreadcrumb();
   }
 
-  get f(): any {
+  get f() {
     return this.tokenForm.controls;
   }
 
@@ -80,63 +83,65 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
+          //console.log('result ooooo', result)
         if (result) {
-          if (result.coupons) {
-            this.toastr.info('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
-            this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
-              .subscribe(cp => {
-                this.titlePackage = cp.title;
-              });
+            if (result.coupons) {
+                this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
+                this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
+                    .subscribe(cp => {
+                        //console.log('cp', cp);
+                        this.titlePackage = cp.title;
+                });
 
-            this.modalCoupons = result.coupons;
 
-          } else if (result.redeemed) {
+                this.modalCoupons = result.coupons;
 
-            this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+            } else if (result.redeemed) {
 
-          }
+                this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+
+            }
         } else {
-          this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
-        }
+            this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+          }
       }, err => {
         console.error(err);
         this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
       });
     if (this.modalRef) {
-      this.modalRef.hide();
+        this.modalRef.hide();
     }
 
   }
 
   verifyFromPackage(token) {
-    this.submitted = true;
+        this.submitted = true;
 
-    if (this.tokenForm.invalid) {
-      return;
-    }
-
-    this.couponService.redeemCoupon(token)
-      .subscribe(result => {
-        if (result) {
-          this.verifyCouponQuantity(token);
-          this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
-        } else {
-          this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+        if (this.tokenForm.invalid) {
+            return;
         }
-      }, err => {
-        console.error(err);
-        this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
-      });
 
-    this.modalRef.hide();
+        this.couponService.redeemCoupon(token)
+            .subscribe(result => {
+                if (result) {
+                    this.verifyCouponQuantity(token);
+                    this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+                } else {
+                    this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+                }
+            }, err => {
+                console.error(err);
+                this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+            });
+        this.modalRef.hide();
   }
 
   addBreadcrumb() {
     const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verify/'));
-
+    bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verifier/check'));
+    //console.log('bread verifier', bread)
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
@@ -185,69 +190,76 @@ export class VerifierComponent implements OnInit, OnDestroy {
     this.selectedDevice = null;
   }
 
-  onDeviceSelectChange = (selectedValue: string) => {
+  onDeviceSelectChange(selectedValue: string) {
     // console.log('Selection changed: ', selectedValue);
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
-  };
+  }
 
-  openModal = async (template: TemplateRef<any>, token) => {
-    try {
+  async openModal(template: TemplateRef<any>, token) {
       const isCoupon = await this.couponService.isCouponFromToken(token)
-        .toPromise();
+          .toPromise();
+      //console.log('isCoupon', isCoupon);
+      if (isCoupon) {
+          if (!isCoupon.error) {
 
-      if (isCoupon && !isCoupon.error) {
-        this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+              this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+          } else {
+              this.verify();
+          }
       } else {
-        this.verify();
+          this.verify();
       }
-    } catch (e) {
-      console.error(e);
-      this.toastr.error('Per favore, contatta il supporto.', 'Errore durante il caricamento dei coupon.');
-    }
-  };
+
+  }
 
   verifyCouponQuantity(token) {
     const modalRefresh = this.modalCoupons;
-
     for (const arr of modalRefresh) {
       for (const cp of arr) {
         if (cp.token === token) {
-          arr.pop();
-        }
-      }
-    }
 
+          arr.pop();
+
+        }
+
+      }
+
+    }
     this.modalCoupons = modalRefresh;
     this.controlEmptyModalCoupon();
+    // console.log('this.modalCoupons dopo', this.modalCoupons);
   }
 
   openModalCouponFromPackage(token, template) {
 
-    this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
+      this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
 
-  }
+    }
 
   closeModalFalse() {
-    this.modalRef.hide();
+        this.modalRef.hide();
 
-  }
+    }
 
   exitPackage() {
     this.modalCoupons = undefined;
-  }
+    }
 
   controlEmptyModalCoupon() {
-    let empty;
 
-    if (this.modalCoupons) {
-      for (const arr of this.modalCoupons) {
-        for (const cp of arr) {
-          empty = cp.length === 0;
+    let empty;
+    for (const arr of this.modalCoupons) {
+      for (const cp of arr) {
+        if (cp.length === 0) {
+          empty = true;
+        } else {
+          empty = false;
         }
       }
-    } else {
+    }
+    // console.log('empty', empty)
+    if (empty === undefined) {
       this.modalCoupons = undefined;
     }
   }
-
 }

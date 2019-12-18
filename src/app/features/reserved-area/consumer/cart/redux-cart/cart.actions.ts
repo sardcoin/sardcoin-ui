@@ -122,10 +122,10 @@ export class CartActions {
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
-      console.log('availableCoupons', availableCoupons);
+      //console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
-      console.log('couponToCheckcouponToCheck', couponToCheck);
+      //console.log('couponToCheckcouponToCheck', couponToCheck);
       if (couponToCheck.type === 0) {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity :
@@ -144,7 +144,7 @@ export class CartActions {
       console.log('Error retrieving available coupons on cart actions');
     }
 
-    console.log('quantityAvailable', quantityAvailable)
+    //console.log('quantityAvailable', quantityAvailable)
     return quantityAvailable < 0 ? 0 : quantityAvailable; // It returns 0 if you can't nothing in the cart
   }
 
@@ -160,7 +160,7 @@ export class CartActions {
   }
 
   private async addItemInCartStorage(item: CartItem) {
-    const newCart = await this.storeService.getCart();
+    const newCart = await this.storeService.getCart()
     newCart.push(item);
     this.storeService.setCart(newCart);
   }

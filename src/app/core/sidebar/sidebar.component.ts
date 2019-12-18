@@ -67,18 +67,18 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.sidebarClass = 'sidebar-expanded d-none d-md-block col-1-5';
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
     });
   }
 
-  sendHide(signal: boolean) {
+  sendHide(signal: boolean): void {
     this.globalEventService.changeHide(signal);
   }
 
-  resetShowcase() {
+  resetShowcase(): void {
     this.filterActions.clear();
   }
 }

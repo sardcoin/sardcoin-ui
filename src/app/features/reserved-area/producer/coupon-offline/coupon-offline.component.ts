@@ -48,7 +48,7 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
 
   showToken = (coupon: Coupon): void => {
     this.couponService.getProducerTokensOfflineById(coupon.id).subscribe(tokens => {
-      console.log('tokens', tokens);
+      //console.log('tokens', tokens);
       coupon.CouponTokens = tokens;
       this.couponService.setCoupon(coupon);
       this.router.navigate(['reserved-area/producer/offline-details']);
@@ -85,6 +85,7 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   control = (): void => {
     this.couponService.getProducerCouponsOffline()
       .subscribe(data => {
+          //console.log('data', data);
           if (data) {
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.paginator = this.paginator;
@@ -102,6 +103,4 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
   decline = (): void => {
     this.modalRef.hide();
   };
-
-  dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

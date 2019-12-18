@@ -72,7 +72,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
           return;
       }
       this.couponService.isCouponFromToken(this.data.token).subscribe(isTokenCoupon => {
-          console.log('isTokenCoupon', isTokenCoupon)
+          //console.log('isTokenCoupon', isTokenCoupon)
         if (isTokenCoupon.error === true) {
           this.importPackage();
         } else {

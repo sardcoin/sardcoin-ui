@@ -16,24 +16,24 @@
         </div>
 
         <p class="card-text mt-3">{{couponPass.description}}</p>
-        <p *ngIf="couponPass.quantity > 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
+        <p *ngIf="couponPass.max_quantity >= 10" class="card-text"><i style="color:#0c8a33">Alta disponibilità</i></p>
 
-        <p *ngIf="couponPass.quantity > 4 && couponPass.quantity < 10" class="card-text"><i style="color:#ffd51c">Bassa
+        <p *ngIf="couponPass.max_quantity > 4 && couponPass.max_quantity < 10" class="card-text"><i style="color:#ffd51c">Bassa
           disponibilità</i></p>
 
-        <p *ngIf="couponPass.quantity > 0 && couponPass.quantity < 5" class="card-text">
+        <p *ngIf="couponPass.max_quantity > 0 && couponPass.max_quantity < 5" class="card-text">
           <i style="color:#FF0000">
-            Solo {{couponPass.quantity}} disponibil{{couponPass.quantity === 1 ? 'e' : 'i'}}
+            Solo {{couponPass.max_quantity}} disponibil{{couponPass.max_quantity === 1 ? 'e' : 'i'}}
           </i>
         </p>
-        <p *ngIf="couponPass.quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)">Esauriti</i>
+        <p *ngIf="couponPass.max_quantity < 1" class="card-text"><i style="color:rgba(55,87,85,0.15)">Esauriti</i>
         </p>
 
         <p class="card-text">
           <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
           <br/>
 
-          <span *ngIf="couponPass.constraints && couponPass.type === ITEM_TYPE.COUPON">
+          <span *ngIf="couponPass.constraints && couponPass.type === item_type.COUPON">
               <i class="fas fa-fw fa-map-marker-alt text-secondary"></i> {{couponPass.constraints}}
 
               <img class="img-fluid d-block mt-3" alt="{{couponPass.constraints}} map"

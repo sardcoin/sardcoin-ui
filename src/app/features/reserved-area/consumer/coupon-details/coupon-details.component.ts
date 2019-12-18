@@ -1,25 +1,24 @@
+import { select } from '@angular-redux/store';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
-import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
-import { CouponService } from '../../../../shared/_services/coupon.service';
-import { environment } from '../../../../../environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
-import { Coupon } from '../../../../shared/_models/Coupon';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../../../shared/_services/user.service';
-import { CartActions } from '../cart/redux-cart/cart.actions';
-import { CartItem, ITEM_TYPE } from '../../../../shared/_models/CartItem';
-import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
-import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
-import { LoginState } from '../../../authentication/login/login.model';
-import { StoreService } from '../../../../shared/_services/store.service';
+import { environment } from '../../../../../environments/environment';
+import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
+import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
+import { CartItem, ITEM_TYPE } from '../../../../shared/_models/CartItem';
+import { Coupon } from '../../../../shared/_models/Coupon';
+import { CouponService } from '../../../../shared/_services/coupon.service';
+import { GlobalEventsManagerService } from '../../../../shared/_services/global-event-manager.service';
 import { PackageService } from '../../../../shared/_services/package.service';
-import * as _ from 'lodash';
-
+import { StoreService } from '../../../../shared/_services/store.service';
+import { UserService } from '../../../../shared/_services/user.service';
+import { LoginState } from '../../../authentication/login/login.model';
+import { CartActions } from '../cart/redux-cart/cart.actions';
 @Component({
   selector: 'app-coupon-details',
   templateUrl: './coupon-details.component.html',
@@ -42,6 +41,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   userType: number;
   isUserLoggedIn: boolean;
   couponsPackage = null;
+  item_type;
 
   ITEM_TYPE = ITEM_TYPE;
 
@@ -63,6 +63,8 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
+
+      this.item_type = ITEM_TYPE;
     });
 
   }
@@ -94,7 +96,6 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     if (!isNaN(id)) {
       try {
         this.couponPass = await this.couponService.getCouponById(id).toPromise();
-
         if (this.couponPass.type === ITEM_TYPE.PACKAGE) {
           const couponsIncluded = await this.packageService.getCouponsPackage(this.couponPass.id).toPromise();
           this.couponsPackage = _.groupBy(couponsIncluded.coupons_array, 'id');
@@ -152,6 +153,7 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
 
     if (this.couponPass.max_quantity === 0) {
       this.toastr.error('Hai già raggiunto la quantità massima acquistabile per questo coupon o è esaurito.', 'Coupon non aggiunto');
+
       return;
     }
 

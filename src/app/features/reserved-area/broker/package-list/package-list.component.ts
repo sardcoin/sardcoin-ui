@@ -23,6 +23,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
+  data;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -55,19 +56,22 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   onCopy = (pack: Coupon): void => {
     this.couponService.setCoupon(pack);
     this.couponService.setFromEdit(false);
-    this.router.navigate(['reserved-area/broker/create']);
+    this.router.navigate(['reserved-area/broker/create'], {queryParams: { fromMenu: '' }});
   };
 
   onDelete = (coupon: Coupon): void => {
     this.couponService.deleteCoupon(coupon.id, 1)
       .subscribe(data => {
         if (data.deleted) {
-          this.toastr.success('', 'Coupon eliminato!');
+          this.toastr.success('Pacchetto acquistato da uno o più utenti, non puoi più eliminarlo.', 'Pacchetto eliminato!');
           this.control();
+        }
+        if (data.bought) {
+          this.toastr.success('', 'Pacchetto venduto!');
         }
       }, error => {
         console.log(error);
-        this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
+        this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 
     this.modalRef.hide();
@@ -102,6 +106,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   control = (): void => {
     this.packageService.getBrokerPackages()
       .subscribe(data => {
+          console.warn(data);
+          this.data = true;
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

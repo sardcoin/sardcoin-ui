@@ -73,8 +73,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private packageService: PackageService,
     private modalService: BsModalService
+
   ) {
-    this.couponService.currentMessage.subscribe(coupon => {
+      this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
 
       if (this.couponPass === null || this.couponPass === undefined) {
@@ -90,13 +91,13 @@ export class PackageEditComponent implements OnInit, OnDestroy {
           }
           this.categoriesUpdate = true;
         });
-      });
+        });
     });
-    this.couponService.checkFrom.subscribe(fromEdit => {
+      this.couponService.checkFrom.subscribe(fromEdit => {
       this.fromEdit = fromEdit;
     });
 
-    this.couponService.getBrokerCoupons().subscribe(cp => {
+      this.couponService.getBrokerCoupons().subscribe(cp => {
       this.couponsAvailable = cp;
     });
 
@@ -118,8 +119,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     this.bgColorPrivate = this.markedPrivate ? '#E4E7EA' : '#FFF';
 
     this.packageForm = this.formBuilder.group({
-      title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(70), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
+      title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
       image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
@@ -152,7 +153,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     return this.packageForm.controls;
   }
 
-  saveChange = async () => {
+  saveChange() {
     this.submitted = true;
     if (this.selectedCoupons.length > 0) {
       this.packageForm.get('coupons').disable();
@@ -184,12 +185,12 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
     if (this.fromEdit) {
-      await this.editCoupon(pack);
+      this.editCoupon(pack);
     } else {
       delete pack.id;
-      await this.createCopy(pack);
+      this.createCopy(pack);
     }
-  };
+  }
 
   async createCopy(coupon: Coupon) {
     const uploadDone = await this.uploadFiles(this.uploader);
@@ -200,7 +201,8 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     }
     this.couponService.create(coupon)
       .subscribe(data => {
-        if (data && data.created) {
+
+        if (data.created) {
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);
         } else {
@@ -219,14 +221,18 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
       return;
     }
-
+    //console.log('coupon', coupon)
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        if (data && data.updated) {
+        if (!data.updated) {
+          this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
+          if (data.bought) {
+            this.toastr.error('Pacchetto acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
+
+          }
+        } else {
           this.toastr.success('', 'Pacchetto modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
-        } else {
-          this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
         }
       }, err => {
         console.log(err);
@@ -338,20 +344,20 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   async setCoupons() {
     try {
-      this.coupons = await this.couponService.getBrokerCoupons().toPromise();
-      this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
+        this.coupons = await this.couponService.getBrokerCoupons().toPromise();
+        this.packageService.getCouponsPackage(this.couponPass.id).subscribe(coupons => {
 
-        if (this.fromEdit) {
-          this.initSelectedCoupons(coupons.coupons_array);
-          this.couponsAvailable = this.coupons;
+            if (this.fromEdit) {
+              this.initSelectedCoupons(coupons.coupons_array);
+              this.couponsAvailable = this.coupons;
 
-          for (const cp of coupons.coupons_array) {
-            this.couponsAvailable = this.couponsAvailable.filter(c => c.id !== cp.id);
-          }
-        }
+              for (const cp of coupons.coupons_array) {
+                this.couponsAvailable = this.couponsAvailable.filter(c => c.id !== cp.id);
+              }
+            }
       });
 
-      if (!this.coupons || this.coupons.length === 0) {
+        if (!this.coupons || this.coupons.length === 0) {
         this.toastr.warning('Attualmente non puoi creare dei pacchetti: non hai coupon disponibili.', 'Non ci sono coupon disponibili.');
       }
 
@@ -366,7 +372,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     // this.modalCoupon = this.packageForm.get('coupons').value;
 
     if (coupon_id != null) {
-      console.log('lo fai');
+      //console.log('lo fai')
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
 
@@ -438,28 +444,28 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   initSelectedCoupons(original) {
 
-    const array = original;
-    const result = [];
-    const map = new Map();
-    for (const item of array) {
-      if (!map.has(item.id)) {
-        map.set(item.id, true);    // set any value to Map
-        result.push({
-          coupon: item,
-          quantity: 1
-        });
-      } else {
-        for (let i = 0; i < result.length; i++) {
-          if (result[i].coupon.id == item.id) {
-            result[i].quantity = result[i].quantity + 1;
-          }
-        }
+     const array = original;
+     const result = [];
+     const map = new Map();
+     for (const item of array) {
+       if (!map.has(item.id)) {
+         map.set(item.id, true);    // set any value to Map
+         result.push({
+           coupon: item,
+           quantity: 1
+         });
+       } else {
+         for (let i = 0; i < result.length; i++) {
+           if (result[i].coupon.id == item.id) {
+             result[i].quantity = result[i].quantity + 1;
+           }
+         }
 
-      }
-    }
-    this.selectedCoupons = result;
-    return result;
-  }
+       }
+     }
+     this.selectedCoupons = result;
+     return result;
+   }
 
   changeCouponQuantity(type: boolean) {
     if (type) {
@@ -478,12 +484,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
       try {
         inputElement.queue[0].upload();
         this.imagePath = inputElement.queue[0]._file.name;
-
         return true;
-
       } catch (e) {
-        this.imagePath = undefined;
-
+        this.imagePath = null;
         return false;
       }
     } else {
@@ -510,13 +513,13 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
   getSelectedCategories(id) {
 
-    this.categoriesService.getCategoryCoupon(id).subscribe(cat => {
-      for (const c of cat.category) {
-        const category = this.categories.find(el => el.id === c.category_id);
-        this.selectedCategories.push(category);
-      }
-      return this.selectedCategories;
-    });
+      this.categoriesService.getCategoryCoupon(id).subscribe(cat => {
+        for (const c of cat.category) {
+          const category = this.categories.find(el => el.id === c.category_id);
+          this.selectedCategories.push(category);
+        }
+        return this.selectedCategories;
+      });
 
   }
 }

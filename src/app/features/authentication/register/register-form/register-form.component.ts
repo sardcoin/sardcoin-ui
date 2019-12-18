@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import {PasswordValidation} from '../../validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../validators/fiscal-code-validator.directive';
 import {UserService} from '../../../../shared/_services/user.service';
@@ -25,7 +26,9 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -78,9 +81,13 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.toastr.success('', 'Registrazione avvenuta con successo!');
+
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;
+          this.toastr.error('', 'Errore imprevisto in fase di registrazione. Riprova.');
+
           console.log(error);
           console.log('User or email already exists');
         }
