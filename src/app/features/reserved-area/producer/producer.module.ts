@@ -14,7 +14,7 @@ import { FeatureReservedAreaPersonalInfoModule } from '../personal-info/personal
 import { FeatureReservedAreaCouponCreateModule } from './coupon-create/coupon-create.module';
 import { FeatureReservedAreaCouponEditModule } from './coupon-edit/coupon-edit.module';
 import { FeatureReservedAreaCouponListModule } from './coupon-list/coupon-list.module';
-import { CouponOfflineModule } from './coupon-offline/coupon-offline-details/coupon-offline-details.module';
+import { CouponOfflineModule } from './coupon-offline-details/coupon-offline-details.module';
 import { FeatureReservedAreaCouponOfflineModule } from './coupon-offline/coupon-offline.module';
 import { FeatureReservedAreaProducerComponent } from './producer.component';
 import { ProducerRoutingModule } from './producer.routing';
