@@ -134,6 +134,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.error(e);
       this.toastr.error('Non è stato possibile elaborare il pagamento. Per favore, riprova.', 'Errore inizializzando il pagamento.');
     }
+    this.closeModal()
   }
 
   confirmPayment = async () => { // It performs
@@ -144,13 +145,21 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     try {
       console.warn(this.cart);
 
-      this.openModal(this.buyWait);
+      for (let item of this.cart) {
+        if (item.price !== 0) {
+          this.openModalAwaitConfirmPayment(this.buyWait, true);
+          break;
+        }
+      }
       buyResponse = await this.couponService.buyCoupons(this.cart).toPromise();
-      this.closeModal();
 
       this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
       this.cartActions.emptyCart();
+      this.closeModalAwaitConfirmPayment();
       this.router.navigate(['/bought']);
+
+
+
 
     } catch (e) {
 
@@ -177,6 +186,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalRef.hide();
+    this.modalService.hide(0);
   }
 
   openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
@@ -186,7 +196,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   closeModalAwaitConfirmPayment() {
     this.modalRefAwaitConfirmPayment.hide();
-    this.modalService.hide(0);
+    this.modalService.hide(1);
   }
 
 
