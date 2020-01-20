@@ -37,7 +37,8 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
-    private globalEventService: GlobalEventsManagerService
+    private globalEventService: GlobalEventsManagerService,
+
   ) {
   }
 
@@ -151,6 +152,10 @@ export class CouponImportComponent implements OnInit, OnDestroy {
 
       this.scanner.permissionResponse.subscribe((answer: boolean) => {
         this.hasPermission = answer;
+        if (!this.hasPermission) {
+          this.toastr.info('Abilita la fotocamera');
+        }
+        console.log('permission', answer)
       });
     }
   };
