@@ -131,9 +131,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success('', this.couponPass.title + ' aggiunto al carrello.');
+      this.toastr.success('', this.couponPass.title + ' aggiunto alla cassa.');
     } else {
-      this.toastr.error(this.couponPass.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
+      this.toastr.error(this.couponPass.title + ' non è stato aggiunto alla cassa.', 'Coupon non aggiunto');
     }
 
     this.modalRef.hide();
@@ -166,8 +166,12 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
 
-  inCart(coupon_id: number) {
+  inCart(coupon_id: number): boolean {
     return this.cartActions.isInCart(coupon_id) >= 0; // If true, the element exists and its index is been retrievd
+  }
+
+  isCartEmpty(): boolean {
+    return this.cartActions.isCartEmpty();
   }
 
   add() {
