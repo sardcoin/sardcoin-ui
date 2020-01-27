@@ -50,7 +50,7 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {
     this.cart$.subscribe(elements => {
       if(elements['list'].length === 0) {
-        this.toastr.info('Prima di accedere al carrello, inserisci articoli al suo interno.', 'Il carrello è vuoto.');
+        this.toastr.info('Prima di accedere alla cassa, inserisci articoli al suo interno.', 'La cassa è vuota.');
         this.router.navigate(['/']);
       }
 
@@ -163,7 +163,7 @@ export class CartComponent implements OnInit, OnDestroy {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Carrello', '/cart'));
+    bread.push(new Breadcrumb('Cassa', '/cart'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -110,7 +110,8 @@ export class CartActions {
   }
 
   isCartEmpty() {
-    return !!this.reduxCart;
+    console.log('this.reduxCart', this.reduxCart)
+    return this.reduxCart.length === 0;
   }
 
   // TODO fix for package

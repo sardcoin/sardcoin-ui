@@ -37,8 +37,7 @@ export class CouponImportComponent implements OnInit, OnDestroy {
     private router: Router,
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
-    private globalEventService: GlobalEventsManagerService,
-
+    private globalEventService: GlobalEventsManagerService
   ) {
   }
 
@@ -154,6 +153,16 @@ export class CouponImportComponent implements OnInit, OnDestroy {
         this.hasPermission = answer;
         if (!this.hasPermission) {
           this.toastr.info('Abilita la fotocamera');
+          // tslint:disable-next-line:newline-per-chained-call
+          // @ts-ignore
+          // console.log('cordova', cordova())
+          // cordova.plugins.settings.open("wifi", function() {
+          //     console.log('opened settings');
+          //   },
+          //   function () {
+          //     console.log('failed to open settings');
+          //   }
+          // );
         }
         console.log('permission', answer)
       });
