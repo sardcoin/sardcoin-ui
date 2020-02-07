@@ -115,9 +115,12 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   async openModal(template: TemplateRef<any>, coupon: Coupon) {
 
     if (!this.isUserLoggedIn) {
-      this.toastr.info('Per aggiungere un elemento al carrello devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
+      this.toastr.info('Per aggiungere un elemento alla cassa devi prima effettuare l\'accesso.', 'Effettua l\'accesso!');
     } else {
+      if (this.inCart(coupon.id)) {
+        this.router.navigate(['/cart']);
 
+      }
       this.modalCoupon = coupon;
       this.maxQuantity = await this.cartActions.getQuantityAvailableForUser(coupon.id);
 
@@ -163,9 +166,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success(coupon.title + ' aggiunto al carrello.', 'Coupon aggiunto');
+      this.toastr.success(coupon.title + " pronto per l'acquisto.", 'Coupon pronto');
     } else {
-      this.toastr.error(coupon.title + ' non è stato aggiunto al carrello.', 'Coupon non aggiunto');
+      this.toastr.error(coupon.title + ' non è stato selezionato corretamente.', 'Coupon non selezionato');
     }
 
     this.modalRef.hide();
@@ -173,6 +176,10 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
 
   inCart(coupon_id: number) {
     return this.cartActions.isInCart(coupon_id) >= 0; // If true, the element exists and its index is been retrievd
+  }
+
+  isCartEmpty() {
+    return this.cartActions.isCartEmpty();
   }
 
   viewCart() {

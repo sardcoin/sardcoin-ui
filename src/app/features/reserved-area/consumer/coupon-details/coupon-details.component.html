@@ -61,24 +61,24 @@
 
         <div class="mt-4" *ngIf="desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                  class="btn btn-lg btn-success float-right ml-2"
-                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
-            Aggiungi al carrello
+                  class="btn btn-lg btn-success float-right ml-2" title="hai già un oggetto nella cassa, rimuovilo o completa l'acquisto prima di acquistarne altri"
+                  [disabled]="!isCartEmpty()" (click)="openModal(template)">
+            Acquista
           </button>
           <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i
-            class="fas fa-shopping-cart"></i> Carrello
+            class="fas fa-shopping-cart"></i> Paga
           </button>
           <button class="btn btn-lg btn-primary float-right" (click)="retry()">Ritorna allo shopping</button>
         </div>
 
         <div *ngIf="!desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0 && isUserLoggedIn"
-                  class="btn  btn-success float-right ml-2"
-                  [disabled]="couponPass.max_quantity === 0 || couponPass.quantity === 0" (click)="openModal(template)">
-            <i class="fas fa-cart-plus"> </i> Aggiungi
+                  class="btn  btn-success float-right ml-2" title="hai già un oggetto nella cassa, rimuovilo o completa l\'acquisto prima di acquistarne altri"
+                  [disabled]="!isCartEmpty()" (click)="openModal(template)">
+            <i class="fas fa-euro-sign"> </i> Acquista
           </button>
           <button *ngIf="inCart(couponPass.id)" class="btn btn-success float-right ml-2" (click)="viewCart()">
-            <i class="fas fa-shopping-cart"> </i> Carrello
+            <i class="fas fa-shopping-cart"> </i> Paga
           </button>
           <button class="btn  btn-primary float-right" (click)="retry()"><i class="fas fa-shopping-basket">
           </i> Shopping
@@ -103,9 +103,9 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Aggiungi "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) +
+    <h4 class="modal-title pull-left">Acquista "{{couponPass.title.length > 20 ? couponPass.title.substring(0, 20) +
       '...' :
-      couponPass.title}}" al carrello</h4>
+      couponPass.title}}"</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -135,6 +135,6 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
-    <button type="button" class="btn btn-success" (click)="addToCart()">Aggiungi</button>
+    <button type="button" class="btn btn-success" (click)="addToCart()">Acquista</button>
   </div>
 </ng-template>
