@@ -1,4 +1,4 @@
-<div (mouseenter)="sendHide(false)" (mouseleave)="sendHide(true)" class="padding-header" *ngIf="desktopMode">
+<div (click)="sendHide(false)" class="padding-header" *ngIf="desktopMode">
   <!-- TODO to move to features the desktopMode -->
   <div *ngIf="isUserLoggedIn" id="sidebar-container"
        [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '55px' : '230px'}">
@@ -6,7 +6,7 @@
     <ul class="list-group sticky-top sticky-offset">
       <li style="background-color: white"
           class="list-group-item sidebar-separator-title d-flex align-items-center menu-collapsed red-sardcoin">
-        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase">Menu</h6>
+        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase fas fa-chevron-circle-right">Menu</h6>
         <div *ngIf="hide && userType == 2" class="text-center d-inline-block">
           <span class="fas fa-chevron-circle-right" style="margin-left: -6px; font-size: 1.8rem;"></span>
         </div>
@@ -33,7 +33,7 @@
         </a>
       </div>
 
-      <a *ngIf="!userType == '4'|| userType== '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
+      <a *ngIf="!userType == '4'|| userType == '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
         <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
           <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
         </div>

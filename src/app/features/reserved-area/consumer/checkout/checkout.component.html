@@ -6,7 +6,6 @@
         <h4 class="text-white text-center text-uppercase mb-0">Riepilogo dell'ordine</h4>
       </div>
       <div class="card">
-
         <div class="card-body p-4 b-b-1">
           <div class="container-fluid">
             <div class="container-fluid d-none d-md-none d-xl-block">
@@ -312,321 +311,312 @@
             </div><!-- XS CARD -->
           </div>
         </div>
+<!--        <div class="card">-->
+<!--          <div class="card-body p-4 b-b-1">-->
+<!--            <div class="container-fluid">-->
+<!--              <div class="container-fluid d-none d-md-none d-xl-block">-->
+<!--                <table class="table table-striped table-borderless">-->
+<!--                  <thead>-->
+<!--                  <tr>-->
+<!--                    <th style="width: 40%">Titolo</th>-->
+<!--                    <th style="width: 10%">Immagine</th>-->
+<!--                    <th style="width: 10%">Prezzo</th>-->
+<!--                    <th style="width: 10%">Quantità</th>-->
+<!--                    <th style="width: 10%">Scadenza</th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
 
-        <div class="card">
+<!--                  <tr class="bg-blue">-->
+<!--                    <td colspan="5"></td>-->
+<!--                  </tr>-->
+<!--                  <tbody class="striped">-->
+<!--                  <tr *ngFor="let coupon of coupons">-->
+<!--                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i-->
+<!--                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>-->
+<!--                    </td>-->
+<!--                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"-->
+<!--                             alt="Card image cap"></td>-->
+<!--                    <td>{{formatPrice(coupon.price)}}</td>-->
+<!--                    <td>{{coupon.quantity}}</td>-->
+<!--                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>-->
+<!--                  </tr>-->
 
-          <div class="card-body p-4 b-b-1">
-            <div class="container-fluid">
-              <div class="container-fluid d-none d-md-none d-xl-block">
-                <table class="table table-striped table-borderless">
-                  <thead>
-                  <tr>
-                    <th style="width: 40%">Titolo</th>
-                    <th style="width: 10%">Immagine</th>
-                    <th style="width: 10%">Prezzo</th>
-                    <th style="width: 10%">Quantità</th>
-                    <th style="width: 10%">Scadenza</th>
-                  </tr>
-                  </thead>
+<!--                  </tbody>-->
 
-                  <tr class="bg-blue">
-                    <td colspan="5"></td>
-                  </tr>
-                  <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
-                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-                    </td>
-                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
-                             alt="Card image cap"></td>
-                    <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
-                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
-                  </tr>
+<!--                </table>-->
+<!--                <div class="float-right">-->
+<!--                  <h3 class="">Importo totale: {{formatPrice(totalAmount)}}</h3>-->
+<!--                </div>-->
 
-                  </tbody>
+<!--                <div class="my-5">-->
+<!--                  <h2 class="mb-3">Dati fatturazione</h2>-->
 
-                </table>
-                <div class="float-right">
-                  <h3 class="">Importo totale: {{formatPrice(totalAmount)}}</h3>
-                </div>
+<!--                  <p class="mb-1"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>-->
+<!--                  <p><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>-->
+<!--                </div>-->
 
-                <div class="my-5">
-                  <h2 class="mb-3">Dati fatturazione</h2>
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"-->
+<!--                        (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Termina e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-primary float-right" (click)="retry()">-->
+<!--                  <i class="fas fa-shopping-basket"></i>-->
+<!--                  Ritorna alla Cassa-->
+<!--                </button>-->
+<!--              </div> &lt;!&ndash; XL TABLE &ndash;&gt;-->
+<!--              <div class="container-fluid d-none d-md-none d-lg-block d-xl-none">-->
+<!--                <table class="table table-striped table-borderless">-->
+<!--                  <thead>-->
+<!--                  <tr>-->
+<!--                    <th style="width: 40%">Titolo</th>-->
+<!--                    <th style="width: 10%">Immagine</th>-->
+<!--                    <th style="width: 10%">Prezzo</th>-->
+<!--                    <th style="width: 10%">Quantità</th>-->
+<!--                    <th style="width: 10%">Scadenza</th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
 
-                  <p class="mb-1"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-                  <p><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-                </div>
+<!--                  <tr class="bg-blue">-->
+<!--                    <td colspan="5"></td>-->
+<!--                  </tr>-->
+<!--                  <tbody class="striped">-->
+<!--                  <tr *ngFor="let coupon of coupons">-->
+<!--                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i-->
+<!--                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>-->
+<!--                    </td>-->
+<!--                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"-->
+<!--                             alt="Card image cap"></td>-->
+<!--                    <td>{{formatPrice(coupon.price)}}</td>-->
+<!--                    <td>{{coupon.quantity}}</td>-->
+<!--                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>-->
+<!--                  </tr>-->
 
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma e paga
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
-                        (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Termina e paga
-                </button>
-                <button class="btn btn-lg btn-primary float-right" (click)="retry()">
-                  <i class="fas fa-shopping-basket"></i>
-                  Ritorna alla Cassa
-                </button>
-              </div> <!-- XL TABLE -->
-              <div class="container-fluid d-none d-md-none d-lg-block d-xl-none">
-                <table class="table table-striped table-borderless">
-                  <thead>
-                  <tr>
-                    <th style="width: 40%">Titolo</th>
-                    <th style="width: 10%">Immagine</th>
-                    <th style="width: 10%">Prezzo</th>
-                    <th style="width: 10%">Quantità</th>
-                    <th style="width: 10%">Scadenza</th>
-                  </tr>
-                  </thead>
+<!--                  </tbody>-->
 
-                  <tr class="bg-blue">
-                    <td colspan="5"></td>
-                  </tr>
-                  <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
-                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>
-                    </td>
-                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
-                             alt="Card image cap"></td>
-                    <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
-                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
-                  </tr>
+<!--                </table>-->
 
-                  </tbody>
+<!--                <div class="float-right">-->
+<!--                  <h3 class="">Importo totale: {{formatPrice(totalAmount)}}</h3>-->
 
-                </table>
+<!--                </div>-->
 
-                <div class="float-right">
-                  <h3 class="">Importo totale: {{formatPrice(totalAmount)}}</h3>
+<!--                <h2>Dati fatturazione</h2>-->
 
-                </div>
+<!--                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>-->
+<!--                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>-->
+<!--                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>-->
 
-                <h2>Dati fatturazione</h2>
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"-->
+<!--                        (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Termina e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-primary float-right" (click)="retry()">-->
+<!--                  <i class="fas fa-shopping-basket"></i>-->
+<!--                  Ritorna alla Cassa-->
+<!--                </button>-->
+<!--              </div> &lt;!&ndash; LG TABLE &ndash;&gt;-->
+<!--              <div class="container-fluid d-none d-md-block d-lg-none">-->
+<!--                <table class="table table-striped table-borderless">-->
+<!--                  <thead>-->
+<!--                  <tr>-->
+<!--                    <th style="width: 40%">Titolo</th>-->
+<!--                    <th style="width: 10%">Immagine</th>-->
+<!--                    <th style="width: 10%">Prezzo</th>-->
+<!--                    <th style="width: 10%">Quantità</th>-->
+<!--                    <th style="width: 10%">Scadenza</th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
 
-                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
+<!--                  <tr class="bg-blue">-->
+<!--                    <td colspan="5"></td>-->
+<!--                  </tr>-->
+<!--                  <tbody class="striped">-->
+<!--                  <tr *ngFor="let coupon of coupons">-->
+<!--                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i-->
+<!--                      style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>-->
+<!--                    </td>-->
+<!--                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"-->
+<!--                             alt="Card image cap"></td>-->
+<!--                    <td>{{formatPrice(coupon.price)}}</td>-->
+<!--                    <td>{{coupon.quantity}}</td>-->
+<!--                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>-->
+<!--                  </tr>-->
 
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf="(totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma e paga
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf="(totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
-                        (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Termina e paga
-                </button>
-                <button class="btn btn-lg btn-primary float-right" (click)="retry()">
-                  <i class="fas fa-shopping-basket"></i>
-                  Ritorna alla Cassa
-                </button>
-              </div> <!-- LG TABLE -->
-              <div class="container-fluid d-none d-md-block d-lg-none">
-                <table class="table table-striped table-borderless">
-                  <thead>
-                  <tr>
-                    <th style="width: 40%">Titolo</th>
-                    <th style="width: 10%">Immagine</th>
-                    <th style="width: 10%">Prezzo</th>
-                    <th style="width: 10%">Quantità</th>
-                    <th style="width: 10%">Scadenza</th>
-                  </tr>
-                  </thead>
+<!--                  </tbody>-->
 
-                  <tr class="bg-blue">
-                    <td colspan="5"></td>
-                  </tr>
-                  <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
-                    <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
-                    </td>
-                    <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
-                             alt="Card image cap"></td>
-                    <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
-                    <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
-                  </tr>
+<!--                </table>-->
+<!--                <div class="float-right">-->
+<!--                  <h4 class="">Importo totale: {{formatPrice(totalAmount)}}</h4>-->
 
-                  </tbody>
+<!--                </div>-->
 
-                </table>
-                <div class="float-right">
-                  <h4 class="">Importo totale: {{formatPrice(totalAmount)}}</h4>
+<!--                <h3>Dati fatturazione</h3>-->
 
-                </div>
+<!--                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>-->
+<!--                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>-->
+<!--                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="!(token && !paymentError)"-->
+<!--                        (click)="setCheckout()">-->
+<!--                  <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                          *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">-->
+<!--                    <i class="fas fa-euro-sign"></i>-->
+<!--                    Conferma e paga-->
+<!--                  </button>-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma gratis-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"-->
+<!--                        (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Termina e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-primary float-right" (click)="retry()">-->
+<!--                  <i class="fas fa-shopping-basket"></i>-->
+<!--                  Ritorna alla Cassa-->
+<!--                </button>-->
+<!--              </div> &lt;!&ndash; MD TABLE &ndash;&gt;-->
+<!--              <div class="d-none d-sm-block d-lg-none d-md-none d-xl-none">-->
+<!--                <div *ngFor="let coupon of coupons">-->
+<!--                  <div style="background-color: snow; " class="card flex-row flex-wrap">-->
+<!--                    <div style="background-color:snow" class="card-header border-0 col-sm-4 col-5">-->
+<!--                      <img class="div-image" [src]="imageUrl(coupon.image)" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">-->
+<!--                      <h5 class="card-text">{{coupon.title}}</h5>-->
+<!--                    </div>-->
+<!--                    <div class="div-description">{{coupon.description}}</div>-->
+<!--                    <div class="text-info div-validity">-->
+<!--                      Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}-->
+<!--                    </div>-->
+<!--                    <div class="card-footer w-100 text-muted div-quantity">-->
+<!--                      Quantità: {{coupon.quantity}}-->
+<!--                      <div style="float: right">-->
+<!--                        {{formatPrice(coupon.price)}}-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
 
-                <h3>Dati fatturazione</h3>
+<!--                <div class="float-right ">-->
+<!--                  <h5 class="">Importo totale: {{formatPrice(totalAmount)}}</h5>-->
 
-                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="!(token && !paymentError)"
-                        (click)="setCheckout()">
-                  <button class="btn btn-lg btn-success float-right ml-2"
-                          *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
-                    <i class="fas fa-euro-sign"></i>
-                    Conferma e paga
-                  </button>
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma gratis
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
-                        (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Termina e paga
-                </button>
-                <button class="btn btn-lg btn-primary float-right" (click)="retry()">
-                  <i class="fas fa-shopping-basket"></i>
-                  Ritorna alla Cassa
-                </button>
-              </div> <!-- MD TABLE -->
-              <div class="d-none d-sm-block d-lg-none d-md-none d-xl-none">
-                <div *ngFor="let coupon of coupons">
-                  <div style="background-color: snow; " class="card flex-row flex-wrap">
-                    <div style="background-color:snow" class="card-header border-0 col-sm-4 col-5">
-                      <img class="div-image" [src]="imageUrl(coupon.image)" alt="">
-                    </div>
-                    <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
-                      <h5 class="card-text">{{coupon.title}}</h5>
-                    </div>
-                    <div class="div-description">{{coupon.description}}</div>
-                    <div class="text-info div-validity">
-                      Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
-                    </div>
-                    <div class="card-footer w-100 text-muted div-quantity">
-                      Quantità: {{coupon.quantity}}
-                      <div style="float: right">
-                        {{formatPrice(coupon.price)}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<!--                </div>-->
 
-                <div class="float-right ">
-                  <h5 class="">Importo totale: {{formatPrice(totalAmount)}}</h5>
+<!--                <h4 class="div-top-info">Dati fatturazione</h4>-->
 
-                </div>
+<!--                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>-->
+<!--                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>-->
+<!--                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>-->
+<!--                <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"-->
+<!--                        (click)="setCheckout()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success p-2  float-right ml-2"-->
+<!--                        *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success p-2  float-right ml-2"-->
+<!--                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Conferma gratis-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success p-2 float-right ml-2" *ngIf=" token && !paymentError"-->
+<!--                        (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Termina e paga-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">-->
+<!--                  <i class="fas fa-shopping-basket"></i>-->
+<!--                  Ritorna alla Cassa-->
+<!--                </button>-->
+<!--              </div>&lt;!&ndash; SM CARD &ndash;&gt;-->
+<!--              <div class="d-block d-xl-none d-sm-none d-md-none d-lg-none ">-->
 
-                <h4 class="div-top-info">Dati fatturazione</h4>
+<!--                <div *ngFor="let coupon of coupons">-->
+<!--                  <div style="background-color: snow; " class="card flex-row flex-wrap">-->
+<!--                    <div style="background-color:snow" class="card-header border-0  col-5">-->
+<!--                      <img class="div-image-xs" [src]="imageUrl(coupon.image)" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-8 col-7 div-title">-->
+<!--                      <h5 class="card-text">{{coupon.title}}</h5>-->
+<!--                    </div>-->
+<!--                    <div class="div-description">{{coupon.description}}</div>-->
+<!--                    <div class="text-info div-validity">-->
+<!--                      Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}-->
 
-                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-                <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"
-                        (click)="setCheckout()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma e paga
-                </button>
-                <button class="btn btn-lg btn-success p-2  float-right ml-2"
-                        *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma e paga
-                </button>
-                <button class="btn btn-lg btn-success p-2  float-right ml-2"
-                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Conferma gratis
-                </button>
-                <button class="btn btn-lg btn-success p-2 float-right ml-2" *ngIf=" token && !paymentError"
-                        (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Termina e paga
-                </button>
-                <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
-                  <i class="fas fa-shopping-basket"></i>
-                  Ritorna alla Cassa
-                </button>
-              </div><!-- SM CARD -->
-              <div class="d-block d-xl-none d-sm-none d-md-none d-lg-none ">
+<!--                    </div>-->
+<!--                    <div class="card-footer w-100 text-muted div-quantity">-->
+<!--                      Quantità: {{coupon.quantity}}-->
+<!--                      <div style="float: right">-->
+<!--                        {{formatPrice(coupon.price)}}-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
 
-                <div *ngFor="let coupon of coupons">
-                  <div style="background-color: snow; " class="card flex-row flex-wrap">
-                    <div style="background-color:snow" class="card-header border-0  col-5">
-                      <img class="div-image-xs" [src]="imageUrl(coupon.image)" alt="">
-                    </div>
-                    <div class="col-sm-8 col-7 div-title">
-                      <h5 class="card-text">{{coupon.title}}</h5>
-                    </div>
-                    <div class="div-description">{{coupon.description}}</div>
-                    <div class="text-info div-validity">
-                      Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
+<!--                </div>-->
 
-                    </div>
-                    <div class="card-footer w-100 text-muted div-quantity">
-                      Quantità: {{coupon.quantity}}
-                      <div style="float: right">
-                        {{formatPrice(coupon.price)}}
-                      </div>
-                    </div>
-                  </div>
+<!--                <div class="float-right ">-->
+<!--                  <h5 class="">Totale: {{formatPrice(totalAmount)}}</h5>-->
 
-                </div>
+<!--                </div>-->
 
-                <div class="float-right ">
-                  <h5 class="">Totale: {{formatPrice(totalAmount)}}</h5>
+<!--                <h4 class="margin-top-info">Dati fatturazione</h4>-->
 
-                </div>
-
-                <h4 class="margin-top-info">Dati fatturazione</h4>
-
-                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>
-                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>
-                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>
-                <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"
-                        (click)="setCheckout()">
-                  <button class="btn btn-lg btn-success p-2  float-right ml-2"
-                          *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">
-                    <i class="fas fa-euro-sign"></i>
-                    Paga
-                  </button>
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2"
-                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Prendi
-                </button>
-                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"
-                        (click)="confirmPayment()">
-                  <i class="fas fa-euro-sign"></i>
-                  Concludi
-                </button>
-                <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">
-                  <i class="fas fa-shopping-basket"></i>
-                  Cassa
-                </button>
-              </div><!-- XS CARD -->
-            </div>
-
-
-
-
-
-
-
-      </div>
+<!--                <p class=" margin-p"><b>Nome: </b>{{user.first_name + ' ' + user.last_name}}</p>-->
+<!--                <p class=" margin-p"><b>Codice Fiscale: </b>{{user.fiscal_code}}</p>-->
+<!--                <p class=" margin-p"><b>Account Paypal: </b>{{user.email_paypal}}</p>-->
+<!--                <button class="btn btn-lg btn-success p-2  float-right ml-2" *ngIf="!(token && !paymentError)"-->
+<!--                        (click)="setCheckout()">-->
+<!--                  <button class="btn btn-lg btn-success p-2  float-right ml-2"-->
+<!--                          *ngIf=" (totalAmount > 0) && !(token && !paymentError)" (click)="setCheckout()">-->
+<!--                    <i class="fas fa-euro-sign"></i>-->
+<!--                    Paga-->
+<!--                  </button>-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2"-->
+<!--                        *ngIf=" (totalAmount === 0) && !(token && !paymentError)" (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Prendi-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-success float-right ml-2" *ngIf="token && !paymentError"-->
+<!--                        (click)="confirmPayment()">-->
+<!--                  <i class="fas fa-euro-sign"></i>-->
+<!--                  Concludi-->
+<!--                </button>-->
+<!--                <button class="btn btn-lg btn-primary p-2  float-right" (click)="retry()">-->
+<!--                  <i class="fas fa-shopping-basket"></i>-->
+<!--                  Cassa-->
+<!--                </button>-->
+<!--              </div>&lt;!&ndash; XS CARD &ndash;&gt;-->
+<!--            </div>-->
+<!--      </div>-->
     </div>
   </div>
 </div>
