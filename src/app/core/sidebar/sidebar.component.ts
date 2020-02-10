@@ -75,7 +75,8 @@ export class SidebarComponent implements OnInit {
   }
 
   sendHide(signal: boolean): void {
-    this.globalEventService.changeHide(signal);
+    const hide = this.globalEventService.hideSource.value === signal ? true : signal;
+    this.globalEventService.changeHide(hide);
   }
 
   resetShowcase(): void {
