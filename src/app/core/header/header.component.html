@@ -198,8 +198,11 @@
                   <div class="dropdown-header text-center">
                     <strong class="text-capitalize ">Impostazioni</strong>
                   </div>
-                  <a class="dropdown-item"
+                  <a *ngIf="userType != 2 && userType != 3" class="dropdown-item"
                      [routerLink]="['/reserved-area/' + userStringType +'/personal-info']">
+                    <i class="fa fa-user"></i> Il mio profilo</a>
+                  <a *ngIf="userType == 2" class="dropdown-item"
+                     [routerLink]="['/personal-info']">
                     <i class="fa fa-user"></i> Il mio profilo</a>
                   <a class="dropdown-item menu-collapsed text-secondary ">
                     <i class="fa fa-wrench"></i> Impostazioni</a>
