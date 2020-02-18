@@ -8,15 +8,19 @@ export class PaypalService {
   constructor(private http: HttpClient) {
   }
 
-  setCheckout(order) {
-    return this.http.post(this.formatUrl('setCheckout'), order);
+  setCheckout(order): any {
+    return this.http.post(this.formatUrl('createOrder'), order);
   }
 
-  pay(token, order_id) {
+  pay(token, order_id): any {
     return this.http.post(this.formatUrl('pay'), {token: token, order_id: order_id})
   }
 
-  private formatUrl(methodName) {
+  captureOrder(orderId: string): any {
+    return this.http.get(this.formatUrl(`captureOrder/${orderId}`))
+  }
+
+  private formatUrl(methodName): any {
     return environment.protocol + '://' + environment.host + ':' + environment.port + '/paypal/' + methodName;
   }
 
