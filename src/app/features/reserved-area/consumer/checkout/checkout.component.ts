@@ -286,11 +286,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
+  async refreshDeletePaypal() {
+
+    await this.delay(100000)
+      .then(refresh => {
+        window.location.reload(true)
+        console.log('refresh')
+    })
+  }
 
 
   private async initConfig(): Promise<any> {
 
-
+      this.refreshDeletePaypal();
 
       //console.log('onClick preBuyValue',preBuyValue);
       if (this.cart[0].price > 0) {
