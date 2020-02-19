@@ -290,8 +290,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     await this.delay(100000)
       .then(refresh => {
-        window.location.reload(true)
-        console.log('refresh')
+        if (window.location.href.includes('checkout')) {
+          window.location.reload(true)
+          console.log('refresh')
+        }
     })
   }
 
