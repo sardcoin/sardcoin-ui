@@ -5,6 +5,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 // External Libraries
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgxPayPalModule } from 'ngx-paypal';
 import { CoreModule } from '../../../core/core.module';
 import { IsAuthenticatedGuard } from '../../../shared/_guards/is-authenticated.guard';
 import { CouponService } from '../../../shared/_services/coupon.service';
@@ -46,6 +47,7 @@ import { ProducerInfoComponent } from './producer-info/producer-info.component';
   ],
   imports: [
     SharedModule,
+    NgxPayPalModule,
     CoreModule,
     ConsumerRoutingModule,
     FeatureReservedAreaPaymentDetailsModule,

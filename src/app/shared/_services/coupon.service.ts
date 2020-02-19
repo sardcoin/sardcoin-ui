@@ -41,6 +41,13 @@ export class CouponService {
     this.http.get<Coupon>(this.formatUrl(`getById/${id}`));
 
   // Consumer methods
+
+  preBuy = (cart: Array<CartItem>): Observable<any> =>
+    this.http.put(this.formatUrl('preBuy'), {coupon_list: cart});
+
+  removePreBuy = (cart: Array<CartItem>): Observable<any> =>
+    this.http.put(this.formatUrl('removePreBuy'), {coupon_list: cart});
+
   getCouponDetailsURL = (coupon: Coupon): string =>
     `/details/${coupon.id}-${coupon.title.split(' ')
       .toString()
@@ -62,8 +69,8 @@ export class CouponService {
   getByTokenNotBougth = (token: string, type: number): Observable<Coupon> =>
         this.http.get<Coupon>(this.formatUrl(`getByTokenNotBougth/${token}/${type}`));
 
-  buyCoupons = (cart: Array<CartItem>): Observable<any> =>
-    this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart});
+  buyCoupons = (cart: Array<CartItem>, paymentId?: string, producerId?: number): Observable<any> =>
+    this.http.put(this.formatUrl('buyCoupons'), {coupon_list: cart, payment_id: paymentId, producer_id: producerId});
 
   // Producer methods
   getProducerCoupons = (): Observable<Array<Coupon>> =>

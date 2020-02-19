@@ -60,6 +60,7 @@
     "ng2-search-filter": "^0.4.7",
     "ngx-bootstrap": "3.0.0",
     "ngx-loading": "^3.0.1",
+    "ngx-paypal": "^5.0.0",
     "ngx-perfect-scrollbar": "6.1.0",
     "ngx-toastr": "^10.0.4",
     "node-sass": "^4.12.0",
