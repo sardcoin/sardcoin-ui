@@ -417,7 +417,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     try {
       const buy = await this.couponService.buyCoupons(this.cart,undefined, this.coupon.owner)
         .toPromise()
-      this.toastr.success('Coupon ottenuto', 'Hai ricavuto un coupon gratis!');
+      this.toastr.success('Coupon ottenuto', 'Hai ricevuto un coupon gratis!');
       this.cartActions.emptyCart(); // TODO a fine test decomentare
       //console.log('buy free: ', buy);
       this.router.navigate(['/bought']); // TODO a fine test decomentare

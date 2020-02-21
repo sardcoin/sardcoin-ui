@@ -60,9 +60,9 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+            <li role="menuitem" *ngIf="!coupon.bought"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(coupon)"><i
+            <li role="menuitem" *ngIf="!coupon.bought"><a class="dropdown-item" (click)="openModal(coupon)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
           </ul>
         </div>
