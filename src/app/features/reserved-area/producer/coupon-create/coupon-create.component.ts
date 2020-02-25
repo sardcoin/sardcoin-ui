@@ -75,7 +75,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
       image: [this.imagePath, Validators.required ],
-      price: [0, Validators.required],
+      price: [1, Validators.compose([Validators.min(1), Validators.required])],
       published_from: [new Date()],
       categories: [this.selectedCategories],
       broker: [this.selectedBroker],
@@ -101,7 +101,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     return this.couponForm.controls;
   }
 
-    async saveCoupon() {
+  async saveCoupon() {
     this.submitted = true;
     //console.log('this.uploader', this.uploader);
       const uploadDone = await this.uploadFiles(this.uploader);
