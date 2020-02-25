@@ -58,6 +58,10 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
       .subscribe(coupons => {
         this.coupons = coupons
           .sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
+        this.coupons.forEach(el => {
+          el.title = el.title.length > 50 ? el.title.slice(0, 50) + '...' : el.title;
+          el.description = el.description.length > 200 ? el.description.slice(0, 150) + '...' : el.description;
+        });
         // this.coupons.forEach(el => el.state = this.formatState(el));
           //console.log('this.coupons', this.coupons)
       }, err => {
