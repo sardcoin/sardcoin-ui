@@ -31,7 +31,7 @@
                     <div class="quantity position-absolute rounded-circle bg-info">{{coupon.quantity}}</div>
                   </div>
                   <div class="col-sm-9 col-6 d-flex flex-column">
-                    <h4 class="mb-0">{{coupon.title}} </h4>
+                    <h4 class="mb-0" style="word-wrap: break-word;">{{coupon.title}} </h4>
                     <p class="small" *ngIf="order.vendor">Venduto da: {{order.vendor.company_name}}</p>
                     <h5 class="mb-0">{{formatPrice(coupon.price*coupon.quantity)}}</h5>
 

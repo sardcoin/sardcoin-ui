@@ -75,6 +75,8 @@ export class FeatureReservedAreaConsumerOrderComponent implements OnInit, OnDest
 
           couponAux.token = coupons[coupon_id][0].coupon_token || coupons[coupon_id][0].package_token;
 
+          couponAux.title = couponAux.title.length > 30 ? couponAux.title.slice(0, 30) + '...' : couponAux.title;
+
           order.total += coupons[coupon_id].length * coupons[coupon_id][0].price;
           order.coupons.push(couponAux);
         }
