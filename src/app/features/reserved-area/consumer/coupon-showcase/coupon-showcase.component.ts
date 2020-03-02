@@ -92,21 +92,23 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   }
 
   loadCoupons() {
+    let couponsList = [];
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         for (let cp = 0; cp < coupons.length; cp++) {
           if (coupons[cp].type === ITEM_TYPE.PACKAGE) {
             this.packageService.getCouponsPackage(coupons[cp].id).subscribe(coup => {
               if (coup) {
-                  const volatileCoupons: Coupon = coupons[cp];
-                  volatileCoupons.quantity_pack = coup.coupons_count;
-                  this.coupons.push(volatileCoupons);
+                const volatileCoupons: Coupon = coupons[cp];
+                volatileCoupons.quantity_pack = coup.coupons_count;
+                couponsList.push(volatileCoupons);
               }
             });
           } else {
-              this.coupons.push(coupons[cp]);
+            couponsList.push(coupons[cp]);
           }
         }
+        this.coupons = couponsList;
       }, err => {
         console.log(err);
       });

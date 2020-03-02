@@ -1,4 +1,4 @@
-<div (click)="sendHide(false)" class="padding-header" *ngIf="desktopMode">
+<div class="padding-header" *ngIf="desktopMode">
   <!-- TODO to move to features the desktopMode -->
   <div *ngIf="isUserLoggedIn" id="sidebar-container"
        [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '55px' : '230px'}">
@@ -6,9 +6,9 @@
     <ul class="list-group sticky-top sticky-offset">
       <li style="background-color: white"
           class="list-group-item sidebar-separator-title d-flex align-items-center menu-collapsed red-sardcoin">
-        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase fas fa-chevron-circle-right">Menu</h6>
+        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase fas fa-chevron-circle-right" (click)="sendHide(false)">Menu</h6>
         <div *ngIf="hide && userType == 2" class="text-center d-inline-block">
-          <span class="fas fa-chevron-circle-right" style="margin-left: -6px; font-size: 1.8rem;"></span>
+          <span class="fas fa-chevron-circle-right" style="margin-left: -6px; font-size: 1.8rem;" (click)="sendHide(false)"></span>
         </div>
       </li>
 

@@ -61,7 +61,6 @@ export class SidebarComponent implements OnInit {
         default:
           this.infoUserLink = '/';
           // this.hide = true;
-          this.sendHide(true);
           break;
       }
     });

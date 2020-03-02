@@ -118,7 +118,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           });
 
         } else if (this.couponPass && !this.check) {
-          //console.log('else');
           this.packageForm = this.formBuilder.group({
             title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
             description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
@@ -163,7 +162,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == undefined) {
       console.error('Errore nel form o nell\'immagine');
-      console.warn(this.packageForm);
 
       return;
     }
@@ -183,8 +181,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       categories: this.f.categories.value,
       type: ITEM_TYPE.PACKAGE
     };
-
-    console.warn('PACK', pack);
 
     this.addPackage(pack);
   }
@@ -315,7 +311,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   }
 
   addToPackage(coupon: Coupon) {
-    console.warn(coupon);
     if (this.editCoupon) {
       for (const el of this.selectedCoupons) {
         if (el.coupon.id === coupon.id) {
@@ -351,8 +346,6 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
   deleteSelected(coupon_id: number) {
     this.selectedCoupons = this.selectedCoupons.filter(el => el.coupon.id !== coupon_id);
     this.couponsAvailable.push(this.coupons.find(coupon => coupon.id === coupon_id));
-
-    console.warn('FOUND', this.coupons.find(coupon => coupon.id === coupon_id));
 
     if (!this.packageForm.get('coupons').enabled) {
       this.packageForm.get('coupons').enable();
