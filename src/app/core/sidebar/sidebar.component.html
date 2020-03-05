@@ -102,13 +102,13 @@
           </div>
           <span *ngIf="!hide || userType == '0' || userType == '1' || userType == '4'" class="menu-collapsed">Informazioni personali</span>
         </a>
-        <a [routerLink]="[infoUserLink +'payment-details']"
-           class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
-            <span class="fas fa-file-invoice icon-dimension"></span>
-          </div>
-          <span *ngIf="!hide || userType == '0' || userType == '1' || userType == '4'" class="menu-collapsed">Dati di fatturazione</span>
-        </a>
+<!--        <a [routerLink]="[infoUserLink +'payment-details']"-->
+<!--           class="list-group-item list-group-item-action gray-sardcoin">-->
+<!--          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">-->
+<!--            <span class="fas fa-file-invoice icon-dimension"></span>-->
+<!--          </div>-->
+<!--          <span *ngIf="!hide || userType == '0' || userType == '1' || userType == '4'" class="menu-collapsed">Dati di fatturazione</span>-->
+<!--        </a>-->
       </div>
 
     </ul>

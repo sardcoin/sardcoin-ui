@@ -54,14 +54,14 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
         path: 'personal-info',
         component: PersonalInfoComponent
       },
+      // {
+      //   path: 'payment-details',
+      //   component: PaymentDetailsComponent
+      // },
       {
-        path: 'payment-details',
-        component: PaymentDetailsComponent
+        path: 'offline-details',
+        component: CouponOfflineDetailsComponent
       },
-        {
-            path: 'offline-details',
-            component: CouponOfflineDetailsComponent
-        },
       {
         path: 'report',
         component: FeatureReservedAreaProducerCouponReportComponent

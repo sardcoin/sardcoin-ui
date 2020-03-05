@@ -115,7 +115,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       this.couponForm = this.formBuilder.group({
         title: [this.couponPass.title, Validators.compose([Validators.maxLength(80), Validators.minLength(5), Validators.required])],
-        description: [this.couponPass.description, Validators.compose([Validators.maxLength(500), Validators.minLength(5), Validators.required])],
+        description: [this.couponPass.description, Validators.compose([Validators.maxLength(5000), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
           value: this.markedFree ? 0 : this.couponPass.price.toFixed(2),

@@ -53,11 +53,11 @@ import { ProducerInfoComponent } from './producer-info/producer-info.component';
         component: PersonalInfoComponent,
         canActivate: [IsAuthenticatedGuard]
       },
-      {
-        path: 'payment-details',
-        component: PaymentDetailsComponent,
-        canActivate: [IsAuthenticatedGuard]
-      },
+      // {
+      //   path: 'payment-details',
+      //   component: PaymentDetailsComponent,
+      //   canActivate: [IsAuthenticatedGuard]
+      // },
       {
         path: 'producer-info',
         component: ProducerInfoComponent

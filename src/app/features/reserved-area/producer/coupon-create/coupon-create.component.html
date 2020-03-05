@@ -25,7 +25,7 @@
                 <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri.
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 5000 caratteri.
                   </div>
                 </div>
               </div>
