@@ -108,7 +108,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-        }, error => //console.log(error)
+        }, error => console.log(error)
       );
   };
 

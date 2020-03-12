@@ -91,7 +91,7 @@ export class FeatureReservedAreaCouponOfflineComponent implements OnInit, OnDest
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
           }
-        }, error => //console.log(error)
+        }, error => console.log(error)
       );
   };
 
