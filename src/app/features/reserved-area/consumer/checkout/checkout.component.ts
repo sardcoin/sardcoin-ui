@@ -66,7 +66,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.couponService.getCouponById(this.cart[0].id).subscribe(coupon => {
       this.owner = coupon.owner;
-      ////console.log('this.owner', this.owner)
+      //console.log('this.owner', this.owner)
       this.userService.getProducerFromId(this.owner).subscribe(owner => {
         this.clientId = owner.client_id;
       });
@@ -74,7 +74,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.orderService.getLastOrder().subscribe(lastId => {
       this.lastId = lastId.lastId + 1;
-      ////console.log('lastId', this.lastId);
+      //console.log('lastId', this.lastId);
     });
 
   }
@@ -85,17 +85,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.coupon = await this.couponService.getCouponById(this.cart[0].id).toPromise()
-    ////console.log('coupon', this.coupon);
+    //console.log('coupon', this.coupon);
     const producer: User = await this.userService.getProducerFromId(this.coupon.owner).toPromise()
-    ////console.log('producer', producer);
+    //console.log('producer', producer);
     this.producer = producer;
     await this.loadCart();
     console.warn(this.cart);
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
-    ////console.log('token', token);
-    ////console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
-    ////console.log('total amount in', this.totalAmount);
+    //console.log('token', token);
+    //console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
+    //console.log('total amount in', this.totalAmount);
 
     if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
@@ -123,12 +123,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       elementToPush.quantity = element.quantity;
 
       this.totalAmount += element.quantity * elementToPush.price;
-      ////console.log('total amount', this.totalAmount);
+      //console.log('total amount', this.totalAmount);
 
       this.coupons.push(elementToPush);
     });
 
-    ////console.log('carta', this.cart);
+    //console.log('carta', this.cart);
   }
   //TODO eliminare, pagamento vecchio
 
@@ -140,8 +140,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   //
   //   try {
   //     response = await this.paypalService.setCheckout(this.cart).toPromise();
-  //     //console.log('response', response)
-  //     //console.log('response link', response['link']);
+  //     console.log('response', response)
+  //     console.log('response link', response['link']);
   //     // window.location.href = response['link'];
   //   } catch (e) {
   //     console.error(e);
@@ -199,18 +199,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   closeModal() {
     if (this.modalRef) {
-    this.modalRef.hide();
-  }
+      this.modalRef.hide();
+    }
   }
 
 
   openModalPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-    //console.log('openModalPayment')
+    console.log('openModalPayment')
     try {
       const preBuyValue = this.couponService.preBuy(this.cart)
         .toPromise()
     } catch (e) {
-      //console.log('error prepare coupon', e)
+      console.log('error prepare coupon', e)
 
     }
     if (this.cart[0].price != 0) {
@@ -230,15 +230,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async preBuy(cart: Array<CartItem>): Promise<any> {
-   const res = await this.couponService.preBuy(cart)
-     .toPromise();
-   //console.log('res preBuy', res);
+    const res = await this.couponService.preBuy(cart)
+      .toPromise();
+    console.log('res preBuy', res);
   }
 
   async removePreBuy(cart: Array<CartItem>): Promise<any> {
     const res = await this.couponService.removePreBuy(cart)
       .toPromise();
-    //console.log('res removePreBuy', res);
+    console.log('res removePreBuy', res);
   }
 
   openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
@@ -301,20 +301,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       .then(refresh => {
         if (window.location.href.includes('checkout')) {
           window.location.reload(true)
-          //console.log('refresh')
+          console.log('refresh')
         }
-    })
+      })
   }
 
 
   private async initConfig(): Promise<any> {
 
-      this.refreshDeletePaypal();
+    this.refreshDeletePaypal();
 
-      //console.log('initConfig');
-      if (this.cart[0].price > 0) {
+    console.log('initConfig');
+    if (this.cart[0].price > 0) {
       const clientId: string = this.producer.client_id
-      ////console.log('producer', this.producer)
+      //console.log('producer', this.producer)
       // TODO optimize call fetch
       const link = 'http://localhost:8080/paypal/createOrder/' +
         this.cart[0].id + '/' + this.cart[0].price + '/' + this.coupon.owner + '/' +
@@ -328,13 +328,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         createOrderOnServer: data => fetch(link)
           .then( res => {
             const result =  res.json()
-            // //console.log('risposta server creazione  1 then', result)
+            // console.log('risposta server creazione  1 then', result)
 
             return result;
           })
           .then( order =>  {
             const orderId = ( order).id
-            //console.log('risposta server creazione  2 then', order);
+            console.log('risposta server creazione  2 then', order);
 
             return orderId;
           }),
@@ -342,12 +342,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           //return;
           //this.openModalAwaitConfirmPayment(this)
 
-          //console.log('onApprove - transaction was approved, but not authorized', data, actions);
+          console.log('onApprove - transaction was approved, but not authorized', data, actions);
           actions.order.get()
             .then(async details => {
-              //console.log('onApprove - you can get full order details inside onApprove: ', details);
+              console.log('onApprove - you can get full order details inside onApprove: ', details);
               try {
-                //console.log('details',details)
+                console.log('details',details)
                 const payment_id = details.id
 
                 //this.closeModalAwaitConfirmPayment()
@@ -357,7 +357,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                   .toPromise()
                 // this.closeModalAwaitConfirmPayment()
 
-                //console.log('buy: ', buy);
+                console.log('buy: ', buy);
 
                 this.router.navigate(['/bought']); // TODO a fine test decomentare
                 this.cartActions.emptyCart(); // TODO a fine test decomentare
@@ -393,7 +393,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnCancel', data, actions);
+          console.log('OnCancel', data, actions);
 
         },
         onError: err => {
@@ -401,11 +401,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnError', err);
+          console.log('OnError', err);
         },
         onClick:  (data, actions) => {
 
-          //console.log('onClick', data, actions);
+          console.log('onClick', data, actions);
         }
       };
     } else {
@@ -430,7 +430,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         .toPromise()
       this.toastr.success('Coupon ottenuto', 'Hai ricevuto un coupon gratis!');
       this.cartActions.emptyCart(); // TODO a fine test decomentare
-      ////console.log('buy free: ', buy);
+      //console.log('buy free: ', buy);
       this.router.navigate(['/bought']); // TODO a fine test decomentare
 
     } catch (e) {
@@ -451,5 +451,3 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
 }
-
-
