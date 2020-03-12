@@ -209,7 +209,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
           this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
       });
   }
@@ -221,7 +221,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
       return;
     }
-    //console.log('coupon', coupon)
+    ////console.log('coupon', coupon)
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
         if (!data.updated) {
@@ -235,7 +235,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
           this.router.navigate(['/reserved-area/producer/list']);
         }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
       });
   }
@@ -264,7 +264,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    console.log(response);
+    //console.log(response);
   }
 
   toggleCheckbox(e) {
@@ -372,7 +372,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     // this.modalCoupon = this.packageForm.get('coupons').value;
 
     if (coupon_id != null) {
-      //console.log('lo fai')
+      ////console.log('lo fai')
       coupon_id = coupon_id || this.packageForm.get('coupons').value;
       // this.modalCoupon = edit ? this.coupons.find(coupon => coupon.id == coupon_id) : this.packageForm.get('coupons').value;
 

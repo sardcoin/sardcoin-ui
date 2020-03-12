@@ -63,10 +63,10 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
           el.description = el.description.length > 200 ? el.description.slice(0, 150) + '...' : el.description;
         });
         // this.coupons.forEach(el => el.state = this.formatState(el));
-          //console.log('this.coupons', this.coupons)
+          ////console.log('this.coupons', this.coupons)
       }, err => {
         // tslint:disable-next-line:no-console
-        console.log(err);
+        //console.log(err);
       });
   };
 

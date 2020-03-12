@@ -463,7 +463,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     // totalArray.push(arrayHeader);
     // for (const key in report) {
     //   singleArray.push(key);
-    //   console.log('key', key)
+    //   //console.log('key', key)
     //   // singleArray.push(this.convertDate(key.valueOf())); for month
     //
     //   for (let i = 1; i < arrayHeader.length; i++) {
@@ -476,7 +476,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     //           const receipt = report[key][i].price;
     //
     //           for (let j = 0; j < arrayHeader.length; j++) {
-    //             // console.log('i', i, 'report[key][i].username', pack, 'j', j,  'arrayHeader[j]', arrayHeader[j]);
+    //             // //console.log('i', i, 'report[key][i].username', pack, 'j', j,  'arrayHeader[j]', arrayHeader[j]);
     //             if (pack ) {
     //
     //                 singleArray[j] = receipt;

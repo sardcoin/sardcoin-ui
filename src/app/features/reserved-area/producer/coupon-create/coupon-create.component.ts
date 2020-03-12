@@ -103,7 +103,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   async saveCoupon() {
     this.submitted = true;
-    //console.log('this.uploader', this.uploader);
+    ////console.log('this.uploader', this.uploader);
       const uploadDone = await this.uploadFiles(this.uploader);
       if (!uploadDone) {
         this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
@@ -133,7 +133,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     };
 
-    //console.log('broker selezionati', this.selectedBroker);
+    ////console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
@@ -148,7 +148,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         }
       }, err => {
-        //console.log(err);
+        ////console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
@@ -239,7 +239,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        //console.log('error upload image', e);
+        ////console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }

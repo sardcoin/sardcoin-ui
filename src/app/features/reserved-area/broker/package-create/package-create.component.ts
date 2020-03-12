@@ -202,7 +202,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del pacchetto .', 'Errore durante la creazione');
       });
   }
@@ -411,7 +411,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
         return true;
       } catch (e) {
-        console.log('error upload image', e);
+        //console.log('error upload image', e);
         this.imagePath = null;
 
         return false;

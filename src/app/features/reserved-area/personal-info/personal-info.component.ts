@@ -145,7 +145,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
             this.loginActions.logoutUser();
           }
         }, error => {
-          console.log(error);
+          //console.log(error);
           this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo', 'Errore di aggiornamento');
         }
       );

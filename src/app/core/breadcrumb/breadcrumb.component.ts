@@ -72,7 +72,7 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
     this.globalEventService.hideSource.subscribe(message => this.hide = message);
 
     this.breadcrumb$.subscribe(elements => {
-      //console.log('elements.list', elements.list)
+      ////console.log('elements.list', elements.list)
       this.breadList = elements.list;
     });
     this.cart$.subscribe(elements => this.cart = elements.list);

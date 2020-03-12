@@ -65,7 +65,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
-      //console.log(this.couponPass)
+      ////console.log(this.couponPass)
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/producer/list']);
@@ -73,7 +73,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponService.getBrokerFromCouponId(this.couponPass.id).subscribe(brokers => {
 
           this.selectedBroker = brokers;
-          //console.log('brokers for coupon', this.selectedBroker)
+          ////console.log('brokers for coupon', this.selectedBroker)
         });
       }
 
@@ -198,14 +198,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
 
   async editCoupon(coupon: Coupon) {
     const uploadDone = await this.uploadFiles(this.uploader);
-    //console.log('uploadDone', uploadDone)
+    ////console.log('uploadDone', uploadDone)
     if (!uploadDone) {
       this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
@@ -220,7 +220,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
           this.router.navigate(['/reserved-area/producer/list']);
         }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto...', 'Errore durante l\'aggiornamento');
       });
   }
@@ -249,7 +249,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    //console.log(response);
+    ////console.log(response);
   }
 
   toggleCheckbox(e) {
@@ -329,7 +329,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   async uploadFiles(inputElement) {
 
-    //console.log('inputElement', inputElement)
+    ////console.log('inputElement', inputElement)
     if (inputElement.queue[0]) {
 
       try {
@@ -337,7 +337,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        //console.log('error upload image', e);
+        ////console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }
@@ -351,7 +351,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
     }
     const mimeType = files[0].type;
-    //console.log('files[0]', files[0])
+    ////console.log('files[0]', files[0])
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
