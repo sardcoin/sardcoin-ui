@@ -285,7 +285,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Aggiungi Pacchetto', '/reserved-area/broker/create/'));
+    bread.push(new Breadcrumb('Crea Pacchetto', '/reserved-area/broker/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

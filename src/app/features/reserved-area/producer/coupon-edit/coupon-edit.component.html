@@ -39,14 +39,14 @@
                   <div >
 
 
-                    <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" style="display:none;" type="file"  id="files" formControlName="image" ng2FileSelect [uploader]="uploader"
+                    <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" type="file"  id="files" formControlName="image" ng2FileSelect [uploader]="uploader"
                            [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
-
-                    <label for="files" style="margin-top: 10px">
+                    <!--style="display:none;"-->
+                    <!--<label for="files" style="margin-top: 10px">
                       <span class="span-style">
                       Sfoglia
                       </span>
-                    </label>
+                    </label>-->
 
                   </div>
 
@@ -82,7 +82,7 @@
                        [style.background]="bgColorPrivate"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.published_from.errors ">data non corretta</div>
+                  <div *ngIf=" f.published_from.errors ">Data non corretta</div>
                 </div>
               </div>
               <div class="col-sm-2">

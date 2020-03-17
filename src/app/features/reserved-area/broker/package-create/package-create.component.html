@@ -3,13 +3,13 @@
     <div class="col-xl-8 col-lg-11 col-md-12">
       <div class="col-sm-6 col-lg-5 col-md-6 p-3 bg-red-sardcoin"
            style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
-        <h4 class="text-white text-center text-uppercase mb-0">Aggiungi un Pacchetto</h4>
+        <h4 class="text-white text-center text-uppercase mb-0">Crea un Pacchetto</h4>
       </div>
       <div class="card">
         <div class="p-4">
           <form [formGroup]="packageForm" (ngSubmit)="saveCoupon()">
             <div class="form-group row">
-              <label class="col-lg-3 col-sm-3 col-form-label">Titolo</label>
+              <label class="col-lg-3 col-sm-3 col-form-label">Titolo:</label>
               <div class="col-lg-9 col-sm-9">
                 <textarea rows="2" type="text" formControlName="title" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.title.errors }"></textarea>
@@ -19,7 +19,7 @@
               </div>
             </div> <!-- Title -->
             <div class="form-group row">
-              <label class="col-lg-3 col-sm-3 col-form-label">Descrizione</label>
+              <label class="col-lg-3 col-sm-3 col-form-label">Descrizione:</label>
               <div class="col-lg-9 col-sm-9">
                 <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
@@ -32,7 +32,7 @@
 
 
             <div class="form-group row">
-              <label  class="col-lg-3 col-sm-3 col-form-label">Immagine</label>
+              <label  class="col-lg-3 col-sm-3 col-form-label">Immagine:</label>
               <div  class="col-lg-9 col-sm-9">
                 <input (change)="preview(file.files)" #file  accept="image/*"
                        type="file" class="col-10 col-lg-10 col-md-10 col-sm-8 p-0 btn-sm" formControlName="image" ng2FileSelect [uploader]="uploader"
@@ -51,7 +51,7 @@
 
             </div> <!-- Image -->
             <div class="form-group row">
-              <label class="col-12 col-3 col-lg-3 col-sm-3 col-form-label">Prezzo</label>
+              <label class="col-12 col-3 col-lg-3 col-sm-3 col-form-label">Prezzo:</label>
               <div class="col-8 col-5 col-lg-7 col-sm-7">
                 <input type="number" formControlName="price" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }" min="0" />
@@ -105,7 +105,7 @@
               </div>
             </div><!-- Categories -->
             <div *ngIf="couponsAvailable" class="form-group row mb-0">
-              <label class="col-lg-3 col-sm-3 col-form-label">Seleziona coupons: </label>
+              <label class="col-lg-3 col-sm-3 col-form-label">Seleziona coupon: </label>
               <div class="col-sm-8">
 
                 <select class="form-control" formControlName="coupons" (change)="openModal(couponAdding)"
@@ -135,7 +135,7 @@
 
 
             <div class="form-group row">
-              <label class="col-lg-3 col-sm-3 col-form-label">Valido da</label>
+              <label class="col-lg-3 col-sm-3 col-form-label">Valido da:</label>
               <div class="col-sm-8 col-lg-8">
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false"  [convertModelValue]="true" [enableTime]="true"
@@ -147,7 +147,7 @@
               </div>
             </div> <!-- Valid From -->
             <div class="form-group row">
-              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Scadenza</label>
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Scadenza:</label>
               <div  class="col-8 col-lg-7 col-sm-7">
                 <input type="text" mwlFlatpickr
                        [style.background]="bgColorCalendar"
@@ -172,7 +172,7 @@
             </div> <!-- Valid Until -->
 
             <div class="form-group row">
-              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Luogo</label>
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Luogo:</label>
               <div class="col-8 col-lg-7 col-sm-7">
                 <input google-place type="text" formControlName="constraints" class="form-control" placeholder="Type to search.."
                   [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"
@@ -191,7 +191,7 @@
               </div>
             </div> <!-- Place (constraints) -->
             <div class="form-group row">
-              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Quantità</label>
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Quantità:</label>
               <div class="col-8 col-sm-9 col-lg-9">
                 <input type="number" formControlName="quantity" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"/>
@@ -206,7 +206,7 @@
               </div>
             </div> <!-- Quantity -->
             <div class="form-group row">
-              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Acquisto max per utente</label>
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Acquisto max per utente:</label>
               <div  class="col-8 col-lg-7 col-sm-7">
                 <input  type="text" formControlName="purchasable" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
@@ -242,7 +242,7 @@
 
 <ng-template #couponAdding>
   <div class="modal-header">
-    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>{{editCoupon ? 'Modifica ' : 'Aggiungi '}} "{{modalCoupon.title.length > 20 ?
+    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>{{editCoupon ? 'Modifica ' : 'Crea '}} "{{modalCoupon.title.length > 20 ?
       modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" {{editCoupon ? 'nel ' : 'al '}} pacchetto</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -271,7 +271,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
     <button type="button" class="btn btn-success" (click)="addToPackage(modalCoupon)">
-      {{editCoupon ? 'Modifica' : 'Aggiungi'}}
+      {{editCoupon ? 'Modifica' : 'Crea'}}
     </button>
   </div>
 </ng-template>
