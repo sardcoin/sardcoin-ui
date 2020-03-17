@@ -103,13 +103,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   async saveCoupon() {
     this.submitted = true;
-    ////console.log('this.uploader', this.uploader);
-      const uploadDone = await this.uploadFiles(this.uploader);
-      if (!uploadDone) {
-        this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
-        return;
-      }
+      return;
+    }
 
       // It stops here if form is invalid or not upload image
     if (this.couponForm.invalid || this.imagePath == null) {
