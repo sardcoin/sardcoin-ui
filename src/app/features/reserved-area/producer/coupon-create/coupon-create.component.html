@@ -3,7 +3,7 @@
     <div class="col-xl-8 col-lg-11 col-md-12">
       <div class="col-sm-6 col-lg-5 col-md-6 p-3 bg-red-sardcoin"
            style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
-        <h4 class="text-white text-center text-uppercase mb-0">Aggiungi un coupon</h4>
+        <h4 class="text-white text-center text-uppercase mb-0">Crea un coupon</h4>
       </div>
       <div class="card">
         <div class="p-4">
@@ -25,7 +25,7 @@
                 <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri.
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 5000 caratteri.
                   </div>
                 </div>
               </div>
@@ -35,8 +35,16 @@
               <label class="col-lg-3 col-sm-3 col-form-label">Immagine</label>
               <div class="col-lg-9 col-sm-9">
 
-                <input accept="image/*" type="file" class="col-10 col-lg-10 col-md-10 col-sm-8 p-0 btn-sm" formControlName="image" ng2FileSelect [uploader]="uploader"
+                <input accept="image/*" type="file" class="col-10 col-lg-10 col-md-10 col-sm-8 p-0 btn-sm" formControlName="image"  id="files" ng2FileSelect [uploader]="uploader"
                        [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
+<!--                style="display:none;"-->
+<!--                <label for="files" style="margin-top: 10px" >-->
+<!--                  <span class="span-style">-->
+<!--                    Sfoglia-->
+<!--                  </span>-->
+<!--                  <span *ngIf="uploader.queue[0] !== undefined" style="margin-left: 20px">{{uploader.queue[0]._file.name}}</span>-->
+<!--                </label>-->
+
                 <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
                   <!--<div *ngIf="f.image.errors">Image is required</div>-->
                   <div>Immagine obbligatoria.</div>

@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import { document } from 'ngx-bootstrap/utils/facade/browser';
 import {StoreService} from '../../../shared/_services/store.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UserService} from '../../../shared/_services/user.service';
@@ -27,7 +28,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
   modalRef: BsModalRef;
-
+  flag = true;
   @ViewChild('updateInfo') updateInfo: ElementRef;
 
   constructor(
@@ -50,7 +51,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       this.user = user;
       this.updateRegistration = this.formBuilder.group({
         first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-        last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
+        last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40)])],
         birth_place: [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
         birth_date: [this.user.birth_date, Validators.required],
         fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
@@ -60,7 +61,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         zip: [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
         province: [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
-        email: [this.user.email, Validators.required],
+        // email: [this.user.email, Validators.required],
         password: [null, Validators.compose([Validators.required])],
         r_password: [null, Validators.compose([Validators.required])],
         company_name: [this.user.company_name],
@@ -70,6 +71,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       });
       this.selectChangeHandler(this.user.user_type);
     });
+
+    setTimeout(() => this.updateRegistration.disable(), 1000);
+
   }
 
   ngOnDestroy(): void {
@@ -99,28 +103,33 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.submitted = true;
+    if (!this.flag) {
+      this.submitted = true;
 
-    // If the registration form is invalid, return
-    if (this.updateRegistration.invalid) {
-      this.loading = false;
-      return;
+      // If the registration form is invalid, return
+      if (this.updateRegistration.invalid) {
+        this.loading = false;
+        return;
+      }
+
+      // Setting some fanValues to pass to the backend
+      this.updateRegistration.value.user_type = this.selectedUser;
+
+      // If the user is not a company, put the fanValues to null
+      if (this.selectedUser === 2) {
+        this.updateRegistration.value.company_name = null;
+        this.updateRegistration.value.vat_number = null;
+      }
+
+      delete this.updateRegistration.value.r_password;
+
+      this.loading = true;
+
+      this.openModal(this.updateInfo);
+    } else {
+      this.flag = false;
+      this.updateRegistration.enable();
     }
-
-    // Setting some fanValues to pass to the backend
-    this.updateRegistration.value.user_type = this.selectedUser;
-
-    // If the user is not a company, put the fanValues to null
-    if (this.selectedUser === 2) {
-      this.updateRegistration.value.company_name = null;
-      this.updateRegistration.value.vat_number = null;
-    }
-
-    delete this.updateRegistration.value.r_password;
-
-    this.loading = true;
-
-    this.openModal(this.updateInfo);
   }
 
   updateUser() {
@@ -136,7 +145,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
             this.loginActions.logoutUser();
           }
         }, error => {
-          console.log(error);
+          //console.log(error);
           this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo', 'Errore di aggiornamento');
         }
       );

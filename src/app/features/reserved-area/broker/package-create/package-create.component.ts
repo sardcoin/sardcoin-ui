@@ -202,7 +202,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
           this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del pacchetto .', 'Errore durante la creazione');
       });
   }
@@ -285,7 +285,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     const bread = [] as Array<Breadcrumb>;
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Aggiungi Pacchetto', '/reserved-area/broker/create/'));
+    bread.push(new Breadcrumb('Crea Pacchetto', '/reserved-area/broker/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -411,7 +411,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
         return true;
       } catch (e) {
-        console.log('error upload image', e);
+        //console.log('error upload image', e);
         this.imagePath = null;
 
         return false;

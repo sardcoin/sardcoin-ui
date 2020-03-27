@@ -73,7 +73,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
-      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
+      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5000), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [1, Validators.compose([Validators.min(1), Validators.required])],
       published_from: [new Date()],
@@ -103,13 +103,12 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
   async saveCoupon() {
     this.submitted = true;
-    //console.log('this.uploader', this.uploader);
-      const uploadDone = await this.uploadFiles(this.uploader);
-      if (!uploadDone) {
-        this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+    const uploadDone = await this.uploadFiles(this.uploader);
+    if (!uploadDone) {
+      this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
-        return;
-      }
+      return;
+    }
 
       // It stops here if form is invalid or not upload image
     if (this.couponForm.invalid || this.imagePath == null) {
@@ -133,7 +132,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
     };
 
-    //console.log('broker selezionati', this.selectedBroker);
+    ////console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
@@ -148,7 +147,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         }
       }, err => {
-        //console.log(err);
+        ////console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
@@ -222,7 +221,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/'));
-    bread.push(new Breadcrumb('Aggiungi coupon', '/reserved-area/producer/create/'));
+    bread.push(new Breadcrumb('Crea coupon', '/reserved-area/producer/create/'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
@@ -239,7 +238,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        //console.log('error upload image', e);
+        ////console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }

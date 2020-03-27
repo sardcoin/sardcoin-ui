@@ -198,12 +198,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   closeModal() {
-    this.modalRef.hide();
-    this.modalService.hide(0);
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
   }
 
 
   openModalPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
+    console.log('openModalPayment')
     try {
       const preBuyValue = this.couponService.preBuy(this.cart)
         .toPromise()
@@ -213,18 +215,24 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
     if (this.cart[0].price != 0) {
       this.initConfig();
+    } else {
+      this.refreshDeletePaypal();
+
     }
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
   }
 
   closeModalPayment() {
-    this.modalRef.hide();
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+
   }
 
   async preBuy(cart: Array<CartItem>): Promise<any> {
-   const res = await this.couponService.preBuy(cart)
-     .toPromise();
-   console.log('res preBuy', res);
+    const res = await this.couponService.preBuy(cart)
+      .toPromise();
+    console.log('res preBuy', res);
   }
 
   async removePreBuy(cart: Array<CartItem>): Promise<any> {
@@ -239,8 +247,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   closeModalAwaitConfirmPayment() {
-    this.modalRefAwaitConfirmPayment.hide();
-    this.modalService.hide(1);
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
   }
 
 
@@ -294,16 +303,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           window.location.reload(true)
           console.log('refresh')
         }
-    })
+      })
   }
 
 
   private async initConfig(): Promise<any> {
 
-      this.refreshDeletePaypal();
+    this.refreshDeletePaypal();
 
-      //console.log('onClick preBuyValue',preBuyValue);
-      if (this.cart[0].price > 0) {
+    console.log('initConfig');
+    if (this.cart[0].price > 0) {
       const clientId: string = this.producer.client_id
       //console.log('producer', this.producer)
       // TODO optimize call fetch
@@ -317,66 +326,68 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
         //TODO da mettere in paypal.service per poter fare chiamate autorizzate solo ai consumer/registrati
         createOrderOnServer: data => fetch(link)
-          .then(async res => {
-            const result = await res.json()
+          .then( res => {
+            const result =  res.json()
             // console.log('risposta server creazione  1 then', result)
 
             return result;
           })
-          .then(async order => {
-            const orderId = (await order).id
-            //console.log('risposta server creazione  2 then', orderId);
+          .then( order =>  {
+            const orderId = ( order).id
+            console.log('risposta server creazione  2 then', order);
 
             return orderId;
           }),
         onApprove: (data, actions) => {
-          return;
+          //return;
+          //this.openModalAwaitConfirmPayment(this)
+
           console.log('onApprove - transaction was approved, but not authorized', data, actions);
           actions.order.get()
             .then(async details => {
               console.log('onApprove - you can get full order details inside onApprove: ', details);
+              try {
+                console.log('details',details)
+                const payment_id = details.id
+
+                //this.closeModalAwaitConfirmPayment()
+                this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
+                this.closeModalPayment()
+                const buy = await this.couponService.buyCoupons(this.cart, payment_id, this.coupon.owner)
+                  .toPromise()
+                // this.closeModalAwaitConfirmPayment()
+
+                console.log('buy: ', buy);
+
+                this.router.navigate(['/bought']); // TODO a fine test decomentare
+                this.cartActions.emptyCart(); // TODO a fine test decomentare
+
+              } catch (e) {
+                let title = '';
+                let message = '';
+                this.closeModalAwaitConfirmPayment()
+
+                if (e.error.call === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
+                  title = 'Errore finalizzando l\'ordine';
+                  message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.';
+
+                }
+
+                if (e.error.call === 'pay') { // Errore durante il pagamento
+
+                  title = 'Errore durante il pagamento';
+                  message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.';
+                }
+
+                console.error(e.error);
+
+                this.toastr.error(message, title);
+
+              }
             });
 
         },
-        onClientAuthorization: async (data) => {
-          this.closeModalPayment();
-          this.openModalAwaitConfirmPayment(this.buyWait, true);
 
-          try {
-            const payment_id = data.id
-            const buy = await this.couponService.buyCoupons(this.cart, payment_id, this.coupon.owner)
-              .toPromise()
-            this.closeModalAwaitConfirmPayment()
-            this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
-            this.cartActions.emptyCart(); // TODO a fine test decomentare
-            console.log('buy: ', buy);
-            this.router.navigate(['/bought']); // TODO a fine test decomentare
-
-          } catch (e) {
-            let title = '';
-            let message = '';
-            this.closeModalAwaitConfirmPayment()
-
-            if (e.error.call === 'buyCoupons') { // Errore durante l'ordine (coupon non più presenti oppure non più acquistabili)
-              title = 'Errore finalizzando l\'ordine';
-              message = 'Errore durante la conclusione dell\'ordine: i coupon potrebbero essere terminati oppure non più acquistabili.';
-
-            }
-
-            if (e.error.call === 'pay') { // Errore durante il pagamento
-
-              title = 'Errore durante il pagamento';
-              message = 'Il pagamento non è andato a buon fine. Per favore, riprova e verifica il tuo saldo.';
-            }
-
-            console.error(e.error);
-
-            this.toastr.error(message, title);
-
-          }
-
-          console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-        },
         onCancel: (data, actions) => {
           this.couponService.removePreBuy(this.cart)
             .toPromise()
@@ -392,7 +403,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
           console.log('OnError', err);
         },
-        onClick: async (data, actions) => {
+        onClick:  (data, actions) => {
 
           console.log('onClick', data, actions);
         }
@@ -440,5 +451,3 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
 }
-
-

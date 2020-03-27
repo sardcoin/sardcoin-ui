@@ -70,7 +70,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
           this.toastr.success('', 'Pacchetto venduto!');
         }
       }, error => {
-        console.log(error);
+        //console.log(error);
         this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 

@@ -65,7 +65,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
-      //console.log(this.couponPass)
+      ////console.log(this.couponPass)
 
       if (this.couponPass === null || this.couponPass === undefined) {
         this.router.navigate(['/reserved-area/producer/list']);
@@ -73,7 +73,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.couponService.getBrokerFromCouponId(this.couponPass.id).subscribe(brokers => {
 
           this.selectedBroker = brokers;
-          //console.log('brokers for coupon', this.selectedBroker)
+          ////console.log('brokers for coupon', this.selectedBroker)
         });
       }
 
@@ -115,7 +115,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       this.couponForm = this.formBuilder.group({
         title: [this.couponPass.title, Validators.compose([Validators.maxLength(80), Validators.minLength(5), Validators.required])],
-        description: [this.couponPass.description, Validators.compose([Validators.maxLength(500), Validators.minLength(5), Validators.required])],
+        description: [this.couponPass.description, Validators.compose([Validators.maxLength(5000), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
           value: this.markedFree ? 0 : this.couponPass.price.toFixed(2),
@@ -198,14 +198,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         //   this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
         // }
       }, err => {
-        console.log(err);
+        //console.log(err);
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }
 
   async editCoupon(coupon: Coupon) {
     const uploadDone = await this.uploadFiles(this.uploader);
-    //console.log('uploadDone', uploadDone)
+    ////console.log('uploadDone', uploadDone)
     if (!uploadDone) {
       this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
 
@@ -216,12 +216,12 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         if (data['bought']) {
           this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
         } else {
-          this.toastr.success('', 'Pacchetto modificato con successo!');
+          this.toastr.success('', 'Coupon modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
         }
       }, err => {
-        console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto...', 'Errore durante l\'aggiornamento');
+        //console.log(err);
+        this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon...', 'Errore durante l\'aggiornamento');
       });
   }
 
@@ -249,7 +249,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   }
 
   onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    //console.log(response);
+    ////console.log(response);
   }
 
   toggleCheckbox(e) {
@@ -329,7 +329,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
   async uploadFiles(inputElement) {
 
-    //console.log('inputElement', inputElement)
+    ////console.log('inputElement', inputElement)
     if (inputElement.queue[0]) {
 
       try {
@@ -337,7 +337,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        //console.log('error upload image', e);
+        ////console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }
@@ -351,7 +351,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
     }
     const mimeType = files[0].type;
-    //console.log('files[0]', files[0])
+    ////console.log('files[0]', files[0])
     if (mimeType.match(/image\/*/) == null) {
       return;
     }

@@ -68,7 +68,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
           this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più eliminarlo.', 'Errore durante l\'aggiornamento');
         }
       }, error => {
-        console.log(error);
+        //console.log(error);
         this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
       });
 

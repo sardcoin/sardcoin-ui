@@ -53,13 +53,13 @@
         <label class="col-sm-7 my-auto pl-0" style="font-size: 16px;">Inserisci la quantità: <i class="text-info">
           ({{maxQuantity}} disponibil{{maxQuantity > 1 ? 'i' : 'e' }})</i></label>
 
-        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" type="number" min="1"
+        <input formControlName="quantity" class="col-sm-2 form-control d-inline-block" style="width: 60%" type="number" min="1"
                max="{{modalCoupon.quantity}}"/>
 
-        <button class="btn btn-secondary col-sm-1 ml-1" (click)="del()" [disabled]="myForm.value.quantity === 1">
+        <button class="btn btn-secondary col-sm-1 ml-1" style="width: 15%" (click)="del()" [disabled]="myForm.value.quantity === 1">
           <i class="fas fa-minus text-white"></i>
         </button>
-        <button class="btn btn-primary col-sm-1 ml-1" (click)="add()" [disabled]="isMax"><i
+        <button class="btn btn-primary col-sm-1 ml-1" style="width: 15%" (click)="add()" [disabled]="isMax"><i
           class="fas fa-plus text-white"></i></button>
 
         <div class="col-sm-12 ml-2" style="color: #bd0a0d;" *ngIf="f.quantity.errors">Inserire una quantità valida!

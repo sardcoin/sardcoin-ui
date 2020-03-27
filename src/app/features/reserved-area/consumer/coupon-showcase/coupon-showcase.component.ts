@@ -96,6 +96,8 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     this.couponService.getAvailableCoupons()
       .subscribe(coupons => {
         for (let cp = 0; cp < coupons.length; cp++) {
+          coupons[cp].description = coupons[cp].description.length > 150 ? coupons[cp].description.slice(0, 150) + '...' : coupons[cp].description;
+
           if (coupons[cp].type === ITEM_TYPE.PACKAGE) {
             this.packageService.getCouponsPackage(coupons[cp].id).subscribe(coup => {
               if (coup) {
@@ -110,7 +112,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
         }
         this.coupons = couponsList;
       }, err => {
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -168,7 +170,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
     };
 
     if (await this.cartActions.addElement(item)) {
-      this.toastr.success(coupon.title + " pronto per l'acquisto.", 'Coupon pronto');
+      this.toastr.success(coupon.title + " pronto per l'acquisto.", 'Coupon inserito nel carrello');
     } else {
       this.toastr.error(coupon.title + ' non è stato selezionato corretamente.', 'Coupon non selezionato');
     }

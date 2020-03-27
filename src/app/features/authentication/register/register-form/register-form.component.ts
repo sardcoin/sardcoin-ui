@@ -88,8 +88,8 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
           this.loading = false;
           this.toastr.error('', 'Errore imprevisto in fase di registrazione. Riprova.');
 
-          console.log(error);
-          console.log('User or email already exists');
+          //console.log(error);
+          //console.log('User or email already exists');
         }
       );
   }

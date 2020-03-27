@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-12 col-xl-9">
       <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
-        <h4 class="text-white text-center text-uppercase mb-0">Aggiorna le informazioni personali</h4>
+        <h4 class="text-white text-center text-uppercase mb-0">Informazioni personali</h4>
       </div>
       <div class="card">
         <div class="p-4" *ngIf="user !== null">
@@ -12,7 +12,7 @@
               <div class="form-row">
                 <div class="input-group mb-3 col-md-6">
                   <div class="d-block w-100">
-                    <label for="company_name" class="label-tiny">Nome azienda</label>
+                    <label for="company_name" class="label-tiny">Ragione sociale</label>
                   </div>
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="icon-briefcase"></i></span>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="input-group mb-3 col-md-6">
                   <div class="d-block w-100">
-                    <label for="vat_number" class="label-tiny">Partita Iva</label>
+                    <label for="vat_number" class="label-tiny">Partita IVA</label>
                   </div>
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="icon-chart"></i></span>
@@ -128,7 +128,7 @@
               </div> <!-- Fiscal code -->
               <div class="input-group mb-3 col-md-6">
                 <div class="d-block w-100">
-                  <label for="paypal_email" class="label-tiny">Email Paypal</label>
+                  <label for="paypal_email" class="label-tiny">Email PayPal</label>
                 </div>
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fab fa-paypal"></i></span>
@@ -192,7 +192,7 @@
               </div>
               <div class="input-group mb-3 col-md-6">
                 <div class="d-block w-100">
-                  <label for="zip_code" class="label-tiny">Cap</label>
+                  <label for="zip_code" class="label-tiny">CAP</label>
                 </div>
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-code"></i></span>
@@ -235,7 +235,8 @@
               <div class="alert alert-danger col-md-12"
                    *ngIf="submitted && f.r_password.errors?.MatchPassword">Password non valida
               </div>
-              <button class="btn btn-success btn-lg" style="margin: 0 auto;">Salva dati aggiornati</button>
+              <button *ngIf="flag" class="btn btn-success btn-lg" style="margin: 0 auto;">Modifica dati</button>
+              <button *ngIf="!flag" class="btn btn-success btn-lg" style="margin: 0 auto;">Aggiorna dati</button>
             </div> <!-- Password and repeated password -->
           </form>
         </div>

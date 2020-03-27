@@ -63,10 +63,10 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
           el.description = el.description.length > 200 ? el.description.slice(0, 150) + '...' : el.description;
         });
         // this.coupons.forEach(el => el.state = this.formatState(el));
-          //console.log('this.coupons', this.coupons)
+          ////console.log('this.coupons', this.coupons)
       }, err => {
         // tslint:disable-next-line:no-console
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -94,10 +94,8 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     const auxDate = inputDate.slice(0, 10)
       .split('-');
     const date = `${auxDate[2]}/${auxDate[1]}/${auxDate[0]}`;
-    const time = inputDate.toString()
-      .substring(inputDate.indexOf('T') + 1, inputDate.indexOf('.000'));
 
-    return `${date} ${time}`;
+    return `${date}`;
   };
 
   getStateColor = (state: string): string => { // === 'Disponibile' ? '#28a745' : '#dc3545'

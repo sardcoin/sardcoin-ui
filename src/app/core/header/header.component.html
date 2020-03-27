@@ -36,15 +36,12 @@
               <!--<i class="fa fa-2x fa-user-tie"></i>-->
               <img class="img-avatar mr-0" src="assets/img/avatars/8.png" alt="{{username}}">
             </a>
-            <div class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
+            <div  class="dropdown-menu position-menu-small dropdown-menu-right float-right col-2">
               <div class="dropdown-header text-center">
                 <strong class="text-capitalize ">Impostazioni</strong>
               </div>
-              <a *ngIf="userType != 2 && userType != 3" class="dropdown-item"
-                 [routerLink]="['/reserved-area/' + userStringType +'/personal-info']">
-                <i class="fa fa-user"></i> Il mio profilo</a>
-              <a *ngIf="userType == 2" class="dropdown-item"
-                 [routerLink]="['/personal-info']">
+              <a class="dropdown-item"
+                 [routerLink]="[infoUserLink +'/personal-info']">
                 <i class="fa fa-user"></i> Il mio profilo</a>
               <a class="dropdown-item menu-collapsed text-secondary ">
                 <i class="fa fa-wrench"></i> Impostazioni</a>
@@ -198,11 +195,8 @@
                   <div class="dropdown-header text-center">
                     <strong class="text-capitalize ">Impostazioni</strong>
                   </div>
-                  <a *ngIf="userType != 2 && userType != 3" class="dropdown-item"
+                  <a class="dropdown-item"
                      [routerLink]="['/reserved-area/' + userStringType +'/personal-info']">
-                    <i class="fa fa-user"></i> Il mio profilo</a>
-                  <a *ngIf="userType == 2" class="dropdown-item"
-                     [routerLink]="['/personal-info']">
                     <i class="fa fa-user"></i> Il mio profilo</a>
                   <a class="dropdown-item menu-collapsed text-secondary ">
                     <i class="fa fa-wrench"></i> Impostazioni</a>

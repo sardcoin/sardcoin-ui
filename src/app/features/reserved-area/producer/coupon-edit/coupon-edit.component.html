@@ -25,7 +25,7 @@
                 <textarea rows="7" type="text" formControlName="description" class="form-control"
                           [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri</div>
+                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 5000 caratteri</div>
                 </div>
               </div>
             </div> <!-- Description -->
@@ -37,10 +37,16 @@
                   <img src="{{imageSelected? imageSelected: imageURL}}">
                 </div>
                   <div >
-                    <label  class="col-lg-3 col-sm-6 col-form-label" style="padding-right: 8px">Cambia immagine </label>
 
-                    <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" type="file"  formControlName="image" ng2FileSelect [uploader]="uploader"
+
+                    <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" type="file"  id="files" formControlName="image" ng2FileSelect [uploader]="uploader"
                            [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
+                    <!--style="display:none;"-->
+                    <!--<label for="files" style="margin-top: 10px">
+                      <span class="span-style">
+                      Sfoglia
+                      </span>
+                    </label>-->
 
                   </div>
 
@@ -76,7 +82,7 @@
                        [style.background]="bgColorPrivate"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors " class="invalid-feedback">
-                  <div *ngIf=" f.published_from.errors ">data non corretta</div>
+                  <div *ngIf=" f.published_from.errors ">Data non corretta</div>
                 </div>
               </div>
               <div class="col-sm-2">
@@ -158,7 +164,7 @@
             </div> <!-- Valid Until -->
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Vincoli:</label>
+              <label class="col-sm-2 col-form-label">Luogo:</label>
               <div class="col-sm-8">
                 <input [readonly]="markedConstraints" type="text" formControlName="constraints" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.constraints.errors }"/>
@@ -170,7 +176,7 @@
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="constraintsCheck"
                          [checked]="markedConstraints" (change)="toggleCheckbox($event)" data-md-icheck>
-                  <label class="custom-control-label" for="constraintsCheck">Nessuna</label>
+                  <label class="custom-control-label" for="constraintsCheck">Ovunque</label>
                 </div>
               </div>
             </div> <!-- Constraints -->
