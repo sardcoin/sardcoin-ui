@@ -315,17 +315,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (this.cart[0].price > 0) {
       const clientId: string = this.producer.client_id
       //console.log('producer', this.producer)
-      // TODO optimize call fetch
-      const link = 'http://localhost:8080/paypal/createOrder/' +
-        this.cart[0].id + '/' + this.cart[0].price + '/' + this.coupon.owner + '/' +
-        this.cart[0].quantity + '/' + this.user.id;
+      // const link = 'http://localhost:8080/paypal/createOrder/' +
+      //   this.cart[0].id + '/' + this.cart[0].price + '/' + this.coupon.owner + '/' +
+      //   this.cart[0].quantity + '/' + this.user.id;
       this.payPalConfig = {
         clientId: clientId,
         style: {label: 'pay'},
         // for creating orders (transactions) on server see
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
         //TODO da mettere in paypal.service per poter fare chiamate autorizzate solo ai consumer/registrati
-        createOrderOnServer: data => fetch(link)
+        createOrderOnServer: data => fetch(this.paypalService.createOrder(this.cart[0].id, this.cart[0].price, this.coupon.owner,  this.cart[0].quantity, this.user.id))
+          // fetch(link)
           .then( res => {
             const result =  res.json()
             // console.log('risposta server creazione  1 then', result)
