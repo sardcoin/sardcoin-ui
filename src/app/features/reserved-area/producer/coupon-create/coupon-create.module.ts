@@ -8,6 +8,7 @@ import {FlatpickrModule} from 'angularx-flatpickr';
 import {Ng2FlatpickrModule} from 'ng2-flatpickr';
 import {CoreModule} from '../../../../core/core.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PopoverModule } from 'ngx-bootstrap';
 
 
 
@@ -23,7 +24,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     Ng2FlatpickrModule,
     NgSelectModule,
     FormsModule,
-    FlatpickrModule.forRoot()
+    FlatpickrModule.forRoot(),
+    PopoverModule.forRoot()
   ],
   exports: [
     FeatureReservedAreaCouponCreateComponent
