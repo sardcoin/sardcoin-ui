@@ -75,7 +75,7 @@
                 <input style="background: white" type="text" mwlFlatpickr
                        [clickOpens]="true" [noCalendar]="false" [convertModelValue]="true" [enableTime]="false"
                        dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
-                       [style.background]="bgColorPrivate" minDate="today"
+                       [style.background]="bgColorPrivate" minDate="today" (change)="changeDelay()"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors" class="invalid-feedback">
                   <div *ngIf=" f.published_from.errors">Data non valida</div>

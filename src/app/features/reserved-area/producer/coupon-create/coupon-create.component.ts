@@ -140,9 +140,23 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     this.couponForm.get('published_from').setValue(new Date().setHours(new Date().getHours() + this.couponForm.get('delay').value));
   }
 
+changeDelay() {
+  if (new Date(this.couponForm.get('published_from').value).getTime() > new Date().valueOf()) {
+    setTimeout(() => {
+      const value = (new Date(this.couponForm.get('published_from').value).getTime() - new Date().valueOf()) / 3600000;
+      this.couponForm.get('delay').setValue(Math.floor(value));
+      }, 200
+    );
+  }
+  else {
+    this.couponForm.get('delay').setValue(24);
+  }
+
+}
+
   addCoupon(coupon: Coupon) {
     this.couponService.create(coupon)
-      .subscribe( data => {
+      .subscribe(data => {
 
         if (data['created']) {
           this.toastr.success('', 'Coupon creato con successo!');
