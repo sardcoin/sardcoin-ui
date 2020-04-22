@@ -76,9 +76,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5000), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [1, Validators.compose([Validators.min(1), Validators.required])],
-      published_from: [new Date()],
+      published_from: [new Date().setHours(new Date().getHours() + 24)],
       categories: [this.selectedCategories],
       broker: [this.selectedBroker],
+      delay: [24, Validators.min(24)],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
@@ -86,7 +87,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: [null],
       purchasable: [1, Validators.required]
     }, {
-      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
+      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon, DateValidation.CheckDateValidity])
     });
 
     this.addBreadcrumb();
@@ -131,14 +132,31 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       categories: this.selectedCategories
 
     };
-
     ////console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
+  changeDate() {
+    this.couponForm.get('published_from').setValue(new Date().setHours(new Date().getHours() + this.couponForm.get('delay').value));
+  }
+
+changeDelay() {
+  if (new Date(this.couponForm.get('published_from').value).getTime() > new Date().valueOf()) {
+    setTimeout(() => {
+      const value = (new Date(this.couponForm.get('published_from').value).getTime() - new Date().valueOf()) / 3600000;
+      this.couponForm.get('delay').setValue(Math.floor(value));
+      }, 200
+    );
+  }
+  else {
+    this.couponForm.get('delay').setValue(24);
+  }
+
+}
+
   addCoupon(coupon: Coupon) {
     this.couponService.create(coupon)
-      .subscribe( data => {
+      .subscribe(data => {
 
         if (data['created']) {
           this.toastr.success('', 'Coupon creato con successo!');
@@ -210,6 +228,19 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
           this.couponForm.get('purchasable').enable();
         }
         break;
+      case 'publishNow':
+        if (e.target.checked) {
+            this.couponForm.get('published_from').disable();
+            this.couponForm.get('delay').disable();
+            this.couponForm.get('published_from').setValue(new Date().setMinutes(new Date().getMinutes() + 5));
+            this.couponForm.get('delay').setValue(24);
+            this.bgColorPrivate = '#E4E7EA';
+        } else {
+            this.couponForm.get('published_from').enable();
+            this.couponForm.get('delay').enable();
+            this.couponForm.get('published_from').setValue(new Date().setHours(new Date().getHours() + 24));
+            this.bgColorPrivate = '#FFF';
+          }
     }
   }
 

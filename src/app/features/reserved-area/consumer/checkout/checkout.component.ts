@@ -320,6 +320,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       //   this.cart[0].quantity + '/' + this.user.id;
       this.payPalConfig = {
         clientId: clientId,
+        currency: "EUR",
         style: {label: 'pay'},
         // for creating orders (transactions) on server see
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/

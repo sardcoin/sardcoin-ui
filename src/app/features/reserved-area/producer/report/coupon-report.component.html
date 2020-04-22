@@ -2,55 +2,91 @@
   <div class="row">
     <div class="col-xl-8 col-lg-11 col-md-12">
       <div class=" col-sm-6 col-lg-5 col-md-6 p-3 bg-red-sardcoin"
-           style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
+           style="aborder-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
         <h4 class="text-white text-center text-uppercase mb-0">Coupon Report</h4>
       </div>
-      <div class="card">
-        <div *ngIf="areaDataAvailable() && !loading" class="p-4">
+      <div class="card" style="width: 115%">
+        <div *ngIf="true && !loading" class="p-4">
           <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
             <select [ngModel]="rangeSelected" class='form-control'
-                    (change)="ChangingRange($event)">
-              <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
+                    (change)="loadCoupons($event)">
+              <option *ngFor="let item of range" [ngValue]=item>Visualizza {{item}}</option>
             </select>
           </div>
-          <div  class="row margin-top ">
-            <div style="margin-right: 2em!important; margin-left: 2em!important;">
+          <div  class="row margin-top" style="margin-top: 2em!important;">
+
+            <div style=" margin-right: 2em!important; margin-left: 2em!important;">
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese precedente</p>
+                <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
+            <select [ngModel]="rangeMonthPrev" class='form-control' style="background-color: #333F50; color: #FFFFFF"
+                    (change)="previousProfitsChart($event)" id="selectPrev">
+              <option *ngFor="let item of rangeMonth" [ngValue]=item>Visualizza {{item}}</option>
+            </select>
+          </div>
+              </span>
               <google-chart
-                [data]="barChart"
-                class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
+                [data]="pProfitsChart"
+                class="margin-top col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
               ></google-chart>
             </div>
-            <div style=" margin-left: 2em!important;">
 
-            <google-chart
-              [data]="barChartForBoughtProducerMoney"
-              class="margin-top col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
-            ></google-chart>
+            <div style="margin-left: 2em!important; margin-right: 1em!important;">
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese corrente</p>
+                <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
+            <select [ngModel]="rangeMonthCur" class='form-control' style="background-color: #333F50; color: #FFFFFF;"
+                    (change)="currentProfitsChart($event)" id="selectCurrent">
+              <option *ngFor="let item of rangeMonth" [ngValue]=item>Visualizza {{item}}</option>
+            </select>
+          </div>
+              </span>
+              <google-chart
+                [data]="cProfitsChart"
+                class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"
+              ></google-chart>
           </div>
 
         </div>
           <div class="row margin-top">
             <div style="margin-right: 2em!important; margin-left: 2em!important;">
-
-              <google-chart [data]="barChartForBoughtProducerQuantity"
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Numero coupon</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Numero coupon venduti nell'anno corrente</p>
+              </span>
+              <google-chart [data]="couponsBougth"
                           class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
             </div>
-            <div style=" margin-left: 2em!important;">
-
-            <google-chart [data]="barChartForBoughtBrokersQuantity" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
-          </div>
+            <div style="margin-left: 2em!important;">
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Frequenza d'acquisto - Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Frequenza d'acquisto, calcolata sui coupon acquistati da consumer unici, <br> relazionata ai ricavi, mese per mese</p>
+              </span>
+              <google-chart [data]="purchFreq" class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
+            </div>
 
       </div>
 
-        </div>
-        <div *ngIf="!areaDataAvailable() && !loading" class="p-4">
-          <div class="row col-4 d-flex ml-auto ">
-            <select [ngModel]="rangeSelected" class='form-control'
-                    (change)="ChangingRange($event)">
-              <option *ngFor="let item of range" [ngValue]=item>{{translate(item)}}</option>
-            </select>
+          <div class="row margin-top">
+            <div style="margin-right: 2em!important; margin-left: 2em!important;">
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Numero coupon venduti</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Numero coupon venduti da producer e broker</p>
+              </span>
+              <google-chart [data]="couponsBroker" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
+            </div>
+
+            <div style=" margin-left: 2em!important;">
+              <span>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Consumer</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Percentuale di consumer che hanno fatto un acquisto sul totale</p>
+              </span>
+              <google-chart [data]="consumerPerc" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
+            </div>
+
           </div>
-          <h3>Non sono presenti abbastanza dati per mostrare delle statistiche a riguardo.</h3>
         </div>
       </div>
     </div>
