@@ -1,6 +1,7 @@
 import { select } from '@angular-redux/store';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -59,7 +60,9 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private cartActions: CartActions,
     private globalEventService: GlobalEventsManagerService,
-    private packageService: PackageService
+    private packageService: PackageService,
+    private _sanitizer: DomSanitizer
+
   ) {
     this.globalEventService.desktopMode.subscribe(message => {
       this.desktopMode = message;
@@ -240,5 +243,10 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     const values = _.values(this.couponsPackage).map((el: Array<any>) => el.length);
 
     return values.length > 0 ? values.reduce((a, b) => a + b) : '';
+  }
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
   }
 }

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppFooterModule } from '@coreui/angular';
 import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { QuillModule } from 'ngx-quill';
 import { CoreModule } from '../../../core/core.module';
 import { CouponService } from '../../../shared/_services/coupon.service';
 import { ReportService } from '../../../shared/_services/report.service';

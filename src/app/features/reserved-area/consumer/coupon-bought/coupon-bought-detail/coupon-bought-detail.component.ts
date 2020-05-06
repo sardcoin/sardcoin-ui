@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RoutesRecognized } from '@angular/router';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -42,6 +43,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     private modalService: BsModalService,
     private globalEventService: GlobalEventsManagerService,
     private packageService: PackageService,
+    private _sanitizer: DomSanitizer,
     private location: Location
   ) {
   }
@@ -137,5 +139,9 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
 
     return values.length > 0 ? values.reduce((a, b) => a + b) : '';
   };
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 
 }

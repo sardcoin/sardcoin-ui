@@ -450,5 +450,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     }
   }
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 
 }

@@ -21,12 +21,15 @@
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Descrizione:</label>
               <div class="col-lg-9 col-sm-9">
-                <textarea rows="7" type="text" formControlName="description" class="form-control"
-                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri.
-                  </div>
+                <div [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+                  <quill-editor [modules]= "this.toolbarOptions"  format="html" formControlName="description" [styles]="{height: '200px'}" (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)"></quill-editor>
                 </div>
+<!--                <textarea rows="7" type="text" formControlName="description" class="form-control"-->
+<!--                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>-->
+<!--                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
+<!--                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri. -->
+<!--                  </div>-->
+<!--                </div>-->
               </div>
             </div> <!-- Description -->
 
@@ -267,7 +270,10 @@
       </div>
     </form>
   </div>
-
+  <div *ngIf="submitted && f.description.status === 'INVALID'" class="alert alert-danger col-md-12">
+    <div >Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.
+    </div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
     <button type="button" class="btn btn-success" (click)="addToPackage(modalCoupon)">

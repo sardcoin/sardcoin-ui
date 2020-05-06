@@ -13,7 +13,7 @@
 
         <div class="coupon-price">{{formatPrice(couponPass.price)}}</div>
 
-        <p class="card-text mt-3">{{couponPass.description}}</p>
+        <p class="card-text mt-3" [innerHTML]="byPassHTML(couponPass.description)"></p>
 
         <p class="card-text">
           <i class="fas fa-fw  fa-clock text-secondary"></i> Validità: {{formatUntil(couponPass.valid_until)}}
