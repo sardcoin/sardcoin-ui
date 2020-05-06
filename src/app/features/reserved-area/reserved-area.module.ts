@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AppFooterModule} from '@coreui/angular';
+import { QuillModule } from 'ngx-quill';
 import {SharedModule} from '../../shared/shared.module';
 import {CoreModule} from '../../core/core.module';
 import {FeatureReservedAreaComponent} from './reserved-area.component';
@@ -29,6 +30,7 @@ import {FeatureReservedAreaProducerCouponReportModule} from './producer/report/c
     FeatureReservedAreaRoutingModule,
     CommonModule,
     FeatureReservedAreaProducerCouponReportModule,
+    QuillModule,
     ModalModule.forRoot()
   ],
   providers: [

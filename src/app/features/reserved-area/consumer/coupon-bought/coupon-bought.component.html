@@ -22,7 +22,7 @@
           <tr> <!--*ngFor="let token of coupon.CouponTokens "> -->
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
             </td>
             <td>
               <div *ngIf="coupon.type === ITEM_TYPE.PACKAGE" class="coupon-package text-uppercase">
@@ -36,7 +36,7 @@
               {{formatState(coupon)}}
             </td>
             <td class="text-center">
-              <button type="button" (click)="details(coupon)" class="btn btn-info text-white">
+              <button type="button" (click)="details(coupon, coupon.description)" class="btn btn-info text-white">
                 <i class="fas fa-info-circle"></i> Dettagli
               </button>
             </td>
@@ -68,7 +68,7 @@
           <tr> <!--*ngFor="let token of coupon.CouponTokens "> -->
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
             </td> <!-- Titolo -->
             <td>{{formatPrice(coupon.price)}}</td> <!-- Prezzo -->
             <td>{{formatDate(coupon.purchase_time)}}</td> <!-- Data -->
@@ -76,7 +76,7 @@
               {{formatState(coupon)}}
             </td> <!-- Stato -->
             <td class="text-center">
-              <button type="button" (click)="details(coupon)" class="btn btn-info text-white">
+              <button type="button" (click)="details(coupon, coupon.description)" class="btn btn-info text-white">
                 <i class="fas fa-info-circle"></i>
               </button>
             </td> <!-- Info Button -->
@@ -106,12 +106,12 @@
           <tr>
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
             </td>
             <td [ngStyle]="{color: getStateColor(formatState(coupon))}" class="text-uppercase td-state"><b>{{formatState(coupon)}}</b>
             </td>
             <td class="text-center">
-              <button type="button" (click)="details(coupon)" class="btn btn-info text-white">
+              <button type="button" (click)="details(coupon, coupon.description)" class="btn btn-info text-white">
                 <i class="fas fa-info-circle"></i>
               </button>
             </td>

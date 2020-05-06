@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
 import {Coupon} from '../../../../shared/_models/Coupon';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {CouponService} from '../../../../shared/_services/coupon.service';
 import {Router} from '@angular/router';
 import {DateValidation} from './validator/DateValidation.directive';
@@ -16,15 +18,77 @@ import {UserService} from '../../../../shared/_services/user.service';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {Category} from '../../../../shared/_models/Category';
 
+
+import * as QuillNamespace from 'quill';
+let Quill: any = QuillNamespace;
+import ImageResize from 'quill-image-resize-module';
+Quill.register('modules/imageResize', ImageResize);
+
+
 @Component({
   selector: 'app-feature-reserved-area-coupon-create',
   templateUrl: './coupon-create.component.html',
-  styleUrls: ['./coupon-create.component.scss'],
+  styleUrls: ['./coupon-create.component.scss']
 })
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
-  couponForm: FormGroup;
 
+  toolbarOptions = {
+    toolbar: [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+
+    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+
+    ['clean'],                                        // remove formatting button
+    ['link', 'image', 'video']
+    ],
+    imageResize: true
+    // handlers: {
+    //   'image': []
+    //}
+}
+  blured = false
+  focused = false
+  created(event: QuillEditor) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-created', event)
+  }
+
+  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-change', event)
+  }
+
+  focus($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('focus', $event)
+    this.focused = true
+    this.blured = false
+  }
+
+  blur($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('blur', $event)
+    this.focused = false
+    this.blured = true
+  }
+
+
+
+  couponForm: FormGroup;
+  hide = false;
   brokers: User[];
 
   markedUnlimited = false;
@@ -50,6 +114,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
 
   constructor(
+    private sanitizer: DomSanitizer,
     private router: Router,
     private formBuilder: FormBuilder,
     private storeService: StoreService,
@@ -58,7 +123,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     private toastr: ToastrService,
     private userService: UserService,
     private categoriesService: CategoriesService,
-
   ) {
     this.userService.getBrokers().subscribe( brokers => {
       this.brokers = brokers;
@@ -73,7 +137,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
-      description: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5000), Validators.required])],
+      description: [undefined, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [1, Validators.compose([Validators.min(1), Validators.required])],
       published_from: [new Date().setHours(new Date().getHours() + 24)],
@@ -89,9 +153,6 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     }, {
       validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon, DateValidation.CheckDateValidity])
     });
-
-    this.addBreadcrumb();
-
     }
 
   ngOnDestroy() {
@@ -113,6 +174,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
 
       // It stops here if form is invalid or not upload image
     if (this.couponForm.invalid || this.imagePath == null) {
+      console.log('this.couponForm.invalid', this.couponForm.controls)
       return;
     }
 
@@ -277,6 +339,11 @@ changeDelay() {
     }
 
 
+  }
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this.sanitizer.bypassSecurityTrustHtml(html)
   }
 
 

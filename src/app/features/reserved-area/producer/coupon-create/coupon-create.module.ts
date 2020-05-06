@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import { QuillModule } from 'ngx-quill';
 import {FeatureReservedAreaCouponCreateComponent} from './coupon-create.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -25,7 +26,8 @@ import { PopoverModule } from 'ngx-bootstrap';
     NgSelectModule,
     FormsModule,
     FlatpickrModule.forRoot(),
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    QuillModule
   ],
   exports: [
     FeatureReservedAreaCouponCreateComponent

@@ -22,12 +22,11 @@
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Descrizione</label>
               <div class="col-lg-9 col-sm-9">
-                <textarea rows="7" type="text" formControlName="description" class="form-control"
-                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 5000 caratteri.
+                  <div [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+                    <quill-editor [modules]= "this.toolbarOptions"  format="html" formControlName="description" [styles]="{height: '200px'}" (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)"></quill-editor>
                   </div>
-                </div>
+<!--                <textarea rows="7" type="text" formControlName="description" class="form-control"-->
+<!--                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>-->
               </div>
             </div> <!-- Description -->
 
@@ -244,6 +243,11 @@
               <!--<div *ngIf="f.image.errors">Image is required</div>-->
               <div>Immagine obbligatoria.</div>
             </div>
+
+            <div *ngIf="submitted && f.description.status === 'INVALID'" class="alert alert-danger col-md-12">
+              <div >Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri. deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.
+              </div>
+            </div>
             <div class="form group">
               <p>
                 <button class="btn btn-block btn-success btn-create-coupon">Crea</button>
@@ -258,3 +262,11 @@
     </div>
   </div>
 </div>
+
+<!--<form [formGroup]="form">-->
+<!--  <quill-editor format="text" formControlName="html"></quill-editor>-->
+<!--</form>-->
+<!--<div class="ql-container ql-snow" style="border-width: 0;">-->
+<!--  <div style="width: 100%" class="ql-editor" [innerHTML]="byPassHTML(form.get('html').value)"></div>-->
+<!--</div>-->
+

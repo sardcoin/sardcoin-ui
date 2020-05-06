@@ -15,7 +15,14 @@ import {User} from '../../../../shared/_models/User';
 import {Category} from '../../../../shared/_models/Category';
 import {CategoriesService} from '../../../../shared/_services/categories.service';
 import {UserService} from '../../../../shared/_services/user.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
 
+import * as QuillNamespace from 'quill';
+let Quill: any = QuillNamespace;
+import ImageResize from 'quill-image-resize-module';
+
+Quill.register('modules/imageResize', ImageResize);
 @Component({
   selector: 'app-edit-coupon',
   templateUrl: './coupon-edit.component.html',
@@ -23,7 +30,32 @@ import {UserService} from '../../../../shared/_services/user.service';
 })
 
 export class CouponEditComponent implements OnInit, OnDestroy {
+  toolbarOptions = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
 
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+
+      ['clean'],                                        // remove formatting button
+      ['link', 'image', 'video']
+    ],
+    imageResize: true
+    // handlers: {
+    //   'image': []
+    //}
+  }
   brokers: User[];
   categories: any;
   selectedCategories: Category[] = [];
@@ -53,6 +85,33 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     authToken: 'Bearer ' + this.storeService.getToken(),
   });
 
+
+  blured = false
+  focused = false
+  created(event: QuillEditor) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-created', event)
+  }
+
+  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-change', event)
+  }
+
+  focus($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('focus', $event)
+    this.focused = true
+    this.blured = false
+  }
+
+  blur($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('blur', $event)
+    this.focused = false
+    this.blured = true
+  }
+
   constructor(
     private router: Router,
     public formBuilder: FormBuilder,
@@ -62,6 +121,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private userService: UserService,
     private categoriesService: CategoriesService,
+    private sanitizer: DomSanitizer
+
   ) {
     this.couponService.currentMessage.subscribe(coupon => {
       this.couponPass = coupon;
@@ -115,7 +176,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       this.couponForm = this.formBuilder.group({
         title: [this.couponPass.title, Validators.compose([Validators.maxLength(80), Validators.minLength(5), Validators.required])],
-        description: [this.couponPass.description, Validators.compose([Validators.maxLength(5000), Validators.minLength(5), Validators.required])],
+        description: [this.couponPass.description, Validators.compose([Validators.maxLength(55000), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
           value: this.markedFree ? 0 : this.couponPass.price.toFixed(2),
@@ -362,5 +423,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     reader.onload = (_event) => {
       this.imageSelected = reader.result;
     };
+  }
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this.sanitizer.bypassSecurityTrustHtml(html)
   }
 }
