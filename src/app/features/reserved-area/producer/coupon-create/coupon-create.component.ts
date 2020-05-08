@@ -140,10 +140,10 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       description: [undefined, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [1, Validators.compose([Validators.min(1), Validators.required])],
-      published_from: [new Date().setHours(new Date().getHours() + 24)],
+      published_from: [new Date().setMinutes(new Date().getMinutes() + 10)],
       categories: [this.selectedCategories],
       broker: [this.selectedBroker],
-      delay: [24, Validators.min(24)],
+      // delay: [24, Validators.min(24)],
       valid_from: [new Date(), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
@@ -151,7 +151,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       constraints: [null],
       purchasable: [1, Validators.required]
     }, {
-      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon, DateValidation.CheckDateValidity])
+      validator: Validators.compose([DateValidation.CheckDateDay, QuantityCouponValidation.CheckQuantityCoupon])
     });
     }
 
@@ -177,13 +177,14 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       console.log('this.couponForm.invalid', this.couponForm.controls)
       return;
     }
-
+    const visibleTime = new Date(this.f.published_from.value).getTime() < new Date().setMinutes(new Date().getMinutes() + 10) ? new Date().setMinutes(new Date().getMinutes() + 10) : this.f.published_from.value;
+    console.log(visibleTime, new Date(this.f.published_from.value).getTime(), new Date().setMinutes(new Date().getMinutes() + 10))
     const coupon: Coupon = {
       title: this.f.title.value,
       description: this.f.description.value,
       image: this.imagePath,
       price: this.markedFree ? 0 : this.f.price.value,
-      visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
+      visible_from: this.markedPrivate ? null : (new Date(visibleTime)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,
@@ -194,10 +195,11 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       categories: this.selectedCategories
 
     };
-    ////console.log('broker selezionati', this.selectedBroker);
+    //console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
+/*
   changeDate() {
     this.couponForm.get('published_from').setValue(new Date().setHours(new Date().getHours() + this.couponForm.get('delay').value));
   }
@@ -213,8 +215,8 @@ changeDelay() {
   else {
     this.couponForm.get('delay').setValue(24);
   }
-
 }
+*/
 
   addCoupon(coupon: Coupon) {
     this.couponService.create(coupon)
@@ -290,11 +292,11 @@ changeDelay() {
           this.couponForm.get('purchasable').enable();
         }
         break;
-      case 'publishNow':
+      /*case 'publishNow':
         if (e.target.checked) {
             this.couponForm.get('published_from').disable();
             this.couponForm.get('delay').disable();
-            this.couponForm.get('published_from').setValue(new Date().setMinutes(new Date().getMinutes() + 5));
+            this.couponForm.get('published_from').setValue(new Date().setMinutes(new Date().getMinutes() + 10));
             this.couponForm.get('delay').setValue(24);
             this.bgColorPrivate = '#E4E7EA';
         } else {
@@ -302,7 +304,7 @@ changeDelay() {
             this.couponForm.get('delay').enable();
             this.couponForm.get('published_from').setValue(new Date().setHours(new Date().getHours() + 24));
             this.bgColorPrivate = '#FFF';
-          }
+          }*/
     }
   }
 

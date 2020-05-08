@@ -69,12 +69,14 @@
             </div> <!-- Price -->
 
             <div class="form-group row">
-              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Visibile da: </label>
-              <div class="col-8 col-lg-7 col-sm-7">
+              <label class="col-12 col-lg-3 col-sm-3 col-form-label">Visibile da
+                <span class="fas fa-info-circle" #pop="bs-popover" [popover]="popTemplate" (mouseenter)="pop.show()" (mouseleave)="pop.hide()"></span>
+              </label>
+              <div class="col-8 col-lg-7 col-sm-7"><!--(change)="changeDelay()"-->
                 <input style="background: white" type="text" mwlFlatpickr
-                       [clickOpens]="true" [noCalendar]="false" [convertModelValue]="true" [enableTime]="false"
+                       [clickOpens]="true" [noCalendar]="false" [convertModelValue]="true" [enableTime]="true"
                        dateFormat="Y-m-d H:i" formControlName="published_from" class="form-control"
-                       [style.background]="bgColorPrivate" minDate="today" (change)="changeDelay()"
+                       [style.background]="bgColorPrivate" minDate="today"
                        [ngClass]="{ 'is-invalid': submitted && f.valid_from.errors }"/>
                 <div *ngIf="submitted && f.published_from.errors" class="invalid-feedback">
                   <div *ngIf=" f.published_from.errors">Data non valida</div>
@@ -88,7 +90,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group row">
+            <!--<div class="form-group row">
               <label class="col-12 col-lg-3 col-sm-3 col-form-label">Scegli tra quante ore pubblicare:
               </label>
               <div class="col-8 col-lg-7 col-sm-7">
@@ -107,7 +109,7 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <div  class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Seleziona categorie: </label>
@@ -262,6 +264,9 @@
     </div>
   </div>
 </div>
+<ng-template #popTemplate>
+  <p style="font-size: 14px;">Nota: Il tempo minimo per la pubblicazione del coupon è di 10 minuti</p>
+</ng-template>
 
 <!--<form [formGroup]="form">-->
 <!--  <quill-editor format="text" formControlName="html"></quill-editor>-->

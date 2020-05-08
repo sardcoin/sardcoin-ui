@@ -24,7 +24,7 @@ export class DateValidation {
   static CheckDateValidity(AC: AbstractControl) {
 
     const dateFrom = (AC.get('published_from').value); // to get value in input tag
-    let date = new Date().setHours(new Date().getHours() + 23).valueOf();
+    let date = new Date().setHours(new Date().getMinutes() + 10).valueOf();
 
     try {
 
