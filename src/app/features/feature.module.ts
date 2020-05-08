@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { QuillModule } from 'ngx-quill';
 import { CoreModule } from '../core/core.module';
 import { P404Component } from '../errors/404.component';
 import { P500Component } from '../errors/500.component';
@@ -23,7 +24,8 @@ import { FeatureRoutingModule } from './feature.routing';
     CoreModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    QuillModule.forRoot()
   ],
   providers: [
     IsAuthenticatedGuard,

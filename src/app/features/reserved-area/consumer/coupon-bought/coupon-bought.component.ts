@@ -60,7 +60,7 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
           .sort((a: Coupon, b: Coupon) => (new Date(b.purchase_time).getTime()) - (new Date(a.purchase_time).getTime()));
         this.coupons.forEach(el => {
           el.title = el.title.length > 50 ? el.title.slice(0, 50) + '...' : el.title;
-          el.description = el.description.length > 200 ? el.description.slice(0, 150) + '...' : el.description;
+          el.description = el.description.length > 55000 ? el.description.slice(0, 55000) + '...' : el.description;
         });
         // this.coupons.forEach(el => el.state = this.formatState(el));
           ////console.log('this.coupons', this.coupons)
@@ -118,8 +118,16 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
     return color;
   };
 
-  details = (coupon: Coupon): void => {
+  details = (coupon: Coupon, des: any): void => {
+    console.log('cp', coupon)
+    console.log('des', des)
+
+    coupon.description = des
     this.couponService.setCoupon(coupon);
     this.router.navigate(['/bought/details']);
   };
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 }

@@ -228,4 +228,9 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
   resetShowcase() {
     this.filterActions.clear();
   }
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
+
 }

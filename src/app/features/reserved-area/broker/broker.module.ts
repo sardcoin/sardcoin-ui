@@ -8,6 +8,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { BsDropdownModule, BsModalService, ModalModule } from 'ngx-bootstrap';
+import { QuillModule } from 'ngx-quill';
 
 // Internal Files
 import { BreadcrumbActions } from '../../../core/breadcrumb/breadcrumb.actions';
@@ -46,6 +47,7 @@ import { FeatureReservedAreaBrokerPackageReportComponent } from './report/packag
     FlatpickrModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    QuillModule,
 
     MatSortModule,
     MatTableModule,
