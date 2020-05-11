@@ -119,8 +119,8 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   };
 
   details = (coupon: Coupon, des: any): void => {
-    console.log('cp', coupon)
-    console.log('des', des)
+    //console.log('cp', coupon)
+    //console.log('des', des)
 
     coupon.description = des
     this.couponService.setCoupon(coupon);
