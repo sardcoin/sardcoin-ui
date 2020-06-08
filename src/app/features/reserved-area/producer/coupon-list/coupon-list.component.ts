@@ -69,7 +69,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
         }
       }, error => {
         //console.log(error);
-        this.toastr.error('Si è verificato un errore durante l\'eliminazione del coupon.', 'Errore');
+        this.toastr.error('Errore di eliminazione, se è visibile o è stato acquistato non può essere eliminato.', 'Errore');
       });
 
     this.modalRef.hide();

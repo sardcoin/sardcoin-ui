@@ -245,7 +245,7 @@
 
 <ng-template #couponAdding>
   <div class="modal-header">
-    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>{{editCoupon ? 'Modifica ' : 'Crea '}} "{{modalCoupon.title.length > 20 ?
+    <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>Aggiungi "{{modalCoupon.title.length > 20 ?
       modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" {{editCoupon ? 'nel ' : 'al '}} pacchetto</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -277,7 +277,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
     <button type="button" class="btn btn-success" (click)="addToPackage(modalCoupon)">
-      {{editCoupon ? 'Modifica' : 'Crea'}}
+      Aggiungi
     </button>
   </div>
 </ng-template>

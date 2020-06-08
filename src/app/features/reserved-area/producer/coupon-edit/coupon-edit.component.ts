@@ -275,14 +275,14 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     await this.couponService.editCoupon(coupon)
       .subscribe(data => {
         if (data['bought']) {
-          this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più modificarlo.', 'Errore durante l\'aggiornamento');
+          this.toastr.error('Errore di modifica, se è visibile o è stato acquistato non può essere modificato.', 'Errore');
         } else {
           this.toastr.success('', 'Coupon modificato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
         }
       }, err => {
         //console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del coupon...', 'Errore durante l\'aggiornamento');
+        this.toastr.error('Errore di modifica, se è visibile o è stato acquistato non può essere modificato.', 'Errore');
       });
   }
 
