@@ -132,15 +132,14 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   decline = (): void => {
     this.modalRef.hide();
   };
-<<<<<<< Updated upstream
-=======
+
   getTimestamp = (validData: string): number => {
     const current = new Date(validData);
     const timestamp = current.getTime();
 
     return timestamp;
   };
->>>>>>> Stashed changes
+
   byPassHTML(html: string) {
     //console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
