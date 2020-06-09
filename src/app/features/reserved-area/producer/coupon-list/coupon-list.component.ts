@@ -23,6 +23,9 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   modalRef: BsModalRef;
   modalCoupon: Coupon;
   data;
+  current = new Date();
+  timestamp = this.current.getTime();
+
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -125,6 +128,12 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     //console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
+  getTimestamp = (validData: string): number => {
+    const current = new Date(validData);
+    const timestamp = current.getTime();
+
+    return timestamp;
+  };
 
 
   dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;

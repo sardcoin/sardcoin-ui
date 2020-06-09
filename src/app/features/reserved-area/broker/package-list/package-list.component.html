@@ -9,8 +9,13 @@
       <td mat-cell *matCellDef="let coupon">
         <span *ngIf="coupon.description.length > 40" style="font-size: 17px;">{{coupon.title.substring(0,40)}}...</span>
         <span *ngIf="coupon.description.length <= 40" class="card-text truncate " style="font-size: 17px;">{{coupon.title}}</span> <br/>
+<<<<<<< Updated upstream
         <i *ngIf="coupon.description.length > 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')"></i>
         <i *ngIf="coupon.description.length <= 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+=======
+        <i *ngIf="coupon.description.length > 100" style="color: #999; font-size: 15px;"  [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')"></i>
+        <i  [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')" *ngIf="coupon.description.length <= 100" style="color: #999; font-size: 15px;"></i>
+>>>>>>> Stashed changes
 
       </td>
     </ng-container>
@@ -52,6 +57,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let coupon" class="p-1">
         <div class="btn-group" dropdown>
+          {{getTimestamp(coupon.visible_from) + ' and ' + timestamp}}
           <button id="action-button" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                   aria-controls="action-button">
             Azioni <span class="caret"></span>
@@ -60,9 +66,9 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
+            <li  *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp" role="menuitem"><a class="dropdown-item" (click)="onEdit(coupon)"><i class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="openModal(coupon)"><i
+            <li  *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp" role="menuitem"><a class="dropdown-item" (click)="openModal(coupon)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
           </ul>
         </div>
@@ -92,9 +98,9 @@
       <div class="card-footer w-100">
         <div class="float-left">
           <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i></button>
-          <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
+          <button type="button" *ngIf="getTimestamp(coupon.visible_from) > timestamp" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i class="fas fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
+          <button type="button" *ngIf="getTimestamp(coupon.visible_from) > timestamp"  class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
           </button>
         </div>
         <div class="float-right card-price">
