@@ -299,7 +299,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         }
       }, err => {
         //console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
+        this.toastr.error('Errore di modifica, se è visibile o è stato acquistato non può essere modificato.', 'Errore');
       });
   }
 

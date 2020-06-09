@@ -24,6 +24,8 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   modalRef: BsModalRef;
   modalCoupon: Coupon;
   data;
+  current = new Date();
+  timestamp: number;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -45,6 +47,14 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   ngOnInit(): void {
     this.control();
     this.addBreadcrumb();
+    this.current.setHours(0);
+
+    this.current.setMinutes(0);
+
+    this.current.setSeconds(0);
+
+    this.current.setMilliseconds(0);
+    this.timestamp = this.current.getTime();
   }
 
   onEdit = (pack: Coupon): void => {
@@ -70,7 +80,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
           this.toastr.success('', 'Pacchetto venduto!');
         }
       }, error => {
-        //console.log(error);
+        // console.log(error);
         this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 
@@ -122,6 +132,18 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   decline = (): void => {
     this.modalRef.hide();
   };
+
+  getTimestamp = (validData: string): number => {
+    const current = new Date(validData);
+    const timestamp = current.getTime();
+
+    return timestamp;
+  };
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 
   dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

@@ -219,7 +219,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
     this.submitted = true;
     // It stops here if form is invalid
     if (this.packageForm.invalid || this.imagePath == undefined) {
-      console.error('Errore nel form o nell\'immagine');
+      console.error('Errore nel form o nell\'immagine', this.packageForm.invalid, this.imagePath );
 
       return;
     }

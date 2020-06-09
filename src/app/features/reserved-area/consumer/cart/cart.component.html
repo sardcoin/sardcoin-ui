@@ -17,7 +17,7 @@
             </tr>
           </thead>
           <tr class="bg-blue">
-            <td colspan="9"></td>
+            <td colspan="12"></td>
           </tr>
           <tbody class="striped">
           <tr *ngFor="let coupon of coupons">
@@ -50,7 +50,11 @@
                 <span class="d-xl-inline-block d-lg-none">Elimina</span>
               </button>
             </td>
-
+            <td class="text-xl-center text-left">
+              <button  class="btn  btn-success " type="button" (click)="goToDetailPayment()"><i
+                class="fas fa-euro-sign mr-2"></i> Paga
+              </button>
+            </td>
             <ng-template #template>
               <div class="modal-header">
                 <h4 class="modal-title pull-left">Elimina il Coupon</h4>
@@ -77,9 +81,9 @@
 
         </div>
         <div class="card-body p-0">
-          <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-            class="fas fa-euro-sign mr-2"></i>Vai al riepilogo
-          </button>
+<!--          <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i-->
+<!--            class="fas fa-euro-sign mr-2"></i>Vai al riepilogo-->
+<!--          </button>-->
           <button class="btn btn-lg btn-primary float-right" (click)="retry()">
             <i class="fas fa-shopping-basket mr-2"></i>Vai allo shopping
           </button>
@@ -152,9 +156,9 @@
 
         </div>
         <div class="card-body p-0">
-          <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i
-            class="fas fa-euro-sign mr-2"></i>Vai al riepilogo
-          </button>
+<!--          <button class="btn btn-lg btn-success float-right ml-2" type="button" (click)="goToDetailPayment()"><i-->
+<!--            class="fas fa-euro-sign mr-2"></i>Vai al riepilogo-->
+<!--          </button>-->
           <button class="btn btn-lg btn-primary float-right" (click)="retry()">Go back to shopping</button>
           <button class="btn btn-lg btn-warning text-white float-left" (click)="openModal(emptyCartTemplate)"><i
             class="fas fa-trash"></i> Svuota la cassa
@@ -172,10 +176,10 @@
                 <h5 class="card-text">{{coupon.title}}</h5>
                 <p class="card-text" [innerHTML]="byPassHTML(coupon.description)"></p>
                 <div style="float: right">
-                  <a href="#">
-                    <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i
-                      class="fas fa-info-circle"></i></button>
-                  </a>
+<!--                  <a href="#">-->
+<!--                    <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i-->
+<!--                      class="fas fa-info-circle"></i></button>-->
+<!--                  </a>-->
                   <a style="padding-left: 1em">
                     <button type="button" class="btn btn-danger" (click)="openModal(template)"><i
                       class="fas fa-trash"></i>
@@ -229,9 +233,9 @@
             <button class="btn btn-lg btn-primary float-right mr-sm-0" (click)="retry()">
               <i class="fas fa-shopping-basket mr-2"></i> Shopping
             </button>
-<!--            <button class="btn btn-lg btn-warning text-white float-left mr-sm-0 mr-1"-->
-<!--                    (click)="openModal(emptyCartTemplate)">-->
-<!--              <i class="fas fa-trash"></i></button>-->
+            <button class="btn btn-lg btn-warning text-white float-left mr-sm-0 mr-1"
+                    (click)="openModal(emptyCartTemplate)">
+              <i class="fas fa-trash"></i></button>
           </div>
         </div>
       </div> <!-- SM VIEW -->
