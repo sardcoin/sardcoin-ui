@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
@@ -29,6 +30,7 @@ Quill.register('modules/imageResize', ImageResize);
 })
 
 export class PackageEditComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   toolbarOptions = {
     toolbar: [
@@ -247,11 +249,17 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
     if (this.fromEdit) {
       this.editCoupon(pack);
+      this.blockUI.stop(); // Stop blocking
+
     } else {
       delete pack.id;
       this.createCopy(pack);
+      this.blockUI.stop(); // Stop blocking
+
     }
   }
 

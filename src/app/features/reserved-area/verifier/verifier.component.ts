@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Result } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +21,8 @@ import { StoreService } from '../../../shared/_services/store.service';
   styleUrls: ['./verifier.component.scss']
 })
 export class VerifierComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
+
   tokenForm: FormGroup;
   submitted = false;
   coupon: any;
@@ -80,32 +83,40 @@ export class VerifierComponent implements OnInit, OnDestroy {
     if (this.tokenForm.invalid) {
       return;
     }
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
 
     this.couponService.redeemCoupon(this.tokenForm.controls.token.value)
       .subscribe(result => {
-          ////console.log('result ooooo', result)
+
+        //// console.log('result ooooo', result)
         if (result) {
             if (result.coupons) {
-                this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
-                this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
+              this.blockUI.stop(); // Stop blocking
+
+              this.toastr.warning('Vidimare il coupon desiderato!', 'Coupon di tipo pacchetto');
+              this.couponService.getCouponByToken(result.coupons[0][0].package, 1)
                     .subscribe(cp => {
-                        ////console.log('cp', cp);
+                        //// console.log('cp', cp);
                         this.titlePackage = cp.title;
                 });
 
-
-                this.modalCoupons = result.coupons;
+              this.modalCoupons = result.coupons;
 
             } else if (result.redeemed) {
+              this.blockUI.stop(); // Stop blocking
 
-                this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+              this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
 
             }
         } else {
-            this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
           }
       }, err => {
         console.error(err);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
       });
     if (this.modalRef) {
@@ -123,15 +134,24 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
         this.couponService.redeemCoupon(token)
             .subscribe(result => {
-                if (result) {
+              console.log('result', result)
+              this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
+              if (result) {
                     this.verifyCouponQuantity(token);
-                    this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido');
+                    this.blockUI.stop(); // Stop blocking
+
+                    this.toastr.success('Coupon valido e vidimato con successo!', 'Coupon valido.');
                 } else {
-                    this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+                this.blockUI.stop(); // Stop blocking
+
+                this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
                 }
             }, err => {
                 console.error(err);
-                this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
+              this.blockUI.stop(); // Stop blocking
+
+              this.toastr.error('Coupon non valido o scaduto.', 'Coupon non valido!');
             });
         this.modalRef.hide();
   }
@@ -141,7 +161,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     bread.push(new Breadcrumb('Home', '/'));
     bread.push(new Breadcrumb('Vidima coupon', '/reserved-area/verifier/check'));
-    ////console.log('bread verifier', bread)
+    //// console.log('bread verifier', bread)
     this.breadcrumbActions.updateBreadcrumb(bread);
   }
 
@@ -198,7 +218,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   async openModal(template: TemplateRef<any>, token) {
       const isCoupon = await this.couponService.isCouponFromToken(token)
           .toPromise();
-      ////console.log('isCoupon', isCoupon);
+      //// console.log('isCoupon', isCoupon);
       if (isCoupon) {
           if (!isCoupon.error) {
 

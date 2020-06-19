@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
 import {Coupon} from '../../../../shared/_models/Coupon';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -32,6 +33,7 @@ Quill.register('modules/imageResize', ImageResize);
 })
 
 export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   toolbarOptions = {
     toolbar: [
@@ -164,10 +166,13 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   }
 
   async saveCoupon() {
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
     this.submitted = true;
     const uploadDone = await this.uploadFiles(this.uploader);
     if (!uploadDone) {
       this.toastr.error('Errore imprevisto durante il caricamento dell\'immagine.', 'Errore caricamento immagine');
+      this.blockUI.stop(); // Stop blocking
 
       return;
     }
@@ -175,6 +180,8 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       // It stops here if form is invalid or not upload image
     if (this.couponForm.invalid || this.imagePath == null) {
       console.log('this.couponForm.invalid', this.couponForm.controls)
+      this.blockUI.stop(); // Stop blocking
+
       return;
     }
     const visibleTime = new Date(this.f.published_from.value).getTime() < new Date().setMinutes(new Date().getMinutes() + 10) ? new Date().setMinutes(new Date().getMinutes() + 10) : this.f.published_from.value;
@@ -225,11 +232,17 @@ changeDelay() {
         if (data['created']) {
           this.toastr.success('', 'Coupon creato con successo!');
           this.router.navigate(['/reserved-area/producer/list']);
+          this.blockUI.stop(); // Stop blocking
+
         } else {
           this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+          this.blockUI.stop(); // Stop blocking
+
         }
       }, err => {
         ////console.log(err);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
       });
   }

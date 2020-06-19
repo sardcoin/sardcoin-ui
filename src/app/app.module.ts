@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BlockUIModule } from 'ng-block-ui';
 
 // INTERNAL COMPONENTS
 import { AppComponent } from './app.component';

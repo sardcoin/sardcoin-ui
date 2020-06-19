@@ -3,6 +3,8 @@ import {GlobalEventsManagerService} from '../shared/_services/global-event-manag
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 
 @Component({
   selector: 'app-feature',

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 
 // Local imports
@@ -16,6 +17,8 @@ import { GlobalEventsManagerService } from '../../../../shared/_services/global-
   styleUrls: ['./coupon-import.component.scss']
 })
 export class CouponImportComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
+
   tokenForm: FormGroup;
   submitted = false;
   data: any;
@@ -73,11 +76,14 @@ export class CouponImportComponent implements OnInit, OnDestroy {
       }
       this.couponService.isCouponFromToken(this.data.token).subscribe(isTokenCoupon => {
           ////console.log('isTokenCoupon', isTokenCoupon)
+        this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
         if (isTokenCoupon.error === true) {
           this.importPackage();
         } else {
           this.importCoupon();
         }
+        this.blockUI.stop(); // Stop blocking
 
       });
 
