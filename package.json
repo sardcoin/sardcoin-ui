@@ -51,6 +51,7 @@
     "lodash": "^4.17.13",
     "moment": "2.22.1",
     "mutationobserver-shim": "^0.3.2",
+    "ng-block-ui": "2.1.8",
     "ng-click-outside": "^4.0.0",
     "ng-pick-datetime": "^5.2.6",
     "ng2-charts": "1.6.0",

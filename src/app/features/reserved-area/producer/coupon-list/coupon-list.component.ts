@@ -2,6 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnIn
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +20,7 @@ import { CouponService } from '../../../../shared/_services/coupon.service';
 })
 
 export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
@@ -64,14 +66,24 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   onDelete = (coupon: Coupon): void => {
     this.couponService.deleteCoupon(coupon.id, 0)
       .subscribe(data => {
+        this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
         if (data.deleted) {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.success('', 'Coupon eliminato!');
           this.control();
+
         } else if (data.bought) {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.error('Coupon acquistato da uno o più utenti, non puoi più eliminarlo.', 'Errore durante l\'aggiornamento');
+
         }
       }, error => {
         //console.log(error);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Errore di eliminazione, se è visibile o è stato acquistato non può essere eliminato.', 'Errore');
       });
 

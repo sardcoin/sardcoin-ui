@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@a
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
@@ -31,6 +32,8 @@ Quill.register('modules/imageResize', ImageResize);
 })
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
+
   toolbarOptions = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -251,16 +254,24 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
       return;
     }
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
     this.couponService.create(pack)
       .subscribe(data => {
         if (data.created) {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);
         } else {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
         //console.log(err);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Errore imprevisto durante la creazione del pacchetto .', 'Errore durante la creazione');
       });
   }

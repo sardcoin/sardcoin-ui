@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import { BlockUIModule } from 'ng-block-ui';
 import { QuillModule } from 'ngx-quill';
 import {CouponEditComponent} from './coupon-edit.component';
 import {SharedModule} from '../../../../shared/shared.module';
