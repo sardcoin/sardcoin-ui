@@ -19,45 +19,59 @@
                 </div>
               </div>
             </div> <!-- Title -->
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Breve Descrizione:</label>
+              <div class="col-sm-10">
+                <textarea rows="2" type="text" formControlName="short_description" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.short_description.errors }"></textarea>
+              </div>
+            </div> <!--Short Description -->
+
+
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Descrizione:</label>
               <div class="col-sm-10">
                 <div [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
-                  <quill-editor [modules]= "this.toolbarOptions"  format="html" formControlName="description" [styles]="{height: '200px'}" (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)"></quill-editor>
+                  <quill-editor [modules]="this.toolbarOptions" format="html" formControlName="description"
+                                [styles]="{height: '200px'}" (onFocus)="focus($event)"
+                                (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)"
+                                (onEditorCreated)="created($event)"></quill-editor>
                 </div>
 
-<!--                <textarea rows="7" type="text" formControlName="description" class="form-control"-->
-<!--                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>-->
-<!--                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
-<!--                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.</div>-->
-<!--                </div>-->
+                <!--                <textarea rows="7" type="text" formControlName="description" class="form-control"-->
+                <!--                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>-->
+                <!--                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
+                <!--                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.</div>-->
+                <!--                </div>-->
               </div>
             </div> <!-- Description -->
 
             <div class="form-group row">
               <label class="col-lg-2 col-sm-4 col-form-label">Immagine</label>
 
-                <div class="col-lg-2 col-sm-4 col-form-label" id="yourImage">
-                  <img src="{{imageSelected? imageSelected: imageURL}}">
-                </div>
-                  <div >
+              <div class="col-lg-2 col-sm-4 col-form-label" id="yourImage">
+                <img src="{{imageSelected? imageSelected: imageURL}}">
+              </div>
+              <div>
 
 
-                    <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*" type="file"  id="files" formControlName="image" ng2FileSelect [uploader]="uploader"
-                           [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
-                    <!--style="display:none;"-->
-                    <!--<label for="files" style="margin-top: 10px">
-                      <span class="span-style">
-                      Sfoglia
-                      </span>
-                    </label>-->
+                <input (change)="preview(file.files)" #file class="col-lg-9 col-sm-6 col-form-label" accept="image/*"
+                       type="file" id="files" formControlName="image" ng2FileSelect [uploader]="uploader"
+                       [ngClass]="{ 'is-invalid': submitted && f.image.errors }"/>
+                <!--style="display:none;"-->
+                <!--<label for="files" style="margin-top: 10px">
+                  <span class="span-style">
+                  Sfoglia
+                  </span>
+                </label>-->
 
-                  </div>
+              </div>
 
-                <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
-                  <!--<div *ngIf="f.image.errors">Image is required</div>-->
-                  <div>Immagine obbligatoria.</div>
-                </div>
+              <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
+                <!--<div *ngIf="f.image.errors">Image is required</div>-->
+                <div>Immagine obbligatoria.</div>
+              </div>
             </div> <!-- Image -->
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Prezzo</label>
@@ -98,14 +112,14 @@
                 </div>
               </div>
             </div>
-            <div  class="form-group row">
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Seleziona categorie: </label>
               <div class="col-sm-8">
                 <ng-select formControlName="categories"
                            [items]="categories"
                            [multiple]="true"
                            [closeOnSelect]="true"
-                           [searchable]= "true"
+                           [searchable]="true"
                            bindLabel="name"
                            placeholder="Seleziona categorie"
                            [(ngModel)]="selectedCategories">
@@ -113,7 +127,7 @@
               </div>
 
             </div>
-            <div  class="form-group row">
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Privato per: </label>
               <div class="col-sm-8">
                 <ng-select formControlName="broker"
@@ -201,7 +215,8 @@
                 <input type="number" formControlName="purchasable" class="form-control"
                        [ngClass]="{ 'is-invalid': submitted && f.purchasable.errors }"/>
                 <div *ngIf="submitted && f.purchasable.errors" class="invalid-feedback">
-                  <div *ngIf="f.purchasable.errors">Questo valore deve essere inferiore o uguale alla quantità creata</div>
+                  <div *ngIf="f.purchasable.errors">Questo valore deve essere inferiore o uguale alla quantità creata
+                  </div>
                 </div>
               </div>
               <div class="col-sm-4 col-lg-2 my-auto">
@@ -220,21 +235,26 @@
                  *ngIf="submitted && f.valid_until.errors?.MatchDateFromUntil">la scadenza precede l'inizio
             </div>
 
-          <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
-          <!--Please upload an image before create the coupon.-->
-          <!--</div>-->
-          <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
-            Quantità non corretta.
-          </div>
-          <div *ngIf="submitted && f.description.status === 'INVALID'" class="alert alert-danger col-md-12">
-            <div >Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.
+            <!--<div class="alert alert-danger col-md-12" *ngIf="submitted && f.image.errors?.NoPath">-->
+            <!--Please upload an image before create the coupon.-->
+            <!--</div>-->
+            <div class="alert alert-danger col-md-12" *ngIf="submitted && f.quantity.errors?.MatchQuantity">
+              Quantità non corretta.
             </div>
-          </div>
-          <div class="form group">
-            <p>
-              <button class="btn btn-block btn-success">{{fromEdit ? 'Salva modifiche' : 'Crea Coupon'}}</button>
-            </p>
-          </div>
+            <div *ngIf="submitted && f.short_description.status === 'INVALID'" class="alert alert-danger col-md-12">
+              <div>Descrizione breve obbligatoria, deve essere tra 1 e 255 caratteri.
+              </div>
+            </div>
+            <div *ngIf="submitted && f.description.status === 'INVALID'" class="alert alert-danger col-md-12">
+              <div>Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti
+                caratteri.
+              </div>
+            </div>
+            <div class="form group">
+              <p>
+                <button class="btn btn-block btn-success">{{fromEdit ? 'Salva modifiche' : 'Crea Coupon'}}</button>
+              </p>
+            </div>
 
           </form>
         </div>

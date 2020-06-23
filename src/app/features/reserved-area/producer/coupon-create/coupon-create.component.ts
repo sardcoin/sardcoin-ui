@@ -139,6 +139,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.couponForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+      short_description: [undefined, Validators.compose([Validators.minLength(5), Validators.maxLength(255), Validators.required])],
       description: [undefined, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
       image: [this.imagePath, Validators.required ],
       price: [1, Validators.compose([Validators.min(1), Validators.required])],
@@ -188,6 +189,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
     console.log(visibleTime, new Date(this.f.published_from.value).getTime(), new Date().setMinutes(new Date().getMinutes() + 10))
     const coupon: Coupon = {
       title: this.f.title.value,
+      short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath,
       price: this.markedFree ? 0 : this.f.price.value,

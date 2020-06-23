@@ -10,6 +10,7 @@ export interface Package extends Coupon {
 export interface Coupon {
   id?: number;
   title: string;
+  short_description: any;
   description: any;
   image: string;
   timestamp?: Date | number;

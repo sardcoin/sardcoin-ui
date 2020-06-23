@@ -232,6 +232,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     const pack: Package = {
       id: this.couponPass.id,
       title: this.f.title.value,
+      short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath ? this.imagePath : this.couponPass.image,
       price: this.markedFree ? 0 : this.f.price.value,

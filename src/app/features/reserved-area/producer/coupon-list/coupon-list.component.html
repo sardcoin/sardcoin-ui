@@ -10,8 +10,8 @@
         <span *ngIf="coupon.title.length > 100" class="card-text truncate" style="font-size: 17px;" [innerHTML]="byPassHTML(coupon.title)">{{coupon.title.substring(0,100)}}</span> <br/>
         <span *ngIf="coupon.title.length <= 100" class="card-text truncate" style="font-size: 17px;" [innerHTML]="byPassHTML(coupon.title)">{{coupon.title}}</span> <br/>
 
-        <i *ngIf="coupon.description.length > 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')"></i>
-        <i *ngIf="coupon.description.length <= 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+        <i *ngIf="coupon.short_description.length > 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description.substring(0,100)+ '...')"></i>
+        <i *ngIf="coupon.short_description.length <= 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
 
       </td>
     </ng-container>

@@ -182,6 +182,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
       this.couponForm = this.formBuilder.group({
         title: [this.couponPass.title, Validators.compose([Validators.maxLength(80), Validators.minLength(5), Validators.required])],
+        short_description: [this.couponPass.short_description, Validators.compose([Validators.maxLength(55000), Validators.minLength(5), Validators.required])],
         description: [this.couponPass.description, Validators.compose([Validators.maxLength(55000), Validators.minLength(5), Validators.required])],
         image: [this.imagePath],
         price: [{
@@ -223,6 +224,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
     const coupon: Coupon = {
       id: this.couponPass.id,
       title: this.f.title.value,
+      short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath ? this.imagePath : this.couponPass.image,
       timestamp: this.couponPass.timestamp,
