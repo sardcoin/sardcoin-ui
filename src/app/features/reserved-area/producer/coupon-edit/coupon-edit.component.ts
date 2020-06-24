@@ -190,7 +190,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
           disabled: this.markedFree
         },      Validators.compose([Validators.required])],
         valid_until_empty: [this.markedUnlimited],
-        published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
+        published_from: [{value: this.markedPrivate ? null : new Date().setMinutes(new Date().getMinutes() + 10), disabled: this.markedPrivate}],
         categories: [this.selectedCategories],
         broker: [this.selectedBroker],
         valid_from: [this.couponPass.valid_from, Validators.compose([Validators.required])],
@@ -221,6 +221,8 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const visibleTime = new Date(this.f.published_from.value).getTime() < new Date().setMinutes(new Date().getMinutes() + 10) ? new Date().setMinutes(new Date().getMinutes() + 10) : this.f.published_from.value;
+
     const coupon: Coupon = {
       id: this.couponPass.id,
       title: this.f.title.value,
@@ -229,7 +231,7 @@ export class CouponEditComponent implements OnInit, OnDestroy {
       image: this.imagePath ? this.imagePath : this.couponPass.image,
       timestamp: this.couponPass.timestamp,
       price: this.markedFree ? 0 : this.f.price.value,
-      visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
+      visible_from: this.markedPrivate ? null : (new Date(visibleTime)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,
@@ -290,10 +292,10 @@ export class CouponEditComponent implements OnInit, OnDestroy {
 
     this.couponService.editCoupon(coupon)
       .subscribe(data => {
-        if (data.bought) {
+        if (data === null) {
           this.blockUI.stop(); // Stop blocking
 
-          this.toastr.error('Errore di modifica, se è visibile o è stato acquistato non può essere modificato.', 'Errore');
+          this.toastr.warning('Non è stato modificato alcun campo', 'Attenzione');
         } else {
           this.blockUI.stop(); // Stop blocking
 
@@ -314,8 +316,13 @@ export class CouponEditComponent implements OnInit, OnDestroy {
   addBreadcrumb() {
     const bread = [] as Array<Breadcrumb>;
 
+    if (this.fromEdit){
     bread.push(new Breadcrumb('Home', '/reserved-area/producer/'));
     bread.push(new Breadcrumb('Modifica ' + this.couponPass.title, '/reserved-area/producer/edit/'));
+    } else {
+      bread.push(new Breadcrumb('Home', '/reserved-area/producer/'));
+      bread.push(new Breadcrumb('Copia ' + this.couponPass.title, '/reserved-area/producer/edit/'));
+    }
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

@@ -147,7 +147,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       categories: [this.selectedCategories],
       broker: [this.selectedBroker],
       // delay: [24, Validators.min(24)],
-      valid_from: [new Date(), Validators.required],
+      valid_from: [new Date().setMinutes(new Date().getMinutes() + 10), Validators.required],
       valid_until: [null],
       valid_until_empty: [this.markedUnlimited],
       quantity: [1, Validators.required],
@@ -186,7 +186,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       return;
     }
     const visibleTime = new Date(this.f.published_from.value).getTime() < new Date().setMinutes(new Date().getMinutes() + 10) ? new Date().setMinutes(new Date().getMinutes() + 10) : this.f.published_from.value;
-    console.log(visibleTime, new Date(this.f.published_from.value).getTime(), new Date().setMinutes(new Date().getMinutes() + 10))
+
     const coupon: Coupon = {
       title: this.f.title.value,
       short_description: this.f.short_description.value,
