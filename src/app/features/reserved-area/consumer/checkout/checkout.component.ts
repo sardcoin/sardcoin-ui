@@ -354,7 +354,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                 const payment_id = details.id
 
                 //this.closeModalAwaitConfirmPayment()
-                this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
+                //this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
                 this.closeModalPayment()
                 this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
 
@@ -365,7 +365,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
                 this.router.navigate(['/bought']); // TODO a fine test decomentare
                 this.blockUI.stop()
-
+                this.toastr.success('', 'Pagamento riuscito!');
                 this.cartActions.emptyCart(); // TODO a fine test decomentare
 
               } catch (e) {
