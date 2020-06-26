@@ -61,8 +61,8 @@
 
         <div class="mt-4" *ngIf="desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0"
-                  class="btn btn-lg btn-success float-right ml-2" title="hai già un oggetto nella cassa, rimuovilo o completa l'acquisto prima di acquistarne altri"
-                  [disabled]="!isCartEmpty()" (click)="openModal(template)">
+                  class="btn btn-lg btn-success float-right ml-2" title="Aggiungi al carrello."
+                   (click)="openModal(template)">
             Acquista
           </button>
           <button *ngIf="inCart(couponPass.id)" class="btn btn-lg btn-success float-right ml-2" (click)="viewCart()"><i
@@ -73,8 +73,8 @@
 
         <div *ngIf="!desktopMode">
           <button *ngIf="!inCart(couponPass.id) && couponPass.max_quantity > 0 && isUserLoggedIn"
-                  class="btn  btn-success float-right ml-2" title="hai già un oggetto nella cassa, rimuovilo o completa l\'acquisto prima di acquistarne altri"
-                  [disabled]="!isCartEmpty()" (click)="openModal(template)">
+                  class="btn  btn-success float-right ml-2" title="Aggiungi al carrello."
+                   (click)="openModal(template)">
             <i class="fas fa-euro-sign"> </i> Acquista
           </button>
           <button *ngIf="inCart(couponPass.id)" class="btn btn-success float-right ml-2" (click)="viewCart()">
