@@ -24,7 +24,7 @@
           </tr>
           <tbody class="striped">
           <tr *ngFor="let coupon of coupons">
-            <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+            <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
             </td>
             <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)" alt="Card image cap"></td>
             <td>{{formatPrice(coupon.price)}}</td>
@@ -106,7 +106,7 @@
               </div>
               <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
                 <h5 class="card-text">{{coupon.title}}</h5>
-                <p class="card-text" [innerHTML]="byPassHTML(coupon.description)"></p>
+                <p class="card-text" [innerHTML]="byPassHTML(coupon.short_description)"></p>
                 <div style="float: right">
 <!--                  <a href="#">-->
 <!--                    <button type="button" class="btn btn-outline-dark" (click)="details(coupon)"><i-->
