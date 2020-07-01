@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation } from '@a
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
@@ -31,6 +32,8 @@ Quill.register('modules/imageResize', ImageResize);
 })
 
 export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
+
   toolbarOptions = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -158,6 +161,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
         if (this.check || !this.couponPass) {
           this.packageForm = this.formBuilder.group({
             title: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+            short_description: [undefined, Validators.compose([Validators.minLength(1), Validators.maxLength(255), Validators.required])],
             description: [undefined, Validators.compose([Validators.minLength(1), Validators.maxLength(55000), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [0, Validators.required],
@@ -178,6 +182,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
         } else if (this.couponPass && !this.check) {
           this.packageForm = this.formBuilder.group({
             title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+            short_description: [this.couponPass.short_description, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
             description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [this.couponPass.price, Validators.required],
@@ -226,6 +231,7 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
     const pack: Package = {
       title: this.f.title.value,
+      short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath,
       price: this.markedFree ? 0 : this.f.price.value,
@@ -251,16 +257,24 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
 
       return;
     }
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
     this.couponService.create(pack)
       .subscribe(data => {
         if (data.created) {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.success('', 'Pacchetto creato con successo!');
           this.router.navigate(['/reserved-area/broker/list']);
         } else {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.error('Errore imprevisto durante la creazione del pacchetto.', 'Errore durante la creazione');
         }
       }, err => {
         //console.log(err);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Errore imprevisto durante la creazione del pacchetto .', 'Errore durante la creazione');
       });
   }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +21,7 @@ import { PackageService } from '../../../../shared/_services/package.service';
 })
 
 export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
@@ -72,15 +74,23 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   onDelete = (coupon: Coupon): void => {
     this.couponService.deleteCoupon(coupon.id, 1)
       .subscribe(data => {
+        this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
         if (data.deleted) {
-          this.toastr.success('Pacchetto acquistato da uno o più utenti, non puoi più eliminarlo.', 'Pacchetto eliminato!');
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.success('Eliminazione riuscita.', 'Pacchetto eliminato!');
           this.control();
         }
         if (data.bought) {
-          this.toastr.success('', 'Pacchetto venduto!');
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.error('Non puoi eliminarlo.', 'Pacchetto venduto!');
         }
       }, error => {
         // console.log(error);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 

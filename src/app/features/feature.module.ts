@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BlockUIModule } from 'ng-block-ui';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { QuillModule } from 'ngx-quill';
 import { CoreModule } from '../core/core.module';
@@ -25,7 +26,9 @@ import { FeatureRoutingModule } from './feature.routing';
     PerfectScrollbarModule,
     ReactiveFormsModule,
     CommonModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    BlockUIModule.forRoot()
+
   ],
   providers: [
     IsAuthenticatedGuard,
