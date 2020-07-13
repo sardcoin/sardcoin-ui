@@ -134,7 +134,7 @@ export class CouponEditDescriptionComponent implements OnInit, OnDestroy {
         }
       }, err => {
         // console.log(err);
-        this.toastr.error('Errore di modifica', 'Errore');
+        this.toastr.error('Non è possibile modificare un coupon che è stato già acquistato', 'Errore');
       });
   }
 
