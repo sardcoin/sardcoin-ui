@@ -57,6 +57,11 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.router.navigate(['reserved-area/producer/edit']);
   };
 
+  onEditDescription = (coupon): void => {
+    this.couponService.setCoupon(coupon);
+    this.router.navigate(['reserved-area/producer/edit-description']);
+  };
+
   onCopy = (coupon: Coupon): void => {
     this.couponService.setCoupon(coupon);
     this.couponService.setFromEdit(false);

@@ -61,6 +61,8 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
+            <li role="menuitem" *ngIf="getTimestamp(coupon.visible_from) < timestamp && coupon.visible_from !== null"><a class="dropdown-item" (click)="onEditDescription(coupon)"><i
+            class="fas fa-edit text-info"></i>Modifica descrizione</a></li>
             <li role="menuitem" *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp || coupon.visible_from===null"><a class="dropdown-item" (click)="onEdit(coupon)"><i
               class="fas fa-edit text-info"></i>
               Modifica</a></li>
@@ -88,16 +90,18 @@
       <h5 class="card-text truncate ">{{coupon.title}}</h5>
     </div>
     <div class="col-12 mb-1 text-justify">
-      <p class="card-text truncate " [innerHTML]="byPassHTML(coupon.description)">{{coupon.description}}</p>
+      <p class="card-text truncate " [innerHTML]="byPassHTML(coupon.short_description)">{{coupon.short_description}}</p>
     </div>
     <div class="card-footer w-100">
       <div class="float-left">
         <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i>
         </button>
-        <button *ngIf="getTimestamp(coupon.visible_from) > timestamp" type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
+        <button *ngIf="getTimestamp(coupon.visible_from) < timestamp && coupon.visible_from !== null" type="button" class="btn btn-info text-white mr-1" (click)="onEditDescription(coupon)"><i class="fas fa-edit"></i>
+        </button>
+        <button *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp || coupon.visible_from===null" type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
           class="fas fa-edit"></i>
         </button>
-        <button *ngIf="getTimestamp(coupon.visible_from) > timestamp" type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
+        <button *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp || coupon.visible_from===null" type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
         </button>
       </div>
       <div class="float-right card-price">
