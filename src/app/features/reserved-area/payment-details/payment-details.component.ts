@@ -26,7 +26,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   @select() username;
   @select() just_signed;
 
-  updateRegistration: FormGroup;
+  updatePaypalCredentials: FormGroup;
   selectedUser = 0;
   loading = false;
   submitted = false;
@@ -53,27 +53,11 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
     this.userService.getUserById().subscribe(user => {
       this.user = user;
-      this.updateRegistration = this.formBuilder.group({
-        first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-        last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40), Validators.required])],
-        birth_place: [this.user.birth_place, Validators.compose([Validators.maxLength(50), Validators.required])],
-        birth_date: [this.user.birth_date, Validators.required],
-        fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
-        email_paypal: [this.user.email_paypal, Validators.compose([Validators.maxLength(50)])],
-        address: [this.user.address, Validators.compose([Validators.maxLength(100), Validators.required])],
-        city: [this.user.city, Validators.compose([Validators.maxLength(50), Validators.required])],
-        zip: [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
-        province: [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
-        username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
-        email: [this.user.email, Validators.required],
-        password: [null, Validators.compose([Validators.required])],
-        r_password: [null, Validators.compose([Validators.required])],
-        company_name: [this.user.company_name],
-        vat_number: [this.user.vat_number, Validators.compose([Validators.maxLength(11)])]
-      }, {
-        validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
+      this.updatePaypalCredentials = this.formBuilder.group({
+        email_paypal: [this.user.email_paypal, Validators.compose([Validators.maxLength(50), Validators.required])],
+        client_id: [this.user.client_id, Validators.compose([Validators.maxLength(100), Validators.required])],
+        password_secret: [this.user.password_secret, Validators.compose([Validators.maxLength(100), Validators.required])]
       });
-      this.selectChangeHandler(this.user.user_type);
     });
   }
 
@@ -82,46 +66,20 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   }
 
   get f() {
-    return this.updateRegistration.controls;
-  }
-
-  selectChangeHandler(user_type) {
-    this.selectedUser = Number(user_type);
-
-    if (this.selectedUser !== 2) {
-      this.updateRegistration.controls['company_name'].setValidators(Validators.required);
-      this.updateRegistration.controls['company_name'].updateValueAndValidity();
-
-      this.updateRegistration.controls['vat_number'].setValidators(Validators.required);
-      this.updateRegistration.controls['vat_number'].updateValueAndValidity();
-    } else {
-      this.updateRegistration.controls['company_name'].setValidators(null);
-      this.updateRegistration.controls['company_name'].updateValueAndValidity();
-
-      this.updateRegistration.controls['vat_number'].setValidators(null);
-      this.updateRegistration.controls['vat_number'].updateValueAndValidity();
-    }
+    return this.updatePaypalCredentials.controls;
   }
 
   onSubmit() {
     this.submitted = true;
 
     // If the registration form is invalid, return
-    if (this.updateRegistration.invalid) {
+    if (this.updatePaypalCredentials.invalid) {
       this.loading = false;
       return;
     }
 
     // Setting some fanValues to pass to the backend
-    this.updateRegistration.value.user_type = this.selectedUser;
-
-    // If the user is not a company, put the fanValues to null
-    if (this.selectedUser === 2) {
-      this.updateRegistration.value.company_name = null;
-      this.updateRegistration.value.vat_number = null;
-    }
-
-    delete this.updateRegistration.value.r_password;
+    this.updatePaypalCredentials.value.user_type = this.selectedUser;
 
     this.loading = true;
 
@@ -129,20 +87,23 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateUser() {
-    const user = <User> this.updateRegistration.value;
+    const user = this.updatePaypalCredentials.value;
 
-    this.userService.update(user)
+    this.userService.updatePaypalCredentials(user)
       .subscribe(
         data => {
+          if (data === null) {
+            this.toastr.warning('Non è stato modificato alcun campo','Attenzione');
+          }
           if (data['status']) {
-            this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo.', 'Errore di aggiornamento');
+            this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle credenziali Paypal associate del profilo.', 'Errore di aggiornamento');
           } else {
             this.toastr.success('Occorre ripetere il login.', 'Profilo aggiornato con successo!');
             this.loginActions.logoutUser();
           }
         }, error => {
           //console.log(error);
-          this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle informazioni del profilo.', 'Errore di aggiornamento');
+          this.toastr.error('Si è verificato un errore durante l\'aggiornamento delle credenziali Paypal associate del profilo.', 'Errore di aggiornamento');
         }
       );
 
@@ -162,7 +123,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     const bread = [] as Breadcrumb[];
 
     bread.push(new Breadcrumb('Home', '/reserved-area/'));
-    bread.push(new Breadcrumb('Dati di fatturazione', '/reserved-area/producer/payment-details'));
+    bread.push(new Breadcrumb('Credenziali Paypal', '/reserved-area/producer/payment-details'));
 
     this.breadcrumbActions.updateBreadcrumb(bread);
   }

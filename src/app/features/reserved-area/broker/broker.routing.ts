@@ -28,10 +28,10 @@ import { FeatureReservedAreaBrokerPackageReportComponent } from './report/packag
         path: 'personal-info',
         component: PersonalInfoComponent
       },
-      // {
-      //   path: 'payment-details',
-      //   component: PaymentDetailsComponent
-      // },
+      {
+        path: 'payment-details',
+        component: PaymentDetailsComponent
+      },
       {
         path: 'report',
         component: FeatureReservedAreaBrokerPackageReportComponent

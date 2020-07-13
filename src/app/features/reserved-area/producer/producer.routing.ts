@@ -59,10 +59,10 @@ import { CouponEditDescriptionComponent } from './coupon-edit-description/coupon
         path: 'personal-info',
         component: PersonalInfoComponent
       },
-      // {
-      //   path: 'payment-details',
-      //   component: PaymentDetailsComponent
-      // },
+      {
+        path: 'payment-details',
+        component: PaymentDetailsComponent
+      },
       {
         path: 'offline-details',
         component: CouponOfflineDetailsComponent
