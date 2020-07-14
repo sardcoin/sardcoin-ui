@@ -27,14 +27,14 @@
                     <td colspan="5"></td>
                   </tr>
                   <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
+                  <tr *ngIf="coupon && couponCart">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
-                    <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
+                    <td>{{ formatPrice(coupon.price)}}</td>
+                    <td>{{couponCart.quantity}}</td>
                     <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                   </tr>
 
@@ -83,14 +83,14 @@
                     <td colspan="5"></td>
                   </tr>
                   <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
+                  <tr *ngIf="coupon && couponCart">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
                     <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
+                    <td>{{couponCart.quantity}}</td>
                     <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                   </tr>
 
@@ -141,14 +141,14 @@
                     <td colspan="5"></td>
                   </tr>
                   <tbody class="striped">
-                  <tr *ngFor="let coupon of coupons">
+                  <tr *ngIf="coupon && couponCart">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')"></i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description.substring(0,100)+ '...')"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
                     <td>{{formatPrice(coupon.price)}}</td>
-                    <td>{{coupon.quantity}}</td>
+                    <td>{{couponCart.quantity}}</td>
                     <td>{{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}</td>
                   </tr>
 
@@ -182,7 +182,7 @@
                 </button>
               </div> <!-- MD TABLE -->
               <div class="d-none d-sm-block d-lg-none d-md-none d-xl-none">
-                <div *ngFor="let coupon of coupons">
+                <div *ngIf="coupon && couponCart">
                   <div style="background-color: snow; " class="card flex-row flex-wrap">
                     <div style="background-color:snow" class="card-header border-0 col-sm-4 col-5">
                       <img class="div-image" [src]="imageUrl(coupon.image)" alt="">
@@ -190,12 +190,13 @@
                     <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
                       <h5 class="card-text">{{coupon.title}}</h5>
                     </div>
-                    <div class="div-description" [innerHTML]="byPassHTML(coupon.description)"></div>
-                    <div class="text-info div-validity">
+                    <div class="div-description" [innerHTML]="byPassHTML(coupon.short_description)"></div>
+           F         <div class="text-info div-validity">
                       Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
                     </div>
                     <div class="card-footer w-100 text-muted div-quantity">
-                      Quantità: {{coupon.quantity}}
+                      Quantità: {{couponCart.quantity}}
+
                       <div style="float: right">
                         {{formatPrice(coupon.price)}}
                       </div>
@@ -239,7 +240,7 @@
                     <div class="col-sm-8 col-7 div-title">
                       <h5 class="card-text">{{coupon.title}}</h5>
                     </div>
-                    <div class="div-description" [innerHTML]="byPassHTML(coupon.description)"></div>
+                    <div class="div-description" [innerHTML]="byPassHTML(coupon.short_description)"></div>
                     <div class="text-info div-validity">
                       Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
 
@@ -275,7 +276,7 @@
                 <button class="btn btn-lg btn-success float-right ml-2"
                         *ngIf=" (totalAmount === 0) " (click)="openModalPayment(modalFree)">
                   <i class="fas fa-euro-sign"></i>
-                  Prendi
+                  Ottieni
                 </button>
                 <button class="btn btn-lg btn-success float-right ml-2" *ngIf="(totalAmount > 0)"
                         (click)="openModalPayment(paymentModal)">
@@ -356,3 +357,4 @@
   </div>
 </ng-template>
 <!--<ngx-loading [show]="loading" [config]="config"></ngx-loading>-->
+</div>

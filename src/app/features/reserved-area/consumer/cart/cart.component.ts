@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import { positionElements } from 'ngx-bootstrap';
 import {environment} from '../../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CouponService} from '../../../../shared/_services/coupon.service';
@@ -132,8 +133,10 @@ export class CartComponent implements OnInit, OnDestroy {
     this.router.navigate(['/bought']);
   }
 
-  goToDetailPayment() {
-    this.router.navigate(['/checkout']);
+  goToDetailPayment(id) {
+
+    this.router.navigate(['/checkout', id]);
+
   }
 
   formatUntil(inputDate) {

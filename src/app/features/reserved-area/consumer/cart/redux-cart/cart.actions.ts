@@ -57,8 +57,8 @@ export class CartActions {
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === item.id)[0];
       isValid = this.canCouponBeAdded(couponToCheck.purchasable, couponToCheck.quantity, purchasedCoupon.bought, item.quantity); // Check if the coupon is able to be added into the cart
     } catch (e) {
-      //console.log(e);
-      //console.log('Error retrieving available coupons on cart actions');
+      // console.log(e);
+      // console.log('Error retrieving available coupons on cart actions');
     }
 
     if (isValid) {
@@ -94,9 +94,51 @@ export class CartActions {
     return false;
   }
 
+  async moveTofirst(id: number) {
+    const item = this.reduxCart.find(item => item.id == id); // It searches if the item in the cart exists. If it's true, the index in the array is been given.
+    if(this.isInCart(id) === 0) {
+      return ;
+    }
+
+    if (item) {
+      const elDel = await this.deleteElement(id);
+      console.log('elimino elemento, el' , elDel);
+      console.log('elimino elemento, el cart' , this.cart);
+
+      const addEl = await this.addElement(item);
+      console.log('(this.reduxCart' , this.reduxCart);
+
+      await this.updateCart(this.reduxCart);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  arrayMoveToFirst(arr: Array<CartItem>) {
+
+    arr.splice(0, 0, arr.splice(arr.length - 1, 1)[0]);
+
+    return arr; // for testing
+  }
+
+  async deleteFirstItem(id: number) {
+    const item = this.reduxCart.shift(); // delete first item
+
+    if (item) {
+      this.ngRedux.dispatch({type: CART_DEL_PROD, id});
+      await this.deleteItemInCartStorage(item);
+
+      return true;
+    }
+
+    return false;
+  }
+
   updateCart(cart: Array<CartItem>) {
     this.ngRedux.dispatch({type: CART_INIT, list: cart});
-    this.storeService.setCart(cart);
+    this.storeService.setCart(this.arrayMoveToFirst(cart));
     this.updateTotal();
   }
 
@@ -122,10 +164,10 @@ export class CartActions {
 
     try {
       availableCoupons = await this.couponService.getAvailableCoupons().toPromise();
-      ////console.log('availableCoupons', availableCoupons);
+      //// console.log('availableCoupons', availableCoupons);
       purchasedCoupon = await this.couponService.getPurchasedCouponsById(coupon_id).toPromise();
       couponToCheck = availableCoupons.filter((coupon: Coupon) => coupon.id === coupon_id)[0];
-      ////console.log('couponToCheckcouponToCheck', couponToCheck);
+      //// console.log('couponToCheckcouponToCheck', couponToCheck);
       if (couponToCheck.type === 0) {
           quantityAvailable = couponToCheck.purchasable === null ?
               couponToCheck.quantity :
@@ -140,11 +182,11 @@ export class CartActions {
 
       }
       } catch (e) {
-      //console.log(e);
-      //console.log('Error retrieving available coupons on cart actions');
+      // console.log(e);
+      // console.log('Error retrieving available coupons on cart actions');
     }
 
-    ////console.log('quantityAvailable', quantityAvailable)
+    //// console.log('quantityAvailable', quantityAvailable)
     return quantityAvailable < 0 ? 0 : quantityAvailable; // It returns 0 if you can't nothing in the cart
   }
 
@@ -160,7 +202,7 @@ export class CartActions {
   }
 
   private async addItemInCartStorage(item: CartItem) {
-    const newCart = await this.storeService.getCart()
+    const newCart = await this.storeService.getCart();
     newCart.push(item);
     this.storeService.setCart(newCart);
   }
