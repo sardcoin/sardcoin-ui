@@ -6,6 +6,14 @@
       </div>
       <div class="card">
         <div class="p-4" *ngIf="user !== null">
+          <div class="alert alert-warning" role="alert">
+            Il salvataggio delle credenziali richieste è sicuro. Inoltre, se è stata selezionata solo l'opzione
+            <b>Accept Payments</b>, le credenziali non permettono di eseguire alcuna operazione sull'account PayPal
+            dell'utente, ad eccezione della ricezione di pagamenti da parte di altri utenti. In ogni caso,
+            l'autorizzazione concessa è valida solo per l'applicazione SardCoin e può essere revocata in qualsiasi
+            momento dal proprio account PayPal. Per ulteriori informazioni, consultare questa
+            <a href="https://developer.paypal.com/docs/api-basics/manage-apps/#create-or-edit-sandbox-and-live-apps" target="_blank" class="alert-link">pagina</a>.
+          </div>
           <form [formGroup]="updatePaypalCredentials" (ngSubmit)="onSubmit()">
             <div class="form-row">
             <div class="input-group mb-3 col-md-6">
@@ -47,7 +55,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="text" formControlName="password_secret" class="form-control" placeholder="Password Secret" id="password_secret"
+                <input type="password" formControlName="password_secret" class="form-control" placeholder="Password Secret" id="password_secret"
                        [ngClass]="{ 'is-invalid': submitted && f.password_secret.errors }"/>
 
                 <div *ngIf="submitted && f.password_secret.errors" class="invalid-feedback">
