@@ -8,6 +8,8 @@ import {NgRedux, select} from '@angular-redux/store';
 import {first} from 'rxjs/internal/operators';
 import {IAppState} from '../../../../shared/store/model';
 import {User} from '../../../../shared/_models/User';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-form-producer',
@@ -15,6 +17,7 @@ import {User} from '../../../../shared/_models/User';
   styleUrls: ['./register-form-producer.component.scss']
 })
 export class RegisterFormProducerComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
 
   @select() username;
   @select() just_signed;
@@ -28,7 +31,8 @@ export class RegisterFormProducerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private toastr: ToastrService
   ) {
   }
 
@@ -79,15 +83,24 @@ export class RegisterFormProducerComponent implements OnInit {
 
 
     this.loading = true;
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
 
     this.userService.register(<User> this.registrationForm.value)
       .pipe(first())
       .subscribe(
         data => {
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.success('', 'Registrazione avvenuta con successo!');
+
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;
-          ////console.log(error);
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.error('', 'Errore imprevisto in fase di registrazione. Riprova.');
+
+          //console.log(error);
           //console.log('User or email already exists');
         }
       );

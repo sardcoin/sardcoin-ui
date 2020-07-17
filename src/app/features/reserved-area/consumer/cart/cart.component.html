@@ -1,7 +1,11 @@
 <div class="container-fluid">
-  <div class="text-uppercase">
-    <h1 *ngIf="cart.length > 1" style="text-align: center;" class="align-text-top btn-info"><p style="color: white"> é possibile ottenere un articolo a transazione. </p></h1>
+  <div class="alert alert-primary" role="alert" *ngIf="cart.length > 1">
+    <h5>È possibile acquistare una sola tipologia di coupon alla volta.</h5>
   </div>
+  <!--<div class="text-uppercase">-->
+    <!--&lt;!&ndash;<h1 *ngIf="cart.length > 1" style="text-align: center;" class="align-text-top btn-info"><p style="color: white"> é possibile ottenere un articolo a transazione. </p></h1>&ndash;&gt;-->
+    <!--<h3 *ngIf="cart.length > 1" style="text-align: center;" class="align-text-top btn-info"><p style="color: white"> È possibile acquistare un solo coupon alla volta </p></h3>-->
+  <!--</div>-->
   <div class="row">
     <div class="col-12">
       <div class="d-none d-md-none d-lg-block" *ngIf="cart.length > 0">

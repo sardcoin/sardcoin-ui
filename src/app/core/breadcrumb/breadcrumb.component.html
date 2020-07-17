@@ -62,7 +62,7 @@
 
     <div *ngIf="userType == 2" class="col my-auto" style="margin-right: -0.5em; text-align: right">
       <div *ngIf="desktopMode">
-        <a *ngIf="cart.length === 0" class="text-white">Il carrello  <b class="text-info">è vuoto.</b>! </a>
+        <a *ngIf="cart.length === 0" class="text-white">Il carrello  <b class="text-info">è vuoto</b>! </a>
         <a *ngIf="cart.length > 0" class="text-white cursor-pointer" [routerLink]="['/cart']">
           <span class=" d-lg-inline-block ">Hai <b class="text-info">{{cart.length}} {{cart.length === 1 ?
             'articolo' : 'articoli'}}</b> nel carrello.</span>
