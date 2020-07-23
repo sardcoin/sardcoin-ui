@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
@@ -8,8 +9,8 @@ export class PaypalService {
   constructor(private http: HttpClient) {
   }
 
-  createOrder(couponId, price, producer, quantity, consumer): string {
-    return  this.formatUrl(`createOrder/${couponId}/${price}/${producer}/${quantity}/${consumer}`);
+  createOrder(couponId, price, producer, quantity, consumer): Promise<any> {
+    return  this.http.get(this.formatUrl(`createOrder/${couponId}/${price}/${producer}/${quantity}/${consumer}`)).toPromise();
   }
 
   private formatUrl(methodName): any {

@@ -66,17 +66,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ) {
     this.cart$.subscribe(elements => {
       this.cart = elements.list;
-      console.log('elementList', this.cart)
 
     });
     Number(this.cart.filter(x => x.id === Number(this.route.snapshot.paramMap.get('id')))[0]);
     this.couponCart  =  this.cart.filter(x => x.id === Number(this.route.snapshot.paramMap.get('id')))[0];
-    console.log('couponCart', this.couponCart)
     this.couponService.getCouponById(this.couponCart.id)
     .subscribe(coupon => {
       this.owner = coupon.owner;
       this.coupon = coupon
-      //console.log('this.owner', this.owner)
       this.userService.getProducerFromId(this.owner).subscribe(owner => {
         this.clientId = owner.client_id;
       });
@@ -84,7 +81,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.orderService.getLastOrder().subscribe(lastId => {
       this.lastId = lastId.lastId + 1;
-      //console.log('lastId', this.lastId);
     });
 
   }
@@ -95,9 +91,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.coupon = await this.couponService.getCouponById(this.couponCart.id).toPromise()
-    //console.log('coupon', this.coupon);
     const producer: User = await this.userService.getProducerFromId(this.coupon.owner).toPromise()
-    //console.log('producer', producer);
     this.producer = producer;
     await this.loadCart();
     console.warn(this.cart);
@@ -126,7 +120,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
    async loadCart() {
 
       await this.cartActions.moveTofirst(this.couponCart.id);
-      console.log('moìì', this.couponCart)
       const elementToPush = await this.couponService.getCouponById(this.couponCart.id).toPromise();
 
       this.totalAmount = this.couponCart.price * this.couponCart.quantity
@@ -245,11 +238,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         // for creating orders (transactions) on server see
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
         //TODO da mettere in paypal.service per poter fare chiamate autorizzate solo ai consumer/registrati
-        createOrderOnServer: data => fetch(this.paypalService.createOrder(this.coupon.id, this.coupon.price, this.coupon.owner,  this.couponCart.quantity, this.user.id))
+        createOrderOnServer: data => this.paypalService.createOrder(this.coupon.id, this.coupon.price, this.coupon.owner,  this.couponCart.quantity, this.user.id)
           // fetch(link)
           .then( res => {
-            const result =  res.json()
-            // console.log('risposta server creazione  1 then', result)
+            const result =  res
 
             return result;
           })
@@ -266,7 +258,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .then(async details => {
               console.log('onApprove - you can get full order details inside onApprove: ', details);
               try {
-                console.log('details',details)
                 const payment_id = details.id
                 this.closeModalPayment()
                 this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
@@ -354,7 +345,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
       this.toastr.success('Coupon ottenuto', 'Hai ricevuto un coupon gratis!');
       this.cartActions.deleteFirstItem(this.couponCart.id); // delete first element
-      //console.log('buy free: ', buy);
       this.router.navigate(['/bought']);
 
     } catch (e) {
@@ -375,7 +365,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
   byPassHTML(html: string) {
-    //console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
 
