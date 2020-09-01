@@ -43,19 +43,19 @@ export class SidebarComponent implements OnInit {
       switch (this.userType) {
         case '0': // admin
           this.infoUserLink = '/reserved-area/admin/';
-          this.sendHide(false);
+          // this.sendHide(false);
           break;
         case '1': // producer
           this.infoUserLink = '/reserved-area/producer/';
-          this.sendHide(false);
+          // this.sendHide(false);
           break;
         case '3': // verify
           this.infoUserLink = '/reserved-area/verify/';
-          this.sendHide(false);
+          // this.sendHide(false);
           break;
         case '4': // broker
           this.infoUserLink = '/reserved-area/broker/';
-          this.sendHide(false);
+          // this.sendHide(false);
           break;
         case '2': // consumer
         default:

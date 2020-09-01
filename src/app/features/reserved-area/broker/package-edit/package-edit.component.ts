@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { EditorChangeContent, EditorChangeSelection, QuillEditor } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
+import * as QuillNamespace from 'quill';
 import { environment } from '../../../../../environments/environment';
 import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
@@ -15,6 +19,9 @@ import { PackageService } from '../../../../shared/_services/package.service';
 import { StoreService } from '../../../../shared/_services/store.service';
 import { DateValidation } from '../package-create/validator/DateValidation.directive';
 import { QuantityPackageValidation } from '../package-create/validator/QuantityPackageValidation.directive';
+let Quill: any = QuillNamespace;
+import ImageResize from 'quill-image-resize-module';
+Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-edit-package',
@@ -23,6 +30,62 @@ import { QuantityPackageValidation } from '../package-create/validator/QuantityP
 })
 
 export class PackageEditComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
+
+  toolbarOptions = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+
+      ['clean'],                                        // remove formatting button
+      ['link', 'image', 'video']
+    ],
+    imageResize: true
+    // handlers: {
+    //   'image': []
+    //}
+  }
+
+  blured = false
+  focused = false
+  created(event: QuillEditor) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-created', event)
+  }
+
+  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    // tslint:disable-next-line:no-console
+    // console.log('editor-change', event)
+  }
+
+  focus($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('focus', $event)
+    this.focused = true
+    this.blured = false
+  }
+
+  blur($event) {
+    // tslint:disable-next-line:no-console
+    // console.log('blur', $event)
+    this.focused = false
+    this.blured = true
+  }
+
+
   packageForm: FormGroup;
 
   markedUnlimited = false;
@@ -72,7 +135,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     private breadcrumbActions: BreadcrumbActions,
     private toastr: ToastrService,
     private packageService: PackageService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private sanitizer: DomSanitizer
+
 
   ) {
       this.couponService.currentMessage.subscribe(coupon => {
@@ -120,7 +185,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
     this.packageForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
-      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(500), Validators.required])],
+      description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
       image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],
       published_from: [{value: this.markedPrivate ? null : this.couponPass.visible_from, disabled: this.markedPrivate}],
@@ -167,6 +232,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     const pack: Package = {
       id: this.couponPass.id,
       title: this.f.title.value,
+      short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath ? this.imagePath : this.couponPass.image,
       price: this.markedFree ? 0 : this.f.price.value,
@@ -184,11 +250,17 @@ export class PackageEditComponent implements OnInit, OnDestroy {
     };
 
     // If true, the coupon is in edit mode, else the producer is creating a clone of a coupon
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
     if (this.fromEdit) {
       this.editCoupon(pack);
+      this.blockUI.stop(); // Stop blocking
+
     } else {
       delete pack.id;
       this.createCopy(pack);
+      this.blockUI.stop(); // Stop blocking
+
     }
   }
 
@@ -236,7 +308,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         }
       }, err => {
         //console.log(err);
-        this.toastr.error('Errore imprevisto durante l\'aggiornamento del pacchetto.', 'Errore durante l\'aggiornamento');
+        this.toastr.error('Errore di modifica, se è visibile o è stato acquistato non può essere modificato.', 'Errore');
       });
   }
 
@@ -521,5 +593,9 @@ export class PackageEditComponent implements OnInit, OnDestroy {
         return this.selectedCategories;
       });
 
+  }
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this.sanitizer.bypassSecurityTrustHtml(html)
   }
 }

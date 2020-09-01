@@ -1,16 +1,16 @@
 <div class="padding-header" *ngIf="desktopMode">
   <!-- TODO to move to features the desktopMode -->
   <div *ngIf="isUserLoggedIn" id="sidebar-container"
-       [ngStyle]="{'min-width': hide && userType == '2' ? '20px' : '230px', 'max-width': hide ? '55px' : '230px'}">
+       [ngStyle]="{'min-width': hide  ? '20px' : '230px', 'max-width': hide ? '55px' : '230px'}">
 
     <ul class="list-group sticky-top sticky-offset">
       <li style="background-color: white"
           class="list-group-item sidebar-separator-title d-flex align-items-center menu-collapsed red-sardcoin">
-        <h6 *ngIf="!hide || userType != 2" class="font-weight-bold text-uppercase" style="font-family: 'Calibri Light'; font-size: 18px" (click)="sendHide(false)">
+        <h6 *ngIf="!hide " class="font-weight-bold text-uppercase" style="font-family: 'Calibri Light'; font-size: 18px" (click)="sendHide(false)">
           <i class="fas fa-chevron-circle-right"></i>
           Menu
         </h6>
-        <div *ngIf="hide && userType == 2" class="text-center d-inline-block">
+        <div *ngIf="hide " class="text-center d-inline-block">
           <span class="fas fa-chevron-circle-right" style="margin-left: -6px; font-size: 1.8rem;" (click)="sendHide(false)"></span>
         </div>
       </li>
@@ -19,28 +19,28 @@
 
         <a [routerLink]="['/reserved-area/producer/list']"
            class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-box icon-dimension"></span></div>
-          <span class="menu-collapsed">I miei coupon</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-box icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">I miei coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/create']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-plus-circle icon-dimension"></span></div>
-          <span class="menu-collapsed">Crea coupon</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-plus-circle icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">Crea coupon</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/offline']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-print icon-dimension"></span></div>
-          <span class="menu-collapsed">Vendi offline</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-print icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">Vendi offline</span>
         </a>
         <a [routerLink]="['/reserved-area/producer/report']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-chart-bar icon-dimension"></span></div>
-          <span class="menu-collapsed">Report</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-chart-bar icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">Report</span>
         </a>
       </div>
 
       <a *ngIf="!userType == '4'|| userType == '2' || userType == '0'|| !userType" [routerLink]="[infoUserLink + 'showcase']" (click)="resetShowcase()" class="list-group-item list-group-item-action gray-sardcoin">
-        <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}" >
-          <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide && userType == '2' ? '-3px ' : '0 '}"></span>
+        <div class="text-center d-inline-block" [ngStyle]="{'width': hide ? '10px ' : '40px '}" >
+          <span class="fas fa-store icon-dimension" [ngStyle]="{'margin-left': hide ? '-3px ' : '0 '}"></span>
         </div>
-        <span *ngIf="!hide || userType != '2'" class="menu-collapsed">Shopping</span>
+        <span *ngIf="!hide" class="menu-collapsed">Shopping</span>
       </a>
 
       <div *ngIf="this.userType == '2' || this.userType == '0'">
@@ -53,40 +53,40 @@
           <!--<span *ngIf="!hide || userType == '0'" class="menu-collapsed">Shopping</span>-->
         <!--</a>-->
         <a [routerLink]="['/bought']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
+          <div class="text-center d-inline-block" [ngStyle]="{'width': hide ? '10px ' : '40px '}">
             <span class="fas fa-shopping-bag icon-dimension"></span>
           </div>
-          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei acquisti</span>
+          <span *ngIf="!hide" class="menu-collapsed">I miei acquisti</span>
         </a>
         <a [routerLink]="['/order']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
+          <div class="text-center d-inline-block" [ngStyle]="{'width': hide ? '10px ' : '40px '}">
             <span class="fas fa-book icon-dimension"></span>
           </div>
-          <span *ngIf="!hide || userType == '0'" class="menu-collapsed">I miei ordini</span>
+          <span *ngIf="!hide" class="menu-collapsed">I miei ordini</span>
         </a>
         <a [routerLink]="['/coupon-import']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
+          <div class="text-center d-inline-block" [ngStyle]="{'width': hide ? '10px ' : '40px '}">
             <span class="fas fa-file-upload icon-dimension"></span>
           </div>
-          <span *ngIf="!hide || userType == '0' " class="menu-collapsed">Importa coupon</span>
+          <span *ngIf="!hide" class="menu-collapsed">Importa coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType == '3' || this.userType == '0' || this.userType == '1'">
         <a [routerLink]="['/reserved-area/verifier']" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-stamp icon-dimension"></span></div>
-          <span class="menu-collapsed">Vidima coupon</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-stamp icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">Vidima coupon</span>
         </a>
       </div>
       <div *ngIf="this.userType == '4' || this.userType == '0'">
 
         <a [routerLink]="['/reserved-area/broker/list']"
            class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-box icon-dimension"></span></div>
-          <span class="menu-collapsed">I miei pacchetti</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-box icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">I miei pacchetti</span>
         </a>
         <a [routerLink]="['/reserved-area/broker/create/']" [queryParams]="{ fromMenu: true }" class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block producer-icon"><span class="fas fa-plus-circle icon-dimension"></span></div>
-          <span class="menu-collapsed">Crea pacchetto</span>
+          <div class="text-center d-inline-block producer-icon" [ngStyle]="{'width': hide ? '10px ' : '40px '}"><span class="fas fa-plus-circle icon-dimension"></span></div>
+          <span *ngIf="!hide" class="menu-collapsed">Crea pacchetto</span>
         </a>
         <!--<a [routerLink]="['/reserved-area/broker/report']" class="list-group-item list-group-item-action gray-sardcoin">
           <div class="text-center d-inline-block producer-icon"><span class="fas fa-chart-bar icon-dimension"></span></div>
@@ -97,10 +97,10 @@
 
         <a [routerLink]="[infoUserLink +'personal-info']"
            class="list-group-item list-group-item-action gray-sardcoin">
-          <div class="text-center d-inline-block" [ngStyle]="{'width': hide && userType == '2' ? '10px ' : '40px '}">
+          <div class="text-center d-inline-block" [ngStyle]="{'width': hide ? '10px ' : '40px '}">
             <span class="fas fa-user icon-dimension"></span>
           </div>
-          <span *ngIf="!hide || userType == '0' || userType == '1' || userType == '4'" class="menu-collapsed">Informazioni personali</span>
+          <span *ngIf="!hide" class="menu-collapsed">Informazioni personali</span>
         </a>
 <!--        <a [routerLink]="[infoUserLink +'payment-details']"-->
 <!--           class="list-group-item list-group-item-action gray-sardcoin">-->

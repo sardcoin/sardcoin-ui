@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import {PasswordValidation} from '../../validators/password-validator.directive';
 import {FiscalCodeValidation} from '../../validators/fiscal-code-validator.directive';
@@ -15,6 +16,7 @@ import {IAppState} from '../../../../shared/store/model';
   templateUrl: './register-form.component.html'
 })
 export class FeatureAuthenticationRegisterFormComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
 
   @select() username;
   @select() just_signed;
@@ -76,16 +78,21 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
 
 
     this.loading = true;
+    this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
 
     this.userService.register(<User> this.registrationForm.value)
       .pipe(first())
       .subscribe(
         data => {
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.success('', 'Registrazione avvenuta con successo!');
 
           this.router.navigate(['/authentication/login']);
         }, error => {
           this.loading = false;
+          this.blockUI.stop(); // Stop blocking
+
           this.toastr.error('', 'Errore imprevisto in fase di registrazione. Riprova.');
 
           //console.log(error);

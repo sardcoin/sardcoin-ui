@@ -2,6 +2,7 @@ import { select } from '@angular-redux/store';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 // paypal
@@ -26,6 +27,7 @@ import { CartActions } from '../cart/redux-cart/cart.actions';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   @ViewChild('paymentModal') paymentModal: ElementRef;
   @ViewChild('buyWait') buyWait: ElementRef;
@@ -66,7 +68,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.couponService.getCouponById(this.cart[0].id).subscribe(coupon => {
       this.owner = coupon.owner;
-      ////console.log('this.owner', this.owner)
+      //console.log('this.owner', this.owner)
       this.userService.getProducerFromId(this.owner).subscribe(owner => {
         this.clientId = owner.client_id;
       });
@@ -74,7 +76,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.orderService.getLastOrder().subscribe(lastId => {
       this.lastId = lastId.lastId + 1;
-      ////console.log('lastId', this.lastId);
+      //console.log('lastId', this.lastId);
     });
 
   }
@@ -85,17 +87,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.coupon = await this.couponService.getCouponById(this.cart[0].id).toPromise()
-    ////console.log('coupon', this.coupon);
+    //console.log('coupon', this.coupon);
     const producer: User = await this.userService.getProducerFromId(this.coupon.owner).toPromise()
-    ////console.log('producer', producer);
+    //console.log('producer', producer);
     this.producer = producer;
     await this.loadCart();
     console.warn(this.cart);
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('err');
-    ////console.log('token', token);
-    ////console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
-    ////console.log('total amount in', this.totalAmount);
+    //console.log('token', token);
+    //console.log('this.route.snapshot.queryParamMap', this.route.snapshot.queryParamMap);
+    //console.log('total amount in', this.totalAmount);
 
     if (error && error === 'true') {
       this.toastr.error('Qualcosa è andato storto durante il pagamento. Per favore, riprova.', 'Errore durante il pagamento');
@@ -123,12 +125,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       elementToPush.quantity = element.quantity;
 
       this.totalAmount += element.quantity * elementToPush.price;
-      ////console.log('total amount', this.totalAmount);
+      //console.log('total amount', this.totalAmount);
 
       this.coupons.push(elementToPush);
     });
 
-    ////console.log('carta', this.cart);
+    //console.log('carta', this.cart);
   }
   //TODO eliminare, pagamento vecchio
 
@@ -140,8 +142,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   //
   //   try {
   //     response = await this.paypalService.setCheckout(this.cart).toPromise();
-  //     //console.log('response', response)
-  //     //console.log('response link', response['link']);
+  //     console.log('response', response)
+  //     console.log('response link', response['link']);
   //     // window.location.href = response['link'];
   //   } catch (e) {
   //     console.error(e);
@@ -199,18 +201,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   closeModal() {
     if (this.modalRef) {
-    this.modalRef.hide();
-  }
+      this.modalRef.hide();
+    }
   }
 
 
   openModalPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-    //console.log('openModalPayment')
+    console.log('openModalPayment')
     try {
       const preBuyValue = this.couponService.preBuy(this.cart)
         .toPromise()
     } catch (e) {
-      //console.log('error prepare coupon', e)
+      console.log('error prepare coupon', e)
 
     }
     if (this.cart[0].price != 0) {
@@ -229,22 +231,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   }
 
-  async preBuy(cart: Array<CartItem>): Promise<any> {
-   const res = await this.couponService.preBuy(cart)
-     .toPromise();
-   //console.log('res preBuy', res);
-  }
+  // async preBuy(cart: Array<CartItem>): Promise<any> {
+  //   const res = await this.couponService.preBuy(cart)
+  //     .toPromise();
+  //   console.log('res preBuy', res);
+  // }
 
-  async removePreBuy(cart: Array<CartItem>): Promise<any> {
-    const res = await this.couponService.removePreBuy(cart)
-      .toPromise();
-    //console.log('res removePreBuy', res);
-  }
+  // async removePreBuy(cart: Array<CartItem>): Promise<any> {
+  //   const res = await this.couponService.removePreBuy(cart)
+  //     .toPromise();
+  //   console.log('res removePreBuy', res);
+  // }
 
-  openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-    this.modalRefAwaitConfirmPayment = this.modalService.show(template,
-      {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
-  }
+  // openModalAwaitConfirmPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
+  //   this.modalRefAwaitConfirmPayment = this.modalService.show(template,
+  //     {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
+  // }
 
   closeModalAwaitConfirmPayment() {
     if (this.modalRef) {
@@ -301,40 +303,41 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       .then(refresh => {
         if (window.location.href.includes('checkout')) {
           window.location.reload(true)
-          //console.log('refresh')
+          console.log('refresh')
         }
-    })
+      })
   }
 
 
   private async initConfig(): Promise<any> {
 
-      this.refreshDeletePaypal();
+    this.refreshDeletePaypal();
 
-      //console.log('initConfig');
-      if (this.cart[0].price > 0) {
+    console.log('initConfig');
+    if (this.cart[0].price > 0) {
       const clientId: string = this.producer.client_id
-      ////console.log('producer', this.producer)
-      // TODO optimize call fetch
-      const link = 'http://localhost:8080/paypal/createOrder/' +
-        this.cart[0].id + '/' + this.cart[0].price + '/' + this.coupon.owner + '/' +
-        this.cart[0].quantity + '/' + this.user.id;
+      //console.log('producer', this.producer)
+      // const link = 'http://localhost:8080/paypal/createOrder/' +
+      //   this.cart[0].id + '/' + this.cart[0].price + '/' + this.coupon.owner + '/' +
+      //   this.cart[0].quantity + '/' + this.user.id;
       this.payPalConfig = {
         clientId: clientId,
+        currency: "EUR",
         style: {label: 'pay'},
         // for creating orders (transactions) on server see
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
         //TODO da mettere in paypal.service per poter fare chiamate autorizzate solo ai consumer/registrati
-        createOrderOnServer: data => fetch(link)
+        createOrderOnServer: data => fetch(this.paypalService.createOrder(this.cart[0].id, this.cart[0].price, this.coupon.owner,  this.cart[0].quantity, this.user.id))
+          // fetch(link)
           .then( res => {
             const result =  res.json()
-            // //console.log('risposta server creazione  1 then', result)
+            // console.log('risposta server creazione  1 then', result)
 
             return result;
           })
           .then( order =>  {
             const orderId = ( order).id
-            //console.log('risposta server creazione  2 then', order);
+            console.log('risposta server creazione  2 then', order);
 
             return orderId;
           }),
@@ -342,24 +345,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           //return;
           //this.openModalAwaitConfirmPayment(this)
 
-          //console.log('onApprove - transaction was approved, but not authorized', data, actions);
+          console.log('onApprove - transaction was approved, but not authorized', data, actions);
           actions.order.get()
             .then(async details => {
-              //console.log('onApprove - you can get full order details inside onApprove: ', details);
+              console.log('onApprove - you can get full order details inside onApprove: ', details);
               try {
-                //console.log('details',details)
+                console.log('details',details)
                 const payment_id = details.id
 
                 //this.closeModalAwaitConfirmPayment()
-                this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
+                //this.toastr.success('Coupon pagati', 'Pagamento riuscito!');
                 this.closeModalPayment()
+                this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
                 const buy = await this.couponService.buyCoupons(this.cart, payment_id, this.coupon.owner)
                   .toPromise()
                 // this.closeModalAwaitConfirmPayment()
-
-                //console.log('buy: ', buy);
+                console.log('buy: ', buy);
 
                 this.router.navigate(['/bought']); // TODO a fine test decomentare
+                this.blockUI.stop()
+                this.toastr.success('', 'Pagamento riuscito!');
                 this.cartActions.emptyCart(); // TODO a fine test decomentare
 
               } catch (e) {
@@ -393,7 +399,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnCancel', data, actions);
+          console.log('OnCancel', data, actions);
 
         },
         onError: err => {
@@ -401,19 +407,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnError', err);
+          console.log('OnError', err);
         },
         onClick:  (data, actions) => {
 
-          //console.log('onClick', data, actions);
+          console.log('onClick', data, actions);
         }
       };
     } else {
       try {
+
         const buy = await this.couponService.buyCoupons(this.cart)
           .toPromise();
+
         this.closeModalPayment();
       } catch (e) {
+        this.blockUI.stop(); // Stop blocking
 
       }
 
@@ -426,11 +435,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.closeModalPayment();
 
     try {
+      this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
       const buy = await this.couponService.buyCoupons(this.cart,undefined, this.coupon.owner)
         .toPromise()
+      this.blockUI.stop(); // Stop blocking
+
       this.toastr.success('Coupon ottenuto', 'Hai ricevuto un coupon gratis!');
       this.cartActions.emptyCart(); // TODO a fine test decomentare
-      ////console.log('buy free: ', buy);
+      //console.log('buy free: ', buy);
       this.router.navigate(['/bought']); // TODO a fine test decomentare
 
     } catch (e) {
@@ -444,12 +457,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
 
       console.error(e.error);
+      this.blockUI.stop(); // Stop blocking
 
       this.toastr.error(message, title);
 
     }
   }
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 
 }
-
-

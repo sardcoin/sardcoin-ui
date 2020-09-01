@@ -21,4 +21,21 @@ export class DateValidation {
       return null;
     }
   }
+  static CheckDateValidity(AC: AbstractControl) {
+
+    const dateFrom = (AC.get('published_from').value); // to get value in input tag
+    let date = new Date().setHours(new Date().getMinutes() + 10).valueOf();
+
+    try {
+
+      if (date <= dateFrom) {
+        return null;
+      } else {
+        AC.get('published_from').setErrors({DateValidity: true});
+      }
+
+    } catch (e) {
+      return null;
+    }
+  }
 }

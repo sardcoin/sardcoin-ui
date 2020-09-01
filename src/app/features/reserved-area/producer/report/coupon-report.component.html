@@ -7,7 +7,7 @@
       </div>
       <div class="card" style="width: 115%">
         <div *ngIf="true && !loading" class="p-4">
-          <div class="row col-sm-6 col-md-6 col-xl-4 col-8 d-flex ml-auto ">
+          <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
             <select [ngModel]="rangeSelected" class='form-control'
                     (change)="loadCoupons($event)">
               <option *ngFor="let item of range" [ngValue]=item>Visualizza {{item}}</option>
@@ -17,9 +17,9 @@
 
             <div style=" margin-right: 2em!important; margin-left: 2em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Ricavi di vendita precedenti o passati</p>
-                <p style="color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese selezionato</p>
-                <div class="row col-sm-6 col-md-6 col-xl-5 col-8 d-flex ml-auto ">
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese precedente</p>
+                <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
             <select [ngModel]="rangeMonthPrev" class='form-control' style="background-color: #333F50; color: #FFFFFF"
                     (change)="previousProfitsChart($event)" id="selectPrev">
               <option *ngFor="let item of rangeMonth" [ngValue]=item>Visualizza {{item}}</option>
@@ -34,9 +34,9 @@
 
             <div style="margin-left: 2em!important; margin-right: 1em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Ricavi di vendita attuali</p>
-                <p style="color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese selezionato</p>
-                <div class="row col-sm-6 col-md-6 col-xl-5  col-8 d-flex ml-auto ">
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Ricavi ottenuti dal producer nel mese corrente</p>
+                <div class="row col-sm-6 col-md-6 col-xl-4  col-8 d-flex ml-auto ">
             <select [ngModel]="rangeMonthCur" class='form-control' style="background-color: #333F50; color: #FFFFFF;"
                     (change)="currentProfitsChart($event)" id="selectCurrent">
               <option *ngFor="let item of rangeMonth" [ngValue]=item>Visualizza {{item}}</option>
@@ -53,17 +53,16 @@
           <div class="row margin-top">
             <div style="margin-right: 2em!important; margin-left: 2em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Andamento della frequenza d'acquisto in relazione <br> al numero di coupon venduti</p>
-                <p style="color: #D3D3D3; margin-left: 8px">Andamento frequenza d'acquisto calcolata sui coupon acquistati da consumer unici, <br>
-                  relazionata al numero di coupon venduti, mese per mese.</p>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Numero coupon</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Numero coupon venduti nell'anno corrente</p>
               </span>
               <google-chart [data]="couponsBougth"
                           class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
             </div>
             <div style="margin-left: 2em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Ricavi anno corrente</p>
-                <p style="color: #D3D3D3; margin-left: 8px">I ricavi dell'anno corrente con l'andamento della media, mese per mese</p>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Frequenza d'acquisto - Ricavi</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Frequenza d'acquisto, calcolata sui coupon acquistati da consumer unici, <br> relazionata ai ricavi, mese per mese</p>
               </span>
               <google-chart [data]="purchFreq" class=" margin-top col-xl-6 col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
             </div>
@@ -73,42 +72,21 @@
           <div class="row margin-top">
             <div style="margin-right: 2em!important; margin-left: 2em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Numero coupon venduti suddivisi per broker e producer</p>
-                <p style="color: #D3D3D3; margin-left: 8px">Numero coupon venduti da producer e broker</p>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Numero coupon venduti</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Numero coupon venduti da producer e broker</p>
               </span>
               <google-chart [data]="couponsBroker" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
             </div>
 
             <div style=" margin-left: 2em!important;">
               <span>
-                <p style="font-weight: bold; font-size: 18px; margin-bottom: 2px; margin-left: 8px">Percentuale di consumer</p>
-                <p style="color: #D3D3D3; margin-left: 8px">Percentuale di consumer che hanno fatto un acquisto sul totale</p>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px; margin-left: 8px">Consumer</p>
+                <p style="font-style: italic; color: #D3D3D3; margin-left: 8px">Percentuale di consumer che hanno fatto un acquisto sul totale</p>
               </span>
               <google-chart [data]="consumerPerc" class="col-lg-6 col-md-10 col-12 offset-lg-0 offset-md-1 offset-0"></google-chart>
             </div>
 
           </div>
-        </div>
-        <hr style="color: red">
-        <div class="row margin-top" style="margin-left: 1em!important;">
-          <p class="d-inline-flex p-2 bd-highlight legend" (click)="showText(1)" [ngStyle]="{'border-style': show === 1 ? 'inset' : 'outset'}"
-             style="margin-right: 1em!important;"> <span style="color: red;">*</span> Broker</p>
-          <p class="d-inline-flex p-2 bd-highlight legend" (click)="showText(2)" [ngStyle]="{'border-style': show === 2 ? 'inset' : 'outset'}"
-             style="margin-right: 1em!important; margin-left: 1em!important;"><span style="color: red;">*</span> Producer</p>
-          <p class="d-inline-flex p-2 bd-highlight legend" (click)="showText(3)" [ngStyle]="{'border-style': show === 3 ? 'inset' : 'outset'}"
-             style="margin-right: 1em!important; margin-left: 1em!important;"> <span style="color: red;">*</span> Consumer</p>
-        </div>
-        <div class="row margin-top" style="margin-left: 1em!important;">
-        <p class="col-10 description" *ngIf="show === 1" >Con il termine "broker" si intendono tutte le agenzie di viaggio, tour operator e assessorati al turismo
-          che acquisiscono i coupon (gratuiti o a pagamento) e li associano alle proprie offerte, facendosi carico
-          della comunicazione dell’offerta.</p>
-
-        <p class="col-10 description" *ngIf="show === 2" >Con il termine "producer" si intendono tutti i fornitori di servizi turistici (hotel, ristoranti, musei, ecc.)
-          che inseriscono nell’infrastruttura i coupon, i quali danno diritto di godere, a titolo gratuito o a pagamento,
-          di determinati servizi.</p>
-
-        <p class="col-10 description" *ngIf="show === 3" >Con il termine "consumer", infine, si intendono i turisti e cittadini che ottengono i coupon, e li
-          consumano tramite l'applicazione.</p>
         </div>
       </div>
     </div>

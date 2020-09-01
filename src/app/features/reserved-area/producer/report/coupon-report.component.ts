@@ -17,8 +17,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
   loading = true;
 
-  show = 0;
-
   range = [];
   rangeSelected: any;
   rangeMonth = [];
@@ -32,8 +30,8 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     options: {
       legend: true,
       chart: {
-        title: 'Ricavi di vendita attuali',
-        subtitle: 'Ricavi ottenuti dal producer nel mese selezionato'
+        title: 'Ricavi',
+        subtitle: 'Ricavi ottenuti dal producer nel mese corrente'
       },
       hAxis: {minValue: 1, gridlines: {color: 'transparent'}, textStyle: {color: '#999', fontName: 'Roboto'}, minTextSpacing: 15, title: 'Giorni mese corrente'},
       vAxis: {
@@ -45,7 +43,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         textPosition: 'out',
         textStyle: {color: '#999'},
         format: '#',
-        title: 'Importo totale coupon venduti'
+        title: 'Valore coupon venduti'
       },
       chartArea: {left: 75, right: 100, height: 250, top: 25},
       width: 550,
@@ -62,8 +60,8 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     options: {
       legend: true,
       chart: {
-        title: 'Ricavi di vendita precedenti o passati',
-        subtitle: 'Ricavi ottenuti dal producer nel mese selezionato'
+        title: 'Ricavi',
+        subtitle: 'Ricavi ottenuti dal producer nel mese precedente'
       },
       hAxis: {minValue: 1, gridlines: {color: 'transparent'}, textStyle: {color: '#999', fontName: 'Roboto'}, minTextSpacing: 15, title: 'Giorni mese precedente'},
       vAxis: {
@@ -75,7 +73,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         textPosition: 'out',
         textStyle: {color: '#999'},
         format: '#',
-        title: 'Importo totale coupon venduti'
+        title: 'Valore coupon venduti'
       },
       chartArea: {left: 75, right: 100, height: 250, top: 25},
       width: 550,
@@ -87,24 +85,22 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   };
 
   couponsBougth = {
-    chartType: 'ComboChart',
+    chartType: 'ColumnChart',
     dataTable: [],
     options: {
-      legend: 'none',
+      legend: true,
       chart: {
         title: 'Numero coupon',
         subtitle: 'Numero coupon venduti nell\'anno corrente'
       },
-      hAxis: {title: 'Mesi dell\'anno'},
-      vAxis: {gridlines: {color: '#eaeaea', count: 5}, textPosition: 'out', textStyle: {color: '#999'}, format: '#', title: 'Numero coupon'},
+      hAxis: {},
+      vAxis: {gridlines: {color: '#eaeaea', count: 5}, textPosition: 'out', textStyle: {color: '#999'}, format: '#', title: 'Numero coupon venduti'},
       chartArea: {left: 75, right: 100, height: 250, top: 25},
       width: 550,
       height: 400,
-      seriesType: 'bars',
-      series: {1: {type: 'line'}},
       responsive: true,
       maintainAspectRatio: false,
-      colors: ['#333F50', '#CC3300']
+      colors: ['#333F50']
     }
   };
   consumerPerc = {
@@ -112,7 +108,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     dataTable: [],
     options: {
       legend: true,
-      // title: 'Consumer divisi in:',
+      title: 'Consumer divisi in:',
       subtitle: 'Percentuale di consumer che hanno fatto un acquisto sul totale',
       hAxis: {},
       vAxis: {},
@@ -130,17 +126,15 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
   };
 
   purchFreq = {
-    chartType: 'ComboChart',
+    chartType: 'LineChart',
     dataTable: [],
     options: {
-      legend: 'top',
-      hAxis: {minValue: 1, gridlines: {color: 'transparent'}, textStyle: {color: '#999', fontName: 'Roboto'}, minTextSpacing: 15, title: 'Mesi dell\'anno'},
+      legend: true,
+      hAxis: {minValue: 1, gridlines: {color: 'transparent'}, textStyle: {color: '#999', fontName: 'Roboto'}, minTextSpacing: 15},
       vAxis: {minValue: 0, gridlines: {color: '#eaeaea', count: 5}, textPosition: 'out', textStyle: {color: '#999'}, format: '#', title: 'Valore'},
       chartArea: {left: 75, right: 100, height: 250, top: 25},
       width: 550,
       height: 400,
-      seriesType: 'bars',
-      series: {1: {type: 'line'}},
       // bar: {groupWidth: '20%'},
       responsive: true,
       maintainAspectRatio: false,
@@ -157,7 +151,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
         title: 'Numero coupon venduti',
         subtitle: 'Numero coupon venduti da producer e broker'
       },
-      hAxis: {title: 'Categoria venditore'},
+      hAxis: {},
       vAxis: {minValue: 0, gridlines: {color: '#eaeaea', count: 5}, textPosition: 'out', textStyle: {color: '#999'}, format: '#', title: 'Numero coupon venduti'},
       chartArea: {left: 75, right: 100, height: 250, top: 25},
       width: 550,
@@ -241,7 +235,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     let price = 0;
     let coupons = [];
     const chartData = [];
-    const header = [['Giorni mese corrente', nameMonth.charAt(0).toUpperCase() + nameMonth.slice(1)]];
+    const header = [['Giorni mese corrente', nameMonth.toUpperCase()]];
     if (this.reportCoupons) {
       coupons = this.reportCoupons.filter(el => new Date(el.timestamp).getFullYear() === year);
       coupons = coupons.filter(el => new Date(el.timestamp).getMonth() + 1 === monthCoup);
@@ -267,7 +261,7 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     let coupons = [];
     let price = 0;
     const chartData = [];
-    const header = [['Giorni mese precedente', nameMonth.charAt(0).toUpperCase() + nameMonth.slice(1)]];
+    const header = [['Giorni mese precedente', nameMonth.toUpperCase()]];
 
     if (this.reportCoupons) {
       coupons = this.reportCoupons.filter(el => new Date(el.timestamp).getFullYear() === year);
@@ -288,34 +282,18 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
     let nameMonth = '';
     let nCoupons = 0;
     let coupons = [];
-
-    let freq = 0;
-    let consumers = [];
-    const idConsum = [];
-    let couponsMonth = [];
-
     const chartData = [];
-    const header = [['Mesi dell\'anno', 'Numero coupon', 'Frequenza d\'acquisto']];
+    const header = [['Mesi', 'Coupon venduti']];
     if (this.reportCoupons) {
-      this.userService.getConsumers()
-        .subscribe(cons => {
       coupons = this.reportCoupons.filter(el => new Date(el.timestamp).getFullYear() === year);
       for (let i = 1; i <= month; i++) {
         nameMonth = new Date(year, i, -1).toLocaleString('default', {month: 'long'});
-        coupons.forEach(el => (new Date(el.timestamp).getMonth()) + 1 === i ? (nCoupons++, couponsMonth.push(el)) : 0);
-
-        couponsMonth.forEach(el => el ? idConsum.push(el.consumer) : null);
-        consumers = cons.filter(el => idConsum.includes(el.id));
-        freq = consumers.length === 0 ? 0 : nCoupons / consumers.length;
-
-        chartData.push([nameMonth, nCoupons, freq]);
+        coupons.forEach(el => (new Date(el.timestamp).getMonth()) + 1 === i ? nCoupons++ : 0);
+        chartData.push([nameMonth, nCoupons]);
         nCoupons = 0;
-        freq = 0;
-        couponsMonth = [];
       }
       this.couponsBougth.dataTable = header.concat(chartData);
       this.couponsBougth = Object.create(this.couponsBougth);
-        });
     }
   }
 
@@ -344,22 +322,34 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
 
     let nameMonth = '';
     let price = 0;
-    let avg = 0;
+    let freq = 0;
 
+    let couponsMonth = [];
     let coupons = [];
+    let consumers = [];
+    const idConsum = [];
     const chartData = [];
-    const header = [['Label', 'Ricavo', ' Media']];
+    const header = [['Label', 'Ricavo', 'Frequenza d\'acquisto']];
     if (this.reportCoupons) {
+      this.userService.getConsumers()
+        .subscribe(cons => {
           coupons = this.reportCoupons.filter(el => new Date(el.timestamp).getFullYear() === year);
           for (let i = 1; i <= month; i++) {
             nameMonth = new Date(year, i, -1).toLocaleString('default', {month: 'long'});
-            coupons.forEach(el => (new Date(el.timestamp).getMonth()) + 1 === i ? (price += el.price) : 0);
-            avg = coupons.length > 0 ? price / coupons.length : 0;
-            chartData.push([nameMonth, price, avg]);
+            coupons.forEach(el => (new Date(el.timestamp).getMonth()) + 1 === i ? (price += el.price, couponsMonth.push(el)) : 0);
+
+            couponsMonth.forEach(el => el ? idConsum.push(el.consumer) : null);
+            consumers = cons.filter(el => idConsum.includes(el.id));
+            freq = consumers.length === 0 ? 0 : couponsMonth.length / consumers.length;
+            chartData.push([nameMonth, price, freq]);
+
+            couponsMonth = [];
             price = 0;
+            freq = 0;
           }
           this.purchFreq.dataTable = header.concat(chartData);
           this.purchFreq = Object.create(this.purchFreq);
+        });
     }
   }
 
@@ -380,23 +370,6 @@ export class FeatureReservedAreaProducerCouponReportComponent implements OnInit,
       chartData.push(['Broker', broker, 'color: #CC3300']);
       this.couponsBroker.dataTable = header.concat(chartData);
       this.couponsBroker = Object.create(this.couponsBroker);
-    }
-  }
-
-  showText(flag) {
-    switch (flag) {
-      case 1:
-        this.show = this.show === 1 ? 0 : 1;
-        break;
-      case 2:
-        this.show = this.show === 2 ? 0 : 2;
-        break;
-      case 3:
-        this.show = this.show === 3 ? 0 : 3;
-        break;
-      default:
-        this.show = 0;
-        break;
     }
   }
 }

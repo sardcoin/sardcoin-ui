@@ -11,7 +11,8 @@ export interface Coupon {
   buyed?: number;
   id?: number;
   title: string;
-  description: string;
+  short_description: any;
+  description: any;
   image: string;
   timestamp?: Date | number;
   price: number;

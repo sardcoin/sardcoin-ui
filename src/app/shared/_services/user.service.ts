@@ -25,6 +25,10 @@ export class UserService {
   getBrokers = (): Observable<any> =>
     this.http.get<Array<User>>(this.formatUrl('getBrokers/'));
 
+  getConsumers = (): Observable<any> =>
+    this.http.get<Array<User>>(this.formatUrl('getConsumers/'));
+
+
   private formatUrl = (methodName: string) =>
     `${environment.protocol}://${environment.host}:${environment.port}/users/${methodName}`;
 

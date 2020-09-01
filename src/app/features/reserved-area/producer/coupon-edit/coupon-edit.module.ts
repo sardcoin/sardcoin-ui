@@ -1,4 +1,6 @@
 import {NgModule} from '@angular/core';
+import { BlockUIModule } from 'ng-block-ui';
+import { QuillModule } from 'ngx-quill';
 import {CouponEditComponent} from './coupon-edit.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BreadcrumbActions} from '../../../../core/breadcrumb/breadcrumb.actions';
@@ -18,6 +20,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
     FileUploadModule,
     NgSelectModule,
     FlatpickrModule.forRoot(),
+    QuillModule
   ],
   exports: [
   ],

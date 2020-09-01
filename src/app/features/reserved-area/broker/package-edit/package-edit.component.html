@@ -19,14 +19,27 @@
                 </div>
               </div>
             </div> <!-- Title -->
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Breve Descrizione:</label>
+              <div class="col-sm-10">
+                <textarea rows="2" type="text" formControlName="short_description" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.short_description.errors }"></textarea>
+              </div>
+            </div> <!--Short Description -->
+
             <div class="form-group row">
               <label class="col-lg-3 col-sm-3 col-form-label">Descrizione:</label>
               <div class="col-lg-9 col-sm-9">
-                <textarea rows="7" type="text" formControlName="description" class="form-control"
-                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 5 e 500 caratteri</div>
+                <div [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+                  <quill-editor [modules]= "this.toolbarOptions"  format="html" formControlName="description" [styles]="{height: '200px'}" (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)"></quill-editor>
                 </div>
+
+<!--                <textarea rows="7" type="text" formControlName="description" class="form-control"-->
+<!--                          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>-->
+<!--                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
+<!--                  <div *ngIf="f.description.errors">Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.</div>-->
+<!--                </div>-->
               </div>
             </div> <!-- Description -->
 
@@ -294,6 +307,15 @@
     </form>
   </div>
 
+  <div *ngIf="submitted && f.short_description.status === 'INVALID'" class="alert alert-danger col-md-12">
+    <div >Descrizione breve obbligatoria, deve essere tra 1 e 255 caratteri.
+    </div>
+  </div>
+
+  <div *ngIf="submitted && f.description.status === 'INVALID'" class="alert alert-danger col-md-12">
+    <div >Descrizione obbligatoria, deve essere tra 1 e 55000 caratteri. Le immagini contengono molti caratteri.
+    </div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="closeModal()">Annulla</button>
     <button type="button" class="btn btn-success" (click)="addToPackage(modalCoupon)">

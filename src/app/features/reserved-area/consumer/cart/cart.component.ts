@@ -186,4 +186,9 @@ export class CartComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered'});
   }
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 }

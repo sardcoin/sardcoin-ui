@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,10 +21,13 @@ import { PackageService } from '../../../../shared/_services/package.service';
 })
 
 export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestroy {
+  @BlockUI() blockUI: NgBlockUI;
 
   modalRef: BsModalRef;
   modalCoupon: Coupon;
   data;
+  current = new Date();
+  timestamp: number;
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -45,6 +49,14 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   ngOnInit(): void {
     this.control();
     this.addBreadcrumb();
+    this.current.setHours(0);
+
+    this.current.setMinutes(0);
+
+    this.current.setSeconds(0);
+
+    this.current.setMilliseconds(0);
+    this.timestamp = this.current.getTime();
   }
 
   onEdit = (pack: Coupon): void => {
@@ -62,15 +74,23 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   onDelete = (coupon: Coupon): void => {
     this.couponService.deleteCoupon(coupon.id, 1)
       .subscribe(data => {
+        this.blockUI.start('Attendi la registrazione su Blockchain'); // Start blocking
+
         if (data.deleted) {
-          this.toastr.success('Pacchetto acquistato da uno o più utenti, non puoi più eliminarlo.', 'Pacchetto eliminato!');
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.success('Eliminazione riuscita.', 'Pacchetto eliminato!');
           this.control();
         }
         if (data.bought) {
-          this.toastr.success('', 'Pacchetto venduto!');
+          this.blockUI.stop(); // Stop blocking
+
+          this.toastr.error('Non puoi eliminarlo.', 'Pacchetto venduto!');
         }
       }, error => {
-        //console.log(error);
+        // console.log(error);
+        this.blockUI.stop(); // Stop blocking
+
         this.toastr.error('Si è verificato un errore durante l\'eliminazione del Pacchetto.', 'Errore');
       });
 
@@ -122,6 +142,18 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   decline = (): void => {
     this.modalRef.hide();
   };
+
+  getTimestamp = (validData: string): number => {
+    const current = new Date(validData);
+    const timestamp = current.getTime();
+
+    return timestamp;
+  };
+
+  byPassHTML(html: string) {
+    //console.log('html', html, typeof html)
+    return this._sanitizer.bypassSecurityTrustHtml(html)
+  }
 
   dataExists = () => this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
 }

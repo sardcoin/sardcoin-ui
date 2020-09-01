@@ -29,7 +29,7 @@
                   <tbody class="striped">
                   <tr *ngFor="let coupon of coupons">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
@@ -85,7 +85,7 @@
                   <tbody class="striped">
                   <tr *ngFor="let coupon of coupons">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
@@ -143,7 +143,7 @@
                   <tbody class="striped">
                   <tr *ngFor="let coupon of coupons">
                     <td><span style="font-size: 17px;">{{coupon.title}}</span><br/><i
-                      style="color: #999; font-size: 15px;">{{coupon.description.substr(0, 40) + '...'}}</i>
+                      style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description.substring(0,100)+ '...')"></i>
                     </td>
                     <td><img class="img-thumbnail" [src]="imageUrl(coupon.image)"
                              alt="Card image cap"></td>
@@ -190,7 +190,7 @@
                     <div class="col-sm-8 col-7" style="padding-bottom: 1em; padding-top: 1em">
                       <h5 class="card-text">{{coupon.title}}</h5>
                     </div>
-                    <div class="div-description">{{coupon.description}}</div>
+                    <div class="div-description" [innerHTML]="byPassHTML(coupon.description)"></div>
                     <div class="text-info div-validity">
                       Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
                     </div>
@@ -239,7 +239,7 @@
                     <div class="col-sm-8 col-7 div-title">
                       <h5 class="card-text">{{coupon.title}}</h5>
                     </div>
-                    <div class="div-description">{{coupon.description}}</div>
+                    <div class="div-description" [innerHTML]="byPassHTML(coupon.description)"></div>
                     <div class="text-info div-validity">
                       Scadenza: {{coupon.valid_until === null ? 'Illimitato' : formatUntil(coupon.valid_until) }}
 

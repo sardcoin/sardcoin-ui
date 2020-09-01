@@ -7,11 +7,11 @@
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Titolo</th>
       <td mat-cell *matCellDef="let coupon">
-        <span *ngIf="coupon.description.length > 40" class="card-text truncate" style="font-size: 17px;">{{coupon.title.substring(0,40)}}...</span> <br/>
-        <span *ngIf="coupon.description.length <= 40" class="card-text truncate" style="font-size: 17px;">{{coupon.title}}</span> <br/>
+        <span *ngIf="coupon.title.length > 100" class="card-text truncate" style="font-size: 17px;" [innerHTML]="byPassHTML(coupon.title)">{{coupon.title.substring(0,100)}}</span> <br/>
+        <span *ngIf="coupon.title.length <= 100" class="card-text truncate" style="font-size: 17px;" [innerHTML]="byPassHTML(coupon.title)">{{coupon.title}}</span> <br/>
 
-        <i *ngIf="coupon.description.length > 100" style="color: #999; font-size: 15px;">{{coupon.description.substring(0,100)}}...</i>
-        <i *ngIf="coupon.description.length <= 100" style="color: #999; font-size: 15px;">{{coupon.description}}</i>
+        <i *ngIf="coupon.short_description.length > 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description.substring(0,100)+ '...')"></i>
+        <i *ngIf="coupon.short_description.length <= 100" style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
 
       </td>
     </ng-container>
@@ -63,10 +63,10 @@
               aria-labelledby="action-button">
             <li role="menuitem"><a class="dropdown-item" (click)="onCopy(coupon)"><i
               class="far fa-copy text-primary"></i> Copia</a></li>
-            <li role="menuitem" *ngIf="!coupon.buyed"><a class="dropdown-item" (click)="onEdit(coupon)"><i
+            <li role="menuitem" *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp || coupon.visible_from===null"><a class="dropdown-item" (click)="onEdit(coupon)"><i
               class="fas fa-edit text-info"></i>
               Modifica</a></li>
-            <li role="menuitem" *ngIf="!coupon.buyed"><a class="dropdown-item" (click)="openModal(coupon)"><i
+            <li role="menuitem" *ngIf="!coupon.buyed && getTimestamp(coupon.visible_from) > timestamp || coupon.visible_from===null"><a class="dropdown-item" (click)="openModal(coupon)"><i
               class="fas fa-trash-alt text-danger"></i> Elimina</a></li>
           </ul>
         </div>
@@ -90,16 +90,16 @@
       <h5 class="card-text truncate ">{{coupon.title}}</h5>
     </div>
     <div class="col-12 mb-1 text-justify">
-      <p class="card-text truncate ">{{coupon.description}}</p>
+      <p class="card-text truncate " [innerHTML]="byPassHTML(coupon.description)">{{coupon.description}}</p>
     </div>
     <div class="card-footer w-100">
       <div class="float-left">
         <button type="button" class="btn btn-primary mr-1" (click)="onCopy(coupon)"><i class="far fa-copy"></i>
         </button>
-        <button type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
+        <button *ngIf="getTimestamp(coupon.visible_from) > timestamp" type="button" class="btn btn-info text-white mr-1" (click)="onEdit(coupon)"><i
           class="fas fa-edit"></i>
         </button>
-        <button type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
+        <button *ngIf="getTimestamp(coupon.visible_from) > timestamp" type="button" class="btn btn-danger" (click)="openModal(coupon)"><i class="fas fa-trash-alt"></i>
         </button>
       </div>
       <div class="float-right card-price">
