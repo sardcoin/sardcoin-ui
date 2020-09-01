@@ -10,6 +10,7 @@ import { Breadcrumb } from '../../../../core/breadcrumb/Breadcrumb';
 import { BreadcrumbActions } from '../../../../core/breadcrumb/breadcrumb.actions';
 import { Coupon } from '../../../../shared/_models/Coupon';
 import { CouponService } from '../../../../shared/_services/coupon.service';
+import {ITEM_TYPE} from '../../../../shared/_models/CartItem';
 
 @Component({
   selector: 'app-feature-reserved-area-coupon-list',
@@ -75,7 +76,38 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.modalRef.hide();
   };
 
-  formatState = (state): string => 'Attivo'; // TODO fix
+  formatState = (coupon: Coupon): string => {
+    let state;
+    let validUntil;
+
+    if (coupon) {
+      validUntil = coupon.valid_until ? (new Date(coupon.valid_until).getTime()) : undefined;
+      state = (coupon.quantity - coupon.buyed) === 0 ? 'Consumato' : ((validUntil && Date.now() > validUntil) ? 'Scaduto' : 'Disponibile');
+    }
+
+    return state;
+  };
+
+  getStateColor = (state: string): string => { // === 'Disponibile' ? '#28a745' : '#dc3545'
+    let color;
+
+    switch (state) {
+      case 'Scaduto':
+        color = '#dc3545';
+        break;
+      case 'Consumato':
+        color = '#ffc107';
+        break;
+      case 'In uso':
+        color = '#98c8ff';
+        break;
+      default:
+        color = '#28a745';
+    }
+
+    return color;
+  };
+
 
   addBreadcrumb = (): void => {
     const bread: Array<Breadcrumb> = [];

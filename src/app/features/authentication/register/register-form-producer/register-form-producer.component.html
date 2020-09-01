@@ -4,7 +4,7 @@
       <div class="card mx-4">
         <div class="card-body p-4">
           <h1 class="text-center">Registrazione</h1>
-          <p class="text-info text-muted text-center">Crea il tuo account per produttore.</p>
+          <p class="text-info text-muted text-center">Crea il tuo account da produttore o da impresa.</p>
           <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
   <div >
     <div class="form-row">
@@ -23,11 +23,11 @@
         <div class="input-group-prepend">
           <span class="input-group-text"><i class="icon-chart"></i></span>
         </div>
-        <input type="text" formControlName="vat_number" class="form-control" placeholder="Partita Iva" required
+        <input type="text" formControlName="vat_number" class="form-control" placeholder="Partita IVA" required
                [ngClass]="{ 'is-invalid': submitted && f.vat_number.errors }"/>
 
         <div *ngIf="this.submitted && f.vat_number.errors" class="invalid-feedback">
-          <div *ngIf="f.vat_number.errors.required">Partita Iva obbligatoria</div>
+          <div *ngIf="f.vat_number.errors.required">Partita IVA obbligatoria</div>
         </div>
       </div>
     </div>
@@ -163,12 +163,12 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-code"></i></span>
       </div>
-      <input type="text" formControlName="zip" class="form-control" placeholder="Cap"
+      <input type="text" formControlName="zip" class="form-control" placeholder="CAP"
              [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>
 
       <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
-        <div *ngIf="f.zip.errors.required">È necessario inserire il Cap</div>
-        <div *ngIf="f.zip.errors.maxlength">Il Cap deve essere lungo al massimo 5 cifre</div>
+        <div *ngIf="f.zip.errors.required">È necessario inserire il CAP</div>
+        <div *ngIf="f.zip.errors.maxlength">Il CAP deve essere lungo al massimo 5 cifre</div>
       </div>
     </div>
   </div> <!-- Province and Zip Code-->
@@ -224,7 +224,7 @@
          *ngIf="submitted && f.r_password.errors?.MatchPassword">La password non corrisponde
     </div>
 
-    <button [disabled]="loading" class="btn btn-block btn-success">Crea un Account</button>
+    <button [disabled]="loading" class="btn btn-block btn-success">Crea un account</button>
   </div> <!-- Password and repeated password -->
 </form>
         </div>

@@ -4,3 +4,15 @@ margin-top {
   display: block;
   z-index: -4!important;
 }
+.description {
+  border-style: groove;
+  border-color: #333f50;
+  border-radius: 5px;
+}
+
+.legend {
+  cursor: pointer;
+  border-radius: 25px;
+  background-color: #333f50;
+  color: white;
+}

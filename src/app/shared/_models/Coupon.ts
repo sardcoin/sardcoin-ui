@@ -8,6 +8,7 @@ export interface Package extends Coupon {
 }
 
 export interface Coupon {
+  buyed?: number;
   id?: number;
   title: string;
   description: string;

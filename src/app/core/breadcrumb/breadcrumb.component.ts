@@ -121,9 +121,12 @@ export class BreadcrumbComponent implements OnInit { // TODO to handle toast mes
 
     try {
       if (text === '') {
-        coupons = [];
+        coupons = (await this.couponService.getAvailableByTextAndCatId('noText', this.selectedCategory).toPromise()) || [];
       } else {
         coupons = (await this.couponService.getAvailableByTextAndCatId(text, this.selectedCategory).toPromise()) || [];
+      }
+      for (let cp = 0; cp < coupons.length; cp++) {
+        coupons[cp].description = coupons[cp].description.length > 150 ? coupons[cp].description.slice(0, 150) + '...' : coupons[cp].description;
       }
       // Se coupon è definito, lo lascia com'è, altrimenti assegna alla variabile un array vuoto
       this.filterActions.update(coupons, category, this.searchText);

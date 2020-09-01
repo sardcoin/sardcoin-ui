@@ -33,7 +33,9 @@
     <!-- State Column -->
     <ng-container matColumnDef="state">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-lg-table-cell d-none">Stato</th>
-      <td mat-cell *matCellDef="let coupon" class="d-lg-table-cell d-none p-1"> {{formatState(0)}}</td>
+      <td *matCellDef="let coupon" [ngStyle]="{color: getStateColor(formatState(coupon))}" class="text-uppercase td-state font-weight-bold">
+        {{formatState(coupon)}}
+      </td>
     </ng-container>
 
     <!-- Quantity Column -->
