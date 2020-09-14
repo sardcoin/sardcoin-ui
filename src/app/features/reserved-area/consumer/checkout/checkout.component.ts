@@ -139,19 +139,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
 
   openModalPayment(template: TemplateRef<any> | ElementRef, ignoreBackdrop: boolean = false) {
-    console.log('openModalPayment')
+    // console.log('openModalPayment')
     try {
-      const preBuyValue = this.couponService.preBuy(this.cart)
-        .toPromise()
+      this.couponService.preBuy(this.cart).subscribe(() =>{
+        // console.log('prebuy')
+      })
     } catch (e) {
-      console.log('error prepare coupon', e)
+      // console.log('error prepare coupon', e)
 
     }
 
     if (this.coupon.price != 0) {
-      this.initConfig(this.cart);
+      this.initConfig(this.cart)
+        .then(() => {
+        // console.log('initConfiga')
+      });
     } else {
-      this.refreshDeletePaypal();
+      this.refreshDeletePaypal()
+        .then(r => {
+          // console.log('refreshDeletePaypal openModalPayment')
+
+        });
 
     }
     this.modalRef = this.modalService.show(template, {class: 'modal-md modal-dialog-centered', ignoreBackdropClick: ignoreBackdrop, keyboard: !ignoreBackdrop});
@@ -215,11 +223,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
   async refreshDeletePaypal() {
 
-    await this.delay(100000)
+    await this.delay(300000)
       .then(refresh => {
         if (window.location.href.includes('checkout')) {
           window.location.reload(true)
-          console.log('refresh')
+           // console.log('refresh function')
         }
       })
   }
@@ -227,8 +235,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   private async initConfig(cart): Promise<any> {
 
-    this.refreshDeletePaypal();
-    console.log('initConfig');
+    this.refreshDeletePaypal().then(r => {
+      // console.log('refresh initConfig')
+
+    });
+    //console.log('initConfig');
     if (this.coupon.price > 0) {
       const clientId: string = this.producer.client_id;
       this.payPalConfig = {
@@ -247,16 +258,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           })
           .then( order =>  {
             const orderId = ( order).id
-            console.log('risposta server creazione  2 then', order);
+            //console.log('risposta server creazione  2 then', order);
 
             return orderId;
           }),
         onApprove: (data, actions) => {
 
-          console.log('onApprove - transaction was approved, but not authorized', data, actions);
+          //console.log('onApprove - transaction was approved, but not authorized', data, actions);
           actions.order.get()
             .then(async details => {
-              console.log('onApprove - you can get full order details inside onApprove: ', details);
+              //console.log('onApprove - you can get full order details inside onApprove: ', details);
               try {
                 const payment_id = details.id
                 this.closeModalPayment()
@@ -265,12 +276,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                 const buy = await this.couponService.buyCoupons(this.cart, payment_id, this.coupon.owner)
                   .toPromise()
                 // this.closeModalAwaitConfirmPayment()
-                console.log('buy: ', buy);
+                //console.log('buy: ', buy);
 
                 this.router.navigate(['/bought']); // TODO a fine test decomentare
                 this.blockUI.stop()
-                  this.toastr.success('', 'Pagamento riuscito!');
-                this.cartActions.deleteFirstItem(this.couponCart.id); //delete firs element
+                this.toastr.success('', 'Pagamento riuscito!');
+                await this.cartActions.deleteFirstItem(this.couponCart.id); //delete first element
 
               } catch (e) {
                 let title = '';
@@ -303,7 +314,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          console.log('OnCancel', data, actions);
+          //console.log('OnCancel', data, actions);
 
         },
         onError: err => {
@@ -311,11 +322,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          console.log('OnError', err);
+          //console.log('OnError', err);
         },
         onClick:  (data, actions) => {
 
-          console.log('onClick', data, actions);
+          //console.log('onClick', data, actions);
         }
       };
     } else {
