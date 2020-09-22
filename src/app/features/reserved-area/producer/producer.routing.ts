@@ -10,6 +10,7 @@ import { FeatureReservedAreaCouponListComponent } from './coupon-list/coupon-lis
 import { CouponOfflineDetailsComponent } from './coupon-offline-details/coupon-offline-details.component';
 import { FeatureReservedAreaCouponOfflineComponent } from './coupon-offline/coupon-offline.component';
 import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
+import { CouponEditDescriptionComponent } from './coupon-edit-description/coupon-edit-description.component';
 
 // App Components
 
@@ -38,6 +39,10 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
         component: CouponEditComponent
       },
       {
+        path: 'edit-description',
+        component: CouponEditDescriptionComponent
+      },
+      {
         path: 'showcase',
         component: FeatureReservedAreaConsumerShowcaseComponent
       },
@@ -54,10 +59,10 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
         path: 'personal-info',
         component: PersonalInfoComponent
       },
-      // {
-      //   path: 'payment-details',
-      //   component: PaymentDetailsComponent
-      // },
+      {
+        path: 'payment-details',
+        component: PaymentDetailsComponent
+      },
       {
         path: 'offline-details',
         component: CouponOfflineDetailsComponent

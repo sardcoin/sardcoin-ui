@@ -185,6 +185,7 @@ export class PackageEditComponent implements OnInit, OnDestroy {
 
     this.packageForm = this.formBuilder.group({
       title: [this.couponPass.title, Validators.compose([Validators.minLength(5), Validators.maxLength(80), Validators.required])],
+      short_description: [this.couponPass.short_description, Validators.compose([Validators.maxLength(55000), Validators.minLength(5), Validators.required])],
       description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
       image: [this.imagePath],
       price: [{value: this.markedFree ? 0 : this.couponPass.price.toFixed(2), disabled: this.markedFree}, Validators.required],

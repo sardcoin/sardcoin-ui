@@ -2,131 +2,21 @@
   <div class="row">
     <div class="col-lg-12 col-xl-9">
       <div class="col-lg-5 col-md-6 p-3 bg-red-sardcoin" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem">
-        <h4 class="text-white text-center text-uppercase mb-0">Aggiorna dati di fatturazione</h4>
+        <h4 class="text-white text-center text-uppercase mb-0">Credenziali Paypal</h4>
       </div>
       <div class="card">
         <div class="p-4" *ngIf="user !== null">
-          <form [formGroup]="updateRegistration" (ngSubmit)="onSubmit()">
-
-            <div *ngIf="this.selectedUser === 0 || this.selectedUser === 1"> <!-- If the user is admin or producer -->
-              <div class="form-row">
-                <div class="input-group mb-3 col-md-6">
-                  <div class="d-block w-100">
-                    <label for="company_name" class="label-tiny">Nome Azienda</label>
-                  </div>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="icon-briefcase"></i></span>
-                  </div>
-                  <input type="text" formControlName="company_name" class="form-control"
-                         placeholder="Nome Azienda" id="company_name" maxlength="100"
-                         [ngClass]="{ 'is-invalid': submitted && f.company_name.errors }"/>
-
-                  <div *ngIf="this.submitted && f.company_name.errors" class="invalid-feedback">
-                    <div *ngIf="f.company_name.errors.required">È necessario inserire il nome dell'azienda</div>
-                  </div>
-                </div>
-                <div class="input-group mb-3 col-md-6">
-                  <div class="d-block w-100">
-                    <label for="vat_number" class="label-tiny">Partita Iva</label>
-                  </div>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="icon-chart"></i></span>
-                  </div>
-                  <input type="text" formControlName="vat_number" class="form-control"
-                         placeholder="Partita Iva" id="vat_number" maxlength="11"
-                         [ngClass]="{ 'is-invalid': submitted && f.vat_number.errors }" required/>
-
-                  <div *ngIf="this.submitted && f.vat_number.errors" class="invalid-feedback">
-                    <div *ngIf="f.vat_number.errors.required">Partita iva obbligatoria</div>
-                  </div>
-                </div>
-              </div>
-            </div> <!-- Vat Number and Company Name only for companies users -->
+          <div class="alert alert-warning" role="alert">
+            Il salvataggio delle credenziali richieste è sicuro. Inoltre, se è stata selezionata solo l'opzione
+            <b>Accept Payments</b>, le credenziali non permettono di eseguire alcuna operazione sull'account PayPal
+            dell'utente, ad eccezione della ricezione di pagamenti da parte di altri utenti. In ogni caso,
+            l'autorizzazione concessa è valida solo per l'applicazione SardCoin e può essere revocata in qualsiasi
+            momento dal proprio account PayPal. Per ulteriori informazioni, consultare questa
+            <a href="https://developer.paypal.com/docs/api-basics/manage-apps/#create-or-edit-sandbox-and-live-apps" target="_blank" class="alert-link">pagina</a>.
+          </div>
+          <form [formGroup]="updatePaypalCredentials" (ngSubmit)="onSubmit()">
             <div class="form-row">
-              <div class="input-group mb-4 col-md-6">
-                <div class="d-block w-100">
-                  <label for="first_name" class="label-tiny">Nome</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-user"></i></span>
-                </div>
-                <input type="text" formControlName="first_name" class="form-control"
-                       placeholder="Nome" id="first_name" maxlength="40"
-                       [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }"/>
-
-                <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
-                  <div *ngIf="f.first_name.errors.required">Nome obbligatorio</div>
-                  <div *ngIf="f.first_name.errors.maxlength">Il nome deve essere lungo al massimo 40 caratteri</div>
-                </div>
-              </div>
-              <div class="input-group mb-4 ml-auto col-md-6">
-                <div class="d-block w-100">
-                  <label for="last_name" class="label-tiny">Cognome</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-user"></i></span>
-                </div>
-                <input type="text" formControlName="last_name" class="form-control"
-                       placeholder="Cognome" id="last_name" maxlength="40"
-                       [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"/>
-
-                <div *ngIf="this.submitted && f.last_name.errors" class="invalid-feedback">
-                  <div *ngIf="f.last_name.errors.required">Cognome obbligatorio</div>
-                  <div *ngIf="f.last_name.errors.maxlength">Il cognome non deve superare 40 caratteri</div>
-                </div>
-              </div>
-
-            </div> <!-- First and last name -->
-            <div class="form-row">
-              <div class="input-group mb-3 col-md-6">
-                <div class="d-block w-100">
-                  <label for="birth_place" class="label-tiny">Luogo di Nascita</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-location-pin"></i></span>
-                </div>
-                <input type="text" formControlName="birth_place" class="form-control" placeholder="Luogo di Nascita" id="birth_place"
-                       [ngClass]="{ 'is-invalid': submitted && f.birth_place.errors }"/>
-
-                <div *ngIf="submitted && f.birth_place.errors" class="invalid-feedback">
-                  <div *ngIf="f.birth_place.errors.required">Luogo di Nascita obbligatorio</div>
-                  <div *ngIf="f.birth_place.errors.maxlength">Il luogo di nascita non deve superare 50 caratteri</div>
-                </div>
-              </div>
-              <div class="input-group mb-3 col-md-6">
-                <div class="d-block w-100">
-                  <label for="birth_date" class="label-tiny">Data di nascita</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-calendar"></i></span>
-                </div>
-                <input type="date" formControlName="birth_date" class="form-control" placeholder="Data di nascita" id="birth_date"
-                       [ngClass]="{ 'is-invalid': submitted && f.birth_date.errors }"/>
-
-                <div *ngIf="submitted && f.birth_date.errors" class="invalid-feedback">
-                  <div *ngIf="f.birth_date.errors.required">Data di nascita obbligatoria</div>
-                </div>
-              </div>
-            </div> <!-- Birth place and birth date -->
-            <div class="form-row">
-              <div class="input-group mb-3 col-md-6">
-                <div class="d-block w-100">
-                  <label for="fiscal_code" class="label-tiny">Codice fiscale</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                </div>
-                <input type="text" formControlName="fiscal_code" class="form-control" placeholder="Codice fiscale" id="fiscal_code"
-                       [ngClass]="{ 'is-invalid': submitted && f.fiscal_code.errors }"/>
-
-                <div *ngIf="submitted && f.fiscal_code.errors" class="invalid-feedback">
-                  <div *ngIf="f.fiscal_code.errors.required">Codice fiscale obbligatorio</div>
-                  <div *ngIf="f.fiscal_code.errors.maxlength">Il CF deve essere lungo 16 caratteri</div>
-                  <div *ngIf="f.fiscal_code.errors.InvalidFiscalCode">Codice fiscale non valido</div>
-                </div>
-
-              </div> <!-- Fiscal code -->
-              <div class="input-group mb-3 col-md-6">
+            <div class="input-group mb-3 col-md-6">
                 <div class="d-block w-100">
                   <label for="paypal_email" class="label-tiny">Email Paypal</label>
                 </div>
@@ -138,105 +28,43 @@
 
                 <div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">
                   <!--<div *ngIf="f.email_paypal.errors.required">Email is required</div>-->
-                  <div *ngIf="f.email_paypal.errors">Email non valida</div>
+                  <div *ngIf="f.email_paypal.errors">Email Paypal non valida</div>
                 </div>
               </div> <!-- Mail Paypal -->
-            </div> <!-- Fiscal code and Paypal mail -->
+            </div> <!-- Paypal mail row -->
             <div class="form-row">
               <div class="input-group mb-3 col-md-6">
                 <div class="d-block w-100">
-                  <label for="address" class="label-tiny">Indirizzo</label>
+                  <label for="client_id" class="label-tiny">Client id</label>
                 </div>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+                  <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
                 </div>
-                <input type="text" formControlName="address" class="form-control" placeholder="Indirizzo" id="address"
-                       [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+                <input type="text" formControlName="client_id" class="form-control" placeholder="Client id" id="client_id"
+                       [ngClass]="{ 'is-invalid': submitted && f.client_id.errors }"/>
 
-                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-                  <div *ngIf="f.address.errors.required">Indirizzo obbligatorio</div>
-                  <div *ngIf="f.address.errors.maxlength">L'indirizzo non deve superare 50 caratteri</div>
+                <div *ngIf="submitted && f.client_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.client_id.errors.required">Client id obbligatorio</div>
+                  <div *ngIf="f.client_id.errors.maxlength">Il Client id non deve superare i 100 caratteri</div>
                 </div>
               </div>
               <div class="input-group mb-3 col-md-6">
                 <div class="d-block w-100">
-                  <label for="city" class="label-tiny">Città</label>
+                  <label for="password_secret" class="label-tiny">Password Secret</label>
                 </div>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="text" formControlName="city" class="form-control" placeholder="Città" id="city"
-                       [ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>
+                <input type="password" formControlName="password_secret" class="form-control" placeholder="Password Secret" id="password_secret"
+                       [ngClass]="{ 'is-invalid': submitted && f.password_secret.errors }"/>
 
-                <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
-                  <div *ngIf="f.city.errors.required">Città obbligatoria</div>
-                  <div *ngIf="f.city.errors.maxlength">Il luogo di nascita non deve superare 50 caratteri</div>
+                <div *ngIf="submitted && f.password_secret.errors" class="invalid-feedback">
+                  <div *ngIf="f.password_secret.errors.required">Password_secret obbligatoria</div>
+                  <div *ngIf="f.password_secret.errors.maxlength">La password_secret non deve superare 100 caratteri</div>
                 </div>
-              </div>
-            </div> <!-- Address and Residence City -->
-            <div class="form-row">
-              <div class="input-group mb-3 col-md-6">
-                <div class="d-block w-100">
-                  <label for="province" class="label-tiny">Provincia</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-map"></i></span>
-                </div>
-                <input type="text" formControlName="province" class="form-control" placeholder="Provincia" id="province"
-                       [ngClass]="{ 'is-invalid': submitted && f.province.errors }" maxlength="2"/>
-
-                <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
-                  <div *ngIf="f.province.errors.required">Provincia obbligatoria</div>
-                  <div *ngIf="f.province.errors.maxlength">La provincia non deve superare i 2 caratteri</div>
-                </div>
-              </div>
-              <div class="input-group mb-3 col-md-6">
-                <div class="d-block w-100">
-                  <label for="zip_code" class="label-tiny">CAP</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-code"></i></span>
-                </div>
-                <input type="text" formControlName="zip" class="form-control" placeholder="CAP" id="zip_code"
-                       [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>
-
-                <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
-                  <div *ngIf="f.zip.errors.required">CAP obbligatorio</div>
-                  <div *ngIf="f.zip.errors.maxlength">Il CAP non deve superare i 5 caratteri</div>
-                </div>
-              </div>
-            </div> <!-- Province and Zip Code-->
-            <div class="form-row">
-              <div class="input-group mb-4 col-md-6">
-                <div class="d-block w-100">
-                  <label for="password" class="label-tiny">Password</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-lock"></i></span>
-                </div>
-                <input type="password" formControlName="password" class="form-control" placeholder="Password"
-                       [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password"/>
-
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                  <div *ngIf="f.password.errors.required">Password obbligatoria</div>
-                  <div *ngIf="f.password.errors.minlength">La Password deve essere di almeno 10 caratteri</div>
-                </div>
-              </div>
-              <div class="input-group mb-4 col-md-6">
-                <div class="d-block w-100">
-                  <label for="r_password" class="label-tiny">Conferma Password</label>
-                </div>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-lock"></i></span>
-                </div>
-                <input type="password" formControlName="r_password" class="form-control" placeholder="Conferma Password"
-                       id="r_password">
-              </div>
-              <div class="alert alert-danger col-md-12"
-                   *ngIf="submitted && f.r_password.errors?.MatchPassword">Password non valida
               </div>
               <button class="btn btn-success btn-lg" style="margin: 0 auto;">Salva dati aggiornati</button>
-            </div> <!-- Password and repeated password -->
+            </div> <!-- Client id and Password Secret -->
           </form>
         </div>
       </div>

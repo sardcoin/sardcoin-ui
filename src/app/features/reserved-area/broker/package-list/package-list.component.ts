@@ -27,7 +27,7 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   modalCoupon: Coupon;
   data;
   current = new Date();
-  timestamp: number;
+  timestamp = this.current.getTime();
 
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
@@ -49,14 +49,14 @@ export class FeatureReservedAreaPackageListComponent implements OnInit, OnDestro
   ngOnInit(): void {
     this.control();
     this.addBreadcrumb();
-    this.current.setHours(0);
-
-    this.current.setMinutes(0);
-
-    this.current.setSeconds(0);
-
-    this.current.setMilliseconds(0);
-    this.timestamp = this.current.getTime();
+    // this.current.setHours(0);
+    //
+    // this.current.setMinutes(0);
+    //
+    // this.current.setSeconds(0);
+    //
+    // this.current.setMilliseconds(0);
+    // this.timestamp = this.current.getTime();
   }
 
   onEdit = (pack: Coupon): void => {

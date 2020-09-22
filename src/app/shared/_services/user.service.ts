@@ -19,6 +19,9 @@ export class UserService {
   update = (user: User): Observable<any> =>
     this.http.put(this.formatUrl('update'), user);
 
+  updatePaypalCredentials = (user: any): Observable<any> =>
+    this.http.put(this.formatUrl('updatePaypalCredentials'), user);
+
   getProducerFromId = (id: number) =>
     this.http.get<User>(this.formatUrl(`getProducerFromId/${id}`));
 

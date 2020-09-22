@@ -39,7 +39,7 @@ import { ProducerInfoComponent } from './producer-info/producer-info.component';
         component: CartComponent
       },
       {
-        path: 'checkout',
+        path: 'checkout/:id',
         component: CheckoutComponent,
         canActivate: [IsAuthenticatedGuard]
       },

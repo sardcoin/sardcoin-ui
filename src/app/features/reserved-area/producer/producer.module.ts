@@ -20,6 +20,7 @@ import { FeatureReservedAreaCouponOfflineModule } from './coupon-offline/coupon-
 import { FeatureReservedAreaProducerComponent } from './producer.component';
 import { ProducerRoutingModule } from './producer.routing';
 import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupon-report.component';
+import { FeatureReservedAreaCouponEditDescriptionModule } from './coupon-edit-description/coupon-edit-description.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FeatureReservedAreaProducerCouponReportComponent } from './report/coupo
     FeatureReservedAreaCouponOfflineModule,
     CouponOfflineModule,
     FeatureReservedAreaCouponEditModule,
+    FeatureReservedAreaCouponEditDescriptionModule,
     FeatureReservedAreaPaymentDetailsModule,
     FeatureReservedAreaPersonalInfoModule,
     CommonModule,

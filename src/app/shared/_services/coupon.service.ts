@@ -96,6 +96,9 @@ export class CouponService {
   editCoupon = (coupon: Coupon): Observable<any> =>
     this.http.request('put', this.formatUrl('editCoupon'), {body: coupon});
 
+  editCouponDescription = (coupon: any): Observable<any> =>
+    this.http.request('put', this.formatUrl('editCouponDescription'), {body: coupon});
+
   create = (coupon: Coupon): Observable<any> =>
     this.http.post(this.formatUrl('create'), coupon);
 

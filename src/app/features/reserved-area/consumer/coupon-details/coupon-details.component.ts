@@ -249,4 +249,5 @@ export class CouponDetailsComponent implements OnInit, OnDestroy {
     //console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
+
 }

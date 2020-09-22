@@ -49,6 +49,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
     this.userService.getUserById().subscribe(user => {
       this.user = user;
+      if (this.user.user_type !== '2'){
       this.updateRegistration = this.formBuilder.group({
         first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
         last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40)])],
@@ -61,7 +62,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         zip: [this.user.zip, Validators.compose([Validators.maxLength(5), Validators.required])],
         province: [this.user.province, Validators.compose([Validators.maxLength(2), Validators.required])],
         username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
-        // email: [this.user.email, Validators.required],
+        email: [this.user.email, Validators.required],
         password: [null, Validators.compose([Validators.required])],
         r_password: [null, Validators.compose([Validators.required])],
         company_name: [this.user.company_name],
@@ -70,6 +71,20 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
       });
       this.selectChangeHandler(this.user.user_type);
+      } else {
+        this.selectedUser = Number(this.user.user_type);
+        this.updateRegistration = this.formBuilder.group({
+          first_name: [this.user.first_name, Validators.compose([Validators.maxLength(40), Validators.required])],
+          last_name: [this.user.last_name, Validators.compose([Validators.maxLength(40)])],
+          fiscal_code: [this.user.fiscal_code, Validators.compose([Validators.maxLength(16), Validators.required])],
+          username: [this.user.username, Validators.compose([Validators.maxLength(20), Validators.required])],
+          email: [this.user.email, Validators.required],
+          password: [null, Validators.compose([Validators.required])],
+          r_password: [null, Validators.compose([Validators.required])]
+        }, {
+          validator: Validators.compose([PasswordValidation.MatchPassword, FiscalCodeValidation.CheckFiscalCode])
+        });
+      }
     });
 
     setTimeout(() => this.updateRegistration.disable(), 1000);
@@ -81,13 +96,15 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   }
 
   get f() {
+    //if (this.updateRegistration.errors !== null)
+      console.log (this.updateRegistration.errors);
     return this.updateRegistration.controls;
   }
 
   selectChangeHandler(user_type) {
     this.selectedUser = Number(user_type);
 
-    if (this.selectedUser !== 2) {
+    if (this.selectedUser !== 2 && this.selectedUser !== 4) {
       this.updateRegistration.controls['company_name'].setValidators(Validators.required);
       this.updateRegistration.controls['company_name'].updateValueAndValidity();
 
@@ -119,8 +136,8 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       if (this.selectedUser === 2) {
         this.updateRegistration.value.company_name = null;
         this.updateRegistration.value.vat_number = null;
+        this.updateRegistration.value.birth_date = '';
       }
-
       delete this.updateRegistration.value.r_password;
 
       this.loading = true;

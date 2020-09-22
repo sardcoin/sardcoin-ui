@@ -22,7 +22,7 @@
           <tr> <!--*ngFor="let token of coupon.CouponTokens "> -->
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
             </td>
             <td>
               <div *ngIf="coupon.type === ITEM_TYPE.PACKAGE" class="coupon-package text-uppercase">
@@ -68,7 +68,7 @@
           <tr> <!--*ngFor="let token of coupon.CouponTokens "> -->
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
             </td> <!-- Titolo -->
             <td>{{formatPrice(coupon.price)}}</td> <!-- Prezzo -->
             <td>{{formatDate(coupon.purchase_time)}}</td> <!-- Data -->
@@ -106,7 +106,7 @@
           <tr>
             <td>
               <span style="font-size: 17px;">{{coupon.title}}</span> <br/>
-              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.description)"></i>
+              <i style="color: #999; font-size: 15px;" [innerHTML]="byPassHTML(coupon.short_description)"></i>
             </td>
             <td [ngStyle]="{color: getStateColor(formatState(coupon))}" class="text-uppercase td-state"><b>{{formatState(coupon)}}</b>
             </td>

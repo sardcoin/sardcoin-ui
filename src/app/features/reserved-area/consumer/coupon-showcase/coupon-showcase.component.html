@@ -6,9 +6,9 @@
       <h5 *ngIf="coupons.length === 0">La ricerca non ha prodotto risultati.</h5>
     </div>
 
-    <div class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
+    <div  class="col-lg-6 col-xl-4 col-md-6 col col-sm-6 col-12 mb-3 pl-3 pr-0" *ngFor="let coupon of coupons">
       <div class="card" [ngClass]="{'package-style': coupon.type === ITEM_TYPE.PACKAGE}">
-        <img class="crop centered-and-cropped" [ngStyle]="{'opacity': !isCartEmpty() && !inCart(coupon.id) ? '0.5' : '1'}"
+        <img class="crop centered-and-cropped"
              [src]="imageUrl(coupon.image)" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">
@@ -17,9 +17,9 @@
           <p class="card-text pt-0" [innerHTML]="byPassHTML(coupon.short_description)"></p>
         </div>
         <div class="card-footer">
-          <button *ngIf="!userType || userType == 2" [disabled]="!isCartEmpty() && !inCart(coupon.id)" type="button"
+          <button *ngIf="!userType || userType == 2"  type="button"
                   class="btn btn-success float-right ml-1" title="{{!inCart(coupon.id) ?
-         'hai già un oggetto nella cassa, rimuovilo o completa l\'acquisto prima di acquistarne altri' : ''}}"
+         'Aggiungi al carrello' : 'Vai al carrello'}}"
                   (click)="inCart(coupon.id)? viewCart(): openModal(template, coupon)"><i class="fas fa-euro-sign"></i> {{inCart(coupon.id)? 'Paga': 'Acquista'}}
           </button>
           <button type="button" class="btn btn-primary text-white float-right" (click)="details(coupon)"><i
@@ -42,7 +42,7 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left"><i class="fas fa-plus-circle mr-3"></i>Aggiungi "{{modalCoupon.title.length > 20 ?
-      modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" nella cassa</h4>
+      modalCoupon.title.substring(0, 20) + '...' : modalCoupon.title}}" nel carrello.</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -69,7 +69,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="decline()">Annulla</button>
-    <button [disabled]="!isCartEmpty()" type="button" class="btn btn-success" (click)="addToCart(modalCoupon)">
+    <button  type="button" class="btn btn-success" (click)="addToCart(modalCoupon)">
       Acquista
     </button>
   </div>

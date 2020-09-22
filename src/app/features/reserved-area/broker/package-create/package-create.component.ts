@@ -165,11 +165,11 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
             description: [undefined, Validators.compose([Validators.minLength(1), Validators.maxLength(55000), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [0, Validators.required],
-            published_from: [new Date()],
+            published_from: [new Date().setMinutes(new Date().getMinutes() + 10)],
             coupons: [this.selectedCoupons],
             selected: [this.selectedCoupons],
             categories: [this.selectedCategories],
-            valid_from: [new Date(), Validators.required],
+            valid_from: [new Date().setMinutes(new Date().getMinutes() + 10), Validators.required],
             valid_until: [null],
             valid_until_empty: [this.markedUnlimited],
             quantity: [1, Validators.required],
@@ -186,11 +186,11 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
             description: [this.couponPass.description, Validators.compose([Validators.minLength(5), Validators.maxLength(55000), Validators.required])],
             image: [this.imagePath, Validators.required],
             price: [this.couponPass.price, Validators.required],
-            published_from: [new Date()],
+            published_from: [new Date().setMinutes(new Date().getMinutes() + 10)],
             coupons: [this.selectedCoupons],
             selected: [this.selectedCoupons],
             categories: [this.selectedCategories],
-            valid_from: [new Date(), Validators.required],
+            valid_from: [new Date().setMinutes(new Date().getMinutes() + 10), Validators.required],
             valid_until: [null],
             valid_until_empty: [this.markedUnlimited],
             quantity: [1, Validators.required],
@@ -229,13 +229,15 @@ export class FeatureReservedAreaPackageCreateComponent implements OnInit, OnDest
       return;
     }
 
+    const visibleTime = new Date(this.f.published_from.value).getTime() < new Date().setMinutes(new Date().getMinutes() + 10) ? new Date().setMinutes(new Date().getMinutes() + 10) : this.f.published_from.value;
+
     const pack: Package = {
       title: this.f.title.value,
       short_description: this.f.short_description.value,
       description: this.f.description.value,
       image: this.imagePath,
       price: this.markedFree ? 0 : this.f.price.value,
-      visible_from: this.markedPrivate ? null : (new Date(this.f.published_from.value)).getTime().valueOf(),
+      visible_from: this.markedPrivate ? null : (new Date(visibleTime)).getTime().valueOf(),
       valid_from: (new Date(this.f.valid_from.value)).getTime().valueOf(),
       valid_until: this.markedUnlimited ? null : (new Date(this.f.valid_until.value)).getTime().valueOf(),
       constraints: this.markedConstraints ? null : this.f.constraints.value,

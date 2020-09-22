@@ -37,14 +37,7 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
     this.registrationForm = this.formBuilder.group({
       first_name:   ['', Validators.compose([Validators.maxLength(40), Validators.required])],
       last_name:    ['', Validators.compose([Validators.maxLength(40), Validators.required])],
-      birth_place:  ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      birth_date:   ['', Validators.required],
       fiscal_code:  ['', Validators.compose([Validators.maxLength(16), Validators.required])],
-      email_paypal: [null , Validators.compose([ Validators.maxLength(50)])],
-      address:      ['', Validators.compose([Validators.maxLength(100), Validators.required])],
-      city:         ['', Validators.compose([Validators.maxLength(50), Validators.required])],
-      zip:          ['', Validators.compose([Validators.maxLength(5), Validators.required])],
-      province:     ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       username:     ['', Validators.compose([Validators.maxLength(20), Validators.required])],
       email:        ['', Validators.required],
       password:     ['', Validators.compose([Validators.minLength(10), Validators.required])],
@@ -68,10 +61,11 @@ export class FeatureAuthenticationRegisterFormComponent implements OnInit {
       return;
     }
 
-    // Setting some fanValues to pass to the backend
+
     this.registrationForm.value.user_type = 2;
     this.registrationForm.value.id = 0;
     this.registrationForm.value.checksum = 0;
+    this.registrationForm.value.birth_date = '';
 
 
     delete this.registrationForm.value.r_password;

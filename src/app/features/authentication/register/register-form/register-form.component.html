@@ -6,9 +6,9 @@
 </div>
 
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-
+  <h5 class="py-3">Dati cliente</h5>
   <div class="form-row">
-    <div class="input-group mb-4 col-md-6">
+    <div class="input-group mb-3 col-md-6">
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="icon-user"></i></span>
       </div>
@@ -20,7 +20,7 @@
         <div *ngIf="f.first_name.errors.maxlength">Il nome deve essere lungo al massimo 40 caratteri</div>
       </div>
     </div>
-    <div class="input-group mb-4 ml-auto col-md-6">
+    <div class="input-group mb-3 ml-auto col-md-6">
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="icon-user"></i></span>
       </div>
@@ -34,31 +34,31 @@
     </div>
 
   </div> <!-- First and last name -->
-  <div class="form-row">
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="icon-location-pin"></i></span>
-      </div>
-      <input type="text" formControlName="birth_place" class="form-control" placeholder="Luogo di Nascita"
-             [ngClass]="{ 'is-invalid': submitted && f.birth_place.errors }"/>
+  <!--<div class="form-row">-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="icon-location-pin"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="birth_place" class="form-control" placeholder="Luogo di Nascita"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.birth_place.errors }"/>-->
 
-      <div *ngIf="submitted && f.birth_place.errors" class="invalid-feedback">
-        <div *ngIf="f.birth_place.errors.required">È necessario inserire il luogo di nascita</div>
-        <div *ngIf="f.birth_place.errors.maxlength">Il luogo di nascita deve essere lungo al massimo 50 caratteri</div>
-      </div>
-    </div>
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="icon-calendar"></i></span>
-      </div>
-      <input type="date" formControlName="birth_date" class="form-control" placeholder="Data di Nascita"
-             [ngClass]="{ 'is-invalid': submitted && f.birth_date.errors }"/>
+      <!--<div *ngIf="submitted && f.birth_place.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.birth_place.errors.required">È necessario inserire il luogo di nascita</div>-->
+        <!--<div *ngIf="f.birth_place.errors.maxlength">Il luogo di nascita deve essere lungo al massimo 50 caratteri</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="icon-calendar"></i></span>-->
+      <!--</div>-->
+      <!--<input type="date" formControlName="birth_date" class="form-control" placeholder="Data di Nascita"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.birth_date.errors }"/>-->
 
-      <div *ngIf="submitted && f.birth_date.errors" class="invalid-feedback">
-        <div *ngIf="f.birth_date.errors.required">È necessario inserire la data di nascita</div>
-      </div>
-    </div>
-  </div> <!-- Birth place and birth date -->
+      <!--<div *ngIf="submitted && f.birth_date.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.birth_date.errors.required">È necessario inserire la data di nascita</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div> &lt;!&ndash; Birth place and birth date &ndash;&gt;-->
   <div class="form-row">
     <div class="input-group mb-3 col-md-6">
       <div class="input-group-prepend">
@@ -76,76 +76,77 @@
 
     </div>
 
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <!--<span class="input-group-text">@</span>-->
-        <span class="input-group-text"><i class="fab fa-paypal"></i></span>
-      </div>
-      <input type="text" formControlName="email_paypal" class="form-control" placeholder="Email Paypal"
-             [ngClass]="{ 'is-invalid': submitted && f.email_paypal.errors }"/>
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--&lt;!&ndash;<span class="input-group-text">@</span>&ndash;&gt;-->
+        <!--<span class="input-group-text"><i class="fab fa-paypal"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="email_paypal" class="form-control" placeholder="Email Paypal"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.email_paypal.errors }"/>-->
 
-      <div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">
-        <!--<div *ngIf="f.email_paypal.errors.required">Email is required</div>-->
-        <div *ngIf="f.email_paypal.errors.email">Email non valida</div>
-      </div>
+      <!--<div *ngIf="submitted && f.email_paypal.errors" class="invalid-feedback">-->
+        <!--&lt;!&ndash;<div *ngIf="f.email_paypal.errors.required">Email is required</div>&ndash;&gt;-->
+        <!--<div *ngIf="f.email_paypal.errors.email">Email non valida</div>-->
+      <!--</div>-->
 
 
-    </div> <!-- Mail Paypal -->
+    <!--</div> &lt;!&ndash; Mail Paypal &ndash;&gt;-->
   </div>
 
 
-  <div class="form-row">
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
-      </div>
-      <input type="text" formControlName="address" class="form-control" placeholder="Indirizzo"
-             [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+  <!--<div class="form-row">-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="fas fa-map-marker"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="address" class="form-control" placeholder="Indirizzo"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>-->
 
-      <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-        <div *ngIf="f.address.errors.required">È necessario inserire l'indirizzo</div>
-        <div *ngIf="f.address.errors.maxlength">L'indirzzo deve essere lungo al massimo 100 caratteri</div>
-      </div>
-    </div>
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fas fa-globe"></i></span>
-      </div>
-      <input type="text" formControlName="city" class="form-control" placeholder="Città di residenza"
-             [ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>
+      <!--<div *ngIf="submitted && f.address.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.address.errors.required">È necessario inserire l'indirizzo</div>-->
+        <!--<div *ngIf="f.address.errors.maxlength">L'indirzzo deve essere lungo al massimo 100 caratteri</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="fas fa-globe"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="city" class="form-control" placeholder="Città di residenza"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>-->
 
-      <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
-        <div *ngIf="f.city.errors.required">È necessario inserire la Città</div>
-        <div *ngIf="f.city.errors.maxlength">Il nome della Città deve essere lunga al massimo 50 caratteri</div>
-      </div>
-    </div>
-  </div> <!-- Address and Residence City -->
-  <div class="form-row">
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fas fa-map"></i></span>
-      </div>
-      <input type="text" formControlName="province" class="form-control" placeholder="Provincia"
-             [ngClass]="{ 'is-invalid': submitted && f.province.errors }" maxlength="2"/>
+      <!--<div *ngIf="submitted && f.city.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.city.errors.required">È necessario inserire la Città</div>-->
+        <!--<div *ngIf="f.city.errors.maxlength">Il nome della Città deve essere lunga al massimo 50 caratteri</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div> &lt;!&ndash; Address and Residence City &ndash;&gt;-->
+  <!--<div class="form-row">-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="fas fa-map"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="province" class="form-control" placeholder="Provincia"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.province.errors }" maxlength="2"/>-->
 
-      <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
-        <div *ngIf="f.province.errors.required">È necessario inserire la Provincia</div>
-        <div *ngIf="f.province.errors.maxlength">La sigla della provincia deve essere al massimo di 2 caratteri</div>
-      </div>
-    </div>
-    <div class="input-group mb-3 col-md-6">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fas fa-code"></i></span>
-      </div>
-      <input type="text" formControlName="zip" class="form-control" placeholder="Cap"
-             [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>
+      <!--<div *ngIf="submitted && f.province.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.province.errors.required">È necessario inserire la Provincia</div>-->
+        <!--<div *ngIf="f.province.errors.maxlength">La sigla della provincia deve essere al massimo di 2 caratteri</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-group mb-3 col-md-6">-->
+      <!--<div class="input-group-prepend">-->
+        <!--<span class="input-group-text"><i class="fas fa-code"></i></span>-->
+      <!--</div>-->
+      <!--<input type="text" formControlName="zip" class="form-control" placeholder="Cap"-->
+             <!--[ngClass]="{ 'is-invalid': submitted && f.zip.errors }" maxlength="5"/>-->
 
-      <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
-        <div *ngIf="f.zip.errors.required">È necessario inserire il Cap</div>
-        <div *ngIf="f.zip.errors.maxlength">Il Codice di Aviamento Postale deve essere lungo al massimo 5 cifre</div>
-      </div>
-    </div>
-  </div> <!-- Province and Zip Code-->
+      <!--<div *ngIf="submitted && f.zip.errors" class="invalid-feedback">-->
+        <!--<div *ngIf="f.zip.errors.required">È necessario inserire il Cap</div>-->
+        <!--<div *ngIf="f.zip.errors.maxlength">Il Codice di Aviamento Postale deve essere lungo al massimo 5 cifre</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div> &lt;!&ndash; Province and Zip Code&ndash;&gt;-->
+  <h5 class="py-3">Dati account</h5>
   <div class="form-row">
     <div class="input-group mb-3 col-md-6">
       <div class="input-group-prepend">
@@ -186,7 +187,7 @@
         <div *ngIf="f.password.errors.minlength">La password deve essere lunga almeno 10 caratteri</div>
       </div>
     </div>
-    <div class="input-group mb-4 col-md-6">
+    <div class="input-group mb-3 col-md-6">
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="icon-lock"></i></span>
       </div>
