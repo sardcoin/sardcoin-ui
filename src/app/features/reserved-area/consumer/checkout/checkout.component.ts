@@ -89,6 +89,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.addBreadcrumb();
     this.userService.getUserById().subscribe(user => {
       this.user = user;
+      console.log(user, user)
     });
     this.coupon = await this.couponService.getCouponById(this.couponCart.id).toPromise()
     const producer: User = await this.userService.getProducerFromId(this.coupon.owner).toPromise()
@@ -239,17 +240,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       // console.log('refresh initConfig')
 
     });
-    //console.log('initConfig');
     if (this.coupon.price > 0) {
       const clientId: string = this.producer.client_id;
+      console.log('this.user.company_name', this.user);
+
       this.payPalConfig = {
         clientId: clientId,
         currency: "EUR",
         style: {label: 'pay'},
         // for creating orders (transactions) on server see
         // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
-        //TODO da mettere in paypal.service per poter fare chiamate autorizzate solo ai consumer/registrati
-        createOrderOnServer: data => this.paypalService.createOrder(this.coupon.id, this.coupon.price, this.coupon.owner,  this.couponCart.quantity, this.user.id)
+
+        createOrderOnServer: data => this.paypalService.createOrder(this.coupon.id, this.coupon.price, this.coupon.owner,  this.couponCart.quantity, this.user.id, this.producer.company_name)
           // fetch(link)
           .then( res => {
             const result =  res
@@ -276,7 +278,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                 const buy = await this.couponService.buyCoupons(this.cart, payment_id, this.coupon.owner)
                   .toPromise()
                 // this.closeModalAwaitConfirmPayment()
-                //console.log('buy: ', buy);
+                console.log('buy: ', buy);
 
                 this.router.navigate(['/bought']); // TODO a fine test decomentare
                 this.blockUI.stop()

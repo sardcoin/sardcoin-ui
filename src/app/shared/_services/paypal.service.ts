@@ -9,8 +9,8 @@ export class PaypalService {
   constructor(private http: HttpClient) {
   }
 
-  createOrder(couponId, price, producer, quantity, consumer): Promise<any> {
-    return  this.http.get(this.formatUrl(`createOrder/${couponId}/${price}/${producer}/${quantity}/${consumer}`)).toPromise();
+  createOrder(couponId, price, producer, quantity, consumer, companyName?): Promise<any> {
+    return  this.http.get(this.formatUrl(`createOrder/${couponId}/${price}/${producer}/${quantity}/${consumer}/${companyName}`)).toPromise();
   }
 
   private formatUrl(methodName): any {
