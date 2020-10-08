@@ -260,16 +260,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           })
           .then( order =>  {
             const orderId = ( order).id
-            //console.log('risposta server creazione  2 then', order);
+            console.log('risposta server creazione  2 then', order);
 
             return orderId;
           }),
         onApprove: (data, actions) => {
 
-          //console.log('onApprove - transaction was approved, but not authorized', data, actions);
+          console.log('onApprove - transaction was approved, but not authorized', data, actions);
           actions.order.get()
             .then(async details => {
-              //console.log('onApprove - you can get full order details inside onApprove: ', details);
+              console.log('onApprove - you can get full order details inside onApprove: ', details);
               try {
                 const payment_id = details.id
                 this.closeModalPayment()
@@ -316,7 +316,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnCancel', data, actions);
+          console.log('OnCancel', data, actions);
 
         },
         onError: err => {
@@ -324,11 +324,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             .toPromise()
           this.closeModalPayment();
 
-          //console.log('OnError', err);
+          console.log('OnError', err);
         },
         onClick:  (data, actions) => {
 
-          //console.log('onClick', data, actions);
+          console.log('onClick', data, actions);
         }
       };
     } else {

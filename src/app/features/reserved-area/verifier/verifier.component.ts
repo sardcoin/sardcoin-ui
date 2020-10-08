@@ -191,18 +191,18 @@ export class VerifierComponent implements OnInit, OnDestroy {
 
     this.scanner.scanComplete.subscribe((result: Result) => {
       this.qrResult = result;
-      // //console.log(result);
+      console.log(result);
     });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
-      // //console.log('permission', this.hasPermission );
+      console.log('permission', this.hasPermission );
     });
 
   }
 
   handleQrCodeResult(resultString: string) {
-    // //console.log('Result: ', resultString);
+    console.log('Result: ', resultString);
     this.qrResultString = resultString;
     this.tokenForm.controls.token.setValue(resultString);
     this.qrCodeReadSuccess();
@@ -211,7 +211,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
   }
 
   onDeviceSelectChange(selectedValue: string) {
-    // //console.log('Selection changed: ', selectedValue);
+    console.log('Selection changed: ', selectedValue);
     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
   }
 
@@ -247,7 +247,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
     }
     this.modalCoupons = modalRefresh;
     this.controlEmptyModalCoupon();
-    // //console.log('this.modalCoupons dopo', this.modalCoupons);
+    console.log('this.modalCoupons dopo', this.modalCoupons);
   }
 
   openModalCouponFromPackage(token, template) {
@@ -277,7 +277,7 @@ export class VerifierComponent implements OnInit, OnDestroy {
         }
       }
     }
-    // //console.log('empty', empty)
+    console.log('empty', empty)
     if (empty === undefined) {
       this.modalCoupons = undefined;
     }

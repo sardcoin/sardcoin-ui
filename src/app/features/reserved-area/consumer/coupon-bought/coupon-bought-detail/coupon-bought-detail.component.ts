@@ -140,7 +140,7 @@ export class CouponBoughtDetailComponent implements OnInit, OnDestroy { // TODO 
     return values.length > 0 ? values.reduce((a, b) => a + b) : '';
   };
   byPassHTML(html: string) {
-    //console.log('html', html, typeof html)
+    console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
 

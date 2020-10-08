@@ -204,7 +204,7 @@ export class FeatureReservedAreaCouponCreateComponent implements OnInit, OnDestr
       categories: this.selectedCategories
 
     };
-    //console.log('broker selezionati', this.selectedBroker);
+    console.log('broker selezionati', this.selectedBroker);
     this.addCoupon(coupon);
   }
 
@@ -242,7 +242,7 @@ changeDelay() {
 
         }
       }, err => {
-        ////console.log(err);
+        console.log(err);
         this.blockUI.stop(); // Stop blocking
 
         this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
@@ -348,7 +348,7 @@ changeDelay() {
         this.imagePath = inputElement.queue[0]._file.name;
         return true;
       } catch (e) {
-        ////console.log('error upload image', e);
+        console.log('error upload image', e);
         this.imagePath = null;
         return false;
       }
