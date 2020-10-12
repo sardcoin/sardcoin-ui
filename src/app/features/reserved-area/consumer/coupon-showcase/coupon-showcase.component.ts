@@ -112,7 +112,7 @@ export class FeatureReservedAreaConsumerShowcaseComponent implements OnInit, OnD
         }
         this.coupons = couponsList;
       }, err => {
-        //console.log(err);
+        console.log(err);
       });
   }
 

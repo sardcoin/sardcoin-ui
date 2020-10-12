@@ -63,10 +63,10 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
           el.description = el.description.length > 55000 ? el.description.slice(0, 55000) + '...' : el.description;
         });
         // this.coupons.forEach(el => el.state = this.formatState(el));
-          ////console.log('this.coupons', this.coupons)
+          console.log('this.coupons', this.coupons)
       }, err => {
         // tslint:disable-next-line:no-console
-        //console.log(err);
+        console.log(err);
       });
   };
 
@@ -119,15 +119,15 @@ export class FeatureReservedAreaConsumerBoughtComponent implements OnInit, OnDes
   };
 
   details = (coupon: Coupon, des: any): void => {
-    //console.log('cp', coupon)
-    //console.log('des', des)
+    console.log('cp', coupon)
+    console.log('des', des)
 
     coupon.description = des
     this.couponService.setCoupon(coupon);
     this.router.navigate(['/bought/details']);
   };
   byPassHTML(html: string) {
-    //console.log('html', html, typeof html)
+    console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
 }

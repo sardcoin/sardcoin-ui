@@ -30,7 +30,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
 
   dataSource: MatTableDataSource<Coupon>;
-  displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'buyed', 'buttons'];
+  displayedColumns: Array<string> = ['title', 'image', 'price', 'state', 'quantity', 'assigned', 'buttons'];
 
   @ViewChild('template') template: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -86,7 +86,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
 
         }
       }, error => {
-        //console.log(error);
+        console.log(error);
         this.blockUI.stop(); // Stop blocking
 
         this.toastr.error('Errore di eliminazione, se è visibile o è stato acquistato non può essere eliminato.', 'Errore');
@@ -125,6 +125,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
     this.couponService.getProducerCoupons()
       .subscribe(data => {
           this.data = true;
+          console.log('data', data)
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -142,7 +143,7 @@ export class FeatureReservedAreaCouponListComponent implements OnInit, OnDestroy
   };
 
   byPassHTML(html: string) {
-    //console.log('html', html, typeof html)
+    console.log('html', html, typeof html)
     return this._sanitizer.bypassSecurityTrustHtml(html)
   }
   getTimestamp = (validData: string): number => {
