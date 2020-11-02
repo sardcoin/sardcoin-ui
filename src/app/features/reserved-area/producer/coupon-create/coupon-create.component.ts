@@ -237,7 +237,7 @@ changeDelay() {
           this.blockUI.stop(); // Stop blocking
 
         } else {
-          this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+          this.toastr.error(data['toast'], 'Errore durante la creazione');
           this.blockUI.stop(); // Stop blocking
 
         }
@@ -245,7 +245,7 @@ changeDelay() {
         console.log(err);
         this.blockUI.stop(); // Stop blocking
 
-        this.toastr.error('Errore imprevisto durante la creazione del coupon.', 'Errore durante la creazione');
+        this.toastr.error('Il sistema non risponde. Riprova più tardi aggiornando la pagina.', 'Errore durante la creazione');
       });
   }
 
